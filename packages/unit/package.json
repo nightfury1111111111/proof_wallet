@@ -1,0 +1,24 @@
+{
+  "name": "@proof-wallet/unit",
+  "version": "0.11.17",
+  "main": "build/index.js",
+  "author": "chainapsis",
+  "license": "Apache-2.0",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "clean": "rm -rf node_modules; rm -rf build",
+    "build": "tsc",
+    "dev": "tsc -w",
+    "test": "jest --passWithNoTests",
+    "lint-test": "eslint \"src/**/*\" && prettier --check \"src/**/*\"",
+    "lint-fix": "eslint --fix \"src/**/*\" && prettier --write \"src/**/*\""
+  },
+  "dependencies": {
+    "@proof-wallet/types": "0.11.17",
+    "big-integer": "^1.6.48",
+    "utility-types": "^3.10.0"
+  }
+}
