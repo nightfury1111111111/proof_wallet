@@ -9,7 +9,7 @@ interface Props {
   subtitle: string;
 }
 
-export const Banner: FunctionComponent<Props> = ({ icon, logo, subtitle }) => {
+export const Banner: FunctionComponent<Props> = ({ icon, subtitle }) => {
   return (
     <div className={classmames(style.container, style.flexVertical)}>
       <div className={style.empty} />
@@ -17,7 +17,7 @@ export const Banner: FunctionComponent<Props> = ({ icon, logo, subtitle }) => {
         <div className={style.empty} />
         <div className={classmames(style.flexVertical, style.itemsCenter)}>
           <img className={style.icon} src={icon} />
-          <img className={style.logo} src={logo} />
+          {/* <img className={style.logo} src={logo} /> */}
           <div className={style.subtitle}>{subtitle}</div>
         </div>
         <div className={style.empty} />

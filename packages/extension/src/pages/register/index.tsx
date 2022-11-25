@@ -83,7 +83,7 @@ export const RegisterPage: FunctionComponent = observer(() => {
           !registerConfig.isFinalized &&
           registerConfig.type === "recover-mnemonic",
       })}
-      style={{ height: "100%", backgroundColor: "white", padding: 0 }}
+      style={{ height: "100%", backgroundColor: "#4d4d4d", padding: 0 }}
     >
       <div style={{ flex: 10 }} />
       <div className={style.logoContainer}>
@@ -97,7 +97,7 @@ export const RegisterPage: FunctionComponent = observer(() => {
             src={
               uiConfigStore.isBeta
                 ? require("../../public/assets/logo-beta-256.png")
-                : require("../../public/assets/logo-256.png")
+                : require("../../public/assets/256.png")
             }
             alt="logo"
           />

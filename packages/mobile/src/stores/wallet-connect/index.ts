@@ -82,7 +82,7 @@ export abstract class WalletConnectManager {
     const client = new WalletConnect({
       clientMeta: {
         name: "Keplr",
-        description: "Wallet for interchain",
+        description: "Proof is a browser extension wallet for the Inter blockchain ecosystem.",
         url: "#",
         icons: ["https://dhj8dql1kzq2v.cloudfront.net/keplr-256x256.png"],
       },
@@ -164,7 +164,7 @@ export abstract class WalletConnectManager {
       uri,
       clientMeta: {
         name: "Keplr",
-        description: "Wallet for interchain",
+        description: "Proof is a browser extension wallet for the Inter blockchain ecosystem.",
         url: "#",
         icons: ["https://dhj8dql1kzq2v.cloudfront.net/keplr-256x256.png"],
       },

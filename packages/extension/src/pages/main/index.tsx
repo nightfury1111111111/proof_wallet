@@ -12,7 +12,7 @@ import { AssetView } from "./asset";
 import { StakeView } from "./stake";
 
 import classnames from "classnames";
-import { useHistory } from "react-router";
+// import { useHistory } from "react-router";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../stores";
 import { TokensView } from "./token";
@@ -28,7 +28,7 @@ import { VestingInfo } from "./vesting-info";
 import { LedgerAppModal } from "./ledger-app-modal";
 
 export const MainPage: FunctionComponent = observer(() => {
-  const history = useHistory();
+  // const history = useHistory();
   const intl = useIntl();
 
   const { chainStore, accountStore, queriesStore, uiConfigStore } = useStore();
@@ -118,24 +118,27 @@ export const MainPage: FunctionComponent = observer(() => {
       rightRenderer={
         <div
           style={{
-            height: "64px",
+            height: "32px",
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
             paddingRight: "20px",
           }}
         >
-          <i
-            className="fas fa-user"
+          <div
             style={{
+              background: 'radial-gradient(75% 75% at 50% 25%, #C4FFD1 3.88%, #7EFF9B 100%)', // if it is connected, green color if not, red
+              width: "5px",
+              height: "5px",
+              borderRadius: "10px",
               cursor: "pointer",
               padding: "4px",
             }}
-            onClick={(e) => {
-              e.preventDefault();
+            // onClick={(e) => {
+            //   e.preventDefault();
 
-              history.push("/setting/set-keyring");
-            }}
+            //   history.push("/setting/set-keyring");
+            // }}
           />
         </div>
       }

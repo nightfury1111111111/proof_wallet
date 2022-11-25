@@ -6,11 +6,11 @@
   left: 0;
   padding-top: $header-height;
 
-  width: $popup-size-width * 0.75;
+  width: $popup-size-width;
   height: 100%;
   z-index: 900;
 
-  background-color: white;
+  background-color: #4D4D4D;
   overflow-y: auto;
 }
 

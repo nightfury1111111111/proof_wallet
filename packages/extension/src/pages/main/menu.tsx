@@ -34,6 +34,14 @@ export const Menu: FunctionComponent = observer(() => {
       >
         <FormattedMessage id="main.menu.settings" />
       </div>
+      <div
+        className={styleMenu.item}
+        onClick={() => {
+          history.push("/setting/set-keyring");
+        }}
+      >
+        <FormattedMessage id="setting.keyring" />
+      </div>
       {(chainStore.current.features ?? []).find(
         (feature) => feature === "cosmwasm" || feature === "secretwasm"
       ) ? (
@@ -71,20 +79,6 @@ export const Menu: FunctionComponent = observer(() => {
         }}
       >
         <FormattedMessage id="main.menu.sign-out" />
-      </div>
-      <div>
-        <hr className="mx-4 my-1" />
-      </div>
-      <div className={styleMenu.footer}>
-        <a
-          className={styleMenu.inner}
-          href="https://github.com/chainapsis/keplr-wallet"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <i className="fab fa-github" />
-          <FormattedMessage id="main.menu.footer.github" />
-        </a>
       </div>
     </div>
   );

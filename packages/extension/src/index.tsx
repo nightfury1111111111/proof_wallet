@@ -70,10 +70,10 @@ window.keplr = new Keplr(
 );
 
 // Make sure that icon file will be included in bundle
-require("./public/assets/logo-256.png");
-require("./public/assets/icon/icon-16.png");
-require("./public/assets/icon/icon-48.png");
-require("./public/assets/icon/icon-128.png");
+require("./public/assets/256.png");
+require("./public/assets/icon/16.png");
+require("./public/assets/icon/48.png");
+require("./public/assets/icon/128.png");
 require("./public/assets/logo-beta-256.png");
 require("./public/assets/icon/icon-beta-16.png");
 require("./public/assets/icon/icon-beta-48.png");
@@ -127,9 +127,9 @@ const StateRenderer: FunctionComponent = observer(() => {
     return (
       <div style={{ height: "100%" }}>
         <Banner
-          icon={require("./public/assets/logo-256.png")}
+          icon={require("./public/assets/256.png")}
           logo={require("./public/assets/brand-text.png")}
-          subtitle="Wallet for the Interchain"
+          subtitle="Proof is a browser extension wallet for the Inter blockchain ecosystem."
         />
       </div>
     );
@@ -137,9 +137,9 @@ const StateRenderer: FunctionComponent = observer(() => {
     return (
       <div style={{ height: "100%" }}>
         <Banner
-          icon={require("./public/assets/logo-256.png")}
+          icon={require("./public/assets/256.png")}
           logo={require("./public/assets/brand-text.png")}
-          subtitle="Wallet for the Interchain"
+          subtitle="Proof is a browser extension wallet for the Inter blockchain ecosystem."
         />
       </div>
     );

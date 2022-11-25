@@ -52,7 +52,7 @@ export const LockPage: FunctionComponent = observer(() => {
   }, []);
 
   return (
-    <EmptyLayout style={{ backgroundColor: "white", height: "100%" }}>
+    <EmptyLayout style={{ backgroundColor: "#4d4d4d", height: "100%" }}>
       <Form
         className={style.formContainer}
         onSubmit={handleSubmit(async (data) => {
@@ -98,10 +98,10 @@ export const LockPage: FunctionComponent = observer(() => {
           icon={
             uiConfigStore.isBeta
               ? require("../../public/assets/logo-beta-256.png")
-              : require("../../public/assets/logo-256.png")
+              : require("../../public/assets/256.png")
           }
           logo={require("../../public/assets/brand-text.png")}
-          subtitle="Wallet for the Interchain"
+          subtitle="Proof is a browser extension wallet for the Inter blockchain ecosystem."
         />
         <PasswordInput
           label={intl.formatMessage({
