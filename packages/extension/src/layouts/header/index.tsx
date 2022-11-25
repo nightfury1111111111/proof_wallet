@@ -3,12 +3,13 @@ import React, { FunctionComponent, ReactNode } from "react";
 import { Header as CompHeader } from "../../components/header";
 
 import { observer } from "mobx-react-lite";
-import { useStore } from "../../stores";
+// import { useStore } from "../../stores";
 
 import style from "./style.module.scss";
-import { ToolTip } from "../../components/tooltip";
+// import { ToolTip } from "../../components/tooltip";
 
-import { ChainList } from "./chain-list";
+// import { ChainList } from "./chain-list";
+import { AccountView } from "../../pages/main/account";
 import { Menu, useMenu, MenuButton } from "../menu";
 
 import { motion } from "framer-motion";
@@ -29,21 +30,21 @@ export interface LocalProps {
 
 export const Header: FunctionComponent<Props & LocalProps> = observer(
   ({
-    showChainName,
-    canChangeChainInfo,
-    alternativeTitle,
+    // showChainName,
+    // canChangeChainInfo,
+    // alternativeTitle,
     menuRenderer,
     rightRenderer,
     isMenuOpen,
     onBackButton,
   }) => {
-    const { chainStore } = useStore();
+    // const { chainStore } = useStore();
     const menu = useMenu();
 
-    const chainInfoChangable =
-      canChangeChainInfo &&
-      chainStore.chainInfos.length > 1 &&
-      alternativeTitle == null;
+    // const chainInfoChangable =
+    //   canChangeChainInfo &&
+    //   chainStore.chainInfos.length > 1 &&
+    //   alternativeTitle == null;
 
     return (
       <CompHeader
@@ -86,7 +87,7 @@ export const Header: FunctionComponent<Props & LocalProps> = observer(
         }
         right={rightRenderer}
       >
-        {showChainName || alternativeTitle ? (
+        {/* {showChainName || alternativeTitle ? (
           <ToolTip
             trigger={chainInfoChangable ? "click" : "static"}
             tooltip={<ChainList />}
@@ -114,7 +115,8 @@ export const Header: FunctionComponent<Props & LocalProps> = observer(
               ) : null}
             </div>
           </ToolTip>
-        ) : null}
+        ) : null} */}
+        <AccountView />
       </CompHeader>
     );
   }
