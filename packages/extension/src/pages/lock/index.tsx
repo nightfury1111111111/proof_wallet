@@ -52,7 +52,7 @@ export const LockPage: FunctionComponent = observer(() => {
   }, []);
 
   return (
-    <EmptyLayout style={{ backgroundColor: "#4d4d4d", height: "100%" }}>
+    <EmptyLayout style={{ backgroundColor: "#131313", height: "100%" }}>
       <Form
         className={style.formContainer}
         onSubmit={handleSubmit(async (data) => {

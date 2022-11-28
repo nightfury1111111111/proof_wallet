@@ -217,7 +217,7 @@ export const SendPage: FunctionComponent = observer(() => {
         isDetachedPage ? undefined : (
           <div
             style={{
-              height: "64px",
+              height: "36px",
               display: "flex",
               flexDirection: "row",
               alignItems: "center",

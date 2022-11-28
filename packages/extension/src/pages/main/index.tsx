@@ -9,7 +9,7 @@ import { Menu } from "./menu";
 // import { AccountView } from "./account";
 import { TxButtonView } from "./tx-button";
 import { AssetView } from "./asset";
-import { StakeView } from "./stake";
+// import { StakeView } from "./stake";
 
 // import classnames from "classnames";
 // import { useHistory } from "react-router";
@@ -118,7 +118,7 @@ export const MainPage: FunctionComponent = observer(() => {
       rightRenderer={
         <div
           style={{
-            height: "64px",
+            height: "36px",
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
@@ -156,13 +156,7 @@ export const MainPage: FunctionComponent = observer(() => {
       {/* </CardBody> */}
       {/* </Card> */}
       {showVestingInfo ? <VestingInfo /> : null}
-      {chainStore.current.walletUrlForStaking ? (
-        // <Card className={classnames(style.card, "shadow")}>
-        // <CardBody>
-        <StakeView />
-      ) : // </CardBody>
-      // </Card>
-      null}
+      {/* {chainStore.current.walletUrlForStaking ? <StakeView /> : null} */}
       {hasTokens ? (
         // <Card className={classnames(style.card, "shadow")}>
         // <CardBody>

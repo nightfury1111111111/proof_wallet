@@ -42,7 +42,7 @@ export const AccountView: FunctionComponent = observer(() => {
   );
 
   return (
-    <div>
+    <div style={{ position: "relative" }}>
       <div className={styleAccount.containerName}>
         <div style={{ flex: 1 }} />
         <div className={styleAccount.name}>

@@ -78,9 +78,9 @@ export const TxButtonView: FunctionComponent = observer(() => {
         <DepositModal bech32Address={accountInfo.bech32Address} />
       </Modal>
       <Button
-        className={styleTxButton.button}
-        color="primary"
-        outline
+        className={styleTxButton.txButton}
+        // color="primary"
+        // outline
         onClick={(e) => {
           e.preventDefault();
 
@@ -96,11 +96,11 @@ export const TxButtonView: FunctionComponent = observer(() => {
        */}
       <Button
         innerRef={sendBtnRef}
-        className={classnames(styleTxButton.button, {
+        className={classnames(styleTxButton.txButton, {
           disabled: !hasAssets,
         })}
-        color="primary"
-        outline
+        // color="primary"
+        // outline
         data-loading={accountInfo.isSendingMsg === "send"}
         onClick={(e) => {
           e.preventDefault();

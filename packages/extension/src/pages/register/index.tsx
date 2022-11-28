@@ -83,7 +83,7 @@ export const RegisterPage: FunctionComponent = observer(() => {
           !registerConfig.isFinalized &&
           registerConfig.type === "recover-mnemonic",
       })}
-      style={{ height: "100%", backgroundColor: "#4d4d4d", padding: 0 }}
+      style={{ height: "100%", backgroundColor: "#131313", padding: 0 }}
     >
       <div style={{ flex: 10 }} />
       <div className={style.logoContainer}>

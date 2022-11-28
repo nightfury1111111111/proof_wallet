@@ -5,7 +5,7 @@
 
 .name {
   font-size: 20px;
-  color: #FFFFFF;
+  color: #ffffff;
   font-weight: bold;
 }
 
@@ -15,12 +15,17 @@
 }
 
 .address {
-  border: solid 1px #e6e6e6;
-  border-radius: 100px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  // border: solid 1px #e6e6e6;
+  // border-radius: 100px;
+  transform: translate(-30%, 50%);
+  color: transparent !important;
   padding: 0 16px;
 
   font-size: 12px;
-  color: #FFFFFF;
+  color: #ffffff;
 
   cursor: pointer;
 }
