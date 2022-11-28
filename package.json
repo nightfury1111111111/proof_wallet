@@ -39,23 +39,21 @@
     "pre-commit": "lint-staged",
     "version": "zx ./scripts/lerna-lifecyle-check-version.mjs"
   },
-
+  "pre-commit": [
+    "pre-commit"
+  ],
   "lint-staged": {
     "*.{js,ts,jsx,tsx}": [
-      "eslint",
-      "prettier --check"
+      "eslint"
     ],
     "*.mjs": [
-      "eslint",
-      "prettier --check"
+      "eslint"
     ],
     "*.json": [
-      "eslint",
-      "prettier --check"
+      "eslint"
     ],
     "*.{css,scss,sass}": [
-      "eslint",
-      "prettier --check"
+      "eslint"
     ]
   },
   "keywords": [],
