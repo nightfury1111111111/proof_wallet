@@ -1,4 +1,4 @@
-import { Bech32Address } from "@proof-wallet/cosmos";
+// import { Bech32Address } from "@proof-wallet/cosmos";
 import { ChainInfo } from "@proof-wallet/types";
 
 export const EmbedChainInfos: ChainInfo[] = [

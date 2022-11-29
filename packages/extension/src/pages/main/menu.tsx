@@ -74,6 +74,7 @@ export const Menu: FunctionComponent = observer(() => {
       <div style={{ flex: 1 }} />
       <div
         className={styleMenu.item}
+        style={{ marginBottom: "30px" }}
         onClick={() => {
           keyRingStore.lock();
         }}
