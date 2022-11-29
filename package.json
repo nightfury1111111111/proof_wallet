@@ -44,16 +44,20 @@
   ],
   "lint-staged": {
     "*.{js,ts,jsx,tsx}": [
-      "eslint"
+      "eslint",
+      "prettier --check"
     ],
     "*.mjs": [
-      "eslint"
+      "eslint",
+      "prettier --check"
     ],
     "*.json": [
-      "eslint"
+      "eslint",
+      "prettier --check"
     ],
     "*.{css,scss,sass}": [
-      "eslint"
+      "eslint",
+      "prettier --check"
     ]
   },
   "keywords": [],
