@@ -187,9 +187,9 @@ const TokenView: FunctionComponent<{
             )}
           </div>
         ) : null}
-        <div className={styleToken.rightIcon}>
+        {/* <div className={styleToken.rightIcon}>
           <i className="fas fa-angle-right" />
-        </div>
+        </div> */}
       </div>
     </div>
   );
@@ -228,8 +228,8 @@ export const TokensView: FunctionComponent = observer(() => {
   const history = useHistory();
 
   return (
-    <div className={styleToken.tokensContainer}>
-      <h1 className={styleToken.title}>Tokens</h1>
+    <div className={styleToken.tokensContainer} style={{ marginTop: "23px" }}>
+      {/* <h1 className={styleToken.title}>Tokens</h1> */}
       {tokens.map((token, i) => {
         return (
           <TokenView

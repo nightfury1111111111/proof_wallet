@@ -1910,34 +1910,65 @@ export const EmbedChainInfos: ChainInfo[] = [
   //   beta: true,
   // },
   {
-    rpc: "https://testnet-rpc-router.axelar-dev.workers.dev/?chain=sei",
-    rest: "https://sei-testnet-api.polkachu.com",
     chainId: "atlantic-1",
     chainName: "Sei Testnet",
-    stakeCurrency: {
-      coinDenom: "SEI",
-      coinMinimalDenom: "usei",
-      coinDecimals: 6,
-      coinGeckoId: "sei",
-    },
-    walletUrl:
-      process.env.NODE_ENV === "production"
-        ? "https://wallet.keplr.app/chains/sei"
-        : "http://localhost:8080/chains/sei",
-    walletUrlForStaking:
-      process.env.NODE_ENV === "production"
-        ? "https://wallet.keplr.app/chains/sei"
-        : "http://localhost:8080/chains/sei",
+    rpc: "https://sei-chain-incentivized.com/sei-chain-tm/",
+    rest: "https://sei-chain-incentivized.com/sei-chain-app",
     bip44: {
       coinType: 118,
     },
-    bech32Config: Bech32Address.defaultBech32Config("sei"),
+    bech32Config: {
+      bech32PrefixAccAddr: "sei",
+      bech32PrefixAccPub: "seipub",
+      bech32PrefixValAddr: "seivaloper",
+      bech32PrefixValPub: "seivaloperpub",
+      bech32PrefixConsAddr: "seivalcons",
+      bech32PrefixConsPub: "seivalconspub",
+    },
     currencies: [
       {
         coinDenom: "SEI",
         coinMinimalDenom: "usei",
         coinDecimals: 6,
-        // coinGeckoId: "crypto-com-chain",
+      },
+      {
+        coinDenom: "USDC",
+        coinMinimalDenom: "uusdc",
+        coinDecimals: 6,
+        coinGeckoId: "usd-coin",
+      },
+      {
+        coinDenom: "ATOM",
+        coinMinimalDenom: "uatom",
+        coinDecimals: 6,
+        coinGeckoId: "cosmos",
+      },
+      {
+        coinDenom: "WETH",
+        coinMinimalDenom:
+          "ibc/C2A89D98873BB55B62CE86700DFACA646EC80352E8D03CC6CF34DD44E46DC75D",
+        coinDecimals: 18,
+        coinGeckoId: "weth",
+      },
+      {
+        coinDenom: "WBTC",
+        coinMinimalDenom:
+          "ibc/42BCC21A2B784E813F8878739FD32B4AA2D0A68CAD94F4C88B9EA98609AB0CCD",
+        coinDecimals: 8,
+        coinGeckoId: "bitcoin",
+      },
+      {
+        coinDenom: "aUSDC",
+        coinMinimalDenom:
+          "ibc/6D45A5CD1AADE4B527E459025AC1A5AEF41AE99091EF3069F3FEAACAFCECCD21",
+        coinDecimals: 6,
+        coinGeckoId: "usd-coin",
+      },
+      {
+        coinDenom: "UST2",
+        coinMinimalDenom:
+          "factory/sei1466nf3zuxpya8q9emxukd7vftaf6h4psr0a07srl5zw74zh84yjqpeheyc/uust2",
+        coinDecimals: 6,
       },
     ],
     feeCurrencies: [
@@ -1945,15 +1976,15 @@ export const EmbedChainInfos: ChainInfo[] = [
         coinDenom: "SEI",
         coinMinimalDenom: "usei",
         coinDecimals: 6,
-        // coinGeckoId: "crypto-com-chain",
-        gasPriceStep: {
-          low: 0.025,
-          average: 0.03,
-          high: 0.04,
-        },
       },
     ],
-    features: ["ibc-transfer"],
+    stakeCurrency: {
+      coinDenom: "SEI",
+      coinMinimalDenom: "usei",
+      coinDecimals: 6,
+    },
+    coinType: 118,
+    features: ["stargate", "ibc-transfer", "cosmwasm"],
     beta: true,
   },
 ];
