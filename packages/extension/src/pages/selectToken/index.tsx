@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useMemo } from "react";
-import { CoinInput } from "../../components/form";
+// import { CoinInput } from "../../components/form";
 import { useStore } from "../../stores";
 
 import { HeaderLayout } from "../../layouts";
@@ -10,7 +10,7 @@ import { observer } from "mobx-react-lite";
 import style from "./style.module.scss";
 import { useNotification } from "../../components/notification";
 
-import { useIntl } from "react-intl";
+// import { useIntl } from "react-intl";
 
 import { useHistory, useLocation } from "react-router";
 import queryString from "querystring";
@@ -46,7 +46,7 @@ export const SelectTokenPage: FunctionComponent = observer(() => {
     }
   }, []);
 
-  const intl = useIntl();
+  // const intl = useIntl();
 
   const notification = useNotification();
 
@@ -333,15 +333,6 @@ export const SelectTokenPage: FunctionComponent = observer(() => {
         }}
       >
         <div className={style.formInnerContainer}>
-          <div>
-            <CoinInput
-              amountConfig={sendConfigs.amountConfig}
-              label={intl.formatMessage({ id: "send.input.amount" })}
-              balanceText={intl.formatMessage({
-                id: "send.input-button.balance",
-              })}
-            />
-          </div>
           {hasTokens ? (
             // <Card className={classnames(style.card, "shadow")}>
             // <CardBody>

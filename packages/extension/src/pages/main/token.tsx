@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useMemo, useState } from "react";
+import classnames from "classnames";
 
 import styleToken from "./token.module.scss";
 import { observer } from "mobx-react-lite";
@@ -6,11 +7,12 @@ import { useStore } from "../../stores";
 import { useHistory } from "react-router";
 import { Hash } from "@proof-wallet/crypto";
 import classmames from "classnames";
-import { UncontrolledTooltip } from "reactstrap";
+import { UncontrolledTooltip, Input } from "reactstrap";
 import {
   WrongViewingKeyError,
   ObservableQueryBalanceInner,
 } from "@proof-wallet/stores";
+import { useLocation } from "react-router";
 import { useNotification } from "../../components/notification";
 import { useLoadingIndicator } from "../../components/loading-indicator";
 import { DenomHelper } from "@proof-wallet/common";
@@ -196,14 +198,21 @@ const TokenView: FunctionComponent<{
 });
 
 export const TokensView: FunctionComponent = observer(() => {
+  const location = useLocation();
+
   const { chainStore, accountStore, queriesStore } = useStore();
+  const [keyword, setKeyword] = useState("");
 
   const accountInfo = accountStore.getAccount(chainStore.current.chainId);
-
   const tokens = queriesStore
     .get(chainStore.current.chainId)
     .queryBalances.getQueryBech32Address(accountInfo.bech32Address)
-    .unstakables.filter((bal) => {
+    .unstakables.concat(
+      queriesStore
+        .get(chainStore.current.chainId)
+        .queryBalances.getQueryBech32Address(accountInfo.bech32Address).stakable
+    )
+    .filter((bal) => {
       // Temporary implementation for trimming the 0 balanced native tokens.
       // TODO: Remove this part.
       if (new DenomHelper(bal.currency.coinMinimalDenom).type === "native") {
@@ -225,12 +234,36 @@ export const TokensView: FunctionComponent = observer(() => {
       return a.currency.coinDenom < b.currency.coinDenom ? -1 : 1;
     });
 
+  const [tmpTokens, setTmpTokens] = useState<
+    ObservableQueryBalanceInner<unknown, unknown>[]
+  >(tokens);
+
   const history = useHistory();
 
   return (
     <div className={styleToken.tokensContainer} style={{ marginTop: "23px" }}>
+      {location.pathname !== "/" && (
+        <Input
+          className={classnames("form-control-alternative", styleToken.input)}
+          value={keyword}
+          onChange={(e) => {
+            setKeyword(e.target.value);
+            console.log(tokens);
+            const availableTokens = tokens.filter((bal) => {
+              return (
+                bal.currency.coinDenom
+                  .toLowerCase()
+                  .indexOf(e.target.value.toLowerCase()) > -1
+              );
+            });
+            setTmpTokens(availableTokens);
+            e.preventDefault();
+          }}
+          autoComplete="off"
+        />
+      )}
       {/* <h1 className={styleToken.title}>Tokens</h1> */}
-      {tokens.map((token, i) => {
+      {tmpTokens.map((token, i) => {
         return (
           <TokenView
             key={i.toString()}
