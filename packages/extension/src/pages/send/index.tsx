@@ -8,6 +8,7 @@ import {
 import { useStore } from "../../stores";
 
 import { HeaderLayout } from "../../layouts";
+import { TokenView } from "../main/token";
 
 import { observer } from "mobx-react-lite";
 
@@ -75,6 +76,16 @@ export const SendPage: FunctionComponent = observer(() => {
       ensEndpoint: EthereumEndpoint,
       allowHexAddressOnEthermint: true,
     }
+  );
+
+  const queryBalances = queriesStore
+    .get(sendConfigs.amountConfig.chainId)
+    .queryBalances.getQueryBech32Address(sendConfigs.amountConfig.sender);
+
+  const queryBalance = queryBalances.balances.filter(
+    (bal) =>
+      sendConfigs.amountConfig.sendCurrency.coinMinimalDenom ===
+      bal.currency.coinMinimalDenom
   );
 
   const gasSimulatorKey = useMemo(() => {
@@ -329,10 +340,38 @@ export const SendPage: FunctionComponent = observer(() => {
       >
         <div className={style.formInnerContainer}>
           <div>
+            <div className={style.titleContainer}>
+              <i
+                className="fas fa-light fa-arrow-left"
+                style={{
+                  cursor: "pointer",
+                  padding: "4px",
+                  color: "#696969",
+                  width: "20px",
+                }}
+                onClick={() => {
+                  history.push({
+                    pathname: "/select/token",
+                  });
+                }}
+              />
+              <div
+                className={style.title}
+              >{`Send ${queryBalance[0].currency.coinDenom}`}</div>
+            </div>
+            <TokenView
+              balance={queryBalance[0]}
+              onClick={() => {
+                history.push({
+                  pathname: "/send",
+                  search: `?defaultDenom=${queryBalance[0].currency.coinMinimalDenom}`,
+                });
+              }}
+            />
             <AddressInput
               recipientConfig={sendConfigs.recipientConfig}
               memoConfig={sendConfigs.memoConfig}
-              label={intl.formatMessage({ id: "send.input.recipient" })}
+              // label={intl.formatMessage({ id: "send.input.recipient" })}
             />
             <CoinInput
               amountConfig={sendConfigs.amountConfig}

@@ -17,7 +17,10 @@
 }
 
 .input {
-  box-shadow: $input-alternative-box-shadow !important;
+  // box-shadow: $input-alternative-box-shadow !important;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid #323232;
+  border-radius: 8px;
 
   &:focus {
     box-shadow: $input-focus-alternative-box-shadow !important;

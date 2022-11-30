@@ -18,7 +18,7 @@ import { useLoadingIndicator } from "../../components/loading-indicator";
 import { DenomHelper } from "@proof-wallet/common";
 import { Dec } from "@proof-wallet/unit";
 
-const TokenView: FunctionComponent<{
+export const TokenView: FunctionComponent<{
   balance: ObservableQueryBalanceInner;
   onClick: () => void;
 }> = observer(({ onClick, balance }) => {
@@ -249,7 +249,6 @@ export const TokensView: FunctionComponent = observer(() => {
           value={keyword}
           onChange={(e) => {
             setKeyword(e.target.value);
-            console.log(tokens);
             const availableTokens = tokens.filter((bal) => {
               return (
                 bal.currency.coinDenom

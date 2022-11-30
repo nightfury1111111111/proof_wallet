@@ -88,3 +88,21 @@
   line-height: 19px;
   cursor: pointer;
 }
+
+.title {
+  width: 293px;
+  font-family: "Roc Grotesk";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 29px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.titleContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 22px 0 14px 0;
+}

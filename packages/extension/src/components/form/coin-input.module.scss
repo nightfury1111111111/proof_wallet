@@ -3,7 +3,10 @@
 @import "../../../../../node_modules/argon-dashboard-react/src/assets/scss/argon-dashboard/custom/variables";
 
 .input {
-  box-shadow: $input-alternative-box-shadow !important;
+  // box-shadow: $input-alternative-box-shadow !important;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid #323232;
+  border-radius: 8px;
 
   &:focus {
     box-shadow: $input-focus-alternative-box-shadow !important;
@@ -62,20 +65,21 @@
 }
 
 .balance {
+  margin-left: 7px;
   float: right;
   font-weight: normal;
-  color: #555555;
+  color: #696969;
 
   &.clickable {
     cursor: pointer;
-    text-decoration: underline;
+    // text-decoration: underline;
 
     &:hover {
-      color: black;
+      color: white;
     }
 
     &.clicked {
-      color: black;
+      color: white;
     }
   }
 }

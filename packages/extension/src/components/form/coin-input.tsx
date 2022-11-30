@@ -4,10 +4,10 @@ import classnames from "classnames";
 import styleCoinInput from "./coin-input.module.scss";
 
 import {
-  ButtonDropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
+  // ButtonDropdown,
+  // DropdownItem,
+  // DropdownMenu,
+  // DropdownToggle,
   FormFeedback,
   FormGroup,
   Input,
@@ -23,7 +23,7 @@ import {
   IAmountConfig,
 } from "@proof-wallet/hooks";
 import { CoinPretty, Dec, DecUtils, Int } from "@proof-wallet/unit";
-import { FormattedMessage, useIntl } from "react-intl";
+import { useIntl } from "react-intl";
 import { useStore } from "../../stores";
 
 export interface CoinInputProps {
@@ -90,20 +90,20 @@ export const CoinInput: FunctionComponent<CoinInputProps> = observer(
       }
     }, [intl, error]);
 
-    const [isOpenTokenSelector, setIsOpenTokenSelector] = useState(false);
+    // const [isOpenTokenSelector, setIsOpenTokenSelector] = useState(false);
 
-    const selectableCurrencies = amountConfig.sendableCurrencies
-      .filter((cur) => {
-        const bal = queryBalances.getBalanceFromCurrency(cur);
-        return !bal.toDec().isZero();
-      })
-      .sort((a, b) => {
-        return a.coinDenom < b.coinDenom ? -1 : 1;
-      });
+    // const selectableCurrencies = amountConfig.sendableCurrencies
+    //   .filter((cur) => {
+    //     const bal = queryBalances.getBalanceFromCurrency(cur);
+    //     return !bal.toDec().isZero();
+    //   })
+    //   .sort((a, b) => {
+    //     return a.coinDenom < b.coinDenom ? -1 : 1;
+    //   });
 
     return (
       <React.Fragment>
-        <FormGroup className={className}>
+        {/* <FormGroup className={className}>
           <Label
             for={`selector-${randomId}`}
             className="form-control-label"
@@ -144,15 +144,15 @@ export const CoinInput: FunctionComponent<CoinInputProps> = observer(
               })}
             </DropdownMenu>
           </ButtonDropdown>
-        </FormGroup>
+        </FormGroup> */}
         <FormGroup className={className}>
           {label ? (
             <Label
               for={`input-${randomId}`}
               className="form-control-label"
-              style={{ width: "100%" }}
+              style={{ display: "flex" }}
             >
-              {label}
+              <div style={{ color: "#959595", fontSize: "14px" }}>{label}</div>
               {!disableAllBalance ? (
                 <div
                   className={classnames(
@@ -168,7 +168,7 @@ export const CoinInput: FunctionComponent<CoinInputProps> = observer(
                     amountConfig.toggleIsMax();
                   }}
                 >
-                  {`Balance: ${balance.trim(true).maxDecimals(6).toString()}`}
+                  {balance.trim(true).maxDecimals(6).toString()}
                 </div>
               ) : null}
             </Label>

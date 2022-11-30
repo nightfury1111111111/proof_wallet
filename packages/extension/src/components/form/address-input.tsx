@@ -141,6 +141,7 @@ export const AddressInput: FunctionComponent<AddressInputProps> = observer(
                 "form-control-alternative",
                 styleAddressInput.input
               )}
+              placeholder="Address"
               value={recipientConfig.rawRecipient}
               onChange={(e) => {
                 recipientConfig.setRawRecipient(e.target.value);
