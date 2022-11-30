@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useEffect, useRef } from "react";
 
 import { HeaderLayout } from "../../layouts";
+import { Footer } from "../../components/footer";
 
 // import { Card, CardBody } from "reactstrap";
 
@@ -174,6 +175,8 @@ export const MainPage: FunctionComponent = observer(() => {
       ) : // </CardBody>
       // </Card>
       null}
+      <div style={{ height: "70px", color: "transparent" }}>blank</div>
+      <Footer />
     </HeaderLayout>
   );
 });

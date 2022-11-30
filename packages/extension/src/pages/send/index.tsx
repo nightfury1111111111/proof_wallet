@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useEffect, useMemo } from "react";
 import {
   AddressInput,
-  FeeButtons,
+  // FeeButtons,
   CoinInput,
-  MemoInput,
+  // MemoInput,
 } from "../../components/form";
 import { useStore } from "../../stores";
 
@@ -57,7 +57,7 @@ export const SendPage: FunctionComponent = observer(() => {
   const {
     chainStore,
     accountStore,
-    priceStore,
+    // priceStore,
     queriesStore,
     analyticsStore,
   } = useStore();
@@ -341,7 +341,7 @@ export const SendPage: FunctionComponent = observer(() => {
                 id: "send.input-button.balance",
               })}
             />
-            <MemoInput
+            {/* <MemoInput
               memoConfig={sendConfigs.memoConfig}
               label={intl.formatMessage({ id: "send.input.memo" })}
             />
@@ -359,10 +359,10 @@ export const SendPage: FunctionComponent = observer(() => {
               }}
               gasLabel={intl.formatMessage({ id: "send.input.gas" })}
               gasSimulator={gasSimulator}
-            />
+            /> */}
           </div>
           <div style={{ flex: 1 }} />
-          <Button
+          {/* <Button
             type="submit"
             color="primary"
             block
@@ -375,9 +375,26 @@ export const SendPage: FunctionComponent = observer(() => {
             {intl.formatMessage({
               id: "send.button.send",
             })}
+          </Button> */}
+        </div>
+        <div className={style.footer}>
+          <div className={style.button} onClick={() => history.replace("/")}>
+            Cancel
+          </div>
+          <Button
+            type="submit"
+            block
+            data-loading={accountInfo.isSendingMsg === "send"}
+            disabled={!accountInfo.isReadyToSendMsgs || !txStateIsValid}
+            className={style.buttonActive}
+          >
+            {intl.formatMessage({
+              id: "send.button.send",
+            })}
           </Button>
         </div>
       </form>
+      <div style={{ height: "70px", color: "transparent" }}>blank</div>
     </HeaderLayout>
   );
 });

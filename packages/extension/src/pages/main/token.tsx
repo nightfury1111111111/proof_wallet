@@ -245,6 +245,7 @@ export const TokensView: FunctionComponent = observer(() => {
       {location.pathname !== "/" && (
         <Input
           className={classnames("form-control-alternative", styleToken.input)}
+          placeholder="Search a collectible"
           value={keyword}
           onChange={(e) => {
             setKeyword(e.target.value);

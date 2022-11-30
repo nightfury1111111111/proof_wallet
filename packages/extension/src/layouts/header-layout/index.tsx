@@ -3,7 +3,6 @@ import React, { CSSProperties, FunctionComponent, useState } from "react";
 import { MenuProvider, MenuContext } from "../menu";
 
 import { Header, Props as HeaderProps } from "../header";
-import { Footer } from "../../components/footer";
 
 import style from "./style.module.scss";
 
@@ -37,8 +36,6 @@ export const HeaderLayout: FunctionComponent<Props> = (props) => {
         <div className={style.innerContainer} style={props.innerStyle}>
           {children}
         </div>
-        <div style={{ height: "70px", color: "transparent" }}>blank</div>
-        <Footer />
       </div>
     </MenuProvider>
   );

@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useEffect, useMemo } from "react";
-// import { CoinInput } from "../../components/form";
 import { useStore } from "../../stores";
 
 import { HeaderLayout } from "../../layouts";
@@ -342,6 +341,12 @@ export const SelectTokenPage: FunctionComponent = observer(() => {
           null}
         </div>
       </form>
+      <div style={{ height: "70px", color: "transparent" }}>blank</div>
+      <div className={style.footer}>
+        <div className={style.button} onClick={() => history.replace("/")}>
+          Cancel
+        </div>
+      </div>
     </HeaderLayout>
   );
 });
