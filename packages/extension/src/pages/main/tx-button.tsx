@@ -106,7 +106,7 @@ export const TxButtonView: FunctionComponent = observer(() => {
           e.preventDefault();
 
           if (hasAssets) {
-            history.push("/send");
+            history.push("/select/token");
           }
         }}
       >

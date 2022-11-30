@@ -39,6 +39,7 @@ export interface CoinInputProps {
 
 export const CoinInput: FunctionComponent<CoinInputProps> = observer(
   ({ amountConfig, className, label, disableAllBalance }) => {
+    console.log(amountConfig);
     const intl = useIntl();
 
     const { queriesStore } = useStore();
