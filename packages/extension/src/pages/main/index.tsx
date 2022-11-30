@@ -32,6 +32,8 @@ export const MainPage: FunctionComponent = observer(() => {
   const intl = useIntl();
 
   const { chainStore, accountStore, queriesStore, uiConfigStore } = useStore();
+  const storeResult = useStore();
+  console.log(storeResult);
 
   const confirm = useConfirm();
 
