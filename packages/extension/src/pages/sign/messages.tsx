@@ -255,6 +255,7 @@ export function renderMsgSend(
             borderRadius: "3px",
             textAlign: "center",
             fontSize: "14px",
+            padding: "10px 20px",
           }}
         >
           <div style={{ color: "white" }}>to this address</div>
