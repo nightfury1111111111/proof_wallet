@@ -16,7 +16,7 @@ import {
   SignDocHelper,
 } from "@proof-wallet/hooks";
 import { useLanguage } from "../../languages";
-import { Badge, Button, Label } from "reactstrap";
+import { Button, Label } from "reactstrap";
 import { renderDirectMessage } from "./direct";
 import { AnyWithUnpacked } from "@proof-wallet/cosmos";
 import { CoinPretty } from "@proof-wallet/unit";
@@ -98,7 +98,7 @@ export const DetailsTab: FunctionComponent<{
 
     return (
       <div className={styleDetailsTab.container}>
-        <Label
+        {/* <Label
           for="signing-messages"
           className="form-control-label"
           style={{ display: "flex" }}
@@ -107,7 +107,7 @@ export const DetailsTab: FunctionComponent<{
           <Badge className="ml-2" color="primary">
             {msgs.length}
           </Badge>
-        </Label>
+        </Label> */}
         <div id="signing-messages" className={styleDetailsTab.msgContainer}>
           {renderedMsgs}
         </div>
@@ -235,16 +235,19 @@ export const DetailsTab: FunctionComponent<{
 export const MsgRender: FunctionComponent<{
   icon?: string;
   title: string;
-}> = ({ icon = "fas fa-question", title, children }) => {
+}> = ({
+  // icon = "fas fa-question", title,
+  children,
+}) => {
   return (
     <div className={styleDetailsTab.msg}>
-      <div className={styleDetailsTab.icon}>
+      {/* <div className={styleDetailsTab.icon}>
         <div style={{ height: "2px" }} />
         <i className={icon} />
         <div style={{ flex: 1 }} />
-      </div>
+      </div> */}
       <div className={styleDetailsTab.contentContainer}>
-        <div className={styleDetailsTab.contentTitle}>{title}</div>
+        {/* <div className={styleDetailsTab.contentTitle}>{title}</div> */}
         <div className={styleDetailsTab.content}>{children}</div>
       </div>
     </div>

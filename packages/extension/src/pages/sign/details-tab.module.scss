@@ -11,7 +11,10 @@
 }
 
 .msg-container {
-  max-height: 140px;
+  max-height: 273px;
+  background: #1d1d1d;
+  box-shadow: inset 0px 1px 0px rgba(67, 67, 67, 0.75);
+  border-radius: 5px;
 
   overflow: auto;
   flex: 1;

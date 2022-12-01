@@ -35,7 +35,7 @@ enum Tab {
 export const SignPage: FunctionComponent = observer(() => {
   const history = useHistory();
 
-  const [tab, setTab] = useState<Tab>(Tab.Details);
+  const [tab] = useState<Tab>(Tab.Details);
 
   const intl = useIntl();
 
@@ -232,7 +232,7 @@ export const SignPage: FunctionComponent = observer(() => {
             }
           : undefined
       }
-      style={{ background: "white", height: "auto", minHeight: "100%" }}
+      style={{ height: "auto", minHeight: "100%" }}
       innerStyle={{ display: "flex", flexDirection: "column" }}
     >
       {
@@ -242,7 +242,24 @@ export const SignPage: FunctionComponent = observer(() => {
          */
         isLoaded ? (
           <div className={style.container}>
-            <div className={classnames(style.tabs)}>
+            <div className={style.titleContainer}>
+              <i
+                className="fas fa-light fa-arrow-left"
+                style={{
+                  cursor: "pointer",
+                  padding: "4px",
+                  color: "#696969",
+                  width: "20px",
+                }}
+                onClick={() => {
+                  history.push({
+                    pathname: "/send",
+                  });
+                }}
+              />
+              <div className={style.title}>{`Sending Confirmation`}</div>
+            </div>
+            {/* <div className={classnames(style.tabs)}>
               <ul>
                 <li className={classnames({ active: tab === Tab.Details })}>
                   <a
@@ -269,7 +286,7 @@ export const SignPage: FunctionComponent = observer(() => {
                   </a>
                 </li>
               </ul>
-            </div>
+            </div> */}
             <div
               className={classnames(style.tabContainer, {
                 [style.dataTab]: tab === Tab.Data,
