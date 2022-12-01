@@ -327,7 +327,7 @@ export const SignPage: FunctionComponent = observer(() => {
               signInteractionStore.isLoading ? (
                 <Button
                   className={style.button}
-                  color="primary"
+                  // color="primary"
                   disabled={true}
                   outline
                 >
@@ -338,7 +338,7 @@ export const SignPage: FunctionComponent = observer(() => {
                 <React.Fragment>
                   <Button
                     className={style.button}
-                    color="danger"
+                    // color="danger"
                     disabled={signDocHelper.signDocWrapper == null}
                     data-loading={signInteractionStore.isLoading}
                     onClick={async (e) => {
@@ -364,8 +364,8 @@ export const SignPage: FunctionComponent = observer(() => {
                     })}
                   </Button>
                   <Button
-                    className={style.button}
-                    color="primary"
+                    className={style.buttonActive}
+                    // color="primary"
                     disabled={approveIsDisabled}
                     data-loading={signInteractionStore.isLoading}
                     onClick={async (e) => {
@@ -411,6 +411,7 @@ export const SignPage: FunctionComponent = observer(() => {
           </div>
         )
       }
+      <div style={{ height: "70px", color: "transparent" }}>blank</div>
     </HeaderLayout>
   );
 });

@@ -111,8 +111,8 @@ export const DetailsTab: FunctionComponent<{
         <div id="signing-messages" className={styleDetailsTab.msgContainer}>
           {renderedMsgs}
         </div>
-        <div style={{ flex: 1 }} />
-        {!preferNoSetMemo ? (
+        {/* <div style={{ flex: 1 }} /> */}
+        {/* {!preferNoSetMemo ? (
           <MemoInput
             memoConfig={memoConfig}
             label={intl.formatMessage({ id: "sign.info.memo" })}
@@ -131,7 +131,7 @@ export const DetailsTab: FunctionComponent<{
               </div>
             </div>
           </React.Fragment>
-        )}
+        )} */}
         {!preferNoSetFee || !feeConfig.isManual ? (
           <FeeButtons
             feeConfig={feeConfig}
@@ -143,9 +143,9 @@ export const DetailsTab: FunctionComponent<{
           />
         ) : (
           <React.Fragment>
-            <Label for="fee-price" className="form-control-label">
+            {/* <Label for="fee-price" className="form-control-label">
               <FormattedMessage id="sign.info.fee" />
-            </Label>
+            </Label> */}
             <div id="fee-price">
               <div>
                 {(() => {
@@ -171,20 +171,31 @@ export const DetailsTab: FunctionComponent<{
 
                   return (
                     <React.Fragment>
-                      {feeOrZero.maxDecimals(6).trim(true).toString()}
-                      {priceStore.calculatePrice(
-                        feeOrZero,
-                        language.fiatCurrency
-                      ) ? (
-                        <div
-                          className="ml-2"
-                          style={{ display: "inline-block", fontSize: "12px" }}
-                        >
-                          {priceStore
-                            .calculatePrice(feeOrZero, language.fiatCurrency)
-                            ?.toString()}
+                      <div className={styleDetailsTab.feeContainer}>
+                        <div style={{ color: "#696969" }}>Network fees</div>
+                        <div style={{ color: "#ffffff" }}>
+                          {feeOrZero.maxDecimals(6).trim(true).toString()}
+                          {priceStore.calculatePrice(
+                            feeOrZero,
+                            language.fiatCurrency
+                          ) ? (
+                            <div
+                              className="ml-2"
+                              style={{
+                                display: "inline-block",
+                                fontSize: "12px",
+                              }}
+                            >
+                              {priceStore
+                                .calculatePrice(
+                                  feeOrZero,
+                                  language.fiatCurrency
+                                )
+                                ?.toString()}
+                            </div>
+                          ) : null}
                         </div>
-                      ) : null}
+                      </div>
                     </React.Fragment>
                   );
                 })()}

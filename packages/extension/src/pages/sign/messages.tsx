@@ -19,6 +19,7 @@ import {
   StakeAuthorization,
 } from "@proof-wallet/proto-types/cosmos/staking/v1beta1/authz";
 import { SendAuthorization } from "@proof-wallet/proto-types/cosmos/bank/v1beta1/authz";
+// import { parse } from "path";
 
 export interface MessageObj {
   readonly type: string;
@@ -185,6 +186,7 @@ export function renderMsgSend(
   for (const coinPrimitive of amount) {
     const coin = new Coin(coinPrimitive.denom, coinPrimitive.amount);
     const parsed = CoinUtils.parseDecAndDenomFromCoin(currencies, coin);
+    console.log(coin, parsed);
 
     receives.push({
       amount: clearDecimals(parsed.amount),
@@ -198,18 +200,69 @@ export function renderMsgSend(
       id: "sign.list.message.cosmos-sdk/MsgSend.title",
     }),
     content: (
-      <FormattedMessage
-        id="sign.list.message.cosmos-sdk/MsgSend.content"
-        values={{
-          b: (...chunks: any[]) => <b>{chunks}</b>,
-          recipient: Bech32Address.shortenAddress(toAddress, 20),
-          amount: receives
-            .map((coin) => {
-              return `${coin.amount} ${coin.denom}`;
-            })
-            .join(","),
+      // <FormattedMessage
+      //   id="sign.list.message.cosmos-sdk/MsgSend.content"
+      //   values={{
+      //     b: (...chunks: any[]) => <b>{chunks}</b>,
+      //     recipient: Bech32Address.shortenAddress(toAddress, 20),
+      //     amount: receives
+      //       .map((coin) => {
+      //         return `${coin.amount} ${coin.denom}`;
+      //       })
+      //       .join(","),
+      //   }}
+      // />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
         }}
-      />
+      >
+        <div
+          style={{
+            width: "223px",
+            textAlign: "center",
+            fontSize: "20px",
+            color: "white",
+          }}
+        >
+          <div>You are Sending</div>
+          <div>
+            {receives
+              .map((coin) => {
+                return `${coin.amount} ${coin.denom}`;
+              })
+              .join(",")}{" "}
+          </div>
+        </div>
+        <i
+          className="fas fa-light fa-arrow-down"
+          style={{
+            cursor: "pointer",
+            padding: "4px",
+            color: "#696969",
+            width: "20px",
+            height: "20px",
+            scale: 2,
+            margin: "12px",
+          }}
+        />
+        <div
+          style={{
+            width: "310px",
+            background: "#131313",
+            borderRadius: "3px",
+            textAlign: "center",
+            fontSize: "14px",
+          }}
+        >
+          <div style={{ color: "white" }}>to this address</div>
+          <div style={{ color: "#E9E4DF", wordBreak: "break-all" }}>
+            {toAddress}
+          </div>
+        </div>
+      </div>
     ),
   };
 }

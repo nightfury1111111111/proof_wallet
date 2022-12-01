@@ -9,6 +9,7 @@ import { useStore } from "../../stores";
 
 import { HeaderLayout } from "../../layouts";
 import { TokenView } from "../main/token";
+import { FeeButtons } from "../../components/form";
 
 import { observer } from "mobx-react-lite";
 
@@ -58,7 +59,7 @@ export const SendPage: FunctionComponent = observer(() => {
   const {
     chainStore,
     accountStore,
-    // priceStore,
+    priceStore,
     queriesStore,
     analyticsStore,
   } = useStore();
@@ -383,7 +384,7 @@ export const SendPage: FunctionComponent = observer(() => {
             {/* <MemoInput
               memoConfig={sendConfigs.memoConfig}
               label={intl.formatMessage({ id: "send.input.memo" })}
-            />
+            />*/}
             <FeeButtons
               feeConfig={sendConfigs.feeConfig}
               gasConfig={sendConfigs.gasConfig}
@@ -398,7 +399,7 @@ export const SendPage: FunctionComponent = observer(() => {
               }}
               gasLabel={intl.formatMessage({ id: "send.input.gas" })}
               gasSimulator={gasSimulator}
-            /> */}
+            />
           </div>
           <div style={{ flex: 1 }} />
           {/* <Button
@@ -417,9 +418,9 @@ export const SendPage: FunctionComponent = observer(() => {
           </Button> */}
         </div>
         <div className={style.footer}>
-          <div className={style.button} onClick={() => history.replace("/")}>
+          <Button className={style.button} onClick={() => history.replace("/")}>
             Cancel
-          </div>
+          </Button>
           <Button
             type="submit"
             block

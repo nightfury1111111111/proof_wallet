@@ -11,13 +11,15 @@
 }
 
 .msg-container {
-  max-height: 273px;
+  height: 310px;
   background: #1d1d1d;
   box-shadow: inset 0px 1px 0px rgba(67, 67, 67, 0.75);
   border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   overflow: auto;
-  flex: 1;
 
   hr {
     margin: 8px 0;
@@ -79,4 +81,16 @@
     padding-inline-start: 36px;
     margin-bottom: 0;
   }
+}
+
+.feeContainer {
+  margin-top: 13px;
+  display: flex;
+  justify-content: space-between;
+  background: #1d1d1d;
+  height: 52px;
+  align-items: center;
+  padding: 16px;
+  border-radius: 5px;
+  box-shadow: inset 0px 1.00501px 0px rgb(67 67 67 / 75%);
 }
