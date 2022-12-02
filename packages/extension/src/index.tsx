@@ -13,6 +13,7 @@ import { MainPage } from "./pages/main";
 import { LockPage } from "./pages/lock";
 import { SendPage } from "./pages/send";
 import { SelectTokenPage } from "./pages/selectToken";
+import { ManageNftPage } from "./pages/nft";
 import { IBCTransferPage } from "./pages/ibc-transfer";
 import { SetKeyRingPage } from "./pages/setting/keyring";
 
@@ -171,6 +172,7 @@ ReactDOM.render(
                   />
                   <Route exact path="/register" component={RegisterPage} />
                   <Route exact path="/send" component={SendPage} />
+                  <Route exact path="/nft" component={ManageNftPage} />
                   <Route
                     exact
                     path="/select/token"
