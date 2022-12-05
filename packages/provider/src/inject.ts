@@ -54,39 +54,39 @@ function defineUnwritablePropertyIfPossible(o: any, p: string, value: any) {
   }
 }
 
-export function injectKeplrToWindow(keplr: IKeplr): void {
-  defineUnwritablePropertyIfPossible(window, "keplr", keplr);
+export function injectProofToWindow(proof: IKeplr): void {
+  defineUnwritablePropertyIfPossible(window, "proof", proof);
   defineUnwritablePropertyIfPossible(
     window,
     "getOfflineSigner",
-    keplr.getOfflineSigner
+    proof.getOfflineSigner
   );
   defineUnwritablePropertyIfPossible(
     window,
     "getOfflineSignerOnlyAmino",
-    keplr.getOfflineSignerOnlyAmino
+    proof.getOfflineSignerOnlyAmino
   );
   defineUnwritablePropertyIfPossible(
     window,
     "getOfflineSignerAuto",
-    keplr.getOfflineSignerAuto
+    proof.getOfflineSignerAuto
   );
   defineUnwritablePropertyIfPossible(
     window,
     "getEnigmaUtils",
-    keplr.getEnigmaUtils
+    proof.getEnigmaUtils
   );
 }
 
 /**
- * InjectedKeplr would be injected to the webpage.
+ * InjectedProof would be injected to the webpage.
  * In the webpage, it can't request any messages to the extension because it doesn't have any API related to the extension.
  * So, to request some methods of the extension, this will proxy the request to the content script that is injected to webpage on the extension level.
  * This will use `window.postMessage` to interact with the content script.
  */
-export class InjectedKeplr implements IKeplr {
+export class InjectedProof implements IKeplr {
   static startProxy(
-    keplr: IKeplr,
+    proof: IKeplr,
     eventListener: {
       addMessageListener: (fn: (e: any) => void) => void;
       postMessage: (message: any) => void;
@@ -124,8 +124,8 @@ export class InjectedKeplr implements IKeplr {
         }
 
         if (
-          !keplr[message.method] ||
-          typeof keplr[message.method] !== "function"
+          !proof[message.method] ||
+          typeof proof[message.method] !== "function"
         ) {
           throw new Error(`Invalid method: ${message.method}`);
         }
@@ -158,7 +158,7 @@ export class InjectedKeplr implements IKeplr {
                   accountNumber?: string | null;
                 } = message.args[2];
 
-                const result = await keplr.signDirect(
+                const result = await proof.signDirect(
                   message.args[0],
                   message.args[1],
                   {
@@ -182,7 +182,7 @@ export class InjectedKeplr implements IKeplr {
                   signature: result.signature,
                 };
               })()
-            : await keplr[message.method](
+            : await proof[message.method](
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 ...JSONUint8Array.unwrap(message.args)
@@ -308,7 +308,7 @@ export class InjectedKeplr implements IKeplr {
       }
     }
     // Freeze methods
-    const methodNames = Object.getOwnPropertyNames(InjectedKeplr.prototype);
+    const methodNames = Object.getOwnPropertyNames(InjectedProof.prototype);
     for (const methodName of methodNames) {
       if (
         methodName !== "constructor" &&

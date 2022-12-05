@@ -1,7 +1,7 @@
-import { InjectedKeplr } from "@proof-wallet/provider";
+import { InjectedProof } from "@proof-wallet/provider";
 import { KeplrMode } from "@proof-wallet/types";
 
-export class RNInjectedKeplr extends InjectedKeplr {
+export class RNInjectedKeplr extends InjectedProof {
   static parseWebviewMessage(message: any): any {
     if (message && typeof message === "string") {
       try {

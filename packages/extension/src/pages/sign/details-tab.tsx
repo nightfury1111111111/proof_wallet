@@ -8,7 +8,7 @@ import styleDetailsTab from "./details-tab.module.scss";
 import { renderAminoMessage } from "./amino";
 import { Msg } from "@proof-wallet/types";
 import { FormattedMessage, useIntl } from "react-intl";
-import { FeeButtons, MemoInput } from "../../components/form";
+import { FeeButtons } from "../../components/form";
 import {
   IFeeConfig,
   IGasConfig,
@@ -16,7 +16,7 @@ import {
   SignDocHelper,
 } from "@proof-wallet/hooks";
 import { useLanguage } from "../../languages";
-import { Button, Label } from "reactstrap";
+import { Button } from "reactstrap";
 import { renderDirectMessage } from "./direct";
 import { AnyWithUnpacked } from "@proof-wallet/cosmos";
 import { CoinPretty } from "@proof-wallet/unit";
@@ -36,12 +36,12 @@ export const DetailsTab: FunctionComponent<{
 }> = observer(
   ({
     signDocHelper,
-    memoConfig,
+    // memoConfig,
     feeConfig,
     gasConfig,
     isInternal,
     preferNoSetFee,
-    preferNoSetMemo,
+    // preferNoSetMemo,
     isNeedLedgerEthBlindSigning,
   }) => {
     const { chainStore, priceStore, accountStore } = useStore();

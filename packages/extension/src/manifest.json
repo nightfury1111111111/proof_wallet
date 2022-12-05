@@ -3,7 +3,7 @@
 
   "name": "Proof",
   "description": "Proof is a browser extension wallet for the Inter blockchain ecosystem.",
-  "version": "0.11.17",
+  "version": "0.1.0",
   "icons": {
     "16": "assets/16.png",
     "48": "assets/48.png",

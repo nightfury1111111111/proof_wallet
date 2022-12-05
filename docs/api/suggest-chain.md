@@ -67,7 +67,7 @@ experimentalSuggestChain(chainInfo: SuggestingChainInfo): Promise<void>
 
 Copy and paste example:
 ```javascript
-await window.keplr.experimentalSuggestChain({
+await window.proof.experimentalSuggestChain({
     chainId: "mychain-1",
     chainName: "my new chain",
     rpc: "http://123.456.789.012:26657",

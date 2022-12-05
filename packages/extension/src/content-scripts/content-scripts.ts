@@ -5,12 +5,12 @@ import {
   ExtensionRouter,
   InExtensionMessageRequester,
 } from "@proof-wallet/router-extension";
-import { Keplr, InjectedKeplr } from "@proof-wallet/provider";
+import { Keplr, InjectedProof } from "@proof-wallet/provider";
 import { initEvents } from "./events";
 
 import manifest from "../manifest.json";
 
-InjectedKeplr.startProxy(
+InjectedProof.startProxy(
   new Keplr(manifest.version, "core", new InExtensionMessageRequester())
 );
 

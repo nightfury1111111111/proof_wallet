@@ -65,7 +65,7 @@ import { SettingEndpointsPage } from "./pages/setting/endpoints";
 import { SettingAutoLockPage } from "./pages/setting/autolock";
 import { BACKGROUND_PORT } from "@proof-wallet/router";
 
-window.keplr = new Keplr(
+window.proof = new Keplr(
   manifest.version,
   "core",
   new InExtensionMessageRequester()

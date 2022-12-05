@@ -1,7 +1,7 @@
-import { InjectedKeplr } from "@proof-wallet/provider";
-import { injectKeplrToWindow } from "@proof-wallet/provider";
+import { InjectedProof } from "@proof-wallet/provider";
+import { injectProofToWindow } from "@proof-wallet/provider";
 
 import manifest from "../../manifest.json";
 
-const keplr = new InjectedKeplr(manifest.version, "extension");
-injectKeplrToWindow(keplr);
+const proof = new InjectedProof(manifest.version, "extension");
+injectProofToWindow(proof);

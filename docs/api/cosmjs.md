@@ -17,7 +17,7 @@ You can connect Keplr to CosmJS using the `OfflineSigner`.
 // Enabling before using the Keplr is recommended.
 // This method will ask the user whether or not to allow access if they haven't visited this website.
 // Also, it will request user to unlock the wallet if the wallet is locked.
-await window.keplr.enable(chainId);
+await window.proof.enable(chainId);
 
 const offlineSigner = window.getOfflineSigner(chainId);
 
@@ -37,13 +37,13 @@ const cosmJS = new SigningCosmosClient(
 
 To get the `OfflineSigner`, you may use `keplr.getOfflineSigner(chainId)` or `window.getOfflineSigner(chainId)`. (`window.getOfflineSigner` is an alias that runs `keplr.getOfflineSigner` and returns the value)
 
-The `window.keplr.enable(chainId)` method will request the user to unlock their Keplr extension if it's locked. If the user has not given permission to connect their extension to the website, it will first ask to connect the website.
+The `window.proof.enable(chainId)` method will request the user to unlock their Keplr extension if it's locked. If the user has not given permission to connect their extension to the website, it will first ask to connect the website.
 
 If the user cancels the unlock or rejects the permission to connect, an error will be thrown.
 
 If the extension is already unlocked and the website has permission to connect, no action will happen and resolve.
 
-`window.keplr.enable(chainId)` is not mandatory. Even if the method wasn't called, if an API that requests access to Keplr is called the flow above will automatically run. However, it is recommended that `window.keplr.enable(chainId)` is first run.
+`window.proof.enable(chainId)` is not mandatory. Even if the method wasn't called, if an API that requests access to Keplr is called the flow above will automatically run. However, it is recommended that `window.proof.enable(chainId)` is first run.
 
 ## Types of Offline Signers
 
