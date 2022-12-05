@@ -341,7 +341,7 @@ export const ManageNftPage: FunctionComponent = observer(() => {
           null}
         </div>
       </form>
-      <div style={{ height: "70px", color: "transparent" }}>blank</div>
+      <div style={{ height: "70px", color: "transparent" }} />
       <div className={style.footer}>
         <div className={style.button} onClick={() => history.replace("/")}>
           Cancel

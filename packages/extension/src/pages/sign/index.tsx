@@ -411,7 +411,7 @@ export const SignPage: FunctionComponent = observer(() => {
           </div>
         )
       }
-      <div style={{ height: "70px", color: "transparent" }}>blank</div>
+      <div style={{ height: "70px", color: "transparent" }} />
     </HeaderLayout>
   );
 });

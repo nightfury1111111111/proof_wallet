@@ -175,7 +175,7 @@ export const MainPage: FunctionComponent = observer(() => {
       ) : // </CardBody>
       // </Card>
       null}
-      <div style={{ height: "70px", color: "transparent" }}>blank</div>
+      <div style={{ height: "70px", color: "transparent" }} />
       <Footer />
     </HeaderLayout>
   );

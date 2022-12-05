@@ -434,7 +434,7 @@ export const SendPage: FunctionComponent = observer(() => {
           </Button>
         </div>
       </form>
-      <div style={{ height: "70px", color: "transparent" }}>blank</div>
+      <div style={{ height: "70px", color: "transparent" }} />
     </HeaderLayout>
   );
 });
