@@ -189,7 +189,7 @@ export class RegisterConfig {
 
   render() {
     return (
-      <div>
+      <div style={{ display: "flex" }}>
         {this.isIntro
           ? this.options.map((option) => {
               return (

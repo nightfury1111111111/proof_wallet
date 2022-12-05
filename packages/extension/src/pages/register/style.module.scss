@@ -1,6 +1,6 @@
 @import "../../styles/var";
 
-$container-width: 420px;
+$container-width: 100vw;
 
 // Used only on the mnemonic recover page.
 // The overall design refactoring is needed, but now the refactoring has been delayed for various reasons.
@@ -29,11 +29,11 @@ html[data-register-page="true"] {
 
 .container {
   width: $container-width;
-  margin-left: ($popup-size-width - $container-width) / 2;
+  margin-left: calc(($popup-size-width - $container-width) / 2);
 
   &:global(.large) {
     width: $large-container-width;
-    margin-left: ($popup-size-width - $large-container-width) / 2;
+    margin-left: calc(($popup-size-width - $large-container-width) / 2);
   }
 
   display: flex;
@@ -52,6 +52,8 @@ html[data-register-page="true"] {
   .logo-container {
     margin-top: 40px;
     margin-bottom: 40px;
+    width: 515px;
+    margin: auto;
 
     display: flex;
     flex-direction: column;
@@ -61,23 +63,30 @@ html[data-register-page="true"] {
       flex-direction: row;
 
       &.justify-center {
-        justify-content: center;
+        align-items: center;
       }
 
       .icon {
-        width: 80px;
-        height: 80px;
+        width: 31px;
+        height: 31px;
       }
 
       .brand-text {
-        height: 80px;
-        margin-left: 18px;
+        color: #e9e4df;
+        font-size: 20px;
+        font-weight: 700;
+        margin-left: 7px;
       }
     }
 
     .intro-brand-sub-text-container {
-      margin-top: 16px;
-      height: 14px;
+      margin-top: 11px;
+      font-family: "Aeonik";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 19px;
+      color: #959595;
 
       .intro-brand-sub-text {
         display: block;
@@ -164,4 +173,32 @@ html[data-register-page="true"] {
     margin-bottom: 8px;
     margin-left: 0 !important;
   }
+}
+
+.buttonContainer {
+  width: 515px;
+  margin: auto;
+  margin-top: 32px;
+}
+
+.createBtn,
+.importBtn {
+  width: 252px;
+  height: 153px;
+  background: #1d1d1d;
+  color: white;
+  text-align: left !important;
+  font-size: 18px;
+  line-height: 26px;
+  border: none !important;
+  box-shadow: inset 0px 1.13158px 0px #393939;
+  border-radius: 12px;
+
+  &:hover {
+    background: #525f7f;
+  }
+}
+
+.importBtn {
+  margin-left: 15px !important;
 }

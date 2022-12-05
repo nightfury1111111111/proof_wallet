@@ -70,10 +70,11 @@ export const RecoverMnemonicIntro: FunctionComponent<{
 
   return (
     <Button
-      color="primary"
-      outline
-      block
-      size="lg"
+      // color="primary"
+      // outline
+      // block
+      // size="lg"
+      className={style.importBtn}
       onClick={(e) => {
         e.preventDefault();
 
@@ -83,6 +84,20 @@ export const RecoverMnemonicIntro: FunctionComponent<{
         });
       }}
     >
+      <div
+        style={{
+          width: "57px",
+          height: "57px",
+          borderRadius: "10px",
+          background: "rgba(255, 207, 138, 0.1)",
+          marginBottom: "16px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <i className="fas fa-solid fa-arrow-down" />
+      </div>
       <FormattedMessage id="register.intro.button.import-account.title" />
     </Button>
   );

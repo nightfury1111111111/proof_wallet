@@ -18,11 +18,11 @@ import {
   RecoverMnemonicPage,
   TypeRecoverMnemonic,
 } from "./mnemonic";
-import {
-  ImportLedgerIntro,
-  ImportLedgerPage,
-  TypeImportLedger,
-} from "./ledger";
+// import {
+//   ImportLedgerIntro,
+//   ImportLedgerPage,
+//   TypeImportLedger,
+// } from "./ledger";
 import { WelcomePage } from "./welcome";
 import { AdditionalSignInPrepend } from "../../config.ui";
 import classnames from "classnames";
@@ -65,15 +65,15 @@ export const RegisterPage: FunctionComponent = observer(() => {
     },
     // Currently, there is no way to use ledger with keplr on firefox.
     // Temporarily, hide the ledger usage.
-    ...(uiConfigStore.platform !== "firefox"
-      ? [
-          {
-            type: TypeImportLedger,
-            intro: ImportLedgerIntro,
-            page: ImportLedgerPage,
-          },
-        ]
-      : []),
+    // ...(uiConfigStore.platform !== "firefox"
+    //   ? [
+    //       {
+    //         type: TypeImportLedger,
+    //         intro: ImportLedgerIntro,
+    //         page: ImportLedgerPage,
+    //       },
+    //     ]
+    //   : []),
   ]);
 
   return (
@@ -101,25 +101,17 @@ export const RegisterPage: FunctionComponent = observer(() => {
             }
             alt="logo"
           />
-          <img
-            className={style.brandText}
-            src={require("../../public/assets/brand-text-fit-logo-height.png")}
-            alt="logo"
-          />
+          <div className={style.brandText}>Proof Wallet</div>
         </div>
         {registerConfig.isIntro ? (
           <div className={style.introBrandSubTextContainer}>
-            <img
-              className={style.introBrandSubText}
-              src={require("../../public/assets/brand-sub-text.png")}
-              alt="The Interchain Wallet"
-            />
+            The best way to experience your Defi & NFTs
           </div>
         ) : null}
       </div>
-      {registerConfig.render()}
+      <div className={style.buttonContainer}>{registerConfig.render()}</div>
       {registerConfig.isFinalized ? <WelcomePage /> : null}
-      {registerConfig.isIntro ? (
+      {/* {registerConfig.isIntro ? (
         <div className={style.subContent}>
           <FormattedMessage
             id="register.intro.sub-content"
@@ -128,7 +120,7 @@ export const RegisterPage: FunctionComponent = observer(() => {
             }}
           />
         </div>
-      ) : null}
+      ) : null} */}
       <div style={{ flex: 13 }} />
     </EmptyLayout>
   );
