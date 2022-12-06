@@ -129,9 +129,13 @@ export const AddPassswordModePage: FunctionComponent<{
             registerConfig.clear();
           }}
         />
-        <div className={style.passwordTitle}>
-          Set a password for your Wallet
-        </div>
+        {registerConfig.mode === "create" ? (
+          <div className={style.passwordTitle}>
+            Set a password for your Wallet
+          </div>
+        ) : (
+          <div className={style.passwordTitle}>Set account name</div>
+        )}
         <Input
           // label={intl.formatMessage({
           //   id: "register.name",
