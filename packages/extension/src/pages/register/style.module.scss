@@ -30,6 +30,8 @@ html[data-register-page="true"] {
 .container {
   width: $container-width;
   margin-left: calc(($popup-size-width - $container-width) / 2);
+  background-image: url("../../public/assets/img/Vector.png");
+  background-size: cover;
 
   &:global(.large) {
     width: $large-container-width;
