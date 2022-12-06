@@ -4,7 +4,40 @@
 }
 
 .content {
+  font-family: "Roc Grotesk";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 25.1481px;
+  line-height: 36px;
+  text-align: center;
+  letter-spacing: 0.003em;
+  margin-top: 26px;
+  color: #ffffff;
+}
+
+.imagePad {
+  background-image: url("../../public/assets/img/Group.png");
+  background-size: cover;
+  width: 212px;
+  height: 283px;
+  margin: auto;
+}
+
+.launchBtn {
+  margin-top: 38px;
+  background: linear-gradient(180deg, #ffdf8b 0%, #ffc989 100%);
+  box-shadow: inset 0px 1px 0px #fff9ef;
+  border-radius: 35px;
+  width: 289px;
+  height: 38px;
+  font-family: "Aeonik";
+  font-style: normal;
+  font-weight: 500;
   font-size: 16px;
-  letter-spacing: -0.71px;
-  color: #6b6b6b;
+  line-height: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #141414;
 }

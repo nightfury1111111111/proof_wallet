@@ -3,25 +3,35 @@ import React, { FunctionComponent } from "react";
 import styleWelcome from "./welcome.module.scss";
 import { Button } from "reactstrap";
 
-import { useIntl } from "react-intl";
+// import { useIntl } from "react-intl";
 
 export const WelcomePage: FunctionComponent = () => {
-  const intl = useIntl();
+  // const intl = useIntl();
 
   return (
-    <div style={{ paddingTop: "20px" }}>
-      <div className={styleWelcome.title}>
+    <div
+      style={{
+        paddingTop: "20px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      {/* <div className={styleWelcome.title}>
         {intl.formatMessage({
           id: "register.welcome.title",
         })}
-      </div>
+      </div> */}
+      <div className={styleWelcome.imagePad} />
       <div className={styleWelcome.content}>
-        {intl.formatMessage({
+        {/* {intl.formatMessage({
           id: "register.welcome.content",
-        })}
+        })} */}
+        Your wallet is ready
       </div>
       <Button
-        color="primary"
+        // color="primary"
+        className={styleWelcome.launchBtn}
         type="submit"
         size="lg"
         onClick={() => {
@@ -38,13 +48,11 @@ export const WelcomePage: FunctionComponent = () => {
           }
         }}
         block
-        style={{
-          marginTop: "60px",
-        }}
       >
-        {intl.formatMessage({
+        {/* {intl.formatMessage({
           id: "register.welcome.button.done",
-        })}
+        })} */}
+        Start trading
       </Button>
     </div>
   );
