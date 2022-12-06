@@ -52,7 +52,16 @@ export const LockPage: FunctionComponent = observer(() => {
   }, []);
 
   return (
-    <EmptyLayout style={{ backgroundColor: "#131313", height: "100%" }}>
+    <EmptyLayout
+      style={{
+        position: "relative",
+        backgroundColor: "#131313",
+        height: "100%",
+      }}
+    >
+      <div className={style.header}>
+        <div className={style.headerLogo} />
+      </div>
       <Form
         className={style.formContainer}
         onSubmit={handleSubmit(async (data) => {
@@ -94,20 +103,25 @@ export const LockPage: FunctionComponent = observer(() => {
           }
         })}
       >
-        <Banner
-          icon={
-            uiConfigStore.isBeta
-              ? require("../../public/assets/logo-beta-256.png")
-              : require("../../public/assets/256.png")
-          }
-          logo={require("../../public/assets/brand-text.png")}
-          subtitle="Proof is a browser extension wallet for the Inter blockchain ecosystem."
-        />
+        <div style={{ marginTop: "77px", marginBottom: "20px" }}>
+          <Banner
+            icon={
+              uiConfigStore.isBeta
+                ? require("../../public/assets/256.png")
+                : require("../../public/assets/logo-round.png")
+            }
+            logo={require("../../public/assets/brand-text.png")}
+            title="Welcome Back"
+            subtitle="Unlock your wallet to continue"
+          />
+        </div>
         <PasswordInput
-          label={intl.formatMessage({
-            id: "lock.input.password",
-          })}
+          // label={intl.formatMessage({
+          //   id: "lock.input.password",
+          // })}
+          className={style.password}
           name="password"
+          placeholder="Enter your password"
           error={errors.password && errors.password.message}
           ref={(ref) => {
             passwordRef.current = ref;
@@ -119,7 +133,13 @@ export const LockPage: FunctionComponent = observer(() => {
             })(ref);
           }}
         />
-        <Button type="submit" color="primary" block data-loading={loading}>
+        <Button
+          type="submit"
+          // color="primary"
+          className={style.unlockBtn}
+          block
+          data-loading={loading}
+        >
           <FormattedMessage id="lock.button.unlock" />
         </Button>
       </Form>

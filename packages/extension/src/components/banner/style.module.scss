@@ -21,8 +21,8 @@
 }
 
 .icon {
-  width: 100px;
-  height: 100px;
+  width: 124px;
+  height: 124px;
 
   margin-bottom: 30px;
 }
@@ -34,8 +34,23 @@
   margin-bottom: 4px;
 }
 
-.subtitle {
-  font-size: 18px;
-  color: #ffffff;
+.title {
+  font-family: "Roc Grotesk";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 29.1429px;
+  line-height: 42px;
   text-align: center;
+  color: #ffffff;
+}
+
+.subtitle {
+  font-family: "Aeonik";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  letter-spacing: 0.3px;
+  color: #959595;
 }

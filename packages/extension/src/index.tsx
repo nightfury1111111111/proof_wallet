@@ -129,9 +129,10 @@ const StateRenderer: FunctionComponent = observer(() => {
     return (
       <div style={{ height: "100%" }}>
         <Banner
-          icon={require("./public/assets/256.png")}
+          icon={require("./public/assets/logo-round.png")}
           logo={require("./public/assets/brand-text.png")}
-          subtitle="Proof is a browser extension wallet for the Inter blockchain ecosystem."
+          title="Welcome Back"
+          subtitle="Unlock your wallet to continue"
         />
       </div>
     );
@@ -139,9 +140,10 @@ const StateRenderer: FunctionComponent = observer(() => {
     return (
       <div style={{ height: "100%" }}>
         <Banner
-          icon={require("./public/assets/256.png")}
+          icon={require("./public/assets/logo-round.png")}
           logo={require("./public/assets/brand-text.png")}
-          subtitle="Proof is a browser extension wallet for the Inter blockchain ecosystem."
+          title="Welcome Back"
+          subtitle="Unlock your wallet to continue"
         />
       </div>
     );
