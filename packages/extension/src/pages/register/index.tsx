@@ -8,7 +8,7 @@ import style from "./style.module.scss";
 
 import { Button } from "reactstrap";
 
-import { FormattedMessage } from "react-intl";
+// import { FormattedMessage } from "react-intl";
 
 import { useRegisterConfig } from "@proof-wallet/hooks";
 import { useStore } from "../../stores";
@@ -32,9 +32,13 @@ export const BackButton: FunctionComponent<{ onClick: () => void }> = ({
 }) => {
   return (
     <div className={style.backButton}>
-      <Button color="link" onClick={onClick}>
-        <i className="fas fa-angle-left" style={{ marginRight: "8px" }} />
-        <FormattedMessage id="register.button.back" />
+      <Button
+        color="link"
+        style={{ paddingLeft: 0, color: "#696969" }}
+        onClick={onClick}
+      >
+        <i className="fas fa-arrow-left" style={{ marginRight: "8px" }} />
+        {/* <FormattedMessage id="register.button.back" /> */}
       </Button>
     </div>
   );
@@ -83,32 +87,56 @@ export const RegisterPage: FunctionComponent = observer(() => {
           !registerConfig.isFinalized &&
           registerConfig.type === "recover-mnemonic",
       })}
-      style={{ height: "100%", backgroundColor: "#131313", padding: 0 }}
+      style={{
+        height: "100%",
+        backgroundColor: "rgb(19, 19, 19, 0.9)",
+        padding: 0,
+      }}
     >
-      <div style={{ flex: 10 }} />
-      <div className={style.logoContainer}>
-        <div
-          className={classnames(style.logoInnerContainer, {
-            [style.justifyCenter]: registerConfig.isIntro,
-          })}
-        >
-          <img
-            className={style.icon}
-            src={
-              uiConfigStore.isBeta
-                ? require("../../public/assets/logo-beta-256.png")
-                : require("../../public/assets/256.png")
-            }
-            alt="logo"
-          />
-          <div className={style.brandText}>Proof Wallet</div>
+      {!registerConfig.isIntro && (
+        <div className={style.edgeLogoContainer}>
+          <div
+            className={classnames(style.logoInnerContainer, {
+              [style.justifyCenter]: registerConfig.isIntro,
+            })}
+          >
+            <img
+              className={style.icon}
+              src={
+                uiConfigStore.isBeta
+                  ? require("../../public/assets/logo-beta-256.png")
+                  : require("../../public/assets/256.png")
+              }
+              alt="logo"
+            />
+            <div className={style.brandText}>Proof Wallet</div>
+          </div>
         </div>
-        {registerConfig.isIntro ? (
+      )}
+      <div style={{ flex: 10 }} />
+      {registerConfig.isIntro && (
+        <div className={style.logoContainer}>
+          <div
+            className={classnames(style.logoInnerContainer, {
+              [style.justifyCenter]: registerConfig.isIntro,
+            })}
+          >
+            <img
+              className={style.icon}
+              src={
+                uiConfigStore.isBeta
+                  ? require("../../public/assets/logo-beta-256.png")
+                  : require("../../public/assets/256.png")
+              }
+              alt="logo"
+            />
+            <div className={style.brandText}>Proof Wallet</div>
+          </div>
           <div className={style.introBrandSubTextContainer}>
             The best way to experience your Defi & NFTs
           </div>
-        ) : null}
-      </div>
+        </div>
+      )}
       <div className={style.buttonContainer}>{registerConfig.render()}</div>
       {registerConfig.isFinalized ? <WelcomePage /> : null}
       {/* {registerConfig.isIntro ? (

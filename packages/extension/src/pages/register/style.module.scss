@@ -5,7 +5,7 @@ $container-width: 100vw;
 // Used only on the mnemonic recover page.
 // The overall design refactoring is needed, but now the refactoring has been delayed for various reasons.
 // For now, it is handled roughly.
-$large-container-width: 680px;
+$large-container-width: 100vw;
 
 html[data-register-page="true"] {
   height: 100%;
@@ -49,6 +49,33 @@ html[data-register-page="true"] {
 
   :global(.btn-block + .btn-block) {
     margin-top: 14px;
+  }
+
+  .edge-logo-container {
+    width: 263px;
+    margin-top: 51px;
+    margin-left: 60px;
+
+    .logo-inner-container {
+      display: flex;
+      flex-direction: row;
+
+      &.justify-center {
+        align-items: center;
+      }
+
+      .icon {
+        width: 31px;
+        height: 31px;
+      }
+
+      .brand-text {
+        color: #e9e4df;
+        font-size: 20px;
+        font-weight: 700;
+        margin-left: 7px;
+      }
+    }
   }
 
   .logo-container {
@@ -108,12 +135,48 @@ html[data-register-page="true"] {
   }
 
   .new-mnemonic {
-    font-family: "Courier Prime", serif;
-    font-size: 16px;
-    letter-spacing: -0.36px;
+    position: relative;
+    font-family: "Roobert";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0.003em;
+    padding: 20px;
+    color: #e9e4df;
+    background: #1d1d1d;
+    border-radius: 12px;
+    box-shadow: inset 0px 1.13158px 0px #393939;
+    margin-bottom: 32px;
+  }
 
-    padding: 20px 30px;
-    text-align: center;
+  .grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    margin-bottom: 50px;
+  }
+
+  .btn-group {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 28px 18px 28px;
+    position: absolute;
+    bottom: 0;
+    left: -1px;
+    width: 516px;
+    background: #4a4545;
+    border-radius: 0 0 12px 12px;
+  }
+
+  .word {
+    width: 149px;
+    height: 43px;
+    border: 1px solid #323232;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
   }
 
   .mnemonic {
@@ -203,4 +266,45 @@ html[data-register-page="true"] {
 
 .importBtn {
   margin-left: 15px !important;
+}
+
+.passwordTitle {
+  font-family: "Roc Grotesk";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 25.1481px;
+  line-height: 36px;
+  color: #ffffff;
+  letter-spacing: 0.003em;
+  margin-bottom: 21px;
+}
+
+.inputBox {
+  height: 52px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid #323232;
+  border-radius: 8px;
+  font-family: "Aeonik";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: 0.5px;
+  color: #696969;
+}
+
+.nextBtn {
+  height: 38px;
+  background: linear-gradient(180deg, #ffdf8b 0%, #ffc989 100%);
+  box-shadow: inset 0px 1px 0px #fff9ef;
+  border-radius: 35px;
+  font-family: "Aeonik";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #141414;
 }

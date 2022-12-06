@@ -4,15 +4,15 @@ import { observer } from "mobx-react-lite";
 import { FormattedMessage, useIntl } from "react-intl";
 import useForm from "react-hook-form";
 import {
-  AdvancedBIP44Option,
+  // AdvancedBIP44Option,
   BIP44Option,
   useBIP44Option,
 } from "../advanced-bip44";
 import style from "../style.module.scss";
-import { Alert, Button, ButtonGroup, Form } from "reactstrap";
+import { Button, Form } from "reactstrap";
 import { Input, PasswordInput } from "../../../components/form";
 import { BackButton } from "../index";
-import { NewMnemonicConfig, useNewMnemonicConfig, NumWords } from "./hook";
+import { NewMnemonicConfig, useNewMnemonicConfig } from "./hook";
 import { useStore } from "../../../stores";
 
 export const TypeNewMnemonic = "new-mnemonic";
@@ -72,6 +72,13 @@ export const NewMnemonicPage: FunctionComponent<{
 
   return (
     <React.Fragment>
+      {newMnemonicConfig.mode === "password" ? (
+        <AddPassswordModePage
+          registerConfig={registerConfig}
+          newMnemonicConfig={newMnemonicConfig}
+          bip44Option={bip44Option}
+        />
+      ) : null}
       {newMnemonicConfig.mode === "generate" ? (
         <GenerateMnemonicModePage
           registerConfig={registerConfig}
@@ -90,11 +97,11 @@ export const NewMnemonicPage: FunctionComponent<{
   );
 });
 
-export const GenerateMnemonicModePage: FunctionComponent<{
+export const AddPassswordModePage: FunctionComponent<{
   registerConfig: RegisterConfig;
   newMnemonicConfig: NewMnemonicConfig;
   bip44Option: BIP44Option;
-}> = observer(({ registerConfig, newMnemonicConfig, bip44Option }) => {
+}> = observer(({ registerConfig, newMnemonicConfig }) => {
   const intl = useIntl();
 
   const { register, handleSubmit, getValues, errors } = useForm<FormData>({
@@ -107,8 +114,123 @@ export const GenerateMnemonicModePage: FunctionComponent<{
   });
 
   return (
-    <div>
-      <Alert color="warning">
+    <div style={{ width: "100%" }}>
+      <Form
+        className={style.formContainer}
+        onSubmit={handleSubmit(async (data: FormData) => {
+          newMnemonicConfig.setName(data.name);
+          newMnemonicConfig.setPassword(data.password);
+
+          newMnemonicConfig.setMode("generate");
+        })}
+      >
+        <BackButton
+          onClick={() => {
+            registerConfig.clear();
+          }}
+        />
+        <div className={style.passwordTitle}>
+          Set a password for your Wallet
+        </div>
+        <Input
+          // label={intl.formatMessage({
+          //   id: "register.name",
+          // })}
+          className={style.inputBox}
+          type="text"
+          name="name"
+          placeholder="Enter account name"
+          ref={register({
+            required: intl.formatMessage({
+              id: "register.name.error.required",
+            }),
+          })}
+          error={errors.name && errors.name.message}
+        />
+        {registerConfig.mode === "create" ? (
+          <React.Fragment>
+            <PasswordInput
+              // label={intl.formatMessage({
+              //   id: "register.create.input.password",
+              // })}
+              name="password"
+              className={style.inputBox}
+              placeholder="Create password"
+              ref={register({
+                required: intl.formatMessage({
+                  id: "register.create.input.password.error.required",
+                }),
+                validate: (password: string): string | undefined => {
+                  if (password.length < 8) {
+                    return intl.formatMessage({
+                      id: "register.create.input.password.error.too-short",
+                    });
+                  }
+                },
+              })}
+              error={errors.password && errors.password.message}
+            />
+            <PasswordInput
+              // label={intl.formatMessage({
+              //   id: "register.create.input.confirm-password",
+              // })}
+              name="confirmPassword"
+              className={style.inputBox}
+              placeholder="Re-enter password"
+              ref={register({
+                required: intl.formatMessage({
+                  id: "register.create.input.confirm-password.error.required",
+                }),
+                validate: (confirmPassword: string): string | undefined => {
+                  if (confirmPassword !== getValues()["password"]) {
+                    return intl.formatMessage({
+                      id:
+                        "register.create.input.confirm-password.error.unmatched",
+                    });
+                  }
+                },
+              })}
+              error={errors.confirmPassword && errors.confirmPassword.message}
+            />
+          </React.Fragment>
+        ) : null}
+        {/* <AdvancedBIP44Option bip44Option={bip44Option} /> */}
+        <Button className={style.nextBtn} type="submit" block size="lg">
+          Continue
+          {/* <FormattedMessage id="register.create.button.next" /> */}
+        </Button>
+      </Form>
+    </div>
+  );
+});
+
+export const GenerateMnemonicModePage: FunctionComponent<{
+  registerConfig: RegisterConfig;
+  newMnemonicConfig: NewMnemonicConfig;
+  bip44Option: BIP44Option;
+}> = observer(({ registerConfig, newMnemonicConfig, bip44Option }) => {
+  // const intl = useIntl();
+  const words = newMnemonicConfig.mnemonic.split(" ");
+  useEffect(() => {
+    for (let i = 0; i < words.length; i++) {
+      words[i] = words[i].trim();
+    }
+  }, []);
+
+  const { analyticsStore } = useStore();
+
+  const { handleSubmit } = useForm<FormData>({
+    defaultValues: {
+      name: newMnemonicConfig.name,
+      words: newMnemonicConfig.mnemonic,
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
+  return (
+    <div style={{ width: "100%" }}>
+      {/* <Alert color="warning">
         <h3 style={{ color: "white" }}>
           <FormattedMessage id="register.create.warning.keep-your-mnemonic.header" />
         </h3>
@@ -120,8 +242,8 @@ export const GenerateMnemonicModePage: FunctionComponent<{
             <FormattedMessage id="register.create.warning.keep-your-mnemonic.paragraph2" />
           </li>
         </ul>
-      </Alert>
-      <div className={style.title}>
+      </Alert> */}
+      {/* <div className={style.title}>
         {intl.formatMessage({
           id: "register.create.title",
         })}
@@ -149,7 +271,7 @@ export const GenerateMnemonicModePage: FunctionComponent<{
             </Button>
           </ButtonGroup>
         </div>
-      </div>
+      </div> */}
       <Form
         className={style.formContainer}
         onSubmit={handleSubmit(async (data: FormData) => {
@@ -159,8 +281,67 @@ export const GenerateMnemonicModePage: FunctionComponent<{
           newMnemonicConfig.setMode("verify");
         })}
       >
-        <div className={style.newMnemonic}>{newMnemonicConfig.mnemonic}</div>
-        <Input
+        <BackButton
+          onClick={() => {
+            newMnemonicConfig.setMode("password");
+          }}
+        />
+        <div className={style.passwordTitle}>Save your recovery phrase</div>
+        <div className={style.newMnemonic}>
+          <div className={style.gridContainer}>
+            {words.map((word, idx) => {
+              return (
+                <div key={idx} className={style.word}>{`${
+                  idx + 1
+                }. ${word}`}</div>
+              );
+            })}
+          </div>
+          <div className={style.btnGroup}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                navigator.clipboard.writeText(newMnemonicConfig.mnemonic);
+              }}
+            >
+              <i className="fas fa-light fa-copy" />
+              <div style={{ marginLeft: "7px" }}>Copy</div>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                const link = document.createElement("a");
+
+                // Create a blog object with the file content which you want to add to the file
+                const file = new Blob([newMnemonicConfig.mnemonic], {
+                  type: "text/plain",
+                });
+
+                // Add file content in the object URL
+                link.href = URL.createObjectURL(file);
+
+                // Add file name
+                link.download = "key.txt";
+
+                // Add click event to <a> tag to save file.
+                link.click();
+                URL.revokeObjectURL(link.href);
+              }}
+            >
+              <i className="fas fa-light fa-download" />
+              <div style={{ marginLeft: "7px" }}>Download</div>
+            </div>
+          </div>
+        </div>
+        {/* <Input
           label={intl.formatMessage({
             id: "register.name",
           })}
@@ -216,16 +397,42 @@ export const GenerateMnemonicModePage: FunctionComponent<{
             />
           </React.Fragment>
         ) : null}
-        <AdvancedBIP44Option bip44Option={bip44Option} />
-        <Button color="primary" type="submit" block size="lg">
-          <FormattedMessage id="register.create.button.next" />
+        <AdvancedBIP44Option bip44Option={bip44Option} /> */}
+        <Button
+          className={style.nextBtn}
+          type="submit"
+          block
+          size="lg"
+          style={{
+            marginTop: "30px",
+          }}
+          onClick={async (e) => {
+            e.preventDefault();
+
+            try {
+              await registerConfig.createMnemonic(
+                newMnemonicConfig.name,
+                newMnemonicConfig.mnemonic,
+                newMnemonicConfig.password,
+                bip44Option.bip44HDPath
+              );
+              analyticsStore.setUserProperties({
+                registerType: "seed",
+                accountType: "mnemonic",
+              });
+            } catch (e) {
+              alert(e.message ? e.message : e.toString());
+              registerConfig.clear();
+            }
+          }}
+          data-loading={registerConfig.isLoading}
+        >
+          Create my wallet
         </Button>
+        {/* <Button className={style.nextBtn} type="submit" block size="lg">
+          Create my wallet
+        </Button> */}
       </Form>
-      <BackButton
-        onClick={() => {
-          registerConfig.clear();
-        }}
-      />
     </div>
   );
 });

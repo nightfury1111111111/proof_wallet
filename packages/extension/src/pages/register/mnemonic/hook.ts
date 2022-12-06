@@ -3,7 +3,7 @@ import { RegisterConfig } from "@proof-wallet/hooks";
 import { useState } from "react";
 import { toGenerator } from "@proof-wallet/common";
 
-export type NewMnemonicMode = "generate" | "verify";
+export type NewMnemonicMode = "password" | "generate" | "verify";
 
 export enum NumWords {
   WORDS12,
@@ -12,7 +12,7 @@ export enum NumWords {
 
 export class NewMnemonicConfig {
   @observable
-  protected _mode: NewMnemonicMode = "generate";
+  protected _mode: NewMnemonicMode = "password";
 
   @observable
   protected _numWords: NumWords = NumWords.WORDS12;

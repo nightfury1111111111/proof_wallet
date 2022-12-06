@@ -160,6 +160,7 @@ export const RecoverMnemonicPage: FunctionComponent<{
     }
   };
   const [showDropdown, setShowDropdown] = useState(false);
+  const [stage, setStage] = useState("seed");
 
   const seedTypeToParagraph = (seedType: SeedType) => {
     switch (seedType) {
@@ -278,36 +279,43 @@ export const RecoverMnemonicPage: FunctionComponent<{
   return (
     <React.Fragment>
       <div className={styleRecoverMnemonic.container}>
-        <div className={classnames(style.title, styleRecoverMnemonic.title)}>
-          {seedType === SeedType.PRIVATE_KEY
-            ? intl.formatMessage({
-                id: "register.recover.alt.private-key.title",
-              })
-            : intl.formatMessage({
-                id: "register.recover.title",
-              })}
-          <div style={{ flex: 1 }} />
+        {stage === "seed" && (
           <div>
-            <ButtonDropdown
-              className={styleRecoverMnemonic.dropdown}
-              isOpen={showDropdown}
-              toggle={() => setShowDropdown((value) => !value)}
+            <BackButton
+              onClick={() => {
+                registerConfig.clear();
+              }}
+            />
+            <div
+              className={classnames(style.title, styleRecoverMnemonic.title)}
             >
-              <DropdownToggle caret>
-                {seedTypeToParagraph(seedType)}
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem
-                  active={seedType === SeedType.WORDS12}
-                  onClick={(e) => {
-                    e.preventDefault();
-
-                    setSeedType(SeedType.WORDS12);
-                  }}
+              {seedType === SeedType.PRIVATE_KEY
+                ? intl.formatMessage({
+                    id: "register.recover.alt.private-key.title",
+                  })
+                : "Enter your recovery phrase"}
+              <div style={{ flex: 1 }} />
+              <div>
+                <ButtonDropdown
+                  className={styleRecoverMnemonic.dropdown}
+                  isOpen={showDropdown}
+                  toggle={() => setShowDropdown((value) => !value)}
                 >
-                  {seedTypeToParagraph(SeedType.WORDS12)}
-                </DropdownItem>
-                <DropdownItem
+                  <DropdownToggle caret>
+                    {seedTypeToParagraph(seedType)}
+                  </DropdownToggle>
+                  <DropdownMenu>
+                    <DropdownItem
+                      active={seedType === SeedType.WORDS12}
+                      onClick={(e) => {
+                        e.preventDefault();
+
+                        setSeedType(SeedType.WORDS12);
+                      }}
+                    >
+                      {seedTypeToParagraph(SeedType.WORDS12)}
+                    </DropdownItem>
+                    {/* <DropdownItem
                   active={seedType === SeedType.WORDS24}
                   onClick={(e) => {
                     e.preventDefault();
@@ -316,265 +324,378 @@ export const RecoverMnemonicPage: FunctionComponent<{
                   }}
                 >
                   {seedTypeToParagraph(SeedType.WORDS24)}
-                </DropdownItem>
-                <DropdownItem
-                  active={seedType === SeedType.PRIVATE_KEY}
-                  onClick={(e) => {
-                    e.preventDefault();
+                </DropdownItem> */}
+                    <DropdownItem
+                      active={seedType === SeedType.PRIVATE_KEY}
+                      onClick={(e) => {
+                        e.preventDefault();
 
-                    setSeedType(SeedType.PRIVATE_KEY);
-                  }}
-                >
-                  {seedTypeToParagraph(SeedType.PRIVATE_KEY)}
-                </DropdownItem>
-              </DropdownMenu>
-            </ButtonDropdown>
-          </div>
-        </div>
-        <Form
-          className={style.formContainer}
-          onSubmit={(e) => {
-            e.preventDefault();
-
-            const seedWordsError = validateSeedWords(seedWords);
-            if (seedWordsError) {
-              setSeedWordsError(seedWordsError);
-              return;
-            } else {
-              setSeedWordsError(undefined);
-            }
-
-            handleSubmit(async (data: FormData) => {
-              try {
-                if (seedWords.length === 1 && isPrivateKey(seedWords[0])) {
-                  const privateKey = Buffer.from(
-                    seedWords[0].replace("0x", ""),
-                    "hex"
-                  );
-                  await registerConfig.createPrivateKey(
-                    data.name,
-                    privateKey,
-                    data.password
-                  );
-                  analyticsStore.setUserProperties({
-                    registerType: "seed",
-                    accountType: "privateKey",
-                  });
-                } else {
-                  await registerConfig.createMnemonic(
-                    data.name,
-                    // In logic, not 12/24 words can be handled.
-                    // However, seed words have only a length of 12/24 when mnemonic.
-                    // Since the rest has an empty string, additional spaces are created by the empty string after join.
-                    // Therefore, trim should be done last.
-                    seedWords.join(" ").trim(),
-                    data.password,
-                    bip44Option.bip44HDPath
-                  );
-                  analyticsStore.setUserProperties({
-                    registerType: "seed",
-                    accountType: "mnemonic",
-                  });
-                }
-              } catch (e) {
-                alert(e.message ? e.message : e.toString());
-                registerConfig.clear();
-              }
-            })(e);
-          }}
-        >
-          <div
-            className={classnames(styleRecoverMnemonic.mnemonicContainer, {
-              [styleRecoverMnemonic.privateKey]:
-                seedType === SeedType.PRIVATE_KEY,
-            })}
-          >
-            {seedWords.map((word, index) => {
-              return (
-                <div
-                  key={index}
-                  className={styleRecoverMnemonic.mnemonicWordContainer}
-                >
-                  {seedType !== SeedType.PRIVATE_KEY ? (
-                    <div className={styleRecoverMnemonic.order}>
-                      {index + 1}.
-                    </div>
-                  ) : null}
-                  <Input
-                    type={shownMnemonicIndex === index ? "text" : "password"}
-                    formGroupClassName={
-                      styleRecoverMnemonic.mnemonicWordFormGroup
-                    }
-                    className={styleRecoverMnemonic.mnemonicWord}
-                    onPaste={(e) => {
-                      e.preventDefault();
-
-                      handlePaste(index, e.clipboardData.getData("text"));
-                    }}
-                    onChange={(e) => {
-                      e.preventDefault();
-
-                      if (
-                        shownMnemonicIndex >= 0 &&
-                        shownMnemonicIndex !== index
-                      ) {
-                        setShownMnemonicIndex(-1);
-                      }
-
-                      const newSeedWords = seedWords.slice();
-                      newSeedWords[index] = e.target.value.trim();
-                      setSeedWords(newSeedWords);
-                    }}
-                    value={word}
-                    append={
-                      <div
-                        style={{
-                          position: "absolute",
-                          right: "8px",
-                          height: "100%",
-                          display: "flex",
-                          alignItems: "center",
-                          cursor: "pointer",
-                          zIndex: 1000,
-                        }}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setShownMnemonicIndex((prev) => {
-                            if (prev === index) {
-                              return -1;
-                            }
-                            return index;
-                          });
-                        }}
-                      >
-                        {shownMnemonicIndex === index ? (
-                          <IconOpenEye />
-                        ) : (
-                          <IconClosedEye />
-                        )}
-                      </div>
-                    }
-                  />
-                </div>
-              );
-            })}
-          </div>
-          {seedWordsError ? (
-            <div className={styleRecoverMnemonic.alert}>
-              {(() => {
-                if (seedWordsError === "__required__") {
-                  if (seedType === SeedType.PRIVATE_KEY) {
-                    return intl.formatMessage({
-                      id: "register.import.textarea.private-key.error.required",
-                    });
-                  } else {
-                    return intl.formatMessage({
-                      id: "register.import.textarea.mnemonic.error.required",
-                    });
-                  }
-                }
-
-                if (seedWordsError === "__invalid__") {
-                  if (seedType === SeedType.PRIVATE_KEY) {
-                    return intl.formatMessage({
-                      id: "register.import.textarea.private-key.error.invalid",
-                    });
-                  } else {
-                    return intl.formatMessage({
-                      id: "register.import.textarea.mnemonic.error.invalid",
-                    });
-                  }
-                }
-
-                return seedWordsError;
-              })()}
+                        setSeedType(SeedType.PRIVATE_KEY);
+                      }}
+                    >
+                      {seedTypeToParagraph(SeedType.PRIVATE_KEY)}
+                    </DropdownItem>
+                  </DropdownMenu>
+                </ButtonDropdown>
+              </div>
             </div>
-          ) : null}
-          <div className={styleRecoverMnemonic.formInnerContainer}>
-            <Input
-              label={intl.formatMessage({
-                id: "register.name",
-              })}
-              type="text"
-              name="name"
-              ref={register({
-                required: intl.formatMessage({
-                  id: "register.name.error.required",
-                }),
-              })}
-              error={errors.name && errors.name.message}
-            />
-            {registerConfig.mode === "create" ? (
-              <React.Fragment>
-                <PasswordInput
-                  label={intl.formatMessage({
-                    id: "register.create.input.password",
-                  })}
-                  name="password"
-                  ref={register({
-                    required: intl.formatMessage({
-                      id: "register.create.input.password.error.required",
-                    }),
-                    validate: (password: string): string | undefined => {
-                      if (password.length < 8) {
-                        return intl.formatMessage({
-                          id: "register.create.input.password.error.too-short",
-                        });
-                      }
-                    },
-                  })}
-                  error={errors.password && errors.password.message}
-                />
-                <PasswordInput
-                  label={intl.formatMessage({
-                    id: "register.create.input.confirm-password",
-                  })}
-                  name="confirmPassword"
-                  ref={register({
-                    required: intl.formatMessage({
-                      id:
-                        "register.create.input.confirm-password.error.required",
-                    }),
-                    validate: (confirmPassword: string): string | undefined => {
-                      if (confirmPassword !== getValues()["password"]) {
+            <Form
+              className={style.formContainer}
+              onSubmit={(e) => {
+                e.preventDefault();
+
+                const seedWordsError = validateSeedWords(seedWords);
+                if (seedWordsError) {
+                  setSeedWordsError(seedWordsError);
+                  return;
+                } else {
+                  setSeedWordsError(undefined);
+                }
+
+                handleSubmit(async () => {
+                  setStage("password");
+                })(e);
+              }}
+            >
+              <div
+                className={classnames(styleRecoverMnemonic.mnemonicContainer, {
+                  [styleRecoverMnemonic.privateKey]:
+                    seedType === SeedType.PRIVATE_KEY,
+                })}
+              >
+                {seedWords.map((word, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className={styleRecoverMnemonic.mnemonicWordContainer}
+                    >
+                      {seedType !== SeedType.PRIVATE_KEY ? (
+                        <div className={styleRecoverMnemonic.order}>
+                          {index + 1}.
+                        </div>
+                      ) : null}
+                      <Input
+                        type={
+                          shownMnemonicIndex === index ? "text" : "password"
+                        }
+                        formGroupClassName={
+                          styleRecoverMnemonic.mnemonicWordFormGroup
+                        }
+                        className={styleRecoverMnemonic.mnemonicWord}
+                        onPaste={(e) => {
+                          e.preventDefault();
+
+                          handlePaste(index, e.clipboardData.getData("text"));
+                        }}
+                        onChange={(e) => {
+                          e.preventDefault();
+
+                          if (
+                            shownMnemonicIndex >= 0 &&
+                            shownMnemonicIndex !== index
+                          ) {
+                            setShownMnemonicIndex(-1);
+                          }
+
+                          const newSeedWords = seedWords.slice();
+                          newSeedWords[index] = e.target.value.trim();
+                          setSeedWords(newSeedWords);
+                        }}
+                        value={word}
+                        append={
+                          <div
+                            style={{
+                              position: "absolute",
+                              right: "8px",
+                              height: "100%",
+                              display: "flex",
+                              alignItems: "center",
+                              cursor: "pointer",
+                              zIndex: 1000,
+                            }}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setShownMnemonicIndex((prev) => {
+                                if (prev === index) {
+                                  return -1;
+                                }
+                                return index;
+                              });
+                            }}
+                          >
+                            {shownMnemonicIndex === index ? (
+                              <IconOpenEye />
+                            ) : (
+                              <IconClosedEye />
+                            )}
+                          </div>
+                        }
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+              {seedWordsError ? (
+                <div className={styleRecoverMnemonic.alert}>
+                  {(() => {
+                    if (seedWordsError === "__required__") {
+                      if (seedType === SeedType.PRIVATE_KEY) {
                         return intl.formatMessage({
                           id:
-                            "register.create.input.confirm-password.error.unmatched",
+                            "register.import.textarea.private-key.error.required",
+                        });
+                      } else {
+                        return intl.formatMessage({
+                          id:
+                            "register.import.textarea.mnemonic.error.required",
                         });
                       }
-                    },
+                    }
+
+                    if (seedWordsError === "__invalid__") {
+                      if (seedType === SeedType.PRIVATE_KEY) {
+                        return intl.formatMessage({
+                          id:
+                            "register.import.textarea.private-key.error.invalid",
+                        });
+                      } else {
+                        return intl.formatMessage({
+                          id: "register.import.textarea.mnemonic.error.invalid",
+                        });
+                      }
+                    }
+
+                    return seedWordsError;
+                  })()}
+                </div>
+              ) : null}
+              {/* <div className={styleRecoverMnemonic.formInnerContainer}> */}
+              {/* <Input
+                  label={intl.formatMessage({
+                    id: "register.name",
                   })}
-                  error={
-                    errors.confirmPassword && errors.confirmPassword.message
-                  }
+                  type="text"
+                  name="name"
+                  ref={register({
+                    required: intl.formatMessage({
+                      id: "register.name.error.required",
+                    }),
+                  })}
+                  error={errors.name && errors.name.message}
                 />
-              </React.Fragment>
-            ) : null}
-            <div
-              style={{
-                height: "20px",
+                {registerConfig.mode === "create" ? (
+                  <React.Fragment>
+                    <PasswordInput
+                      label={intl.formatMessage({
+                        id: "register.create.input.password",
+                      })}
+                      name="password"
+                      ref={register({
+                        required: intl.formatMessage({
+                          id: "register.create.input.password.error.required",
+                        }),
+                        validate: (password: string): string | undefined => {
+                          if (password.length < 8) {
+                            return intl.formatMessage({
+                              id:
+                                "register.create.input.password.error.too-short",
+                            });
+                          }
+                        },
+                      })}
+                      error={errors.password && errors.password.message}
+                    />
+                    <PasswordInput
+                      label={intl.formatMessage({
+                        id: "register.create.input.confirm-password",
+                      })}
+                      name="confirmPassword"
+                      ref={register({
+                        required: intl.formatMessage({
+                          id:
+                            "register.create.input.confirm-password.error.required",
+                        }),
+                        validate: (
+                          confirmPassword: string
+                        ): string | undefined => {
+                          if (confirmPassword !== getValues()["password"]) {
+                            return intl.formatMessage({
+                              id:
+                                "register.create.input.confirm-password.error.unmatched",
+                            });
+                          }
+                        },
+                      })}
+                      error={
+                        errors.confirmPassword && errors.confirmPassword.message
+                      }
+                    />
+                  </React.Fragment>
+                ) : null}
+                <div
+                  style={{
+                    height: "20px",
+                  }}
+                />
+                <AdvancedBIP44Option bip44Option={bip44Option} /> */}
+              <Button
+                // color="primary"
+                className={style.nextBtn}
+                type="submit"
+                size="lg"
+                block
+                data-loading={registerConfig.isLoading}
+              >
+                {/* <FormattedMessage id="register.create.button.next" /> */}
+                Confirm
+              </Button>
+              {/* </div> */}
+            </Form>
+          </div>
+        )}
+        {stage === "password" && (
+          <div>
+            <BackButton
+              onClick={() => {
+                registerConfig.clear();
               }}
             />
-            <AdvancedBIP44Option bip44Option={bip44Option} />
-            <Button
-              color="primary"
-              type="submit"
-              size="lg"
-              block
-              style={{
-                width: "50%",
+            <Form
+              className={style.formContainer}
+              onSubmit={(e) => {
+                e.preventDefault();
+
+                // const seedWordsError = validateSeedWords(seedWords);
+                // if (seedWordsError) {
+                //   setSeedWordsError(seedWordsError);
+                //   return;
+                // } else {
+                //   setSeedWordsError(undefined);
+                // }
+
+                handleSubmit(async (data: FormData) => {
+                  try {
+                    if (seedWords.length === 1 && isPrivateKey(seedWords[0])) {
+                      const privateKey = Buffer.from(
+                        seedWords[0].replace("0x", ""),
+                        "hex"
+                      );
+                      await registerConfig.createPrivateKey(
+                        data.name,
+                        privateKey,
+                        data.password
+                      );
+                      analyticsStore.setUserProperties({
+                        registerType: "seed",
+                        accountType: "privateKey",
+                      });
+                    } else {
+                      await registerConfig.createMnemonic(
+                        data.name,
+                        // In logic, not 12/24 words can be handled.
+                        // However, seed words have only a length of 12/24 when mnemonic.
+                        // Since the rest has an empty string, additional spaces are created by the empty string after join.
+                        // Therefore, trim should be done last.
+                        seedWords.join(" ").trim(),
+                        data.password,
+                        bip44Option.bip44HDPath
+                      );
+                      analyticsStore.setUserProperties({
+                        registerType: "seed",
+                        accountType: "mnemonic",
+                      });
+                    }
+                  } catch (e) {
+                    alert(e.message ? e.message : e.toString());
+                    registerConfig.clear();
+                  }
+                })(e);
               }}
-              data-loading={registerConfig.isLoading}
             >
-              <FormattedMessage id="register.create.button.next" />
-            </Button>
+              <div className={styleRecoverMnemonic.formInnerContainer}>
+                <Input
+                  label={intl.formatMessage({
+                    id: "register.name",
+                  })}
+                  type="text"
+                  name="name"
+                  ref={register({
+                    required: intl.formatMessage({
+                      id: "register.name.error.required",
+                    }),
+                  })}
+                  error={errors.name && errors.name.message}
+                />
+                {registerConfig.mode === "create" ? (
+                  <React.Fragment>
+                    <PasswordInput
+                      label={intl.formatMessage({
+                        id: "register.create.input.password",
+                      })}
+                      name="password"
+                      ref={register({
+                        required: intl.formatMessage({
+                          id: "register.create.input.password.error.required",
+                        }),
+                        validate: (password: string): string | undefined => {
+                          if (password.length < 8) {
+                            return intl.formatMessage({
+                              id:
+                                "register.create.input.password.error.too-short",
+                            });
+                          }
+                        },
+                      })}
+                      error={errors.password && errors.password.message}
+                    />
+                    <PasswordInput
+                      label={intl.formatMessage({
+                        id: "register.create.input.confirm-password",
+                      })}
+                      name="confirmPassword"
+                      ref={register({
+                        required: intl.formatMessage({
+                          id:
+                            "register.create.input.confirm-password.error.required",
+                        }),
+                        validate: (
+                          confirmPassword: string
+                        ): string | undefined => {
+                          if (confirmPassword !== getValues()["password"]) {
+                            return intl.formatMessage({
+                              id:
+                                "register.create.input.confirm-password.error.unmatched",
+                            });
+                          }
+                        },
+                      })}
+                      error={
+                        errors.confirmPassword && errors.confirmPassword.message
+                      }
+                    />
+                  </React.Fragment>
+                ) : null}
+                <div
+                  style={{
+                    height: "20px",
+                  }}
+                />
+                <AdvancedBIP44Option bip44Option={bip44Option} />
+                <Button
+                  // color="primary"
+                  className={style.nextBtn}
+                  type="submit"
+                  size="lg"
+                  block
+                  data-loading={registerConfig.isLoading}
+                >
+                  {/* <FormattedMessage id="register.create.button.next" /> */}
+                  Access my wallet
+                </Button>
+              </div>
+            </Form>
           </div>
-        </Form>
-        <BackButton
-          onClick={() => {
-            registerConfig.clear();
-          }}
-        />
+        )}
       </div>
     </React.Fragment>
   );
