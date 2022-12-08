@@ -9,8 +9,6 @@ import { observer } from "mobx-react-lite";
 import style from "./style.module.scss";
 import { useNotification } from "../../components/notification";
 
-// import { useIntl } from "react-intl";
-
 import { useHistory, useLocation } from "react-router";
 import queryString from "querystring";
 
@@ -22,9 +20,8 @@ import {
   PopupSize,
 } from "@proof-wallet/popup";
 import { DenomHelper, ExtensionKVStore } from "@proof-wallet/common";
-import { Dec } from "@proof-wallet/unit";
 
-export const ManageNftPage: FunctionComponent = observer(() => {
+export const SelectTokenPage: FunctionComponent = observer(() => {
   const history = useHistory();
   let search = useLocation().search;
   if (search.startsWith("?")) {
@@ -123,21 +120,6 @@ export const ManageNftPage: FunctionComponent = observer(() => {
       );
     }
   );
-
-  const queryBalances = queriesStore
-    .get(chainStore.current.chainId)
-    .queryBalances.getQueryBech32Address(accountInfo.bech32Address);
-
-  const tokens = queryBalances.unstakables.filter((bal) => {
-    // Temporary implementation for trimming the 0 balanced native tokens.
-    // TODO: Remove this part.
-    if (new DenomHelper(bal.currency.coinMinimalDenom).type === "native") {
-      return bal.balance.toDec().gt(new Dec("0"));
-    }
-    return true;
-  });
-
-  const hasTokens = tokens.length > 0;
 
   useEffect(() => {
     // To simulate secretwasm, we need to include the signature in the tx.
@@ -332,13 +314,7 @@ export const ManageNftPage: FunctionComponent = observer(() => {
         }}
       >
         <div className={style.formInnerContainer}>
-          {hasTokens ? (
-            // <Card className={classnames(style.card, "shadow")}>
-            // <CardBody>
-            <TokensView />
-          ) : // </CardBody>
-          // </Card>
-          null}
+          <TokensView />
         </div>
       </form>
       <div style={{ height: "70px", color: "transparent" }} />

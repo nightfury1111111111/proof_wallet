@@ -1991,3 +1991,16 @@ export const EmbedChainInfos: ChainInfo[] = [
 
 // The origins that are able to pass any permission that external webpages can have.
 export const PrivilegedOrigins: string[] = ["https://wallet.keplr.app"];
+
+export const NftList = [
+  {
+    addresss: "sei16sxavw8h0uqe565e5t7f9t72dxh8cr8d6ca8mq5xt9nn3djwy5ksqnqmen",
+    name: "Dawn",
+    apiEndpoint: "https://dawn.seinetwork.io/",
+  },
+  {
+    addresss: "sei1quj5act407qgszngzsh9elcelzl9pgcglq3844cwqex3cxzzeresf253zm",
+    name: "Dawn",
+    apiEndpoint: "https://dusk.seinetwork.io/",
+  },
+];
