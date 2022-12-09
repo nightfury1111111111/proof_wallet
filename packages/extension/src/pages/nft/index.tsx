@@ -21,7 +21,7 @@ import {
 } from "@proof-wallet/popup";
 import { DenomHelper, ExtensionKVStore } from "@proof-wallet/common";
 
-export const SelectTokenPage: FunctionComponent = observer(() => {
+export const ManageNftPage: FunctionComponent = observer(() => {
   const history = useHistory();
   let search = useLocation().search;
   if (search.startsWith("?")) {
