@@ -22,8 +22,8 @@ import { useIntl } from "react-intl";
 import { useConfirm } from "../../components/confirm";
 import { ChainUpdaterService } from "@proof-wallet/background";
 import { IBCTransferView } from "./ibc-transfer";
-import { DenomHelper } from "@proof-wallet/common";
-import { Dec } from "@proof-wallet/unit";
+// import { DenomHelper } from "@proof-wallet/common";
+// import { Dec } from "@proof-wallet/unit";
 import { WalletStatus } from "@proof-wallet/stores";
 import { VestingInfo } from "./vesting-info";
 import { LedgerAppModal } from "./ledger-app-modal";
@@ -33,8 +33,8 @@ export const MainPage: FunctionComponent = observer(() => {
   const intl = useIntl();
 
   const { chainStore, accountStore, queriesStore, uiConfigStore } = useStore();
-  const storeResult = useStore();
-  console.log(storeResult);
+  // const storeResult = useStore();
+  // console.log(storeResult);
 
   const confirm = useConfirm();
 
@@ -98,20 +98,20 @@ export const MainPage: FunctionComponent = observer(() => {
     );
   })();
 
-  const queryBalances = queriesStore
-    .get(chainStore.current.chainId)
-    .queryBalances.getQueryBech32Address(accountInfo.bech32Address);
+  // const queryBalances = queriesStore
+  //   .get(chainStore.current.chainId)
+  //   .queryBalances.getQueryBech32Address(accountInfo.bech32Address);
 
-  const tokens = queryBalances.unstakables.filter((bal) => {
-    // Temporary implementation for trimming the 0 balanced native tokens.
-    // TODO: Remove this part.
-    if (new DenomHelper(bal.currency.coinMinimalDenom).type === "native") {
-      return bal.balance.toDec().gt(new Dec("0"));
-    }
-    return true;
-  });
+  // const tokens = queryBalances.unstakables.filter((bal) => {
+  //   // Temporary implementation for trimming the 0 balanced native tokens.
+  //   // TODO: Remove this part.
+  //   if (new DenomHelper(bal.currency.coinMinimalDenom).type === "native") {
+  //     return bal.balance.toDec().gt(new Dec("0"));
+  //   }
+  //   return true;
+  // });
 
-  const hasTokens = tokens.length > 0;
+  // const hasTokens = tokens.length > 0;
 
   return (
     <HeaderLayout
@@ -160,13 +160,14 @@ export const MainPage: FunctionComponent = observer(() => {
       {/* </Card> */}
       {showVestingInfo ? <VestingInfo /> : null}
       {/* {chainStore.current.walletUrlForStaking ? <StakeView /> : null} */}
-      {hasTokens ? (
+      <TokensView />
+      {/* {hasTokens ? (
         // <Card className={classnames(style.card, "shadow")}>
         // <CardBody>
         <TokensView />
       ) : // </CardBody>
       // </Card>
-      null}
+      null} */}
       {uiConfigStore.showAdvancedIBCTransfer &&
       chainStore.current.features?.includes("ibc-transfer") ? (
         // <Card className={classnames(style.card, "shadow")}>

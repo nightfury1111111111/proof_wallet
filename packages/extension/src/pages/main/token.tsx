@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useMemo, useState } from "react";
+import React, { FunctionComponent, useEffect, useMemo, useState } from "react";
 import classnames from "classnames";
 
 import styleToken from "./token.module.scss";
@@ -233,10 +233,12 @@ export const TokensView: FunctionComponent = observer(() => {
 
       return a.currency.coinDenom < b.currency.coinDenom ? -1 : 1;
     });
-
   const [tmpTokens, setTmpTokens] = useState<
     ObservableQueryBalanceInner<unknown, unknown>[]
-  >(tokens);
+  >([]);
+  useEffect(() => {
+    setTmpTokens(tokens);
+  }, [tokens.length]);
 
   const history = useHistory();
 
