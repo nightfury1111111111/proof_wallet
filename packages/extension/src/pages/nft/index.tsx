@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useEffect, useMemo } from "react";
 import { useStore } from "../../stores";
+import { NftList } from "../../config";
 
 import { HeaderLayout } from "../../layouts";
 import { TokensView } from "../main/token";
@@ -27,6 +28,7 @@ export const ManageNftPage: FunctionComponent = observer(() => {
   if (search.startsWith("?")) {
     search = search.slice(1);
   }
+  console.log(NftList[0].addresss);
   const query = queryString.parse(search) as {
     defaultDenom: string | undefined;
     defaultRecipient: string | undefined;
