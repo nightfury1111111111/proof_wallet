@@ -48,6 +48,32 @@
   justify-content: center;
 }
 
+.searchBox {
+  width: 100%;
+  height: 43px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid #323232;
+  border-radius: 5px;
+  padding-right: 60px;
+}
+
+.searchIcon {
+  width: 20px;
+  height: 20px;
+  background-size: cover;
+  position: absolute;
+  right: 27px;
+}
+
+.funcBtn {
+  margin-top: 14px;
+  width: 43px;
+  height: 43px;
+  border-radius: 50px;
+  background: #393939;
+  background-size: cover;
+}
+
 .form-inner-container {
   height: 100%;
   display: flex;

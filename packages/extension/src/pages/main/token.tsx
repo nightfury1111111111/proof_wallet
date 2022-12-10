@@ -245,24 +245,38 @@ export const TokensView: FunctionComponent = observer(() => {
   return (
     <div className={styleToken.tokensContainer} style={{ marginTop: "23px" }}>
       {location.pathname !== "/" && (
-        <Input
-          className={classnames("form-control-alternative", styleToken.input)}
-          placeholder="Search a collectible"
-          value={keyword}
-          onChange={(e) => {
-            setKeyword(e.target.value);
-            const availableTokens = tokens.filter((bal) => {
-              return (
-                bal.currency.coinDenom
-                  .toLowerCase()
-                  .indexOf(e.target.value.toLowerCase()) > -1
-              );
-            });
-            setTmpTokens(availableTokens);
-            e.preventDefault();
+        <div
+          style={{
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            marginTop: "14px",
+            marginBottom: "14px",
           }}
-          autoComplete="off"
-        />
+        >
+          <Input
+            className={classnames("form-control-alternative", styleToken.input)}
+            placeholder="Search a collectible"
+            value={keyword}
+            onChange={(e) => {
+              setKeyword(e.target.value);
+              const availableTokens = tokens.filter((bal) => {
+                return (
+                  bal.currency.coinDenom
+                    .toLowerCase()
+                    .indexOf(e.target.value.toLowerCase()) > -1
+                );
+              });
+              setTmpTokens(availableTokens);
+              e.preventDefault();
+            }}
+            autoComplete="off"
+          />
+          <img
+            className={styleToken.searchIcon}
+            src={require("../../public/assets/img/search.svg")}
+          />
+        </div>
       )}
       {/* <h1 className={styleToken.title}>Tokens</h1> */}
       {tmpTokens.map((token, i) => {

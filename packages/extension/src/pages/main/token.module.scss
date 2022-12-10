@@ -70,7 +70,6 @@
     font-size: 14px;
     font-weight: bold;
     color: #525f7f;
-
     margin-bottom: 12px;
   }
 }
@@ -81,5 +80,13 @@
   border-radius: 5px;
   height: 43px;
   box-sizing: border-box;
-  margin-bottom: 14px;
+  padding-right: 67px;
+}
+
+.searchIcon {
+  width: 20px;
+  height: 20px;
+  background-size: cover;
+  position: absolute;
+  right: 27px;
 }

@@ -2,13 +2,8 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 
-const rpcEndpoint = "https://sei-chain-incentivized.com/sei-chain-tm/";
-
-const sender = {
-  mnemonic:
-    "cheap gain pink ankle exotic exile blast escape clean much jelly renew",
-  address: "sei138jdvsrjdgvwwajm6jhtwetffa5qxzj77nhynz",
-};
+import { Input } from "reactstrap";
+import classnames from "classnames";
 
 import { useStore } from "../../stores";
 import { NftList } from "../../config";
@@ -22,6 +17,13 @@ import style from "./style.module.scss";
 
 import { useHistory, useLocation } from "react-router";
 
+const rpcEndpoint = "https://sei-chain-incentivized.com/sei-chain-tm/";
+const sender = {
+  mnemonic:
+    "cheap gain pink ankle exotic exile blast escape clean much jelly renew",
+  address: "sei138jdvsrjdgvwwajm6jhtwetffa5qxzj77nhynz",
+};
+
 export interface Nft {
   address: string;
   name: string;
@@ -32,7 +34,10 @@ export interface Nft {
 
 export const ManageNftPage: FunctionComponent = observer(() => {
   const [nfts, setNfts] = useState<Array<Nft>>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [tmpNfts, setTmpNfts] = useState<Array<Nft>>([]);
+  const [keyword, setKeyword] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
   const history = useHistory();
   let search = useLocation().search;
   if (search.startsWith("?")) {
@@ -97,10 +102,7 @@ export const ManageNftPage: FunctionComponent = observer(() => {
   }, []);
 
   useEffect(() => {
-    if (nfts.length > 0)
-      console.log(
-        `url(${nfts[0].apiEndpoint}images/${nfts[0].id[0]}.${nfts[0].ext})`
-      );
+    if (nfts.length > 0) setTmpNfts(nfts);
   }, [nfts]);
 
   return (
@@ -135,16 +137,65 @@ export const ManageNftPage: FunctionComponent = observer(() => {
         </div>
       }
     >
-      <div className={style.nftContainer}>
-        {isLoading && (
-          <div className={style.loadingContainer}>
-            <i
-              className="fas fa-spinner fa-spin ml-1"
-              style={{ color: "white" }}
+      {isLoading && (
+        <div className={style.loadingContainer}>
+          <i
+            className="fas fa-spinner fa-spin ml-1"
+            style={{ color: "white" }}
+          />
+        </div>
+      )}
+      {!isLoading && (
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <div
+            style={{
+              width: "280px",
+              position: "relative",
+              display: "flex",
+              alignItems: "center",
+              marginTop: "14px",
+            }}
+          >
+            <Input
+              className={classnames(
+                "form-control-alternative",
+                style.searchBox
+              )}
+              placeholder="Search a collectible"
+              value={keyword}
+              onChange={(e) => {
+                setKeyword(e.target.value);
+                const availableNfts = nfts.filter((nft) => {
+                  return (
+                    nft.name
+                      .toLowerCase()
+                      .indexOf(e.target.value.toLowerCase()) > -1
+                  );
+                });
+                setTmpNfts(availableNfts);
+                e.preventDefault();
+              }}
+              autoComplete="off"
+            />
+            <img
+              className={style.searchIcon}
+              src={require("../../public/assets/img/search.svg")}
             />
           </div>
-        )}
-        {nfts.map((nft, idx) => {
+          <img
+            className={style.funcBtn}
+            src={require("../../public/assets/img/button.svg")}
+          />
+        </div>
+      )}
+      <div className={style.nftContainer}>
+        {tmpNfts.map((nft, idx) => {
           return (
             <div
               key={idx}
