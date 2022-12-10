@@ -37,6 +37,8 @@ export const ManageNftPage: FunctionComponent = observer(() => {
   const [tmpNfts, setTmpNfts] = useState<Array<Nft>>([]);
   const [keyword, setKeyword] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState<string>("collection");
+  const [currentCollectionIdx, setCurrentCollectionIdx] = useState(0);
 
   const history = useHistory();
   let search = useLocation().search;
@@ -137,81 +139,127 @@ export const ManageNftPage: FunctionComponent = observer(() => {
         </div>
       }
     >
-      {isLoading && (
-        <div className={style.loadingContainer}>
-          <i
-            className="fas fa-spinner fa-spin ml-1"
-            style={{ color: "white" }}
-          />
-        </div>
-      )}
-      {!isLoading && (
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <div
-            style={{
-              width: "280px",
-              position: "relative",
-              display: "flex",
-              alignItems: "center",
-              marginTop: "14px",
-            }}
-          >
-            <Input
-              className={classnames(
-                "form-control-alternative",
-                style.searchBox
-              )}
-              placeholder="Search a collectible"
-              value={keyword}
-              onChange={(e) => {
-                setKeyword(e.target.value);
-                const availableNfts = nfts.filter((nft) => {
-                  return (
-                    nft.name
-                      .toLowerCase()
-                      .indexOf(e.target.value.toLowerCase()) > -1
-                  );
-                });
-                setTmpNfts(availableNfts);
-                e.preventDefault();
-              }}
-              autoComplete="off"
-            />
-            <img
-              className={style.searchIcon}
-              src={require("../../public/assets/img/search.svg")}
-            />
-          </div>
-          <img
-            className={style.funcBtn}
-            src={require("../../public/assets/img/button.svg")}
-          />
-        </div>
-      )}
-      <div className={style.nftContainer}>
-        {tmpNfts.map((nft, idx) => {
-          return (
+      {page === "collection" && (
+        <div>
+          {isLoading && (
+            <div className={style.loadingContainer}>
+              <i
+                className="fas fa-spinner fa-spin ml-1"
+                style={{ color: "white" }}
+              />
+            </div>
+          )}
+          {!isLoading && (
             <div
-              key={idx}
-              className={style.nftTile}
               style={{
-                backgroundImage: `url(${nft.apiEndpoint}images/${nft.id[0]}.${nft.ext})`,
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-between",
               }}
             >
-              <div className={style.nftName}>
-                {`${nft.name} ${nft.id.length}`}
+              <div
+                style={{
+                  width: "280px",
+                  position: "relative",
+                  display: "flex",
+                  alignItems: "center",
+                  marginTop: "14px",
+                }}
+              >
+                <Input
+                  className={classnames(
+                    "form-control-alternative",
+                    style.searchBox
+                  )}
+                  placeholder="Search a collectible"
+                  value={keyword}
+                  onChange={(e) => {
+                    setKeyword(e.target.value);
+                    const availableNfts = nfts.filter((nft) => {
+                      return (
+                        nft.name
+                          .toLowerCase()
+                          .indexOf(e.target.value.toLowerCase()) > -1
+                      );
+                    });
+                    setTmpNfts(availableNfts);
+                    e.preventDefault();
+                  }}
+                  autoComplete="off"
+                />
+                <img
+                  className={style.searchIcon}
+                  src={require("../../public/assets/img/search.svg")}
+                />
               </div>
+              <img
+                className={style.funcBtn}
+                src={require("../../public/assets/img/button.svg")}
+              />
             </div>
-          );
-        })}
-      </div>
-      {!isLoading && <div style={{ height: "70px", color: "transparent" }} />}
+          )}
+          <div className={style.nftContainer}>
+            {tmpNfts.map((nft, idx) => {
+              return (
+                <div
+                  key={idx}
+                  className={style.nftTile}
+                  style={{
+                    backgroundImage: `url(${nft.apiEndpoint}images/${nft.id[0]}.${nft.ext})`,
+                  }}
+                  onClick={() => {
+                    setCurrentCollectionIdx(idx);
+                    setPage("nfts");
+                  }}
+                >
+                  <div className={style.nftName}>
+                    {`${nft.name} ${nft.id.length}`}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          {!isLoading && (
+            <div style={{ height: "70px", color: "transparent" }} />
+          )}
+        </div>
+      )}
+      {page === "nfts" && (
+        <div>
+          {isLoading && (
+            <div className={style.loadingContainer}>
+              <i
+                className="fas fa-spinner fa-spin ml-1"
+                style={{ color: "white" }}
+              />
+            </div>
+          )}
+          <div className={style.collectionName}>
+            {tmpNfts[currentCollectionIdx].name}
+          </div>
+          <div className={style.nftContainer}>
+            {tmpNfts[currentCollectionIdx].id.map((nft, idx) => {
+              return (
+                <div
+                  key={idx}
+                  className={style.nftTile}
+                  style={{
+                    backgroundImage: `url(${tmpNfts[currentCollectionIdx].apiEndpoint}images/${nft}.${tmpNfts[currentCollectionIdx].ext})`,
+                  }}
+                  onClick={() => {
+                    setPage("nfts");
+                  }}
+                >
+                  <div className={style.nftName}>{nft}</div>
+                </div>
+              );
+            })}
+          </div>
+          {!isLoading && (
+            <div style={{ height: "70px", color: "transparent" }} />
+          )}
+        </div>
+      )}
       <Footer />
     </HeaderLayout>
   );
