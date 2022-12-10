@@ -2001,7 +2001,7 @@ export const NftList = [
   },
   {
     address: "sei1quj5act407qgszngzsh9elcelzl9pgcglq3844cwqex3cxzzeresf253zm",
-    name: "Dawn",
+    name: "Dusk",
     apiEndpoint: "https://dusk.seinetwork.io/",
     ext: "png",
   },
