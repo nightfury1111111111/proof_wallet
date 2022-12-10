@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 
 import classmames from "classnames";
 import style from "./style.module.scss";
@@ -12,10 +12,15 @@ import style from "./style.module.scss";
 
 export const Footer: FunctionComponent = () => {
   const history = useHistory();
+  const location = useLocation();
   return (
     <div className={classmames(style.footerContainer)}>
       <img
-        src={require("../../public/assets/img/main.svg")}
+        src={
+          location.pathname === "/"
+            ? require("../../public/assets/img/main-active.svg")
+            : require("../../public/assets/img/main.svg")
+        }
         className={style.footerIcon}
         onClick={() => {
           history.push("/");
@@ -26,7 +31,11 @@ export const Footer: FunctionComponent = () => {
         className={style.footerIcon}
       />
       <img
-        src={require("../../public/assets/img/nft.svg")}
+        src={
+          location.pathname === "/nft"
+            ? require("../../public/assets/img/nft-active.svg")
+            : require("../../public/assets/img/nft.svg")
+        }
         className={style.footerIcon}
         onClick={() => {
           history.push("/nft");

@@ -1,40 +1,91 @@
-import React, { FunctionComponent, useEffect, useMemo } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
+import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
+import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
+
+const rpcEndpoint = "https://sei-chain-incentivized.com/sei-chain-tm/";
+
+const sender = {
+  mnemonic:
+    "cheap gain pink ankle exotic exile blast escape clean much jelly renew",
+  address: "sei138jdvsrjdgvwwajm6jhtwetffa5qxzj77nhynz",
+};
+
 import { useStore } from "../../stores";
 import { NftList } from "../../config";
 
 import { HeaderLayout } from "../../layouts";
-import { TokensView } from "../main/token";
+import { Footer } from "../../components/footer";
 
 import { observer } from "mobx-react-lite";
 
 import style from "./style.module.scss";
-import { useNotification } from "../../components/notification";
 
 import { useHistory, useLocation } from "react-router";
-import queryString from "querystring";
 
-import { useGasSimulator, useSendTxConfig } from "@proof-wallet/hooks";
-import { EthereumEndpoint } from "../../config.ui";
-import {
-  fitPopupWindow,
-  openPopupWindow,
-  PopupSize,
-} from "@proof-wallet/popup";
-import { DenomHelper, ExtensionKVStore } from "@proof-wallet/common";
+export interface Nft {
+  address: string;
+  name: string;
+  apiEndpoint: string;
+  ext: string;
+  id: Array<string>;
+}
 
 export const ManageNftPage: FunctionComponent = observer(() => {
+  const [nfts, setNfts] = useState<Array<Nft>>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
   let search = useLocation().search;
   if (search.startsWith("?")) {
     search = search.slice(1);
   }
-  console.log(NftList[0].addresss);
-  const query = queryString.parse(search) as {
-    defaultDenom: string | undefined;
-    defaultRecipient: string | undefined;
-    defaultAmount: string | undefined;
-    defaultMemo: string | undefined;
-    detached: string | undefined;
+
+  const { chainStore, accountStore } = useStore();
+  const current = chainStore.current;
+
+  const accountInfo = accountStore.getAccount(current.chainId);
+
+  const getTokens = async () => {
+    // const gasPrice = GasPrice.fromString("0.05usei");
+    const sender_wallet = await DirectSecp256k1HdWallet.fromMnemonic(
+      sender.mnemonic,
+      { prefix: "sei" }
+    );
+    const sender_client = await SigningCosmWasmClient.connectWithSigner(
+      rpcEndpoint,
+      sender_wallet
+    );
+
+    const tmpNftArray: Array<Nft> = [];
+    setIsLoading(true);
+    await Promise.all(
+      NftList.map(async (nft) => {
+        let num = 30;
+        let startId = 0;
+        let tmpIdArray: Array<string> = [];
+        while (num === 30) {
+          const msg = {
+            tokens: {
+              owner: accountInfo.bech32Address,
+              limit: 30,
+              start_after: startId.toString(),
+            },
+          };
+          const createResult = await sender_client.queryContractSmart(
+            nft.address,
+            msg
+          );
+          num = createResult.tokens.length;
+          if (num > 0) {
+            startId = createResult.tokens[num - 1];
+            tmpIdArray = tmpIdArray.concat(createResult.tokens);
+          }
+        }
+
+        if (tmpIdArray.length > 0) tmpNftArray.push({ ...nft, id: tmpIdArray });
+      })
+    );
+    setNfts(tmpNftArray);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -42,289 +93,75 @@ export const ManageNftPage: FunctionComponent = observer(() => {
     if (window.scrollTo) {
       window.scrollTo(0, 0);
     }
+    getTokens();
   }, []);
 
-  // const intl = useIntl();
-
-  const notification = useNotification();
-
-  const { chainStore, accountStore, queriesStore, analyticsStore } = useStore();
-  const current = chainStore.current;
-
-  const accountInfo = accountStore.getAccount(current.chainId);
-
-  const sendConfigs = useSendTxConfig(
-    chainStore,
-    queriesStore,
-    accountStore,
-    current.chainId,
-    accountInfo.bech32Address,
-    {
-      ensEndpoint: EthereumEndpoint,
-      allowHexAddressOnEthermint: true,
-    }
-  );
-
-  const gasSimulatorKey = useMemo(() => {
-    if (sendConfigs.amountConfig.sendCurrency) {
-      const denomHelper = new DenomHelper(
-        sendConfigs.amountConfig.sendCurrency.coinMinimalDenom
-      );
-
-      if (denomHelper.type !== "native") {
-        if (denomHelper.type === "cw20") {
-          // Probably, the gas can be different per cw20 according to how the contract implemented.
-          return `${denomHelper.type}/${denomHelper.contractAddress}`;
-        }
-
-        return denomHelper.type;
-      }
-    }
-
-    return "native";
-  }, [sendConfigs.amountConfig.sendCurrency]);
-
-  const gasSimulator = useGasSimulator(
-    new ExtensionKVStore("gas-simulator.main.send"),
-    chainStore,
-    current.chainId,
-    sendConfigs.gasConfig,
-    sendConfigs.feeConfig,
-    gasSimulatorKey,
-    () => {
-      if (!sendConfigs.amountConfig.sendCurrency) {
-        throw new Error("Send currency not set");
-      }
-
-      // Prefer not to use the gas config or fee config,
-      // because gas simulator can change the gas config and fee config from the result of reaction,
-      // and it can make repeated reaction.
-      if (
-        sendConfigs.amountConfig.error != null ||
-        sendConfigs.recipientConfig.error != null
-      ) {
-        throw new Error("Not ready to simulate tx");
-      }
-
-      const denomHelper = new DenomHelper(
-        sendConfigs.amountConfig.sendCurrency.coinMinimalDenom
-      );
-      // I don't know why, but simulation does not work for secret20
-      if (denomHelper.type === "secret20") {
-        throw new Error("Simulating secret wasm not supported");
-      }
-
-      return accountInfo.makeSendTokenTx(
-        sendConfigs.amountConfig.amount,
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        sendConfigs.amountConfig.sendCurrency!,
-        sendConfigs.recipientConfig.recipient
-      );
-    }
-  );
-
   useEffect(() => {
-    // To simulate secretwasm, we need to include the signature in the tx.
-    // With the current structure, this approach is not possible.
-    if (
-      sendConfigs.amountConfig.sendCurrency &&
-      new DenomHelper(sendConfigs.amountConfig.sendCurrency.coinMinimalDenom)
-        .type === "secret20"
-    ) {
-      gasSimulator.forceDisable(
-        new Error("Simulating secret20 is not supported")
+    if (nfts.length > 0)
+      console.log(
+        `url(${nfts[0].apiEndpoint}images/${nfts[0].id[0]}.${nfts[0].ext})`
       );
-      sendConfigs.gasConfig.setGas(
-        accountInfo.secret.msgOpts.send.secret20.gas
-      );
-    } else {
-      gasSimulator.forceDisable(false);
-      gasSimulator.setEnabled(true);
-    }
-  }, [
-    accountInfo.secret.msgOpts.send.secret20.gas,
-    gasSimulator,
-    sendConfigs.amountConfig.sendCurrency,
-    sendConfigs.gasConfig,
-  ]);
-
-  useEffect(() => {
-    if (query.defaultDenom) {
-      const currency = current.currencies.find(
-        (cur) => cur.coinMinimalDenom === query.defaultDenom
-      );
-
-      if (currency) {
-        sendConfigs.amountConfig.setSendCurrency(currency);
-      }
-    }
-  }, [current.currencies, query.defaultDenom, sendConfigs.amountConfig]);
-
-  const isDetachedPage = query.detached === "true";
-
-  useEffect(() => {
-    if (isDetachedPage) {
-      fitPopupWindow();
-    }
-  }, [isDetachedPage]);
-
-  useEffect(() => {
-    if (query.defaultRecipient) {
-      sendConfigs.recipientConfig.setRawRecipient(query.defaultRecipient);
-    }
-    if (query.defaultAmount) {
-      sendConfigs.amountConfig.setAmount(query.defaultAmount);
-    }
-    if (query.defaultMemo) {
-      sendConfigs.memoConfig.setMemo(query.defaultMemo);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query.defaultAmount, query.defaultMemo, query.defaultRecipient]);
-
-  const sendConfigError =
-    sendConfigs.recipientConfig.error ??
-    sendConfigs.amountConfig.error ??
-    sendConfigs.memoConfig.error ??
-    sendConfigs.gasConfig.error ??
-    sendConfigs.feeConfig.error;
-  const txStateIsValid = sendConfigError == null;
+  }, [nfts]);
 
   return (
     <HeaderLayout
       showChainName
       canChangeChainInfo={false}
       style={{ height: "auto", minHeight: "100%" }}
-      onBackButton={
-        isDetachedPage
-          ? undefined
-          : () => {
-              history.goBack();
-            }
-      }
+      onBackButton={() => {
+        history.goBack();
+      }}
       rightRenderer={
-        isDetachedPage ? undefined : (
+        <div
+          style={{
+            height: "36px",
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            paddingRight: "20px",
+          }}
+        >
           <div
             style={{
-              height: "36px",
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              paddingRight: "20px",
+              background:
+                "radial-gradient(75% 75% at 50% 25%, #C4FFD1 3.88%, #7EFF9B 100%)", // if it is connected, green color if not, red
+              width: "5px",
+              height: "5px",
+              borderRadius: "10px",
+              cursor: "pointer",
+              padding: "4px",
             }}
-          >
-            <i
-              className="fas fa-external-link-alt"
-              style={{
-                cursor: "pointer",
-                padding: "4px",
-                color: "#8B8B9A",
-              }}
-              onClick={async (e) => {
-                e.preventDefault();
-
-                const windowInfo = await browser.windows.getCurrent();
-
-                let queryString = `?detached=true&defaultDenom=${sendConfigs.amountConfig.sendCurrency.coinMinimalDenom}`;
-                if (sendConfigs.recipientConfig.rawRecipient) {
-                  queryString += `&defaultRecipient=${sendConfigs.recipientConfig.rawRecipient}`;
-                }
-                if (sendConfigs.amountConfig.amount) {
-                  queryString += `&defaultAmount=${sendConfigs.amountConfig.amount}`;
-                }
-                if (sendConfigs.memoConfig.memo) {
-                  queryString += `&defaultMemo=${sendConfigs.memoConfig.memo}`;
-                }
-
-                await openPopupWindow(
-                  browser.runtime.getURL(`/popup.html#/send${queryString}`),
-                  undefined,
-                  {
-                    top: (windowInfo.top || 0) + 80,
-                    left:
-                      (windowInfo.left || 0) +
-                      (windowInfo.width || 0) -
-                      PopupSize.width -
-                      20,
-                  }
-                );
-                window.close();
-              }}
-            />
-          </div>
-        )
+          />
+        </div>
       }
     >
-      <form
-        className={style.formContainer}
-        onSubmit={async (e) => {
-          e.preventDefault();
-
-          if (accountInfo.isReadyToSendMsgs && txStateIsValid) {
-            try {
-              const stdFee = sendConfigs.feeConfig.toStdFee();
-
-              const tx = accountInfo.makeSendTokenTx(
-                sendConfigs.amountConfig.amount,
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                sendConfigs.amountConfig.sendCurrency!,
-                sendConfigs.recipientConfig.recipient
-              );
-
-              await tx.send(
-                stdFee,
-                sendConfigs.memoConfig.memo,
-                {
-                  preferNoSetFee: true,
-                  preferNoSetMemo: true,
-                },
-                {
-                  onBroadcasted: () => {
-                    analyticsStore.logEvent("Send token tx broadcasted", {
-                      chainId: chainStore.current.chainId,
-                      chainName: chainStore.current.chainName,
-                      feeType: sendConfigs.feeConfig.feeType,
-                    });
-                  },
-                }
-              );
-
-              if (!isDetachedPage) {
-                history.replace("/");
-              }
-            } catch (e) {
-              if (!isDetachedPage) {
-                history.replace("/");
-              }
-              notification.push({
-                type: "warning",
-                placement: "top-center",
-                duration: 5,
-                content: `Fail to send token: ${e.message}`,
-                canDelete: true,
-                transition: {
-                  duration: 0.25,
-                },
-              });
-            } finally {
-              // XXX: If the page is in detached state,
-              // close the window without waiting for tx to commit. analytics won't work.
-              if (isDetachedPage) {
-                window.close();
-              }
-            }
-          }
-        }}
-      >
-        <div className={style.formInnerContainer}>
-          <TokensView />
-        </div>
-      </form>
-      <div style={{ height: "70px", color: "transparent" }} />
-      <div className={style.footer}>
-        <div className={style.button} onClick={() => history.replace("/")}>
-          Cancel
-        </div>
+      <div className={style.nftContainer}>
+        {isLoading && (
+          <div className={style.loadingContainer}>
+            <i
+              className="fas fa-spinner fa-spin ml-1"
+              style={{ color: "white" }}
+            />
+          </div>
+        )}
+        {nfts.map((nft, idx) => {
+          return (
+            <div
+              key={idx}
+              className={style.nftTile}
+              style={{
+                backgroundImage: `url(${nft.apiEndpoint}images/${nft.id[0]}.${nft.ext})`,
+              }}
+            >
+              <div className={style.nftName}>
+                {`${nft.name} ${nft.id.length}`}
+              </div>
+            </div>
+          );
+        })}
       </div>
+      {!isLoading && <div style={{ height: "70px", color: "transparent" }} />}
+      <Footer />
     </HeaderLayout>
   );
 });

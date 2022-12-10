@@ -2,8 +2,50 @@
 @import "../../../../../node_modules/argon-dashboard-react/src/assets/scss/argon-dashboard/custom/mixins";
 @import "../../../../../node_modules/argon-dashboard-react/src/assets/scss/argon-dashboard/custom/variables";
 
-.form-container {
-  height: 100%;
+.nftContainer {
+  padding-top: 14px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+}
+
+.nftTile {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 157px;
+  height: 157px;
+  background: #d9d9d9;
+  border-radius: 7px;
+  background-size: cover;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.nftName {
+  position: absolute;
+  width: 140px;
+  bottom: 10px;
+  font-family: "Aeonik";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #ffffff;
+  padding: 2px 16px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 39px;
+  text-align: center;
+  word-break: break-all;
+}
+
+.loadingContainer {
+  width: 336px;
+  height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .form-inner-container {
