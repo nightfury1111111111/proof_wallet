@@ -144,41 +144,49 @@ export const HistoryPage: FunctionComponent = observer(() => {
           <div>
             {tmpHistories.map((hist, idx) => {
               return (
-                <div key={idx} className={style.historyBox}>
-                  <div className={style.icon} />
-                  <div
-                    style={{
-                      width: "250px",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                    }}
-                  >
+                <div key={idx}>
+                  {idx === 0 ? (
+                    <div className={style.date}>{hist.timestamp}</div>
+                  ) : Number(hist.height / 3600) ===
+                    Number(tmpHistories[idx - 1].height / 3600) ? null : (
+                    <div className={style.date}>{hist.timestamp}</div>
+                  )}
+                  <div className={style.historyBox}>
+                    <div className={style.icon} />
                     <div
                       style={{
+                        width: "250px",
                         display: "flex",
+                        flexDirection: "column",
                         justifyContent: "space-between",
                       }}
                     >
-                      <div className={style.activity}>{hist.activity}</div>
                       <div
-                        className={style.amount}
                         style={{
-                          color:
-                            hist.activity === "Received"
-                              ? "#7EFF9B"
-                              : "#E9E4DFs",
+                          display: "flex",
+                          justifyContent: "space-between",
                         }}
-                      >{`${hist.amount} ${hist.denom}`}</div>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <div className={style.address}>
-                        {Bech32Address.shortenAddress(hist.address, 13)}
+                      >
+                        <div className={style.activity}>{hist.activity}</div>
+                        <div
+                          className={style.amount}
+                          style={{
+                            color:
+                              hist.activity === "Received"
+                                ? "#7EFF9B"
+                                : "#E9E4DFs",
+                          }}
+                        >{`${hist.amount} ${hist.denom}`}</div>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <div className={style.address}>
+                          {Bech32Address.shortenAddress(hist.address, 13)}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -187,77 +195,6 @@ export const HistoryPage: FunctionComponent = observer(() => {
             })}
           </div>
         )}
-        {/* {!isLoading && (
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-          >
-            <div
-              style={{
-                width: "280px",
-                position: "relative",
-                display: "flex",
-                alignItems: "center",
-                marginTop: "14px",
-              }}
-            >
-              <Input
-                className={classnames(
-                  "form-control-alternative",
-                  style.searchBox
-                )}
-                placeholder="Search a collectible"
-                value={keyword}
-                onChange={(e) => {
-                  setKeyword(e.target.value);
-                  const availableNfts = nfts.filter((nft) => {
-                    return (
-                      nft.name
-                        .toLowerCase()
-                        .indexOf(e.target.value.toLowerCase()) > -1
-                    );
-                  });
-                  setTmpNfts(availableNfts);
-                  e.preventDefault();
-                }}
-                autoComplete="off"
-              />
-              <img
-                className={style.searchIcon}
-                src={require("../../public/assets/img/search.svg")}
-              />
-            </div>
-            <img
-              className={style.funcBtn}
-              src={require("../../public/assets/img/button.svg")}
-            />
-          </div>
-        )}
-        <div className={style.nftContainer}>
-          {tmpNfts.map((nft, idx) => {
-            return (
-              <div
-                key={idx}
-                className={style.nftTile}
-                style={{
-                  backgroundImage: `url(${nft.apiEndpoint}images/${nft.id[0]}.${nft.ext})`,
-                }}
-                onClick={() => {
-                  setCurrentCollectionIdx(idx);
-                  setPage("nfts");
-                }}
-              >
-                <div className={style.nftName}>
-                  {`${nft.name} ${nft.id.length}`}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        {!isLoading && <div style={{ height: "70px", color: "transparent" }} />} */}
       </div>
       <Footer />
     </HeaderLayout>
