@@ -42,8 +42,15 @@ export const Footer: FunctionComponent = () => {
         }}
       />
       <img
-        src={require("../../public/assets/img/history.svg")}
+        src={
+          location.pathname === "/history"
+            ? require("../../public/assets/img/history-active.svg")
+            : require("../../public/assets/img/history.svg")
+        }
         className={style.footerIcon}
+        onClick={() => {
+          history.push("/history");
+        }}
       />
     </div>
   );

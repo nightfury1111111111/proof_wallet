@@ -52,6 +52,7 @@ import { ExportPage } from "./pages/setting/export";
 import { LedgerGrantPage } from "./pages/ledger";
 import { AddTokenPage } from "./pages/setting/token/add";
 import { ManageTokenPage } from "./pages/setting/token/manage";
+import { HistoryPage } from "./pages/history";
 
 // import * as BackgroundTxResult from "../../background/tx/foreground";
 import { AdditionalIntlMessages, LanguageToFiatCurrency } from "./config.ui";
@@ -262,6 +263,7 @@ ReactDOM.render(
                     path="/setting/autolock"
                     component={SettingAutoLockPage}
                   />
+                  <Route exact path="/history" component={HistoryPage} />
                   <Route path="/sign" component={SignPage} />
                   <Route path="/suggest-chain" component={ChainSuggestedPage} />
                 </LogPageViewWrapper>
