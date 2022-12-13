@@ -1,11 +1,16 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, useEffect, useState, useMemo } from "react";
 import axios from "axios";
+import date from "date-and-time";
 
 import { useStore } from "../../stores";
 
 import { HeaderLayout } from "../../layouts";
 import { Footer } from "../../components/footer";
+import { Hash } from "@proof-wallet/crypto";
 import { Bech32Address } from "@proof-wallet/cosmos";
+import { StoreUtils } from "@proof-wallet/stores";
+import { CoinPretty } from "@proof-wallet/unit";
+import { Currency } from "@proof-wallet/types";
 
 import { observer } from "mobx-react-lite";
 
@@ -18,21 +23,134 @@ export interface History {
   timestamp: Date;
   address: string;
   txHash: string;
-  denom: string;
-  amount: string;
+  balance: CoinPretty;
   activity: string;
 }
 
-// ("https://rest-sei-test.ecostake.com/cosmos/tx/v1beta1/txs?pagination.limit=100&pagination.offset=0&orderBy=ORDER_BY_DESC&events=transfer.sender%3D%27sei18hmgrq5adawcf3fkcznngs5gdwwyadahkl49d2%27&cacheToken=0.871511244630278");
-// ("https://rest-sei-test.ecostake.com/cosmos/tx/v1beta1/txs?pagination.limit=100&pagination.offset=0&orderBy=ORDER_BY_DESC&events=transfer.recipient%3D%27sei18hmgrq5adawcf3fkcznngs5gdwwyadahkl49d2%27&cacheToken=0.6878718713211234");
+const camelize = (str: string) => {
+  console.log(str.substr(-str.length + 1));
+  const newStr: string = str[0].toUpperCase() + str.substr(-str.length + 1);
+  return newStr;
+};
+
+export const HistoryView: FunctionComponent<{
+  history: History;
+  onClick: () => void;
+}> = observer(({ onClick, history }) => {
+  const [backgroundColors] = useState([
+    "#5e72e4",
+    "#11cdef",
+    "#2dce89",
+    "#fb6340",
+  ]);
+
+  const balance = history.balance.trim(true).shrink(true);
+  const name =
+    Object.keys(balance).length > 0
+      ? balance.currency.coinDenom.toUpperCase()
+      : "NFT";
+  const minimalDenom =
+    Object.keys(balance).length > 0 ? balance.currency.coinMinimalDenom : "NFT";
+
+  const backgroundColor = useMemo(() => {
+    if (Object.keys(balance).length === 0) return "#D9D9D9";
+    const hash = Hash.sha256(Buffer.from(minimalDenom));
+    if (hash.length > 0) {
+      return backgroundColors[hash[0] % backgroundColors.length];
+    } else {
+      return backgroundColors[0];
+    }
+  }, [backgroundColors, minimalDenom]);
+
+  return (
+    <div
+      className={style.historyBox}
+      onClick={(e) => {
+        e.preventDefault();
+        onClick();
+      }}
+    >
+      <div className={style.icon} style={{ backgroundColor }}>
+        <img
+          className={style.subIcon}
+          src={
+            history.activity === "Sent"
+              ? require("../../public/assets/img/send.svg")
+              : require("../../public/assets/img/receive.svg")
+          }
+        />
+        {name.length > 0 ? name[0] : "?"}
+      </div>
+      <div
+        style={{
+          width: "250px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <div className={style.activity}>{history.activity}</div>
+          <div
+            className={style.amount}
+            style={{
+              color: history.activity === "Sent" ? "#FFFFFF" : "#7EFF9B",
+            }}
+          >
+            {Object.keys(balance).length === 0
+              ? "NFT"
+              : history.activity === "Sent"
+              ? `- ${balance.maxDecimals(6).toString()}`
+              : `+ ${balance.maxDecimals(6).toString()}`}
+          </div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <img
+              style={{ width: "8.5px", height: "8.5px" }}
+              src={
+                history.activity === "Sent"
+                  ? require("../../public/assets/img/sent.svg")
+                  : require("../../public/assets/img/received.svg")
+              }
+            />
+            <div className={style.address}>
+              {Bech32Address.shortenAddress(history.address, 13)}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+});
 
 export const HistoryPage: FunctionComponent = observer(() => {
   const [isLoading, setIsLoading] = useState(true);
   const [tmpHistories, setTmpHistories] = useState<Array<History>>([]);
+
   const history = useHistory();
 
   const { chainStore, accountStore } = useStore();
   const current = chainStore.current;
+  const currenciesMap = current.currencies.reduce<{
+    [denom: string]: Currency;
+  }>((obj, currency) => {
+    // TODO: Handle the contract tokens.
+    if (!("type" in currency)) {
+      obj[currency.coinMinimalDenom] = currency;
+    }
+    return obj;
+  }, {});
 
   const accountInfo = accountStore.getAccount(current.chainId);
 
@@ -44,21 +162,72 @@ export const HistoryPage: FunctionComponent = observer(() => {
         `https://rest-sei-test.ecostake.com/cosmos/tx/v1beta1/txs?pagination.limit=100&pagination.offset=0&orderBy=ORDER_BY_DESC&events=transfer.sender%3D%27${accountInfo.bech32Address}%27`
       );
       if (result.data.tx_responses.length > 0) {
-        const sendRes: Array<History> = result.data.tx_responses.map(
-          (tx: any) => {
-            const hist: History = {
-              height: tx.height,
-              timestamp: tx.timestamp,
-              address: tx.tx.body.messages[0].to_address,
-              txHash: tx.txhash,
-              denom: tx.tx.body.messages[0].amount[0].denom,
-              amount: tx.tx.body.messages[0].amount[0].amount,
-              activity: "Sent",
-            };
-            return hist;
+        console.log(result.data.tx_responses);
+        result.data.tx_responses.map((tx: any) => {
+          const tmpBalance =
+            tx.tx.body.messages[0]["@type"] ===
+              "/cosmwasm.wasm.v1.MsgExecuteContract" &&
+            tx.tx.body.messages[0].funds.length === 0
+              ? []
+              : StoreUtils.getBalancesFromCurrencies(
+                  currenciesMap,
+                  tx.tx.body.messages[0]["@type"] ===
+                    "/cosmos.bank.v1beta1.MsgSend"
+                    ? [
+                        {
+                          denom: tx.tx.body.messages[0].amount[0].denom,
+                          amount: tx.tx.body.messages[0].amount[0].amount,
+                        },
+                      ]
+                    : tx.tx.body.messages[0]["@type"] ===
+                      "/cosmwasm.wasm.v1.MsgExecuteContract"
+                    ? [
+                        {
+                          denom: tx.tx.body.messages[0].funds[0].denom,
+                          amount: tx.tx.body.messages[0].funds[0].amount,
+                        },
+                      ]
+                    : [
+                        {
+                          denom: tx.tx.body.messages[0].amount[0].denom,
+                          amount: tx.tx.body.messages[0].amount[0].amount,
+                        },
+                      ]
+                );
+          if (tmpBalance.length === 0) return;
+          let balance = tmpBalance[0];
+          const address =
+            tx.tx.body.messages[0]["@type"] === "/cosmos.bank.v1beta1.MsgSend"
+              ? tx.tx.body.messages[0].to_address
+              : tx.tx.body.messages[0]["@type"] ===
+                "/cosmwasm.wasm.v1.MsgExecuteContract"
+              ? tx.tx.body.messages[0].contract
+              : tx.tx.body.messages[0].to_address;
+          if (
+            "originCurrency" in balance.currency &&
+            balance.currency.originCurrency
+          ) {
+            balance = balance.setCurrency(balance.currency.originCurrency);
           }
-        );
-        histories = histories.concat(sendRes);
+          const activity =
+            tx.tx.body.messages[0]["@type"] === "/cosmos.bank.v1beta1.MsgSend"
+              ? "Sent"
+              : tx.tx.body.messages[0]["@type"] ===
+                "/cosmwasm.wasm.v1.MsgExecuteContract"
+              ? camelize(Object.keys(tx.tx.body.messages[0].msg)[0])
+              : "Sent";
+
+          const hist: History = {
+            height: tx.height,
+            timestamp: tx.timestamp,
+            address,
+            txHash: tx.txhash,
+            balance,
+            activity,
+          };
+          histories = histories.concat(hist);
+          return true;
+        });
       }
     };
     const receive = async () => {
@@ -66,27 +235,78 @@ export const HistoryPage: FunctionComponent = observer(() => {
         `https://rest-sei-test.ecostake.com/cosmos/tx/v1beta1/txs?pagination.limit=100&pagination.offset=0&orderBy=ORDER_BY_DESC&events=transfer.recipient%3D%27${accountInfo.bech32Address}%27`
       );
       if (result.data.tx_responses.length > 0) {
-        const receiveRes: Array<History> = result.data.tx_responses.map(
-          (tx: any) => {
-            const hist: History = {
-              height: tx.height,
-              timestamp: tx.timestamp,
-              address: tx.tx.body.messages[0].from_address,
-              txHash: tx.txhash,
-              denom: tx.tx.body.messages[0].amount[0].denom,
-              amount: tx.tx.body.messages[0].amount[0].amount,
-              activity: "Received",
-            };
-            return hist;
+        console.log(result.data.tx_responses);
+        result.data.tx_responses.map((tx: any) => {
+          const tmpBalance =
+            tx.tx.body.messages[0]["@type"] ===
+              "/cosmwasm.wasm.v1.MsgExecuteContract" &&
+            tx.tx.body.messages[0].funds.length === 0
+              ? []
+              : StoreUtils.getBalancesFromCurrencies(
+                  currenciesMap,
+                  tx.tx.body.messages[0]["@type"] ===
+                    "/cosmos.bank.v1beta1.MsgSend"
+                    ? [
+                        {
+                          denom: tx.tx.body.messages[0].amount[0].denom,
+                          amount: tx.tx.body.messages[0].amount[0].amount,
+                        },
+                      ]
+                    : tx.tx.body.messages[0]["@type"] ===
+                      "/cosmwasm.wasm.v1.MsgExecuteContract"
+                    ? [
+                        {
+                          denom: tx.tx.body.messages[0].funds[0].denom,
+                          amount: tx.tx.body.messages[0].funds[0].amount,
+                        },
+                      ]
+                    : [
+                        {
+                          denom: tx.tx.body.messages[0].amount[0].denom,
+                          amount: tx.tx.body.messages[0].amount[0].amount,
+                        },
+                      ]
+                );
+          if (tmpBalance.length === 0) return;
+          let balance = tmpBalance[0];
+          const address =
+            tx.tx.body.messages[0]["@type"] === "/cosmos.bank.v1beta1.MsgSend"
+              ? tx.tx.body.messages[0].from_address
+              : tx.tx.body.messages[0]["@type"] ===
+                "/cosmwasm.wasm.v1.MsgExecuteContract"
+              ? tx.tx.body.messages[0].contract
+              : tx.tx.body.messages[0].from_address;
+          if (
+            "originCurrency" in balance.currency &&
+            balance.currency.originCurrency
+          ) {
+            balance = balance.setCurrency(balance.currency.originCurrency);
           }
-        );
-        histories = histories.concat(receiveRes);
+          const activity =
+            tx.tx.body.messages[0]["@type"] === "/cosmos.bank.v1beta1.MsgSend"
+              ? "Received"
+              : tx.tx.body.messages[0]["@type"] ===
+                "/cosmwasm.wasm.v1.MsgExecuteContract"
+              ? camelize(Object.keys(tx.tx.body.messages[0].msg)[0])
+              : "Received";
+          const hist: History = {
+            height: tx.height,
+            timestamp: tx.timestamp,
+            address,
+            txHash: tx.txhash,
+            balance,
+            activity,
+          };
+          histories = histories.concat(hist);
+          return true;
+        });
       }
     };
     await Promise.all([send(), receive()]);
     histories.sort((a, b) => {
       return b.height - a.height;
     });
+    console.log(histories);
     setTmpHistories(histories);
     setIsLoading(false);
   };
@@ -146,55 +366,32 @@ export const HistoryPage: FunctionComponent = observer(() => {
               return (
                 <div key={idx}>
                   {idx === 0 ? (
-                    <div className={style.date}>{hist.timestamp}</div>
-                  ) : Number(hist.height / 3600) ===
-                    Number(tmpHistories[idx - 1].height / 3600) ? null : (
-                    <div className={style.date}>{hist.timestamp}</div>
-                  )}
-                  <div className={style.historyBox}>
-                    <div className={style.icon} />
-                    <div
-                      style={{
-                        width: "250px",
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <div className={style.activity}>{hist.activity}</div>
-                        <div
-                          className={style.amount}
-                          style={{
-                            color:
-                              hist.activity === "Received"
-                                ? "#7EFF9B"
-                                : "#E9E4DFs",
-                          }}
-                        >{`${hist.amount} ${hist.denom}`}</div>
-                      </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <div className={style.address}>
-                          {Bech32Address.shortenAddress(hist.address, 13)}
-                        </div>
-                      </div>
+                    <div className={style.date}>
+                      {date.format(new Date(hist.timestamp), "YYYY/MM/DD")}
                     </div>
-                  </div>
+                  ) : Math.floor(
+                      Number(new Date(hist.timestamp)) / 86400000
+                    ) ===
+                    Math.floor(
+                      Number(new Date(tmpHistories[idx - 1].timestamp)) /
+                        86400000
+                    ) ? null : (
+                    <div className={style.date}>
+                      {date.format(new Date(hist.timestamp), "YYYY/MM/DD")}
+                    </div>
+                  )}
+                  <HistoryView
+                    history={hist}
+                    onClick={() => {
+                      console.log(idx);
+                    }}
+                  />
                 </div>
               );
             })}
           </div>
         )}
+        {!isLoading && <div style={{ height: "70px", color: "transparent" }} />}
       </div>
       <Footer />
     </HeaderLayout>

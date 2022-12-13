@@ -48,6 +48,7 @@ export const Header: FunctionComponent<Props & LocalProps> = observer(
 
     return (
       <CompHeader
+        // fixed
         left={
           <div className={style.menuContainer}>
             {menuRenderer ? (
