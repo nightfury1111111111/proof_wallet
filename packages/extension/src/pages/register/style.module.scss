@@ -30,7 +30,7 @@ html[data-register-page="true"] {
 .container {
   width: $container-width;
   margin-left: calc(($popup-size-width - $container-width) / 2);
-  background-image: url("../../public/assets/img/Vector.png");
+  background-image: url("../../public/assets/img/grid.png");
   background-size: cover;
 
   &:global(.large) {
@@ -136,7 +136,7 @@ html[data-register-page="true"] {
 
   .new-mnemonic {
     position: relative;
-    font-family: "Roobert";
+    font-family: colfax-web;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;

@@ -53,11 +53,14 @@ export const LockPage: FunctionComponent = observer(() => {
 
   return (
     <EmptyLayout
-      style={{
-        position: "relative",
-        backgroundColor: "#131313",
-        height: "100%",
-      }}
+      // style={{
+      //   position: "relative",
+      //   backgroundColor: "#131313",
+      //   backgroundImage: 'url("../../public/assets/img/grid.png")',
+      //   backgroundSize: "cover",
+      //   height: "100%",
+      // }}
+      className={style.layout}
     >
       <div className={style.header}>
         <div className={style.headerLogo} />

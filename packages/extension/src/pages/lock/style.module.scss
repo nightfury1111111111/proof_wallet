@@ -1,3 +1,11 @@
+.layout {
+  position: relative;
+  background-color: #131313;
+  background-image: url("../../public/assets/img/grid.png");
+  background-size: cover;
+  height: 100%;
+}
+
 .form-container {
   position: relative;
   display: flex;
