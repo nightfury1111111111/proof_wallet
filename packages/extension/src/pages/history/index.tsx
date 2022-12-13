@@ -367,7 +367,7 @@ export const HistoryPage: FunctionComponent = observer(() => {
                 <div key={idx}>
                   {idx === 0 ? (
                     <div className={style.date}>
-                      {date.format(new Date(hist.timestamp), "YYYY/MM/DD")}
+                      {date.format(new Date(hist.timestamp), "MMM DD, YYYY")}
                     </div>
                   ) : Math.floor(
                       Number(new Date(hist.timestamp)) / 86400000
@@ -377,7 +377,7 @@ export const HistoryPage: FunctionComponent = observer(() => {
                         86400000
                     ) ? null : (
                     <div className={style.date}>
-                      {date.format(new Date(hist.timestamp), "YYYY/MM/DD")}
+                      {date.format(new Date(hist.timestamp), "MMM DD, YYYY")}
                     </div>
                   )}
                   <HistoryView
