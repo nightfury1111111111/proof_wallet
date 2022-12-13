@@ -63,7 +63,10 @@ export const LockPage: FunctionComponent = observer(() => {
       className={style.layout}
     >
       <div className={style.header}>
-        <div className={style.headerLogo} />
+        <img
+          className={style.headerLogo}
+          src={require("../../public/assets/img/logo-title.svg")}
+        />
       </div>
       <Form
         className={style.formContainer}
