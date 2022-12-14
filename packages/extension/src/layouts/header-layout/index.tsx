@@ -5,6 +5,7 @@ import { MenuProvider, MenuContext } from "../menu";
 import { Header, Props as HeaderProps } from "../header";
 
 import style from "./style.module.scss";
+import { useLocation } from "react-router";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface Props extends HeaderProps {
@@ -13,6 +14,7 @@ export interface Props extends HeaderProps {
 }
 
 export const HeaderLayout: FunctionComponent<Props> = (props) => {
+  const location = useLocation();
   const { children } = props;
 
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -32,6 +34,7 @@ export const HeaderLayout: FunctionComponent<Props> = (props) => {
   return (
     <MenuProvider value={menuContext}>
       <div className={style.container} style={props.style}>
+        {location.pathname === "/" && <div className={style.gradient} />}
         <Header {...props} isMenuOpen={isMenuOpen} />
         <div className={style.innerContainer} style={props.innerStyle}>
           {children}

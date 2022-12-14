@@ -114,7 +114,7 @@ export const LockPage: FunctionComponent = observer(() => {
             icon={
               uiConfigStore.isBeta
                 ? require("../../public/assets/256.png")
-                : require("../../public/assets/logo-round.png")
+                : require("../../public/assets/logo-round.svg")
             }
             logo={require("../../public/assets/brand-text.png")}
             title="Welcome Back"
