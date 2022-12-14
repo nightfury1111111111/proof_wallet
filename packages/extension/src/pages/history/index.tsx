@@ -49,6 +49,10 @@ export const HistoryView: FunctionComponent<{
     Object.keys(balance).length > 0
       ? balance.currency.coinDenom.toUpperCase()
       : "NFT";
+  const imageUrl =
+    Object.keys(balance.currency).indexOf("coinImageUrl") > -1
+      ? balance.currency.coinImageUrl
+      : "";
   const minimalDenom =
     Object.keys(balance).length > 0 ? balance.currency.coinMinimalDenom : "NFT";
 
@@ -70,17 +74,36 @@ export const HistoryView: FunctionComponent<{
         onClick();
       }}
     >
-      <div className={style.icon} style={{ backgroundColor }}>
-        <img
-          className={style.subIcon}
-          src={
-            history.activity === "Sent"
-              ? require("../../public/assets/img/send.svg")
-              : require("../../public/assets/img/receive.svg")
-          }
-        />
-        {name.length > 0 ? name[0] : "?"}
-      </div>
+      {imageUrl === "" ? (
+        <div className={style.icon} style={{ backgroundColor }}>
+          <img
+            className={style.subIcon}
+            src={
+              history.activity === "Sent"
+                ? require("../../public/assets/img/send.svg")
+                : require("../../public/assets/img/receive.svg")
+            }
+          />
+          {name.length > 0 ? name[0] : "?"}
+        </div>
+      ) : (
+        <div
+          className={style.icon}
+          style={{
+            backgroundImage: `url(${imageUrl})`,
+            backgroundSize: "cover",
+          }}
+        >
+          <img
+            className={style.subIcon}
+            src={
+              history.activity === "Sent"
+                ? require("../../public/assets/img/send.svg")
+                : require("../../public/assets/img/receive.svg")
+            }
+          />
+        </div>
+      )}
       <div
         style={{
           width: "250px",

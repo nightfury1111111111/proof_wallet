@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router";
 
 import classmames from "classnames";
@@ -11,10 +11,32 @@ import style from "./style.module.scss";
 // }
 
 export const Footer: FunctionComponent = () => {
+  const [leftPos, setLeftPos] = useState(10);
   const history = useHistory();
   const location = useLocation();
+  useEffect(() => {
+    switch (location.pathname) {
+      case "/":
+        setLeftPos(10);
+        break;
+      case "/nft":
+        setLeftPos(190);
+        break;
+      case "/history":
+        setLeftPos(280);
+        break;
+      case "/trade":
+        setLeftPos(100);
+        break;
+      default:
+        setLeftPos(10);
+        break;
+    }
+  }, [location]);
+
   return (
     <div className={classmames(style.footerContainer)}>
+      <div className={style.activeEffect} style={{ left: `${leftPos}px` }} />
       <img
         src={
           location.pathname === "/"

@@ -32,6 +32,10 @@ export const TokenView: FunctionComponent<{
   ]);
 
   const name = balance.currency.coinDenom.toUpperCase();
+  const imageUrl =
+    Object.keys(balance.currency).indexOf("coinImageUrl") > -1
+      ? balance.currency.coinImageUrl
+      : "";
   const minimalDenom = balance.currency.coinMinimalDenom;
   let amount = balance.balance.trim(true).shrink(true);
 
@@ -99,25 +103,43 @@ export const TokenView: FunctionComponent<{
         onClick();
       }}
     >
-      <div className={styleToken.icon}>
-        <div
-          style={{
-            width: "100%",
-            height: "100%",
-            borderRadius: "100000px",
-            backgroundColor,
-
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-
-            color: "#FFFFFF",
-            fontSize: "16px",
-          }}
-        >
-          {name.length > 0 ? name[0] : "?"}
+      {imageUrl === "" ? (
+        <div className={styleToken.icon}>
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              borderRadius: "100000px",
+              backgroundColor,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              color: "#FFFFFF",
+              fontSize: "16px",
+            }}
+          >
+            {name.length > 0 ? name[0] : "?"}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className={styleToken.icon}>
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              borderRadius: "100000px",
+              backgroundImage: `url(${imageUrl})`,
+              backgroundSize: "cover",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+
+              color: "#FFFFFF",
+              fontSize: "16px",
+            }}
+          />
+        </div>
+      )}
       <div className={styleToken.innerContainer}>
         <div className={styleToken.content}>
           <div className={styleToken.name}>{name}</div>

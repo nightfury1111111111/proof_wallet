@@ -41,6 +41,10 @@ html {
   overflow: auto;
 }
 
+::-webkit-scrollbar {
+  width: 0;
+}
+
 body {
   width: $popup-size-width;
   height: $popup-size-height;

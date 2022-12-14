@@ -1930,18 +1930,21 @@ export const EmbedChainInfos: ChainInfo[] = [
         coinDenom: "SEI",
         coinMinimalDenom: "usei",
         coinDecimals: 6,
+        coinImageUrl: "https://trade.vortexprotocol.io/images/tokens/SEI.png",
       },
       {
         coinDenom: "USDC",
         coinMinimalDenom: "uusdc",
         coinDecimals: 6,
         coinGeckoId: "usd-coin",
+        coinImageUrl: "https://trade.vortexprotocol.io/images/tokens/USDC.png",
       },
       {
         coinDenom: "ATOM",
         coinMinimalDenom: "uatom",
         coinDecimals: 6,
         coinGeckoId: "cosmos",
+        coinImageUrl: "https://trade.vortexprotocol.io/images/tokens/ATOM.png",
       },
       {
         coinDenom: "WETH",
@@ -1949,6 +1952,7 @@ export const EmbedChainInfos: ChainInfo[] = [
           "ibc/C2A89D98873BB55B62CE86700DFACA646EC80352E8D03CC6CF34DD44E46DC75D",
         coinDecimals: 18,
         coinGeckoId: "weth",
+        coinImageUrl: "https://trade.vortexprotocol.io/images/tokens/WETH.png",
       },
       {
         coinDenom: "WBTC",
@@ -1956,6 +1960,7 @@ export const EmbedChainInfos: ChainInfo[] = [
           "ibc/42BCC21A2B784E813F8878739FD32B4AA2D0A68CAD94F4C88B9EA98609AB0CCD",
         coinDecimals: 8,
         coinGeckoId: "bitcoin",
+        coinImageUrl: "https://trade.vortexprotocol.io/images/tokens/WBTC.png",
       },
       {
         coinDenom: "aUSDC",
@@ -1963,12 +1968,14 @@ export const EmbedChainInfos: ChainInfo[] = [
           "ibc/6D45A5CD1AADE4B527E459025AC1A5AEF41AE99091EF3069F3FEAACAFCECCD21",
         coinDecimals: 6,
         coinGeckoId: "usd-coin",
+        coinImageUrl: "https://trade.vortexprotocol.io/images/tokens/aUSDC.png",
       },
       {
         coinDenom: "UST2",
         coinMinimalDenom:
           "factory/sei1466nf3zuxpya8q9emxukd7vftaf6h4psr0a07srl5zw74zh84yjqpeheyc/uust2",
         coinDecimals: 6,
+        coinImageUrl: "https://trade.vortexprotocol.io/images/tokens/UST2.png",
       },
     ],
     feeCurrencies: [
@@ -1976,12 +1983,14 @@ export const EmbedChainInfos: ChainInfo[] = [
         coinDenom: "SEI",
         coinMinimalDenom: "usei",
         coinDecimals: 6,
+        coinImageUrl: "https://trade.vortexprotocol.io/images/tokens/SEI.png",
       },
     ],
     stakeCurrency: {
       coinDenom: "SEI",
       coinMinimalDenom: "usei",
       coinDecimals: 6,
+      coinImageUrl: "https://trade.vortexprotocol.io/images/tokens/SEI.png",
     },
     coinType: 118,
     features: ["stargate", "ibc-transfer", "cosmwasm"],

@@ -11,10 +11,22 @@
   align-items: center;
   justify-content: space-around;
   box-shadow: inset 0px 1px 0px #393939;
+  overflow: hidden;
 }
 
 .footerIcon {
   width: 28px;
   height: 28px;
   cursor: pointer;
+}
+
+.activeEffect {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  top: -52px;
+
+  background: #ffd48a;
+  opacity: 0.3;
+  filter: blur(25px);
 }

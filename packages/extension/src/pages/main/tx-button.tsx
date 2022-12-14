@@ -89,6 +89,18 @@ export const TxButtonView: FunctionComponent = observer(() => {
       >
         <FormattedMessage id="main.account.button.deposit" />
       </Button>
+      <Button
+        className={styleTxButton.txButton}
+        // color="primary"
+        // outline
+        onClick={(e) => {
+          e.preventDefault();
+
+          // setIsDepositOpen(true);
+        }}
+      >
+        Buy
+      </Button>
       {/*
         "Disabled" property in button tag will block the mouse enter/leave events.
         So, tooltip will not work as expected.
