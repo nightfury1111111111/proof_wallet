@@ -23,21 +23,21 @@
 #notification-top-right {
   @include notification;
 
-  top: 0;
+  top: 40px;
   right: 0;
 }
 
 #notification-top-left {
   @include notification;
 
-  top: 0;
+  top: 40px;
   left: 0;
 }
 
 #notification-top-center {
   @include notification;
 
-  top: 0;
+  top: 40px;
   left: 50%;
 
   transform: translateX(-50%);

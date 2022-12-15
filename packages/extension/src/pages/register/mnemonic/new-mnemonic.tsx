@@ -295,9 +295,12 @@ export const GenerateMnemonicModePage: FunctionComponent<{
           <div className={style.gridContainer}>
             {words.map((word, idx) => {
               return (
-                <div key={idx} className={style.word}>{`${
-                  idx + 1
-                }. ${word}`}</div>
+                <div key={idx} className={style.word}>
+                  <div style={{ color: "#959595", width: "21px" }}>{`${
+                    idx + 1
+                  }.`}</div>
+                  <div style={{ color: "#E9E4DF" }}>{word}</div>
+                </div>
               );
             })}
           </div>
@@ -312,9 +315,9 @@ export const GenerateMnemonicModePage: FunctionComponent<{
                 navigator.clipboard.writeText(newMnemonicConfig.mnemonic);
               }}
             >
-              <i
-                className="fas fa-light fa-copy"
-                style={{ color: "#FFDC8B" }}
+              <img
+                style={{ width: "14.4px", height: "16px" }}
+                src={require("../../../public/assets/img/copy.svg")}
               />
               <div style={{ marginLeft: "7px" }}>Copy</div>
             </div>
@@ -343,9 +346,9 @@ export const GenerateMnemonicModePage: FunctionComponent<{
                 URL.revokeObjectURL(link.href);
               }}
             >
-              <i
-                className="fas fa-light fa-download"
-                style={{ color: "#FFDC8B" }}
+              <img
+                style={{ width: "14.4px", height: "16px" }}
+                src={require("../../../public/assets/img/download.svg")}
               />
               <div style={{ marginLeft: "7px" }}>Download</div>
             </div>
@@ -413,9 +416,6 @@ export const GenerateMnemonicModePage: FunctionComponent<{
           type="submit"
           block
           size="lg"
-          style={{
-            marginTop: "30px",
-          }}
           onClick={async (e) => {
             e.preventDefault();
 

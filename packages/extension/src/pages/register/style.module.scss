@@ -174,9 +174,15 @@ html[data-register-page="true"] {
     border: 1px solid #323232;
     border-radius: 8px;
     display: flex;
-    justify-content: center;
+    // justify-content: center;
+    padding-left: 14px;
     align-items: center;
     margin-bottom: 10px;
+    font-size: 14px;
+    font-family: colfax-web;
+    line-height: 17px;
+    font-weight: 400;
+    letter-spacing: 0.003em;
   }
 
   .mnemonic {
