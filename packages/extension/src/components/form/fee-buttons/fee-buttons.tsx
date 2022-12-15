@@ -479,7 +479,6 @@ export const FeeButtonsInner: FunctionComponent<
               feeButtonState.setIsGasInputOpen(!feeButtonState.isGasInputOpen);
             }}
           >
-            {/* XXX: In fact, it is not only set gas, but fee currency can also be set depending on the option. */}
             {!feeButtonState.isGasInputOpen
               ? intl.formatMessage({
                   id: "input.fee.toggle.set-gas",

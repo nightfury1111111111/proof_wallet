@@ -185,7 +185,6 @@ export const HistoryPage: FunctionComponent = observer(() => {
         `https://rest-sei-test.ecostake.com/cosmos/tx/v1beta1/txs?pagination.limit=100&pagination.offset=0&orderBy=ORDER_BY_DESC&events=transfer.sender%3D%27${accountInfo.bech32Address}%27`
       );
       if (result.data.tx_responses.length > 0) {
-        console.log(result.data.tx_responses);
         result.data.tx_responses.map((tx: any) => {
           const tmpBalance =
             tx.tx.body.messages[0]["@type"] ===

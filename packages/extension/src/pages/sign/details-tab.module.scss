@@ -11,15 +11,37 @@
 }
 
 .msg-container {
+  font-family: colfax-web;
   height: 310px;
   background: #1d1d1d;
   box-shadow: inset 0px 1px 0px rgba(67, 67, 67, 0.75);
   border-radius: 5px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
   overflow: auto;
+
+  .tokenIcon {
+    position: relative;
+    width: 65px;
+    height: 65px;
+    border-radius: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+  }
+
+  .subIcon {
+    position: absolute;
+    top: 2px;
+    right: -4px;
+    width: 20px;
+    height: 20px;
+    background-size: cover;
+  }
 
   hr {
     margin: 8px 0;
@@ -84,6 +106,7 @@
 }
 
 .feeContainer {
+  font-family: colfax-web;
   margin-top: 13px;
   display: flex;
   justify-content: space-between;

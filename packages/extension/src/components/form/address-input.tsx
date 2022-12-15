@@ -6,8 +6,8 @@ import {
   FormFeedback,
   ModalBody,
   Modal,
-  InputGroup,
-  Button,
+  // InputGroup,
+  // Button,
   FormText,
 } from "reactstrap";
 import { AddressBookPage } from "../../pages/setting/address-book";
@@ -134,7 +134,7 @@ export const AddressInput: FunctionComponent<AddressInputProps> = observer(
               {label}
             </Label>
           ) : null}
-          <InputGroup>
+          <div className={styleAddressInput.inputGroup}>
             <Input
               id={inputId}
               className={classnames(
@@ -151,18 +151,21 @@ export const AddressInput: FunctionComponent<AddressInputProps> = observer(
               disabled={disabled}
             />
             {!disableAddressBook && memoConfig ? (
-              <Button
+              <div
                 className={styleAddressInput.addressBookButton}
-                color="primary"
-                type="button"
-                outline
                 onClick={() => setIsAddressBookOpen(true)}
-                disabled={disabled}
               >
-                <i className="fas fa-address-book" />
-              </Button>
+                <img
+                  style={{
+                    width: "26px",
+                    height: "26px",
+                    borderRadius: "50px",
+                  }}
+                  src={require("../../public/assets/img/address.svg")}
+                />
+              </div>
             ) : null}
-          </InputGroup>
+          </div>
           {isENSLoading ? (
             <FormText>
               <i className="fa fa-spinner fa-spin fa-fw" />

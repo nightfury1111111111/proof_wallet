@@ -4,16 +4,25 @@
 
 .input {
   // box-shadow: $input-alternative-box-shadow !important;
-  background: rgba(0, 0, 0, 0.2);
+  height: 52px;
+  background: rgb(0, 0, 0, 0.2);
+  padding-left: 23px;
+  padding-right: 105px;
   border: 1px solid #323232;
+  color: #696969;
   border-radius: 8px;
+  font-size: 16px;
+  line-height: 19px;
 
   &:focus {
-    box-shadow: $input-focus-alternative-box-shadow !important;
+    // box-shadow: $input-focus-alternative-box-shadow !important;
 
-    & + .select {
-      box-shadow: $input-focus-alternative-box-shadow !important;
-    }
+    // & + .select {
+    //   box-shadow: $input-focus-alternative-box-shadow !important;
+    // }
+    background: rgb(0, 0, 0, 0.2);
+    border: 1px solid #323232;
+    color: #696969;
   }
 }
 
@@ -82,4 +91,33 @@
       color: white;
     }
   }
+}
+
+.inputGroup {
+  position: relative;
+}
+
+.maxButtonGroup {
+  position: absolute;
+  top: 16px;
+  right: 17px;
+  display: flex;
+  align-items: center;
+  height: 20px;
+}
+
+.maxButton {
+  width: 52px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 17px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 17px;
+  color: #696969;
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 600;
+  cursor: pointer;
 }

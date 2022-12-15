@@ -16,26 +16,33 @@
   }
 }
 
+.inputGroup {
+  position: relative;
+}
+
 .input {
   // box-shadow: $input-alternative-box-shadow !important;
+  height: 52px;
+  padding-left: 17px;
+  padding-right: 60px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid #323232;
   border-radius: 8px;
+  color: #696969;
+  font-weight: 400;
 
   &:focus {
-    box-shadow: $input-focus-alternative-box-shadow !important;
+    // box-shadow: $input-focus-alternative-box-shadow !important;
+    background: rgba(0, 0, 0, 0.2);
+    color: #696969;
+    border: 1px solid #323232;
   }
 }
 
 .address-book-button {
-  background: white;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  border-width: 0;
-
-  box-shadow: $input-alternative-box-shadow !important;
-
-  &:hover {
-    box-shadow: $input-focus-alternative-box-shadow !important;
-  }
+  position: absolute;
+  background: transparent;
+  top: 13px;
+  right: 22px;
+  cursor: pointer;
 }

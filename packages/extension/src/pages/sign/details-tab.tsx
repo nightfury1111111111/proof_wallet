@@ -1,7 +1,8 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState, useMemo } from "react";
 
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../stores";
+import { Hash } from "@proof-wallet/crypto";
 
 import styleDetailsTab from "./details-tab.module.scss";
 
@@ -20,6 +21,8 @@ import { Button } from "reactstrap";
 import { renderDirectMessage } from "./direct";
 import { AnyWithUnpacked } from "@proof-wallet/cosmos";
 import { CoinPretty } from "@proof-wallet/unit";
+import { Currency } from "@proof-wallet/types";
+import { StoreUtils } from "@proof-wallet/stores";
 
 export const DetailsTab: FunctionComponent<{
   signDocHelper: SignDocHelper;
@@ -44,7 +47,25 @@ export const DetailsTab: FunctionComponent<{
     // preferNoSetMemo,
     isNeedLedgerEthBlindSigning,
   }) => {
+    const [backgroundColors] = useState([
+      "#5e72e4",
+      "#11cdef",
+      "#2dce89",
+      "#fb6340",
+    ]);
+
     const { chainStore, priceStore, accountStore } = useStore();
+    const current = chainStore.current;
+    const currenciesMap = current.currencies.reduce<{
+      [denom: string]: Currency;
+    }>((obj, currency) => {
+      // TODO: Handle the contract tokens.
+      if (!("type" in currency)) {
+        obj[currency.coinMinimalDenom] = currency;
+      }
+      return obj;
+    }, {});
+
     const intl = useIntl();
     const language = useLanguage();
 
@@ -56,6 +77,35 @@ export const DetailsTab: FunctionComponent<{
         ? signDocHelper.signDocWrapper.aminoSignDoc.msgs
         : signDocHelper.signDocWrapper.protoSignDoc.txMsgs
       : [];
+
+    const currentCoin = StoreUtils.getBalancesFromCurrencies(
+      currenciesMap,
+      msgs[0].value.amount
+    );
+
+    const balance = currentCoin[0].trim(true).shrink(true);
+    const name =
+      Object.keys(balance).length > 0
+        ? balance.currency.coinDenom.toUpperCase()
+        : "NFT";
+    const imageUrl =
+      Object.keys(balance.currency).indexOf("coinImageUrl") > -1
+        ? balance.currency.coinImageUrl
+        : "";
+    const minimalDenom =
+      Object.keys(balance).length > 0
+        ? balance.currency.coinMinimalDenom
+        : "NFT";
+
+    const backgroundColor = useMemo(() => {
+      if (Object.keys(balance).length === 0) return "#D9D9D9";
+      const hash = Hash.sha256(Buffer.from(minimalDenom));
+      if (hash.length > 0) {
+        return backgroundColors[hash[0] % backgroundColors.length];
+      } else {
+        return backgroundColors[0];
+      }
+    }, [backgroundColors, minimalDenom]);
 
     const renderedMsgs = (() => {
       if (mode === "amino") {
@@ -109,6 +159,31 @@ export const DetailsTab: FunctionComponent<{
           </Badge>
         </Label> */}
         <div id="signing-messages" className={styleDetailsTab.msgContainer}>
+          {imageUrl === "" ? (
+            <div
+              className={styleDetailsTab.tokenIcon}
+              style={{ backgroundColor }}
+            >
+              <img
+                className={styleDetailsTab.subIcon}
+                src={require("../../public/assets/img/send.svg")}
+              />
+              {name.length > 0 ? name[0] : "?"}
+            </div>
+          ) : (
+            <div
+              className={styleDetailsTab.tokenIcon}
+              style={{
+                backgroundImage: `url(${imageUrl})`,
+                backgroundSize: "cover",
+              }}
+            >
+              <img
+                className={styleDetailsTab.subIcon}
+                src={require("../../public/assets/img/send.svg")}
+              />
+            </div>
+          )}
           {renderedMsgs}
         </div>
         {/* <div style={{ flex: 1 }} /> */}

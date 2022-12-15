@@ -186,7 +186,6 @@ export function renderMsgSend(
   for (const coinPrimitive of amount) {
     const coin = new Coin(coinPrimitive.denom, coinPrimitive.amount);
     const parsed = CoinUtils.parseDecAndDenomFromCoin(currencies, coin);
-    console.log(coin, parsed);
 
     receives.push({
       amount: clearDecimals(parsed.amount),
@@ -222,6 +221,7 @@ export function renderMsgSend(
         <div
           style={{
             width: "223px",
+            fontWeight: 600,
             textAlign: "center",
             fontSize: "20px",
             color: "white",

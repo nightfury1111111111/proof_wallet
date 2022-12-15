@@ -10,7 +10,7 @@ import { useStore } from "../../stores";
 import classnames from "classnames";
 import { DataTab } from "./data-tab";
 import { DetailsTab } from "./details-tab";
-import { FormattedMessage, useIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 
 import { useHistory } from "react-router";
 import { observer } from "mobx-react-lite";
@@ -37,7 +37,7 @@ export const SignPage: FunctionComponent = observer(() => {
 
   const [tab] = useState<Tab>(Tab.Details);
 
-  const intl = useIntl();
+  // const intl = useIntl();
 
   const {
     chainStore,
@@ -359,9 +359,10 @@ export const SignPage: FunctionComponent = observer(() => {
                     }}
                     outline
                   >
-                    {intl.formatMessage({
+                    {/* {intl.formatMessage({
                       id: "sign.button.reject",
-                    })}
+                    })} */}
+                    Cancel
                   </Button>
                   <Button
                     className={style.buttonActive}
@@ -389,9 +390,10 @@ export const SignPage: FunctionComponent = observer(() => {
                       }
                     }}
                   >
-                    {intl.formatMessage({
+                    {/* {intl.formatMessage({
                       id: "sign.button.approve",
-                    })}
+                    })} */}
+                    Send
                   </Button>
                 </React.Fragment>
               )}

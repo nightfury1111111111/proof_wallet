@@ -150,7 +150,7 @@ export const CoinInput: FunctionComponent<CoinInputProps> = observer(
             <Label
               for={`input-${randomId}`}
               className="form-control-label"
-              style={{ display: "flex" }}
+              style={{ display: "flex", fontWeight: 500 }}
             >
               <div style={{ color: "#959595", fontSize: "14px" }}>{label}</div>
               {!disableAllBalance ? (
@@ -173,30 +173,56 @@ export const CoinInput: FunctionComponent<CoinInputProps> = observer(
               ) : null}
             </Label>
           ) : null}
-          <Input
-            className={classnames(
-              "form-control-alternative",
-              styleCoinInput.input
-            )}
-            id={`input-${randomId}`}
-            type="number"
-            value={amountConfig.amount}
-            onChange={(e) => {
-              e.preventDefault();
+          <div className={styleCoinInput.inputGroup}>
+            <Input
+              className={classnames(
+                "form-control-alternative",
+                styleCoinInput.input
+              )}
+              placeholder="0.00"
+              id={`input-${randomId}`}
+              type="number"
+              value={amountConfig.amount}
+              onChange={(e) => {
+                e.preventDefault();
 
-              amountConfig.setAmount(e.target.value);
-            }}
-            step={new Dec(1)
-              .quo(
-                DecUtils.getPrecisionDec(
-                  amountConfig.sendCurrency?.coinDecimals ?? 0
+                amountConfig.setAmount(e.target.value);
+              }}
+              step={new Dec(1)
+                .quo(
+                  DecUtils.getPrecisionDec(
+                    amountConfig.sendCurrency?.coinDecimals ?? 0
+                  )
                 )
-              )
-              .toString(amountConfig.sendCurrency?.coinDecimals ?? 0)}
-            min={0}
-            disabled={amountConfig.isMax}
-            autoComplete="off"
-          />
+                .toString(amountConfig.sendCurrency?.coinDecimals ?? 0)}
+              min={0}
+              // disabled={amountConfig.isMax}
+              autoComplete="off"
+            />
+            <div className={styleCoinInput.maxButtonGroup}>
+              <div
+                style={{
+                  color: "#696969",
+                  fontWeight: 400,
+                  fontSize: "16px",
+                  lineHeight: "19px",
+                  letterSpacing: "0.5px",
+                }}
+              >
+                {balance.currency.coinDenom}
+              </div>
+              <div
+                className={styleCoinInput.maxButton}
+                onClick={(e) => {
+                  e.preventDefault();
+
+                  amountConfig.toggleIsMax();
+                }}
+              >
+                MAX
+              </div>
+            </div>
+          </div>
           {errorText != null ? (
             <FormFeedback style={{ display: "block" }}>
               {errorText}
