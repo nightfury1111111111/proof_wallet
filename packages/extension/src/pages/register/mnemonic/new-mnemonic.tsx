@@ -57,7 +57,7 @@ export const NewMnemonicIntro: FunctionComponent<{
           alignItems: "center",
         }}
       >
-        <i className="fas fa-solid fa-plus" />
+        <i className="fas fa-solid fa-plus" style={{ color: "#FFD48A" }} />
       </div>
       <FormattedMessage id="register.intro.button.new-account.title" />
     </Button>
@@ -312,7 +312,10 @@ export const GenerateMnemonicModePage: FunctionComponent<{
                 navigator.clipboard.writeText(newMnemonicConfig.mnemonic);
               }}
             >
-              <i className="fas fa-light fa-copy" />
+              <i
+                className="fas fa-light fa-copy"
+                style={{ color: "#FFDC8B" }}
+              />
               <div style={{ marginLeft: "7px" }}>Copy</div>
             </div>
             <div
@@ -340,7 +343,10 @@ export const GenerateMnemonicModePage: FunctionComponent<{
                 URL.revokeObjectURL(link.href);
               }}
             >
-              <i className="fas fa-light fa-download" />
+              <i
+                className="fas fa-light fa-download"
+                style={{ color: "#FFDC8B" }}
+              />
               <div style={{ marginLeft: "7px" }}>Download</div>
             </div>
           </div>

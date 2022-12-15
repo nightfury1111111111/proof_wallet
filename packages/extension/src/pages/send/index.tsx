@@ -10,6 +10,7 @@ import { useStore } from "../../stores";
 import { HeaderLayout } from "../../layouts";
 import { TokenView } from "../main/token";
 import { FeeButtons } from "../../components/form";
+import { Menu } from "../main/menu";
 
 import { observer } from "mobx-react-lite";
 
@@ -215,16 +216,9 @@ export const SendPage: FunctionComponent = observer(() => {
 
   return (
     <HeaderLayout
-      showChainName
       canChangeChainInfo={false}
-      style={{ height: "auto", minHeight: "100%" }}
-      onBackButton={
-        isDetachedPage
-          ? undefined
-          : () => {
-              history.goBack();
-            }
-      }
+      showChainName
+      menuRenderer={<Menu />}
       rightRenderer={
         isDetachedPage ? undefined : (
           <div

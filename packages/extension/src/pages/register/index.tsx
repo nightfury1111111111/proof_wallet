@@ -89,7 +89,7 @@ export const RegisterPage: FunctionComponent = observer(() => {
       })}
       style={{
         height: "100%",
-        backgroundColor: "rgb(19, 19, 19, 0.9)",
+        backgroundColor: "#131313",
         padding: 0,
       }}
     >
@@ -104,12 +104,12 @@ export const RegisterPage: FunctionComponent = observer(() => {
               className={style.icon}
               src={
                 uiConfigStore.isBeta
-                  ? require("../../public/assets/logo-beta-256.png")
-                  : require("../../public/assets/256.png")
+                  ? require("../../public/assets/img/logo-title.svg")
+                  : require("../../public/assets/img/logo-title.svg")
               }
               alt="logo"
             />
-            <div className={style.brandText}>Proof Wallet</div>
+            {/* <div className={style.brandText}>Proof Wallet</div> */}
           </div>
         </div>
       )}
@@ -125,12 +125,12 @@ export const RegisterPage: FunctionComponent = observer(() => {
               className={style.icon}
               src={
                 uiConfigStore.isBeta
-                  ? require("../../public/assets/logo-beta-256.png")
-                  : require("../../public/assets/256.png")
+                  ? require("../../public/assets/img/logo-title.svg")
+                  : require("../../public/assets/img/logo-title.svg")
               }
               alt="logo"
             />
-            <div className={style.brandText}>Proof Wallet</div>
+            {/* <div className={style.brandText}>Proof Wallet</div> */}
           </div>
           <div className={style.introBrandSubTextContainer}>
             The best way to experience your Defi & NFTs

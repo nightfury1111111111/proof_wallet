@@ -192,10 +192,12 @@ export const ManageNftPage: FunctionComponent = observer(() => {
                   src={require("../../public/assets/img/search.svg")}
                 />
               </div>
-              <img
-                className={style.funcBtn}
-                src={require("../../public/assets/img/button.svg")}
-              />
+              <div className={style.funcBtn}>
+                <img
+                  style={{ width: "43px", height: "43px" }}
+                  src={require("../../public/assets/img/button.svg")}
+                />
+              </div>
             </div>
           )}
           <div className={style.nftContainer}>
@@ -213,7 +215,10 @@ export const ManageNftPage: FunctionComponent = observer(() => {
                   }}
                 >
                   <div className={style.nftName}>
-                    {`${nft.name} ${nft.id.length}`}
+                    <span>{nft.name}</span>
+                    <span style={{ marginLeft: "7px", opacity: "0.8" }}>
+                      {nft.id.length}
+                    </span>
                   </div>
                 </div>
               );
@@ -250,7 +255,7 @@ export const ManageNftPage: FunctionComponent = observer(() => {
                     setPage("nfts");
                   }}
                 >
-                  <div className={style.nftName}>{nft}</div>
+                  <div className={style.nftName}>{`# ${nft}`}</div>
                 </div>
               );
             })}

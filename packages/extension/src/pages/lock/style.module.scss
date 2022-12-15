@@ -31,6 +31,7 @@
   color: #696969;
   &:focus {
     background: rgba(0, 0, 0, 0.2);
+    border: 1px solid #323232 !important;
     color: #696969;
   }
 }
@@ -39,9 +40,11 @@
   position: absolute;
   left: 0;
   bottom: 0;
+  height: 38px;
   background: linear-gradient(180deg, #ffdf8b 0%, #ffc989 100%);
   box-shadow: inset 0px 1px 0px #fff9ef;
   border-radius: 35px;
+  border: none !important;
   font-family: colfax-web;
   font-style: normal;
   font-weight: 500;

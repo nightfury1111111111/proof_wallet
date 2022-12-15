@@ -3,7 +3,7 @@ import React, { forwardRef, useState } from "react";
 import classnames from "classnames";
 
 import {
-  FormFeedback,
+  // FormFeedback,
   FormGroup,
   FormText,
   InputGroup,
@@ -83,8 +83,22 @@ export const Input = forwardRef<
         />
         {append}
       </InputGroup>
-      {error ? (
+      {/* {error ? (
         <FormFeedback style={{ display: "block" }}>{error}</FormFeedback>
+      ) : text ? (
+        <FormText>{text}</FormText>
+      ) : null} */}
+      {error ? (
+        <span
+          style={{
+            width: "100%",
+            marginTop: "0.25rem",
+            fontSize: "80%",
+            color: "#fb6340",
+          }}
+        >
+          {error}
+        </span>
       ) : text ? (
         <FormText>{text}</FormText>
       ) : null}

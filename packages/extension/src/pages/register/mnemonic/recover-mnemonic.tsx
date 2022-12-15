@@ -1,11 +1,11 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState, useRef } from "react";
 
 import {
   Button,
-  ButtonDropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
+  // ButtonDropdown,
+  // DropdownItem,
+  // DropdownMenu,
+  // DropdownToggle,
   Form,
 } from "reactstrap";
 
@@ -22,6 +22,7 @@ import { useBIP44Option } from "../advanced-bip44";
 import { Buffer } from "buffer/";
 import { useStore } from "../../../stores";
 import classnames from "classnames";
+import { useOutsideClick } from "../../../utils/use-outside-click";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const bip39 = require("bip39");
@@ -96,7 +97,10 @@ export const RecoverMnemonicIntro: FunctionComponent<{
           alignItems: "center",
         }}
       >
-        <i className="fas fa-solid fa-arrow-down" />
+        <i
+          className="fas fa-solid fa-arrow-down"
+          style={{ color: "#FFD48A" }}
+        />
       </div>
       <FormattedMessage id="register.intro.button.import-account.title" />
     </Button>
@@ -276,6 +280,11 @@ export const RecoverMnemonicPage: FunctionComponent<{
     }
   };
 
+  const ref = useRef<HTMLHeadingElement>(null);
+  useOutsideClick(ref, () => {
+    setShowDropdown(false);
+  });
+
   return (
     <React.Fragment>
       <div className={styleRecoverMnemonic.container}>
@@ -299,12 +308,16 @@ export const RecoverMnemonicPage: FunctionComponent<{
                 : "Enter your recovery phrase"}
               <div style={{ flex: 1 }} />
               <div>
-                <ButtonDropdown
+                {/* <ButtonDropdown
                   className={styleRecoverMnemonic.dropdown}
                   isOpen={showDropdown}
                   toggle={() => setShowDropdown((value) => !value)}
                 >
-                  <DropdownToggle style={{ padding: "3px 10px" }} caret>
+                  <DropdownToggle
+                    color="none"
+                    className={styleRecoverMnemonic.dropdownToggle}
+                    caret
+                  >
                     {seedTypeToParagraph(seedType)}
                   </DropdownToggle>
                   <DropdownMenu>
@@ -318,16 +331,6 @@ export const RecoverMnemonicPage: FunctionComponent<{
                     >
                       {seedTypeToParagraph(SeedType.WORDS12)}
                     </DropdownItem>
-                    {/* <DropdownItem
-                  active={seedType === SeedType.WORDS24}
-                  onClick={(e) => {
-                    e.preventDefault();
-
-                    setSeedType(SeedType.WORDS24);
-                  }}
-                >
-                  {seedTypeToParagraph(SeedType.WORDS24)}
-                </DropdownItem> */}
                     <DropdownItem
                       active={seedType === SeedType.PRIVATE_KEY}
                       onClick={(e) => {
@@ -339,7 +342,95 @@ export const RecoverMnemonicPage: FunctionComponent<{
                       {seedTypeToParagraph(SeedType.PRIVATE_KEY)}
                     </DropdownItem>
                   </DropdownMenu>
-                </ButtonDropdown>
+                </ButtonDropdown> */}
+                <div
+                  ref={ref}
+                  className={styleRecoverMnemonic.dropdown}
+                  // isOpen={showDropdown}
+                >
+                  <div
+                    className={styleRecoverMnemonic.dropdownButton}
+                    style={
+                      showDropdown
+                        ? {
+                            background:
+                              "linear-gradient(180deg, #1F1F1F 0%, #3D372E 100%)",
+                            color: "#FFD48A",
+                          }
+                        : {}
+                    }
+                    onClick={() => setShowDropdown((value) => !value)}
+                  >
+                    {seedTypeToParagraph(seedType)}
+                    <div
+                      className={styleRecoverMnemonic.caret}
+                      style={
+                        showDropdown
+                          ? {
+                              background: "rgb(255, 212, 138, 0.1)",
+                            }
+                          : {}
+                      }
+                    >
+                      {showDropdown ? (
+                        <i
+                          className="fas fa-duotone fa-angle-up"
+                          style={{
+                            marginLeft: "1.5px",
+                            color: "#FFD48A",
+                          }}
+                        />
+                      ) : (
+                        <i
+                          className="fas fa-duotone fa-angle-down"
+                          style={{
+                            marginLeft: "1.5px",
+                          }}
+                        />
+                      )}
+                    </div>
+                  </div>
+                  {showDropdown && (
+                    <div className={styleRecoverMnemonic.dropdownItemContainer}>
+                      <div
+                        className={styleRecoverMnemonic.dropdownItem}
+                        style={
+                          seedType === SeedType.WORDS12
+                            ? {
+                                background: "rgb(255, 212, 138, 0.1)",
+                                color: "#FFD48A",
+                              }
+                            : {}
+                        }
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setShowDropdown(false);
+                          setSeedType(SeedType.WORDS12);
+                        }}
+                      >
+                        {seedTypeToParagraph(SeedType.WORDS12)}
+                      </div>
+                      <div
+                        className={styleRecoverMnemonic.dropdownItem}
+                        style={
+                          seedType === SeedType.PRIVATE_KEY
+                            ? {
+                                background: "rgb(255, 212, 138, 0.1)",
+                                color: "#FFD48A",
+                              }
+                            : {}
+                        }
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setShowDropdown(false);
+                          setSeedType(SeedType.PRIVATE_KEY);
+                        }}
+                      >
+                        {seedTypeToParagraph(SeedType.PRIVATE_KEY)}
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
             <Form

@@ -65,7 +65,7 @@ html[data-register-page="true"] {
       }
 
       .icon {
-        width: 31px;
+        width: 263px;
         height: 31px;
       }
 
@@ -96,7 +96,7 @@ html[data-register-page="true"] {
       }
 
       .icon {
-        width: 31px;
+        width: 263px;
         height: 31px;
       }
 
@@ -291,6 +291,11 @@ html[data-register-page="true"] {
   line-height: 19px;
   letter-spacing: 0.5px;
   color: #696969;
+  &:focus {
+    background: rgba(0, 0, 0, 0.2);
+    color: #696969;
+    border: 1px solid #323232 !important;
+  }
 }
 
 .nextBtn {
@@ -300,11 +305,12 @@ html[data-register-page="true"] {
   border-radius: 35px;
   font-family: colfax-web;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 16px;
   line-height: 19px;
   display: flex;
   justify-content: center;
   align-items: center;
   color: #141414;
+  border: none !important;
 }

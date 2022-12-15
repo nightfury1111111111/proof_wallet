@@ -13,7 +13,8 @@
 .nftTile {
   position: relative;
   display: flex;
-  justify-content: center;
+  // justify-content: center;
+  padding-left: 9px;
   width: 157px;
   height: 157px;
   background: #d9d9d9;
@@ -25,7 +26,7 @@
 
 .nftName {
   position: absolute;
-  width: 140px;
+  max-width: 140px;
   bottom: 10px;
   font-family: colfax-web;
   font-style: normal;
@@ -51,10 +52,17 @@
 .searchBox {
   width: 100%;
   height: 43px;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgb(0, 0, 0, 0.2);
   border: 1px solid #323232;
+  color: #696969;
   border-radius: 5px;
   padding-right: 60px;
+
+  &:focus {
+    background: rgb(0, 0, 0, 0.2);
+    color: #696969;
+    border: 1px solid #323232;
+  }
 }
 
 .searchIcon {
@@ -62,7 +70,7 @@
   height: 20px;
   background-size: cover;
   position: absolute;
-  right: 27px;
+  right: 17px;
 }
 
 .funcBtn {
@@ -70,7 +78,8 @@
   width: 43px;
   height: 43px;
   border-radius: 50px;
-  background: #393939;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0px 1.13158px 0px #393939;
   background-size: cover;
   cursor: pointer;
 }
