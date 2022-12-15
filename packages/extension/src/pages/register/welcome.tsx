@@ -1,11 +1,19 @@
 import React, { FunctionComponent } from "react";
+import Lottie from "react-lottie";
 
 import styleWelcome from "./welcome.module.scss";
 import { Button } from "reactstrap";
 
-// import { useIntl } from "react-intl";
-
 export const WelcomePage: FunctionComponent = () => {
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: require("../../public/assets/onboard-animation.json"),
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
   // const intl = useIntl();
 
   return (
@@ -17,20 +25,13 @@ export const WelcomePage: FunctionComponent = () => {
         alignItems: "center",
       }}
     >
-      {/* <div className={styleWelcome.title}>
-        {intl.formatMessage({
-          id: "register.welcome.title",
-        })}
-      </div> */}
-      <div className={styleWelcome.imagePad} />
-      <div className={styleWelcome.content}>
-        {/* {intl.formatMessage({
-          id: "register.welcome.content",
-        })} */}
-        Your wallet is ready
+      {/* <div className={styleWelcome.imagePad} /> */}
+      <Lottie options={defaultOptions} height={230} width={424.82} />
+      <div className={styleWelcome.content}>Your wallet is ready</div>
+      <div className={styleWelcome.subContent}>
+        You can now start using our position manager
       </div>
       <Button
-        // color="primary"
         className={styleWelcome.launchBtn}
         type="submit"
         size="lg"
@@ -49,9 +50,6 @@ export const WelcomePage: FunctionComponent = () => {
         }}
         block
       >
-        {/* {intl.formatMessage({
-          id: "register.welcome.button.done",
-        })} */}
         Start trading
       </Button>
     </div>
