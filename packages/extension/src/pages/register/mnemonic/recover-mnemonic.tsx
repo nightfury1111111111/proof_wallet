@@ -70,40 +70,42 @@ export const RecoverMnemonicIntro: FunctionComponent<{
   const { analyticsStore } = useStore();
 
   return (
-    <Button
-      // color="primary"
-      // outline
-      // block
-      // size="lg"
-      className={style.importBtn}
-      onClick={(e) => {
-        e.preventDefault();
-
-        registerConfig.setType(TypeRecoverMnemonic);
-        analyticsStore.logEvent("Import account started", {
-          registerType: "seed",
-        });
-      }}
-    >
+    <div className={style.btnContainer}>
       <div
-        style={{
-          width: "57px",
-          height: "57px",
-          borderRadius: "10px",
-          background: "rgba(255, 207, 138, 0.1)",
-          marginBottom: "16px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
+        // color="primary"
+        // outline
+        // block
+        // size="lg"
+        className={style.importBtn}
+        onClick={(e) => {
+          e.preventDefault();
+
+          registerConfig.setType(TypeRecoverMnemonic);
+          analyticsStore.logEvent("Import account started", {
+            registerType: "seed",
+          });
         }}
       >
-        <i
-          className="fas fa-solid fa-arrow-down"
-          style={{ color: "#FFD48A" }}
-        />
+        <div
+          style={{
+            width: "57px",
+            height: "57px",
+            borderRadius: "10px",
+            background: "rgba(255, 207, 138, 0.1)",
+            marginBottom: "16px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <i
+            className="fas fa-solid fa-arrow-down"
+            style={{ color: "#FFD48A" }}
+          />
+        </div>
+        <FormattedMessage id="register.intro.button.import-account.title" />
       </div>
-      <FormattedMessage id="register.intro.button.import-account.title" />
-    </Button>
+    </div>
   );
 });
 
@@ -308,46 +310,7 @@ export const RecoverMnemonicPage: FunctionComponent<{
                 : "Enter your recovery phrase"}
               <div style={{ flex: 1 }} />
               <div>
-                {/* <ButtonDropdown
-                  className={styleRecoverMnemonic.dropdown}
-                  isOpen={showDropdown}
-                  toggle={() => setShowDropdown((value) => !value)}
-                >
-                  <DropdownToggle
-                    color="none"
-                    className={styleRecoverMnemonic.dropdownToggle}
-                    caret
-                  >
-                    {seedTypeToParagraph(seedType)}
-                  </DropdownToggle>
-                  <DropdownMenu>
-                    <DropdownItem
-                      active={seedType === SeedType.WORDS12}
-                      onClick={(e) => {
-                        e.preventDefault();
-
-                        setSeedType(SeedType.WORDS12);
-                      }}
-                    >
-                      {seedTypeToParagraph(SeedType.WORDS12)}
-                    </DropdownItem>
-                    <DropdownItem
-                      active={seedType === SeedType.PRIVATE_KEY}
-                      onClick={(e) => {
-                        e.preventDefault();
-
-                        setSeedType(SeedType.PRIVATE_KEY);
-                      }}
-                    >
-                      {seedTypeToParagraph(SeedType.PRIVATE_KEY)}
-                    </DropdownItem>
-                  </DropdownMenu>
-                </ButtonDropdown> */}
-                <div
-                  ref={ref}
-                  className={styleRecoverMnemonic.dropdown}
-                  // isOpen={showDropdown}
-                >
+                <div ref={ref} className={styleRecoverMnemonic.dropdown}>
                   <div
                     className={styleRecoverMnemonic.dropdownButton}
                     style={
@@ -361,7 +324,7 @@ export const RecoverMnemonicPage: FunctionComponent<{
                     }
                     onClick={() => setShowDropdown((value) => !value)}
                   >
-                    {seedTypeToParagraph(seedType)}
+                    <div>{seedTypeToParagraph(seedType)}</div>
                     <div
                       className={styleRecoverMnemonic.caret}
                       style={
@@ -376,16 +339,18 @@ export const RecoverMnemonicPage: FunctionComponent<{
                         <i
                           className="fas fa-duotone fa-angle-up"
                           style={{
-                            marginLeft: "1.5px",
+                            // marginLeft: "1.5px",
                             color: "#FFD48A",
                           }}
                         />
                       ) : (
                         <i
                           className="fas fa-duotone fa-angle-down"
-                          style={{
-                            marginLeft: "1.5px",
-                          }}
+                          style={
+                            {
+                              // marginLeft: "1.5px",
+                            }
+                          }
                         />
                       )}
                     </div>
@@ -470,12 +435,18 @@ export const RecoverMnemonicPage: FunctionComponent<{
                         formGroupClassName={
                           styleRecoverMnemonic.mnemonicWordFormGroup
                         }
+                        style={
+                          seedType === SeedType.PRIVATE_KEY
+                            ? { paddingLeft: "10px" }
+                            : {}
+                        }
                         className={styleRecoverMnemonic.mnemonicWord}
                         onPaste={(e) => {
                           e.preventDefault();
 
                           handlePaste(index, e.clipboardData.getData("text"));
                         }}
+                        spellCheck={false}
                         onChange={(e) => {
                           e.preventDefault();
 
@@ -730,6 +701,7 @@ export const RecoverMnemonicPage: FunctionComponent<{
                   type="text"
                   name="name"
                   placeholder="Enter account name"
+                  spellCheck={false}
                   ref={register({
                     required: intl.formatMessage({
                       id: "register.name.error.required",

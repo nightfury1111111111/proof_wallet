@@ -30,37 +30,39 @@ export const NewMnemonicIntro: FunctionComponent<{
   const { analyticsStore } = useStore();
 
   return (
-    <Button
-      // color="primary"
-      // outline
-      // block
-      // size="lg"
-      className={style.createBtn}
-      onClick={(e) => {
-        e.preventDefault();
-
-        registerConfig.setType(TypeNewMnemonic);
-        analyticsStore.logEvent("Create account started", {
-          registerType: "seed",
-        });
-      }}
-    >
+    <div className={style.btnContainer} style={{ marginRight: "15px" }}>
       <div
-        style={{
-          width: "57px",
-          height: "57px",
-          borderRadius: "10px",
-          background: "rgba(255, 207, 138, 0.1)",
-          marginBottom: "16px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
+        // color="primary"
+        // outline
+        // block
+        // size="lg"
+        className={style.createBtn}
+        onClick={(e) => {
+          e.preventDefault();
+
+          registerConfig.setType(TypeNewMnemonic);
+          analyticsStore.logEvent("Create account started", {
+            registerType: "seed",
+          });
         }}
       >
-        <i className="fas fa-solid fa-plus" style={{ color: "#FFD48A" }} />
+        <div
+          style={{
+            width: "57px",
+            height: "57px",
+            borderRadius: "10px",
+            background: "rgba(255, 207, 138, 0.1)",
+            marginBottom: "16px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <i className="fas fa-solid fa-plus" style={{ color: "#FFD48A" }} />
+        </div>
+        <FormattedMessage id="register.intro.button.new-account.title" />
       </div>
-      <FormattedMessage id="register.intro.button.new-account.title" />
-    </Button>
+    </div>
   );
 });
 
@@ -144,6 +146,7 @@ export const AddPassswordModePage: FunctionComponent<{
           type="text"
           name="name"
           placeholder="Enter account name"
+          spellCheck={false}
           ref={register({
             required: intl.formatMessage({
               id: "register.name.error.required",

@@ -138,14 +138,15 @@ export const AddressInput: FunctionComponent<AddressInputProps> = observer(
             <Input
               id={inputId}
               className={classnames(
-                "form-control-alternative",
+                // "form-control-alternative",
                 styleAddressInput.input
               )}
               placeholder="Address"
               value={recipientConfig.rawRecipient}
+              spellCheck={false}
               onChange={(e) => {
-                recipientConfig.setRawRecipient(e.target.value);
                 e.preventDefault();
+                recipientConfig.setRawRecipient(e.target.value);
               }}
               autoComplete="off"
               disabled={disabled}

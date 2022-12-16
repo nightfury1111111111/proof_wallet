@@ -173,6 +173,7 @@ export const ManageNftPage: FunctionComponent = observer(() => {
                   )}
                   placeholder="Search a collectible"
                   value={keyword}
+                  spellCheck={false}
                   onChange={(e) => {
                     setKeyword(e.target.value);
                     const availableNfts = nfts.filter((nft) => {

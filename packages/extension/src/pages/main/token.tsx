@@ -280,6 +280,7 @@ export const TokensView: FunctionComponent = observer(() => {
             className={classnames("form-control-alternative", styleToken.input)}
             placeholder="Search a collectible"
             value={keyword}
+            spellCheck={false}
             onChange={(e) => {
               setKeyword(e.target.value);
               const availableTokens = tokens.filter((bal) => {

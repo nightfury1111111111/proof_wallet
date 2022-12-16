@@ -224,10 +224,11 @@ export function renderMsgSend(
             fontWeight: 600,
             textAlign: "center",
             fontSize: "20px",
+            lineHeight: "116.5%",
             color: "white",
           }}
         >
-          <div>You are Sending</div>
+          <div>You are sending</div>
           <div>
             {receives
               .map((coin) => {
@@ -256,10 +257,11 @@ export function renderMsgSend(
             textAlign: "center",
             fontSize: "14px",
             padding: "10px 20px",
+            letterSpacing: "0.5px",
           }}
         >
-          <div style={{ color: "white" }}>to this address</div>
-          <div style={{ color: "#E9E4DF", wordBreak: "break-all" }}>
+          <div style={{ color: "#E9E4DF" }}>to this address</div>
+          <div style={{ color: "#696969", wordBreak: "break-all" }}>
             {toAddress}
           </div>
         </div>
