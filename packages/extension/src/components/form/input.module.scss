@@ -5,7 +5,23 @@
 .input {
   box-shadow: $input-alternative-box-shadow !important;
 
-  &:focus {
-    box-shadow: $input-focus-alternative-box-shadow !important;
+  &:hover {
+    background: rgba(0, 0, 0, 0.2) !important;
+    border: 1px solid #696969;
+    color: #696969;
   }
+  &:focus {
+    background: rgba(0, 0, 0, 0.2) !important;
+    border: 1px solid #ffd48a !important;
+    color: #696969;
+  }
+
+  // &:focus {
+  //   box-shadow: $input-focus-alternative-box-shadow !important;
+  // }
+}
+
+.inputWrapper {
+  width: 100%;
+  border-radius: 12px;
 }

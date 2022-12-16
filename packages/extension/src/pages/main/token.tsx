@@ -220,6 +220,7 @@ export const TokenView: FunctionComponent<{
 });
 
 export const TokensView: FunctionComponent = observer(() => {
+  const [focused, setFocused] = useState(false);
   const location = useLocation();
 
   const { chainStore, accountStore, queriesStore } = useStore();
@@ -276,25 +277,46 @@ export const TokensView: FunctionComponent = observer(() => {
             marginBottom: "14px",
           }}
         >
-          <Input
-            className={classnames("form-control-alternative", styleToken.input)}
-            placeholder="Search a collectible"
-            value={keyword}
-            spellCheck={false}
-            onChange={(e) => {
-              setKeyword(e.target.value);
-              const availableTokens = tokens.filter((bal) => {
-                return (
-                  bal.currency.coinDenom
-                    .toLowerCase()
-                    .indexOf(e.target.value.toLowerCase()) > -1
-                );
-              });
-              setTmpTokens(availableTokens);
-              e.preventDefault();
-            }}
-            autoComplete="off"
-          />
+          <div
+            className={styleToken.inputWrapper}
+            style={
+              focused
+                ? {
+                    border: "4px solid rgba(255, 212, 138, 0.3)",
+                    // transform: "translate(-4px, -4px)",
+                  }
+                : {}
+            }
+          >
+            <Input
+              className={classnames(
+                "form-control-alternative",
+                styleToken.input
+              )}
+              placeholder="Search a collectible"
+              value={keyword}
+              spellCheck={false}
+              onFocus={() => {
+                setFocused(true);
+              }}
+              onBlur={() => {
+                setFocused(false);
+              }}
+              onChange={(e) => {
+                setKeyword(e.target.value);
+                const availableTokens = tokens.filter((bal) => {
+                  return (
+                    bal.currency.coinDenom
+                      .toLowerCase()
+                      .indexOf(e.target.value.toLowerCase()) > -1
+                  );
+                });
+                setTmpTokens(availableTokens);
+                e.preventDefault();
+              }}
+              autoComplete="off"
+            />
+          </div>
           <img
             className={styleToken.searchIcon}
             src={require("../../public/assets/img/search.svg")}

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from "react";
+import React, { FunctionComponent, useRef, useState } from "react";
 
 import { PasswordInput } from "../../components/form";
 
@@ -44,12 +44,12 @@ export const LockPage: FunctionComponent = observer(() => {
     keyRingStore.rejectAll();
   });
 
-  useEffect(() => {
-    if (passwordRef.current) {
-      // Focus the password input on enter.
-      passwordRef.current.focus();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (passwordRef.current) {
+  //     // Focus the password input on enter.
+  //     passwordRef.current.focus();
+  //   }
+  // }, []);
 
   return (
     <EmptyLayout

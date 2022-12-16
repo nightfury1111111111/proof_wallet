@@ -51,6 +51,8 @@ export const Input = forwardRef<
     ...attributes
   } = props;
 
+  const [focused, setFocused] = useState(false);
+
   const [inputId] = useState(() => {
     const bytes = new Uint8Array(4);
     crypto.getRandomValues(bytes);
@@ -70,17 +72,36 @@ export const Input = forwardRef<
       ) : null}
       <InputGroup className={inputGroupClassName}>
         {prepend}
-        <ReactStrapInput
-          id={inputId}
-          className={classnames(
-            "form-control-alternative",
-            className,
-            styleInput.input
-          )}
-          type={type}
-          innerRef={ref}
-          {...attributes}
-        />
+        {/* <div className={styleInput.inputWrapper}> */}
+        <div
+          className={styleInput.inputWrapper}
+          style={
+            focused
+              ? {
+                  border: "4px solid rgba(255, 212, 138, 0.3)",
+                  transform: "translate(-4px, -4px)",
+                }
+              : {}
+          }
+        >
+          <ReactStrapInput
+            id={inputId}
+            className={classnames(
+              "form-control-alternative",
+              className,
+              styleInput.input
+            )}
+            type={type}
+            onFocus={() => {
+              setFocused(true);
+            }}
+            onBlur={() => {
+              setFocused(false);
+            }}
+            innerRef={ref}
+            {...attributes}
+          />
+        </div>
         {append}
       </InputGroup>
       {/* {error ? (

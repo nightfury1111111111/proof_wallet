@@ -39,6 +39,7 @@ export const ManageNftPage: FunctionComponent = observer(() => {
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState<string>("collection");
   const [currentCollectionIdx, setCurrentCollectionIdx] = useState(0);
+  const [focused, setFocused] = useState(false);
 
   const history = useHistory();
   let search = useLocation().search;
@@ -166,28 +167,46 @@ export const ManageNftPage: FunctionComponent = observer(() => {
                   marginTop: "14px",
                 }}
               >
-                <Input
-                  className={classnames(
-                    "form-control-alternative",
-                    style.searchBox
-                  )}
-                  placeholder="Search a collectible"
-                  value={keyword}
-                  spellCheck={false}
-                  onChange={(e) => {
-                    setKeyword(e.target.value);
-                    const availableNfts = nfts.filter((nft) => {
-                      return (
-                        nft.name
-                          .toLowerCase()
-                          .indexOf(e.target.value.toLowerCase()) > -1
-                      );
-                    });
-                    setTmpNfts(availableNfts);
-                    e.preventDefault();
-                  }}
-                  autoComplete="off"
-                />
+                <div
+                  className={style.inputWrapper}
+                  style={
+                    focused
+                      ? {
+                          border: "4px solid rgba(255, 212, 138, 0.3)",
+                          // transform: "translate(-4px, -4px)",
+                        }
+                      : {}
+                  }
+                >
+                  <Input
+                    className={classnames(
+                      "form-control-alternative",
+                      style.searchBox
+                    )}
+                    placeholder="Search a collectible"
+                    value={keyword}
+                    spellCheck={false}
+                    onFocus={() => {
+                      setFocused(true);
+                    }}
+                    onBlur={() => {
+                      setFocused(false);
+                    }}
+                    onChange={(e) => {
+                      setKeyword(e.target.value);
+                      const availableNfts = nfts.filter((nft) => {
+                        return (
+                          nft.name
+                            .toLowerCase()
+                            .indexOf(e.target.value.toLowerCase()) > -1
+                        );
+                      });
+                      setTmpNfts(availableNfts);
+                      e.preventDefault();
+                    }}
+                    autoComplete="off"
+                  />
+                </div>
                 <img
                   className={style.searchIcon}
                   src={require("../../public/assets/img/search.svg")}
