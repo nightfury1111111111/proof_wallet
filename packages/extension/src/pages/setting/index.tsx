@@ -41,6 +41,8 @@ export const SettingPage: FunctionComponent = observer(() => {
         }
       );
 
+  console.log(paragraphLang);
+
   return (
     <HeaderLayout
       showChainName={false}

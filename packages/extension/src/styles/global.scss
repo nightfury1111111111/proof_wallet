@@ -39,6 +39,9 @@ html {
   background-color: white;
 
   overflow: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smooth: never;
 }
 
 ::-webkit-scrollbar {
