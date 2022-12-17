@@ -1,12 +1,14 @@
 .container {
   width: 100%;
-  height: 76px;
-  background: white;
-  padding: 16px;
+  height: 68.34px;
+  background: #1d1d1d;
+  box-shadow: inset 0px 1.00501px 0px rgba(67, 67, 67, 0.75);
+  border-radius: 5.02507px;
+  padding: 11px;
   cursor: pointer;
 
   &.with-sub-paragraph {
-    height: 84px;
+    // height: 84px;
 
     .inner-container {
       h1 {
@@ -19,7 +21,7 @@
     }
   }
 
-  border-top: #e9ecef solid 1px;
+  // border-top: #e9ecef solid 1px;
 
   &:last-of-type {
     border-bottom: #e9ecef solid 1px;
@@ -28,28 +30,56 @@
   display: flex;
   flex-direction: row;
 
+  .avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50px;
+
+    font-family: colfax-web;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18.08px;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #131313;
+    margin-right: 10.36px;
+  }
+
   .inner-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
 
     h1 {
-      font-size: 14px;
-      color: #525f7f;
-      margin: 0;
+      font-family: colfax-web;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16.0802px;
+      line-height: 19px;
+      color: #e9e4df;
 
-      max-width: 240px;
+      max-width: 170px;
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
+      margin-bottom: 3px;
     }
 
     p {
-      font-size: 14px;
-      color: #8898aa;
       margin: 0;
+      font-family: colfax-web;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14.0702px;
+      line-height: 17px;
+      letter-spacing: 0.301504px;
 
-      max-width: 280px;
+      color: #696969;
+
+      max-width: 180px;
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
@@ -59,6 +89,7 @@
   .icon-container {
     display: flex;
     flex-direction: column;
+    color: #ffdf8b;
 
     &:not(:last-of-type) {
       margin-right: 8px;

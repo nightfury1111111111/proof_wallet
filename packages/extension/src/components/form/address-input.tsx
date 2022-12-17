@@ -55,6 +55,7 @@ export const AddressInput: FunctionComponent<AddressInputProps> = observer(
     const intl = useIntl();
 
     const [isAddressBookOpen, setIsAddressBookOpen] = useState(false);
+    const [focused, setFocused] = useState(false);
 
     const [inputId] = useState(() => {
       const bytes = new Uint8Array(4);
@@ -135,22 +136,41 @@ export const AddressInput: FunctionComponent<AddressInputProps> = observer(
             </Label>
           ) : null}
           <div className={styleAddressInput.inputGroup}>
-            <Input
-              id={inputId}
-              className={classnames(
-                // "form-control-alternative",
-                styleAddressInput.input
-              )}
-              placeholder="Address"
-              value={recipientConfig.rawRecipient}
-              spellCheck={false}
-              onChange={(e) => {
-                e.preventDefault();
-                recipientConfig.setRawRecipient(e.target.value);
-              }}
-              autoComplete="off"
-              disabled={disabled}
-            />
+            <div
+              className={styleAddressInput.inputWrapper}
+              style={
+                focused
+                  ? {
+                      border: "4px solid rgba(255, 212, 138, 0.3)",
+                      // transform: "translate(-4px, -4px)",
+                    }
+                  : {}
+              }
+            >
+              <Input
+                id={inputId}
+                className={classnames(
+                  // "form-control-alternative",
+                  styleAddressInput.input
+                )}
+                style={!disableAddressBook ? { paddingRight: "67px" } : {}}
+                placeholder="Address"
+                value={recipientConfig.rawRecipient}
+                spellCheck={false}
+                onFocus={() => {
+                  setFocused(true);
+                }}
+                onBlur={() => {
+                  setFocused(false);
+                }}
+                onChange={(e) => {
+                  e.preventDefault();
+                  recipientConfig.setRawRecipient(e.target.value);
+                }}
+                autoComplete="off"
+                disabled={disabled}
+              />
+            </div>
             {!disableAddressBook && memoConfig ? (
               <div
                 className={styleAddressInput.addressBookButton}

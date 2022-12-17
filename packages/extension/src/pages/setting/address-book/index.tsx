@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { HeaderLayout } from "../../../layouts";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -74,7 +74,48 @@ export const AddressBookPage: FunctionComponent<{
   const [addAddressModalOpen, setAddAddressModalOpen] = useState(false);
   const [addAddressModalIndex, setAddAddressModalIndex] = useState(-1);
 
+  const [addresses, setAddresses] = useState<
+    Array<{
+      name: string;
+      address: string;
+      memo: string;
+      bgColor: string;
+      pinned: boolean;
+      realIndex: number;
+    }>
+  >([]);
+
   const confirm = useConfirm();
+
+  const sortArray = async () => {
+    const tmpPinnedAddress: Array<{
+      name: string;
+      address: string;
+      memo: string;
+      bgColor: string;
+      pinned: boolean;
+      realIndex: number;
+    }> = [];
+    const tmpUnpinnedAddress: Array<{
+      name: string;
+      address: string;
+      memo: string;
+      bgColor: string;
+      pinned: boolean;
+      realIndex: number;
+    }> = [];
+    await Promise.all(
+      addressBookConfig.addressBookDatas.map((data, idx) => {
+        if (data.pinned) tmpPinnedAddress.push({ ...data, realIndex: idx });
+        else tmpUnpinnedAddress.push({ ...data, realIndex: idx });
+      })
+    );
+    setAddresses(tmpPinnedAddress.concat(tmpUnpinnedAddress));
+  };
+
+  useEffect(() => {
+    sortArray();
+  }, [addressBookConfig.addressBookDatas]);
 
   const addressBookIcons = (index: number) => {
     return [
@@ -161,10 +202,24 @@ export const AddressBookPage: FunctionComponent<{
       </Modal>
       <div className={styleAddressBook.container}>
         {/* <div style={{ flex: "1 1 0", overflowY: "auto" }}> */}
-        {addressBookConfig.addressBookDatas.map((data, i) => {
+        {addresses.map((data, i) => {
+          let avatarName = "";
+          if (data.name === "") {
+            avatarName = "";
+          } else if (
+            data.name.indexOf(" ") > 0 &&
+            data.name.indexOf(" ") < data.name.length - 1
+          ) {
+            avatarName = data.name[0] + data.name[data.name.indexOf(" ") + 1];
+          } else {
+            avatarName = data.name[0];
+          }
           return (
             <PageButton
               key={i.toString()}
+              avatarName={avatarName}
+              avatarColor={data.bgColor}
+              pinned={data.pinned}
               title={data.name}
               paragraph={
                 data.address.indexOf(
@@ -175,13 +230,13 @@ export const AddressBookPage: FunctionComponent<{
                   : data.address
               }
               subParagraph={data.memo}
-              icons={addressBookIcons(i)}
-              data-index={i}
+              icons={addressBookIcons(data.realIndex)}
+              data-index={data.realIndex}
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
 
-                addressBookConfig.selectAddressAt(i);
+                addressBookConfig.selectAddressAt(data.realIndex);
 
                 if (onBackButton) {
                   onBackButton();

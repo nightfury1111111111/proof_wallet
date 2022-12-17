@@ -36,6 +36,7 @@ export const AddAddressModal: FunctionComponent<{
     const [colorIdx, setColorIdx] = useState(0);
     const [colors] = useState<Array<string>>(["#FFD48A", "#4A3210", "#BD69FF"]);
     const [shortName, setShortName] = useState("");
+    const [pinned, setPinned] = useState(false);
 
     useEffect(() => {
       if (index >= 0) {
@@ -43,6 +44,8 @@ export const AddAddressModal: FunctionComponent<{
         setName(data.name);
         recipientConfig.setRawRecipient(data.address);
         memoConfig.setMemo(data.memo);
+        setColorIdx(colors.indexOf(data.bgColor));
+        setPinned(data.pinned);
       }
     }, [
       addressBookConfig.addressBookDatas,
@@ -50,6 +53,19 @@ export const AddAddressModal: FunctionComponent<{
       memoConfig,
       recipientConfig,
     ]);
+
+    useEffect(() => {
+      if (name === "") {
+        setShortName("");
+        return;
+      } else if (name.indexOf(" ") > 0 && name.indexOf(" ") < name.length - 1) {
+        setShortName(name[0] + name[name.indexOf(" ") + 1]);
+        return;
+      } else {
+        setShortName(name[0]);
+        return;
+      }
+    }, [name]);
 
     return (
       <HeaderLayout
@@ -85,40 +101,44 @@ export const AddAddressModal: FunctionComponent<{
             <div
               className={styleAddressBook.shortName}
               style={{ background: colors[colorIdx] }}
+              onClick={() => setPinned(!pinned)}
             >
               {shortName.toUpperCase()}
+              <img
+                className={styleAddressBook.pinStatus}
+                src={
+                  pinned
+                    ? require("../../../public/assets/img/pinned.svg")
+                    : require("../../../public/assets/img/unpinned.svg")
+                }
+              />
             </div>
           </div>
           <Input
             type="text"
-            label={intl.formatMessage({ id: "setting.address-book.name" })}
+            // style={{
+            //   height: "52px",
+            //   background: "rgb(0, 0, 0, 0.2)",
+            //   border: "1px solid #323232",
+            //   fontFamily: "colfax-web",
+            //   fontWeight: 400,
+            //   fontSize: "16px",
+            //   lineHeight: "19px",
+            //   color: "#E9E4DF",
+            // }}
+            // label={intl.formatMessage({ id: "setting.address-book.name" })}
             autoComplete="off"
+            placeholder="Name"
+            spellCheck={false}
             value={name}
             onChange={(e) => {
               if (e.target.value.startsWith(" ")) return;
-
               setName(e.target.value);
-              if (e.target.value === "") {
-                setShortName("");
-                return;
-              } else if (
-                e.target.value.indexOf(" ") > 0 &&
-                e.target.value.indexOf(" ") < e.target.value.length - 1
-              ) {
-                setShortName(
-                  e.target.value[0] +
-                    e.target.value[e.target.value.indexOf(" ") + 1]
-                );
-                return;
-              } else {
-                setShortName(e.target.value[0]);
-                return;
-              }
             }}
           />
           <AddressInput
             recipientConfig={recipientConfig}
-            label={intl.formatMessage({ id: "setting.address-book.address" })}
+            // label={intl.formatMessage({ id: "setting.address-book.address" })}
             disableAddressBook={true}
           />
           <div style={{ marginTop: "39px" }}>
@@ -211,7 +231,8 @@ export const AddAddressModal: FunctionComponent<{
                     name,
                     address: recipientConfig.recipient,
                     memo: memoConfig.memo,
-                    bgColor: "",
+                    bgColor: colors[colorIdx],
+                    pinned,
                   });
                 } else {
                   await addressBookConfig.editAddressBookAt(index, {
@@ -219,6 +240,7 @@ export const AddAddressModal: FunctionComponent<{
                     address: recipientConfig.recipient,
                     memo: memoConfig.memo,
                     bgColor: colors[colorIdx],
+                    pinned,
                   });
                 }
 

@@ -4,6 +4,14 @@
 
 .input {
   box-shadow: $input-alternative-box-shadow !important;
+  height: 52px;
+  background: rgb(0, 0, 0, 0.2);
+  border: 1px solid #323232;
+  font-family: colfax-web;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #696969;
 
   &:hover {
     background: rgba(0, 0, 0, 0.2) !important;
