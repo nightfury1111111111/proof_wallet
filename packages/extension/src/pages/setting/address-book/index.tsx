@@ -119,18 +119,18 @@ export const AddressBookPage: FunctionComponent<{
 
   const addressBookIcons = (index: number) => {
     return [
-      <i
-        key="edit"
-        className="fas fa-pen"
-        style={{ cursor: "pointer" }}
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
+      // <i
+      //   key="edit"
+      //   className="fas fa-pen"
+      //   style={{ cursor: "pointer" }}
+      //   onClick={(e) => {
+      //     e.preventDefault();
+      //     e.stopPropagation();
 
-          setAddAddressModalOpen(true);
-          setAddAddressModalIndex(index);
-        }}
-      />,
+      //     setAddAddressModalOpen(true);
+      //     setAddAddressModalIndex(index);
+      //   }}
+      // />,
       <i
         key="remove"
         className="fas fa-trash"
@@ -222,12 +222,13 @@ export const AddressBookPage: FunctionComponent<{
               pinned={data.pinned}
               title={data.name}
               paragraph={
-                data.address.indexOf(
-                  chainStore.getChain(selectedChainId).bech32Config
-                    .bech32PrefixAccAddr
-                ) === 0
-                  ? Bech32Address.shortenAddress(data.address, 34)
-                  : data.address
+                // data.address.indexOf(
+                //   chainStore.getChain(selectedChainId).bech32Config
+                //     .bech32PrefixAccAddr
+                // ) === 0
+                //   ? Bech32Address.shortenAddress(data.address, 16)
+                //   : data.address
+                Bech32Address.shortenAddress(data.address, 16)
               }
               subParagraph={data.memo}
               icons={addressBookIcons(data.realIndex)}
@@ -236,6 +237,9 @@ export const AddressBookPage: FunctionComponent<{
                 e.preventDefault();
                 e.stopPropagation();
 
+                setAddAddressModalOpen(true);
+                setAddAddressModalIndex(data.realIndex);
+
                 addressBookConfig.selectAddressAt(data.realIndex);
 
                 if (onBackButton) {
@@ -243,7 +247,7 @@ export const AddressBookPage: FunctionComponent<{
                 }
               }}
               style={{
-                cursor: selectHandler ? undefined : "auto",
+                // cursor: selectHandler ? undefined : "auto",
                 marginBottom: "9px",
               }}
             />
