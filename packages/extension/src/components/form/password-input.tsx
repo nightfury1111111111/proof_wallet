@@ -21,6 +21,7 @@ export const PasswordInput = forwardRef<
       <Input
         {...props}
         type="password"
+        autoFocus
         ref={(argRef) => {
           otherRef.current = argRef;
           if (ref) {
