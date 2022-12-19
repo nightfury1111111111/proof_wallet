@@ -1,30 +1,30 @@
-import React, { FunctionComponent, MouseEvent, useCallback } from "react";
+import React, { FunctionComponent } from "react";
 
 import styleWarningView from "./warning-view.module.scss";
-import { Alert, Button } from "reactstrap";
-import { useHistory } from "react-router";
-import { FormattedMessage } from "react-intl";
+// import { Alert, Button } from "reactstrap";
+// import { useHistory } from "react-router";
+// import { FormattedMessage } from "react-intl";
 
 import { MultiKeyStoreInfoWithSelectedElem } from "@proof-wallet/background";
 
 export const WarningView: FunctionComponent<{
   index: number;
   keyStore: MultiKeyStoreInfoWithSelectedElem;
-}> = ({ index, keyStore }) => {
-  const history = useHistory();
+}> = ({}) => {
+  // const history = useHistory();
 
-  const onBackUpMnemonicButtonClick = useCallback(
-    (e: MouseEvent) => {
-      e.preventDefault();
+  // const onBackUpMnemonicButtonClick = useCallback(
+  //   (e: MouseEvent) => {
+  //     e.preventDefault();
 
-      history.push(`/setting/export/${index}`);
-    },
-    [history, index]
-  );
+  //     history.push(`/setting/export/${index}`);
+  //   },
+  //   [history, index]
+  // );
 
   return (
     <div className={styleWarningView.innerContainer}>
-      {keyStore.type === "mnemonic" ? (
+      {/* {keyStore.type === "mnemonic" ? (
         <Alert color="warning" fade={false}>
           <div>
             <FormattedMessage id="setting.clear.alert" />
@@ -39,15 +39,13 @@ export const WarningView: FunctionComponent<{
             <FormattedMessage id="setting.clear.button.back-up" />
           </Button>
         </Alert>
-      ) : null}
+      ) : null} */}
       <div className={styleWarningView.trashContainer}>
         <img
-          src={require("../../../public/assets/img/icons8-trash-can.svg")}
+          src={require("../../../public/assets/img/remove.svg")}
           alt="trash-can"
         />
-        <div>
-          <FormattedMessage id="setting.clear.warning" />
-        </div>
+        <div>Remove Wallet</div>
       </div>
     </div>
   );

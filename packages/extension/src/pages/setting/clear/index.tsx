@@ -8,7 +8,7 @@ import React, {
 import { HeaderLayout } from "../../../layouts";
 
 import { useHistory, useRouteMatch } from "react-router";
-import { FormattedMessage, useIntl } from "react-intl";
+import { useIntl } from "react-intl";
 import { PasswordInput } from "../../../components/form";
 import { Button, Form } from "reactstrap";
 import useForm from "react-hook-form";
@@ -91,9 +91,9 @@ export const ClearPage: FunctionComponent = observer(() => {
           })}
         >
           <PasswordInput
-            label={intl.formatMessage({
-              id: "setting.clear.input.password",
-            })}
+            // label={intl.formatMessage({
+            //   id: "setting.clear.input.password",
+            // })}
             name="password"
             error={errors.password && errors.password.message}
             ref={register({
@@ -102,9 +102,28 @@ export const ClearPage: FunctionComponent = observer(() => {
               }),
             })}
           />
-          <Button type="submit" color="primary" block data-loading={loading}>
-            <FormattedMessage id="setting.clear.button.confirm" />
-          </Button>
+          <div className={style.comment}>
+            <span>Make sure you have the </span>
+            <span style={{ fontWeight: 600 }}>secret recovery phrase</span>
+            <span>
+              {" "}
+              for this wallet before removing, otherwise it will be lost
+              forever.
+            </span>
+          </div>
+          <div className={style.footer}>
+            <div className={style.button} onClick={() => history.replace("/")}>
+              Cancel
+            </div>
+            <Button
+              type="submit"
+              block
+              className={style.buttonActive}
+              data-loading={loading}
+            >
+              Remove
+            </Button>
+          </div>
         </Form>
       </div>
     </HeaderLayout>
