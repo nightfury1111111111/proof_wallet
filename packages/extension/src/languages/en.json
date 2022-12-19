@@ -85,7 +85,7 @@
 
   "setting.export": "View Mnemonic Seed",
   "setting.export.private-key": "View Private Key",
-  "setting.export.warning": "Please input your password to proceed",
+  "setting.export.warning": "NEVER SHARE YOUR PRIVATE KEY",
   "setting.export.input.password": "Password",
   "setting.export.input.password.error.required": "Password is required",
   "setting.export.input.password.error.invalid": "Invalid password",

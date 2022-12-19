@@ -31,7 +31,7 @@ export const SettingAutoLockPage: FunctionComponent = () => {
 
   const { setValue, register, handleSubmit, errors } = useForm<FormData>({
     defaultValues: {
-      duration: "0",
+      duration: "30",
     },
   });
 

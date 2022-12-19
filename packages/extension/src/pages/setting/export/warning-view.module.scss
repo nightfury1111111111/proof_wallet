@@ -1,20 +1,20 @@
 .inner-container {
-  flex: 1;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
   .img-lock {
-    height: 96px;
+    width: 160.38px;
+    height: 160.38px;
   }
 
   p {
-    margin-top: 18px;
-
+    font-family: colfax-web;
+    font-weight: 600;
+    line-height: 19px;
     font-size: 16px;
     letter-spacing: -0.3px;
-    color: #32325d;
+    color: #ff7e7e;
   }
 }

@@ -7,7 +7,7 @@ import React, {
 import { HeaderLayout } from "../../../layouts";
 
 import { useHistory, useLocation, useRouteMatch } from "react-router";
-import { FormattedMessage, useIntl } from "react-intl";
+import { useIntl } from "react-intl";
 import { PasswordInput } from "../../../components/form";
 import { Button, Form } from "reactstrap";
 import useForm from "react-hook-form";
@@ -51,6 +51,27 @@ export const ExportPage: FunctionComponent = observer(() => {
       throw new Error("Invalid index");
     }
   }, [match.params.index]);
+
+  useEffect(() => {
+    if (keyRing.length > 0) {
+      const link = document.createElement("a");
+
+      // Create a blog object with the file content which you want to add to the file
+      const file = new Blob([keyRing], {
+        type: "text/plain",
+      });
+
+      // Add file content in the object URL
+      link.href = URL.createObjectURL(file);
+
+      // Add file name
+      link.download = "key.txt";
+
+      // Add click event to <a> tag to save file.
+      link.click();
+      URL.revokeObjectURL(link.href);
+    }
+  }, [keyRing]);
 
   return (
     <HeaderLayout
@@ -103,9 +124,10 @@ export const ExportPage: FunctionComponent = observer(() => {
               })}
             >
               <PasswordInput
-                label={intl.formatMessage({
-                  id: "setting.export.input.password",
-                })}
+                // label={intl.formatMessage({
+                //   id: "setting.export.input.password",
+                // })}
+                placeholder="Enter your password"
                 name="password"
                 error={errors.password && errors.password.message}
                 ref={register({
@@ -114,14 +136,31 @@ export const ExportPage: FunctionComponent = observer(() => {
                   }),
                 })}
               />
-              <Button
-                type="submit"
-                color="primary"
-                block
-                data-loading={loading}
-              >
-                <FormattedMessage id="setting.export.button.confirm" />
-              </Button>
+              <div className={style.comment}>
+                <div>
+                  Anyone with your private key can access your wallet and steal
+                  any assets held in you account.
+                </div>
+                <div style={{ fontWeight: 600 }}>
+                  ProofWallet Staff will never ask you for your private key.
+                </div>
+              </div>
+              <div className={style.footer}>
+                <div
+                  className={style.button}
+                  onClick={() => history.replace("/")}
+                >
+                  Cancel
+                </div>
+                <Button
+                  type="submit"
+                  block
+                  className={style.buttonActive}
+                  data-loading={loading}
+                >
+                  Download
+                </Button>
+              </div>
             </Form>
           </React.Fragment>
         )}
