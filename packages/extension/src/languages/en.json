@@ -91,7 +91,7 @@
   "setting.export.input.password.error.invalid": "Invalid password",
   "setting.export.button.confirm": "Confirm",
 
-  "setting.clear": "Delete Account",
+  "setting.clear": "Remove Wallet",
   "setting.clear.alert": "Make sure you’ve backed up your mnemonic seed before proceeding.",
   "setting.clear.button.back-up": "Back-up account",
   "setting.clear.warning": "By deleting your account, you will no longer have access to your account on Keplr.",

@@ -1,47 +1,47 @@
-import React, { FunctionComponent, useMemo } from "react";
+import React, { FunctionComponent } from "react";
 import { HeaderLayout } from "../../layouts";
 import { useHistory } from "react-router";
-import { PageButton } from "./page-button";
+// import { PageButton } from "./page-button";
 import style from "./style.module.scss";
-import { useLanguage } from "../../languages";
+// import { useLanguage } from "../../languages";
 import { useIntl } from "react-intl";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../stores";
+import { FormattedMessage } from "react-intl";
 
 export const SettingPage: FunctionComponent = observer(() => {
-  const { uiConfigStore } = useStore();
+  const { keyRingStore } = useStore();
+  console.log(keyRingStore);
 
-  const language = useLanguage();
+  // const language = useLanguage();
   const history = useHistory();
   const intl = useIntl();
 
-  const paragraphLang = language.automatic
-    ? intl.formatMessage(
-        {
-          id: "setting.language.automatic-with-language",
-        },
-        {
-          language: intl.formatMessage({
-            id: `setting.language.${language.language}`,
-          }),
-        }
-      )
-    : intl.formatMessage({
-        id: `setting.language.${language.language}`,
-      });
+  // const paragraphLang = language.automatic
+  //   ? intl.formatMessage(
+  //       {
+  //         id: "setting.language.automatic-with-language",
+  //       },
+  //       {
+  //         language: intl.formatMessage({
+  //           id: `setting.language.${language.language}`,
+  //         }),
+  //       }
+  //     )
+  //   : intl.formatMessage({
+  //       id: `setting.language.${language.language}`,
+  //     });
 
-  const paragraphFiat = !language.isFiatCurrencyAutomatic
-    ? language.fiatCurrency.toUpperCase()
-    : intl.formatMessage(
-        {
-          id: "setting.fiat.automatic-with-fiat",
-        },
-        {
-          fiat: language.fiatCurrency.toUpperCase(),
-        }
-      );
-
-  console.log(paragraphLang);
+  // const paragraphFiat = !language.isFiatCurrencyAutomatic
+  //   ? language.fiatCurrency.toUpperCase()
+  //   : intl.formatMessage(
+  //       {
+  //         id: "setting.fiat.automatic-with-fiat",
+  //       },
+  //       {
+  //         fiat: language.fiatCurrency.toUpperCase(),
+  //       }
+  //     );
 
   return (
     <HeaderLayout
@@ -55,6 +55,90 @@ export const SettingPage: FunctionComponent = observer(() => {
       }}
     >
       <div className={style.container}>
+        <div className={style.settingBox}>
+          <div
+            style={{
+              color: "#E9E4DF",
+            }}
+          >
+            Change password
+          </div>
+          <i className="fas fa-chevron-right" style={{ color: "#696969" }} />
+        </div>
+        <div style={{ background: "#333333", height: "1px" }} />
+        <div
+          className={style.settingBox}
+          onClick={() => {
+            history.push({
+              pathname: "/setting/autolock",
+            });
+          }}
+        >
+          <div
+            style={{
+              color: "#E9E4DF",
+            }}
+          >
+            Auto-Lock Timer
+          </div>
+          <i className="fas fa-chevron-right" style={{ color: "#696969" }} />
+        </div>
+      </div>
+      <div className={style.container}>
+        <div className={style.settingBox}>
+          <div
+            style={{
+              color: "#E9E4DF",
+            }}
+          >
+            Export Private Key
+          </div>
+          <i className="fas fa-chevron-right" style={{ color: "#696969" }} />
+        </div>
+        <div style={{ background: "#333333", height: "1px" }} />
+        <div className={style.settingBox}>
+          <div
+            style={{
+              color: "#E9E4DF",
+            }}
+          >
+            Show Secret Recovery Phrase
+          </div>
+          <i className="fas fa-chevron-right" style={{ color: "#696969" }} />
+        </div>
+      </div>
+      <div className={style.container}>
+        <div
+          className={style.settingBox}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            history.push(`/setting/clear/0`);
+          }}
+        >
+          <div
+            style={{
+              color: "#E9E4DF",
+            }}
+          >
+            <FormattedMessage id="setting.clear" />
+          </div>
+          <i className="fas fa-chevron-right" style={{ color: "#696969" }} />
+        </div>
+        <div style={{ background: "#333333", height: "1px" }} />
+        <div className={style.settingBox}>
+          <div
+            style={{
+              color: "#E9E4DF",
+            }}
+          >
+            Reset Secret Recovery Phrase
+          </div>
+          <i className="fas fa-chevron-right" style={{ color: "#696969" }} />
+        </div>
+      </div>
+      {/* <div className={style.container}>
         <PageButton
           title={intl.formatMessage({
             id: "setting.language",
@@ -187,7 +271,7 @@ export const SettingPage: FunctionComponent = observer(() => {
             []
           )}
         />
-      </div>
+      </div> */}
     </HeaderLayout>
   );
 });
