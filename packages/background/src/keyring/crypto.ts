@@ -5,7 +5,8 @@ import {
   ScryptParams,
   CommonCrypto,
 } from "./types";
-import { Hash } from "@proof-wallet/crypto";
+import { Hash, Mnemonic, PrivKeySecp256k1 } from "@proof-wallet/crypto";
+import { Bech32Address } from "@proof-wallet/cosmos";
 import pbkdf2 from "pbkdf2";
 
 import { Buffer } from "buffer/";
@@ -88,6 +89,24 @@ export class Crypto {
       }
     })();
     const buf = Buffer.from(text);
+    let bech32Address;
+    if (type != "ledger") {
+      let privKey;
+      if (type === "mnemonic") {
+        const masterSeed = Mnemonic.generateMasterSeedFromMnemonic(text);
+        privKey = new PrivKeySecp256k1(
+          Mnemonic.generatePrivateKeyFromMasterSeed(masterSeed)
+        );
+      } else {
+        privKey = new PrivKeySecp256k1(
+          Buffer.from(text.replace("0x", ""), "hex")
+        );
+      }
+      const publicKey = privKey.getPubKey().getAddress();
+      bech32Address = new Bech32Address(publicKey).toBech32("sei");
+    } else {
+      bech32Address = text;
+    }
 
     random = new Uint8Array(16);
     const iv = Buffer.from(await crypto.rng(random));
@@ -110,8 +129,7 @@ export class Crypto {
       bip44HDPath,
       meta: {
         ...meta,
-        mac: Buffer.from(mac).toString("hex"),
-        ciphertextHex: ciphertext.toString("hex"),
+        bech32Address,
       },
       crypto: {
         cipher: "aes-128-ctr",

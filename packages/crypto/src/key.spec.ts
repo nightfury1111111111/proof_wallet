@@ -1,4 +1,5 @@
 import { Mnemonic } from "./mnemonic";
+// import bech32 from "bech32";
 import { PrivKeySecp256k1 } from "./key";
 import { Hash } from "./hash";
 
@@ -10,7 +11,19 @@ describe("Test priv key", () => {
     const privKey = new PrivKeySecp256k1(
       Mnemonic.generateWalletFromMnemonic(mnemonic)
     );
+    // const privKey2 = new PrivKeySecp256k1(
+    //   Buffer.from(
+    //     "0x5afc6270af80293c5922ace130f7dc4fb6c920ec97d3a9a192d339e93bb7b5dd".replace(
+    //       "0x",
+    //       ""
+    //     ),
+    //     "hex"
+    //   )
+    // );
     const pubKey = privKey.getPubKey();
+    // const words = bech32.toWords(privKey2.getPubKey().getAddress());
+    // const bech32Address = bech32.encode("sei", words);
+    // console.log(bech32Address);
     expect(pubKey.toBytes()).toStrictEqual(
       new Uint8Array([
         2,
