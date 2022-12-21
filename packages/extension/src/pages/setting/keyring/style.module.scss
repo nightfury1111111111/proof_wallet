@@ -1,7 +1,7 @@
 @import "../../../styles/var";
 
 .container {
-  margin: 0 calc(#{$layout-padding} * -1) calc(#{$layout-padding} * -1);
+  // margin: 0 calc(#{$layout-padding} * -1) calc(#{$layout-padding} * -1);
 
   display: flex;
   flex-direction: column;
@@ -10,7 +10,68 @@
 
 .inner-top-container {
   display: flex;
-  margin: 0 $layout-padding;
+  flex-direction: column;
+  // margin: 0 $layout-padding;
 
+  margin-top: 13px;
   min-height: 43px;
+}
+
+.accountBox {
+  height: 68.34px;
+  background: #1d1d1d;
+  box-shadow: inset 0px 1.00501px 0px rgba(67, 67, 67, 0.75);
+  border-radius: 5.02507px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 11px 12.64px;
+  margin-bottom: 9px;
+}
+
+.avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-family: colfax-web;
+  font-weight: 700;
+  font-size: 18.08px;
+  line-height: 22px;
+  color: #131313;
+}
+
+.accountInfo {
+  display: flex;
+  align-items: center;
+}
+
+.copyButton {
+  width: 50px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #696969;
+  border-radius: 29px;
+
+  font-family: colfax-web;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 14px;
+  letter-spacing: 0.07em;
+  color: #959595;
+}
+
+.accountName {
+  color: "#E9E4DF";
+  font-weight: 600;
+  font-size: 16.0802px;
+  line-height: 19px;
+  color: #e9e4df;
 }

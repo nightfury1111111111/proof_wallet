@@ -30,3 +30,37 @@
     }
   }
 }
+
+.warningContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 13px;
+  background: #221919;
+  box-shadow: inset 0px 1.13158px 0px rgba(255, 126, 126, 0.15);
+  border-radius: 5px 5px 0px 0px;
+
+  .settingBox {
+    height: 43px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 13px 18px;
+    color: #ff7e7e !important;
+    font-style: normal;
+    font-family: colfax-web;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    cursor: pointer;
+
+    .icon {
+      position: relative;
+      width: 25px;
+      height: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 30px;
+    }
+  }
+}

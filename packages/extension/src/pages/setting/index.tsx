@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { HeaderLayout } from "../../layouts";
 import { useHistory } from "react-router";
 // import { PageButton } from "./page-button";
@@ -10,12 +10,18 @@ import { useStore } from "../../stores";
 import { FormattedMessage } from "react-intl";
 
 export const SettingPage: FunctionComponent = observer(() => {
+  const [idx, setIdx] = useState(0);
   const { keyRingStore } = useStore();
-  console.log(keyRingStore);
 
   // const language = useLanguage();
   const history = useHistory();
   const intl = useIntl();
+
+  useEffect(() => {
+    keyRingStore.multiKeyStoreInfo.map((tmpStore, i) => {
+      if (tmpStore.selected === true) setIdx(i);
+    });
+  }, [keyRingStore.multiKeyStoreInfo]);
 
   // const paragraphLang = language.automatic
   //   ? intl.formatMessage(
@@ -85,56 +91,50 @@ export const SettingPage: FunctionComponent = observer(() => {
         </div>
       </div>
       <div className={style.container}>
-        <div className={style.settingBox}>
+        {(keyRingStore.multiKeyStoreInfo[idx].type === "mnemonic" ||
+          keyRingStore.multiKeyStoreInfo[idx].type === "privateKey") && (
           <div
-            style={{
-              color: "#E9E4DF",
+            className={style.settingBox}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+
+              history.push(
+                `/setting/export/${idx}?type=${keyRingStore.multiKeyStoreInfo[idx].type}`
+              );
             }}
           >
-            Export Private Key
+            <div
+              style={{
+                color: "#E9E4DF",
+              }}
+            >
+              {keyRingStore.multiKeyStoreInfo[idx].type === "privateKey"
+                ? "Export Private Key"
+                : "Show Secret Recovery Phrase"}
+            </div>
+            <i className="fas fa-chevron-right" style={{ color: "#696969" }} />
           </div>
-          <i className="fas fa-chevron-right" style={{ color: "#696969" }} />
-        </div>
-        <div style={{ background: "#333333", height: "1px" }} />
-        <div className={style.settingBox}>
-          <div
-            style={{
-              color: "#E9E4DF",
-            }}
-          >
-            Show Secret Recovery Phrase
-          </div>
-          <i className="fas fa-chevron-right" style={{ color: "#696969" }} />
-        </div>
+        )}
       </div>
-      <div className={style.container}>
+      <div className={style.warningContainer}>
         <div
           className={style.settingBox}
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
 
-            history.push(`/setting/clear/0`);
+            history.push(`/setting/clear/${idx}`);
           }}
         >
-          <div
-            style={{
-              color: "#E9E4DF",
-            }}
-          >
+          <div>
             <FormattedMessage id="setting.clear" />
           </div>
           <i className="fas fa-chevron-right" style={{ color: "#696969" }} />
         </div>
         <div style={{ background: "#333333", height: "1px" }} />
         <div className={style.settingBox}>
-          <div
-            style={{
-              color: "#E9E4DF",
-            }}
-          >
-            Reset Secret Recovery Phrase
-          </div>
+          <div>Reset Secret Recovery Phrase</div>
           <i className="fas fa-chevron-right" style={{ color: "#696969" }} />
         </div>
       </div>

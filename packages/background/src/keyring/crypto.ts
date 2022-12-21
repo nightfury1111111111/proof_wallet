@@ -108,7 +108,11 @@ export class Crypto {
       type,
       coinTypeForChain: {},
       bip44HDPath,
-      meta,
+      meta: {
+        ...meta,
+        mac: Buffer.from(mac).toString("hex"),
+        ciphertextHex: ciphertext.toString("hex"),
+      },
       crypto: {
         cipher: "aes-128-ctr",
         cipherparams: {

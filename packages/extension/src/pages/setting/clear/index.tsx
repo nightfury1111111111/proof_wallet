@@ -44,12 +44,8 @@ export const ClearPage: FunctionComponent = observer(() => {
   }, [match.params.index]);
 
   const keyStore = useMemo(() => {
-    return keyRingStore.multiKeyStoreInfo.filter((tmpStore) => {
-      return tmpStore.selected === true;
-    })[0];
-    // return keyRingStore.multiKeyStoreInfo[parseInt(match.params.index)];
-  }, [keyRingStore.multiKeyStoreInfo]);
-  // }, [keyRingStore.multiKeyStoreInfo, match.params.index]);
+    return keyRingStore.multiKeyStoreInfo[parseInt(match.params.index)];
+  }, [keyRingStore.multiKeyStoreInfo, match.params.index]);
 
   return (
     <HeaderLayout
