@@ -12,6 +12,7 @@ import style from "./style.module.scss";
 import { useLoadingIndicator } from "../../../components/loading-indicator";
 // import { MultiKeyStoreInfoWithSelectedElem } from "@proof-wallet/background";
 import { FormattedMessage, useIntl } from "react-intl";
+import { Bech32Address } from "@proof-wallet/cosmos";
 
 export const SetKeyRingPage: FunctionComponent = observer(() => {
   const intl = useIntl();
@@ -63,7 +64,9 @@ export const SetKeyRingPage: FunctionComponent = observer(() => {
             return (
               <div
                 key={i.toString()}
-                className={style.accountBox}
+                className={
+                  keyStore.selected ? style.activeAccountBox : style.accountBox
+                }
                 onClick={
                   keyStore.selected
                     ? undefined
@@ -91,26 +94,67 @@ export const SetKeyRingPage: FunctionComponent = observer(() => {
                     {avatarName}
                   </div>
                   <div style={{ marginLeft: "10.14px" }}>
-                    <div className={style.accountName}>{`${
-                      keyStore.meta?.name
+                    <div className={style.accountName}>
+                      {keyStore.meta?.name
                         ? keyStore.meta.name
                         : intl.formatMessage({
                             id: "setting.keyring.unnamed-account",
-                          })
-                    } ${
-                      keyStore.selected
-                        ? intl.formatMessage({
-                            id: "setting.keyring.selected-account",
-                          })
-                        : ""
-                    }`}</div>
+                          })}
+                      {keyStore.selected && (
+                        <i
+                          key="selected"
+                          className="fas fa-check"
+                          style={{ color: "#7EFF9B", marginLeft: "7px" }}
+                        />
+                      )}
+                    </div>
+                    <div
+                      className={style.accountAddress}
+                      style={{
+                        color: keyStore.selected ? "#7EFF9B" : "#696969",
+                      }}
+                    >
+                      {keyStore.meta?.bech32Address &&
+                        Bech32Address.shortenAddress(
+                          keyStore.meta?.bech32Address,
+                          16
+                        )}
+                    </div>
                   </div>
                 </div>
-                <div className={style.copyButton}>Copy</div>
+                <div
+                  className={style.copyButton}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    keyStore.meta?.bech32Address &&
+                      navigator.clipboard.writeText(
+                        keyStore.meta?.bech32Address
+                      );
+                  }}
+                >
+                  Copy
+                </div>
               </div>
             );
           })}
-          <div
+          <div style={{ height: "70px", color: "transparent" }} />
+          <div className={style.footer}>
+            <Button
+              className={style.button}
+              onClick={(e) => {
+                e.preventDefault();
+                analyticsStore.logEvent("Add additional account started");
+
+                browser.tabs.create({
+                  url: "/popup.html#/register",
+                });
+              }}
+            >
+              <FormattedMessage id="setting.keyring.button.add" />
+            </Button>
+          </div>
+          {/* <div
             style={{
               display: "flex",
               flexDirection: "column",
@@ -135,7 +179,7 @@ export const SetKeyRingPage: FunctionComponent = observer(() => {
               />
               <FormattedMessage id="setting.keyring.button.add" />
             </Button>
-          </div>
+          </div> */}
         </div>
       </div>
     </HeaderLayout>
