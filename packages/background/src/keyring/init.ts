@@ -10,6 +10,7 @@ import {
   DeleteKeyRingMsg,
   UpdateNameKeyRingMsg,
   ShowKeyRingMsg,
+  ChangePasswordMsg,
   AddMnemonicKeyMsg,
   AddPrivateKeyMsg,
   GetMultiKeyStoreInfoMsg,
@@ -34,6 +35,7 @@ export function init(router: Router, service: KeyRingService): void {
   router.registerMessage(DeleteKeyRingMsg);
   router.registerMessage(UpdateNameKeyRingMsg);
   router.registerMessage(ShowKeyRingMsg);
+  router.registerMessage(ChangePasswordMsg);
   router.registerMessage(CreateMnemonicKeyMsg);
   router.registerMessage(AddMnemonicKeyMsg);
   router.registerMessage(CreatePrivateKeyMsg);

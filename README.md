@@ -6,3 +6,4 @@ used on SEI chain
 ** utils 
 
 background/src/keyring/crypto.ts -- "sei" hard cording
+didn't implement ledger feature -- change password

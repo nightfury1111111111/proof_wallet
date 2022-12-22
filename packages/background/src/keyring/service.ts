@@ -151,6 +151,23 @@ export class KeyRingService {
     return await this.keyRing.showKeyRing(index, password);
   }
 
+  async changePassword(
+    env: Env,
+    currentPassword: string,
+    newPassword: string,
+    kdf: "scrypt" | "sha256" | "pbkdf2"
+  ): Promise<{
+    status: KeyRingStatus;
+    multiKeyStoreInfo: MultiKeyStoreInfoWithSelected;
+  }> {
+    return await this.keyRing.changePassword(
+      env,
+      currentPassword,
+      newPassword,
+      kdf
+    );
+  }
+
   async createMnemonicKey(
     kdf: "scrypt" | "sha256" | "pbkdf2",
     mnemonic: string,

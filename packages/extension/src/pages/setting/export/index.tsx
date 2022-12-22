@@ -52,6 +52,7 @@ export const ExportPage: FunctionComponent = observer(() => {
     }
   }, [match.params.index]);
 
+  //download function
   useEffect(() => {
     if (keyRing.length > 0) {
       const link = document.createElement("a");

@@ -16,6 +16,7 @@ import {
   DeleteKeyRingMsg,
   UpdateNameKeyRingMsg,
   ShowKeyRingMsg,
+  ChangePasswordMsg,
   AddMnemonicKeyMsg,
   AddPrivateKeyMsg,
   GetMultiKeyStoreInfoMsg,
@@ -51,6 +52,8 @@ export const getHandler: (service: KeyRingService) => Handler = (
         );
       case ShowKeyRingMsg:
         return handleShowKeyRingMsg(service)(env, msg as ShowKeyRingMsg);
+      case ChangePasswordMsg:
+        return handleChangePasswordMsg(service)(env, msg as ChangePasswordMsg);
       case CreateMnemonicKeyMsg:
         return handleCreateMnemonicKeyMsg(service)(
           env,
@@ -162,6 +165,19 @@ const handleShowKeyRingMsg: (
 ) => InternalHandler<ShowKeyRingMsg> = (service) => {
   return async (_, msg) => {
     return await service.showKeyRing(msg.index, msg.password);
+  };
+};
+
+const handleChangePasswordMsg: (
+  service: KeyRingService
+) => InternalHandler<ChangePasswordMsg> = (service) => {
+  return async (env, msg) => {
+    return await service.changePassword(
+      env,
+      msg.currentPassword,
+      msg.newPassword,
+      msg.kdf
+    );
   };
 };
 

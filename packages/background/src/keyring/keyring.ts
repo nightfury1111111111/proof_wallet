@@ -951,6 +951,89 @@ export class KeyRing {
     }
   }
 
+  public async changePassword(
+    env: Env,
+    currentPassword: string,
+    newPassword: string,
+    kdf: "scrypt" | "sha256" | "pbkdf2"
+  ): Promise<{
+    status: KeyRingStatus;
+    multiKeyStoreInfo: MultiKeyStoreInfoWithSelected;
+  }> {
+    if (this.status !== KeyRingStatus.EMPTY) {
+      throw new KeplrError(
+        "keyring",
+        142,
+        "Key ring is not loaded or not empty"
+      );
+    }
+
+    if (this.password !== currentPassword) {
+      throw new KeplrError("keyring", 121, "Invalid password");
+    }
+    const tmpMultiKeyStore = [];
+    for (let index = 0; index < this.multiKeyStore.length; index++) {
+      const keyStore = this.multiKeyStore[index];
+
+      if (!keyStore) {
+        throw new KeplrError("keyring", 130, "Key store is empty");
+      }
+
+      const key = Buffer.from(
+        await Crypto.decrypt(this.crypto, keyStore, currentPassword)
+      ).toString();
+
+      let tmpKeyStore;
+      if (keyStore.type === "mnemonic") {
+        tmpKeyStore = await KeyRing.CreateMnemonicKeyStore(
+          this.crypto,
+          kdf,
+          key,
+          newPassword,
+          keyStore.meta || {},
+          keyStore.bip44HDPath || { account: 0, change: 0, addressIndex: 0 }
+        );
+      } else if (keyStore.type === "privateKey") {
+        tmpKeyStore = await KeyRing.CreatePrivateKeyStore(
+          this.crypto,
+          kdf,
+          Buffer.from(key.replace("0x", ""), "hex"),
+          newPassword,
+          keyStore.meta || {}
+        );
+      } else {
+        const publicKey = await this.ledgerKeeper.getPublicKey(
+          env,
+          LedgerApp.Cosmos,
+          keyStore.bip44HDPath || { account: 0, change: 0, addressIndex: 0 }
+        );
+
+        const pubKeys = {
+          [LedgerApp.Cosmos]: publicKey,
+        };
+
+        tmpKeyStore = await KeyRing.CreateLedgerKeyStore(
+          this.crypto,
+          kdf,
+          pubKeys,
+          newPassword,
+          keyStore.meta || {},
+          keyStore.bip44HDPath || { account: 0, change: 0, addressIndex: 0 }
+        );
+      }
+      tmpMultiKeyStore.push(tmpKeyStore);
+    }
+    this.multiKeyStore = tmpMultiKeyStore;
+    this.password = newPassword;
+
+    await this.save();
+
+    return {
+      status: this.status,
+      multiKeyStoreInfo: this.getMultiKeyStoreInfo(),
+    };
+  }
+
   public get canSetPath(): boolean {
     return this.type === "mnemonic" || this.type === "ledger";
   }

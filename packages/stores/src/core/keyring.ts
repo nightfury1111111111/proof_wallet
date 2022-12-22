@@ -18,6 +18,7 @@ import {
   RestoreKeyRingMsg,
   SetKeyStoreCoinTypeMsg,
   ShowKeyRingMsg,
+  ChangePasswordMsg,
   UnlockKeyRingMsg,
   KeyRing,
   CheckPasswordMsg,
@@ -306,6 +307,19 @@ export class KeyRingStore {
   async showKeyRing(index: number, password: string) {
     const msg = new ShowKeyRingMsg(index, password);
     return await this.requester.sendMessage(BACKGROUND_PORT, msg);
+  }
+
+  @flow
+  *changePassword(
+    currentPassword: string,
+    newPassword: string,
+    kdf: "scrypt" | "sha256" | "pbkdf2" = this.defaultKdf
+  ) {
+    const msg = new ChangePasswordMsg(currentPassword, newPassword, kdf);
+    const result = yield* toGenerator(
+      this.requester.sendMessage(BACKGROUND_PORT, msg)
+    );
+    this.status = result.status;
   }
 
   @flow

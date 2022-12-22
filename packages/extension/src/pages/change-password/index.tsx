@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState, useEffect, useRef } from "react";
 
 import { PasswordInput } from "../../components/form";
 
@@ -13,12 +13,7 @@ import { EmptyLayout } from "../../layouts/empty-layout";
 import style from "./style.module.scss";
 
 import { useIntl } from "react-intl";
-import { useInteractionInfo } from "@proof-wallet/hooks";
 import { useHistory } from "react-router";
-// import delay from "delay";
-// import { StartAutoLockMonitoringMsg } from "@proof-wallet/background";
-// import { InExtensionMessageRequester } from "@proof-wallet/router-extension";
-// import { BACKGROUND_PORT } from "@proof-wallet/router";
 
 interface FormData {
   currentPassword: string;
@@ -29,8 +24,15 @@ interface FormData {
 export const ChangePassword: FunctionComponent = observer(() => {
   const intl = useIntl();
   const history = useHistory();
+  const passwordRef = useRef<HTMLInputElement | null>();
 
-  const { register, handleSubmit, getValues, errors } = useForm<FormData>({
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    setError,
+    errors,
+  } = useForm<FormData>({
     defaultValues: {
       currentPassword: "",
       newPassword: "",
@@ -41,9 +43,12 @@ export const ChangePassword: FunctionComponent = observer(() => {
   const { keyRingStore } = useStore();
   const [loading, setLoading] = useState(false);
 
-  const interactionInfo = useInteractionInfo(() => {
-    keyRingStore.rejectAll();
-  });
+  useEffect(() => {
+    if (passwordRef.current) {
+      // Focus the password input on enter.
+      passwordRef.current.focus();
+    }
+  }, []);
 
   return (
     <EmptyLayout className={style.layout}>
@@ -57,6 +62,20 @@ export const ChangePassword: FunctionComponent = observer(() => {
         className={style.formContainer}
         onSubmit={handleSubmit(async (data) => {
           setLoading(true);
+          const isValidPassword = await keyRingStore.checkPassword(
+            data.currentPassword
+          );
+          if (!isValidPassword) {
+            setError(
+              "currentPassword",
+              "invalid",
+              intl.formatMessage({
+                id: "lock.input.password.error.invalid",
+              })
+            );
+            setLoading(false);
+            return;
+          }
           setLoading(false);
         })}
       >
@@ -74,6 +93,7 @@ export const ChangePassword: FunctionComponent = observer(() => {
           placeholder="Current Password"
           error={errors.currentPassword && errors.currentPassword.message}
           ref={(ref) => {
+            passwordRef.current = ref;
             register({
               required: intl.formatMessage({
                 id: "lock.input.password.error.required",

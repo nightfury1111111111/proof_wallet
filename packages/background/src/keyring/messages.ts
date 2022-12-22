@@ -141,6 +141,49 @@ export class ShowKeyRingMsg extends Message<string> {
   }
 }
 
+export class ChangePasswordMsg extends Message<{
+  status: KeyRingStatus;
+  multiKeyStoreInfo: MultiKeyStoreInfoWithSelected;
+}> {
+  public static type() {
+    return "change-password";
+  }
+
+  constructor(
+    public readonly currentPassword: string,
+    public readonly newPassword: string,
+    public readonly kdf: "scrypt" | "sha256" | "pbkdf2"
+  ) {
+    super();
+  }
+
+  validateBasic(): void {
+    if (
+      this.kdf !== "scrypt" &&
+      this.kdf !== "sha256" &&
+      this.kdf !== "pbkdf2"
+    ) {
+      throw new KeplrError("keyring", 202, "Invalid kdf");
+    }
+
+    if (!this.currentPassword) {
+      throw new KeplrError("keyring", 274, "current password not set");
+    }
+
+    if (!this.newPassword) {
+      throw new KeplrError("keyring", 301, "new password not set");
+    }
+  }
+
+  route(): string {
+    return ROUTE;
+  }
+
+  type(): string {
+    return ChangePasswordMsg.type();
+  }
+}
+
 export class CreateMnemonicKeyMsg extends Message<{
   status: KeyRingStatus;
   multiKeyStoreInfo: MultiKeyStoreInfoWithSelected;
