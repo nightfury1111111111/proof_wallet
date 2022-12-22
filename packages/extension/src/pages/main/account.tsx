@@ -11,13 +11,14 @@ import { ToolTip } from "../../components/tooltip";
 import { useIntl } from "react-intl";
 import { WalletStatus } from "@proof-wallet/stores";
 import { KeplrError } from "@proof-wallet/router";
+import { useHistory } from "react-router";
 
 export const AccountView: FunctionComponent = observer(() => {
   const { accountStore, chainStore } = useStore();
   const accountInfo = accountStore.getAccount(chainStore.current.chainId);
 
   const intl = useIntl();
-
+  const history = useHistory();
   const notification = useNotification();
 
   const copyAddress = useCallback(
@@ -93,7 +94,8 @@ export const AccountView: FunctionComponent = observer(() => {
           <div style={{ flex: 1 }} />
           <div
             className={styleAccount.address}
-            onClick={() => copyAddress(accountInfo.bech32Address)}
+            // onClick={() => copyAddress(accountInfo.bech32Address)}
+            onClick={() => history.push("/setting/set-keyring")}
           >
             <Address maxCharacters={22} lineBreakBeforePrefix={false}>
               {accountInfo.walletStatus === WalletStatus.Loaded &&

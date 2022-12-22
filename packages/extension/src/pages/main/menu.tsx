@@ -83,7 +83,7 @@ export const Menu: FunctionComponent = observer(() => {
           />
         </div>
       </div>
-      <div
+      {/* <div
         className={styleMenu.item}
         onClick={() => {
           history.push("/setting/set-keyring");
@@ -96,7 +96,7 @@ export const Menu: FunctionComponent = observer(() => {
             src={require("../../public/assets/img/right-caret.svg")}
           />
         </div>
-      </div>
+      </div> */}
       {(chainStore.current.features ?? []).find(
         (feature) => feature === "cosmwasm" || feature === "secretwasm"
       ) ? (

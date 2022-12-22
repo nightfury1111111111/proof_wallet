@@ -16,6 +16,7 @@ import { SelectTokenPage } from "./pages/selectToken";
 import { ManageNftPage } from "./pages/nft";
 import { IBCTransferPage } from "./pages/ibc-transfer";
 import { SetKeyRingPage } from "./pages/setting/keyring";
+import { ChangePassword } from "./pages/change-password";
 
 import { Banner } from "./components/banner";
 
@@ -77,7 +78,7 @@ require("./public/assets/256.png");
 require("./public/assets/icon/16.png");
 require("./public/assets/icon/48.png");
 require("./public/assets/icon/128.png");
-require("./public/assets/logo-beta-256.png");
+// require("./public/assets/logo-beta-256.png");
 require("./public/assets/icon/icon-beta-16.png");
 require("./public/assets/icon/icon-beta-48.png");
 require("./public/assets/icon/icon-beta-128.png");
@@ -227,6 +228,11 @@ ReactDOM.render(
                     exact
                     path="/setting/set-keyring"
                     component={SetKeyRingPage}
+                  />
+                  <Route
+                    exact
+                    path="/setting/change-password"
+                    component={ChangePassword}
                   />
                   <Route
                     exact
