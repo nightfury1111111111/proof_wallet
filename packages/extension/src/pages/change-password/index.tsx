@@ -75,6 +75,17 @@ export const ChangePassword: FunctionComponent = observer(() => {
             );
             setLoading(false);
             return;
+          } else {
+            try {
+              await keyRingStore.changePassword(
+                data.currentPassword,
+                data.newPassword
+              );
+            } catch (e) {
+              console.log("Fail to decrypt: " + e.message);
+              alert("error");
+              setLoading(false);
+            }
           }
           setLoading(false);
         })}
