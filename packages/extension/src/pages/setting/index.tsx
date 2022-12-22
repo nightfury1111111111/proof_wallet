@@ -61,13 +61,18 @@ export const SettingPage: FunctionComponent = observer(() => {
       }}
     >
       <div className={style.container}>
-        <div className={style.settingBox}>
+        <div
+          className={style.settingBox}
+          onClick={() => {
+            history.push("/setting/change-password");
+          }}
+        >
           <div
             style={{
               color: "#E9E4DF",
             }}
           >
-            Change password
+            Change passwords
           </div>
           <i className="fas fa-chevron-right" style={{ color: "#696969" }} />
         </div>

@@ -158,7 +158,7 @@ export const ExportPage: FunctionComponent = observer(() => {
                   className={style.buttonActive}
                   data-loading={loading}
                 >
-                  Download
+                  Export
                 </Button>
               </div>
             </Form>

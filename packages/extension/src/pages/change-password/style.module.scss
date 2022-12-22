@@ -17,6 +17,10 @@
   left: 10px !important;
 }
 
+.passwordWrapper {
+  margin-bottom: 0.4rem !important;
+}
+
 .password {
   background: rgba(0, 0, 0, 0.2);
   padding: 16px 24px;
@@ -66,4 +70,73 @@
   // height: 14px;
   // background-image: url("../../public/assets/img/header-logo.png");
   background-size: cover;
+}
+
+.image {
+  margin-top: 30px;
+  width: 160.38px;
+  height: 160.38px;
+}
+
+.title {
+  font-family: roc-grotesk;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 116.5%;
+  text-align: center;
+  color: #ffffff;
+  margin-bottom: 14px;
+}
+
+.footer {
+  border-radius: 4px;
+  width: 100%;
+  height: 70px;
+  background: #272727;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  box-shadow: inset 0px 1px 0px #393939;
+}
+
+.button {
+  border-color: transparent !important;
+  width: 160px;
+  height: 38px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #323232;
+  border-radius: 35px;
+  color: #959595;
+  font-family: colfax-web;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  cursor: pointer;
+}
+
+.buttonActive {
+  width: 160px;
+  height: 38px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(180deg, #ffdf8b 0%, #ffc989 100%);
+  box-shadow: inset 0px 1px 0px #fff9ef;
+  border-radius: 35px;
+  border: none !important;
+  color: #141414;
+  font-family: colfax-web;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  cursor: pointer;
 }
