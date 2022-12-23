@@ -960,14 +960,7 @@ export class KeyRing {
     status: KeyRingStatus;
     multiKeyStoreInfo: MultiKeyStoreInfoWithSelected;
   }> {
-    if (this.status !== KeyRingStatus.EMPTY) {
-      throw new KeplrError(
-        "keyring",
-        142,
-        "Key ring is not loaded or not empty"
-      );
-    }
-
+    console.log(env);
     if (this.password !== currentPassword) {
       throw new KeplrError("keyring", 121, "Invalid password");
     }
@@ -1002,15 +995,25 @@ export class KeyRing {
           keyStore.meta || {}
         );
       } else {
-        const publicKey = await this.ledgerKeeper.getPublicKey(
-          env,
-          LedgerApp.Cosmos,
-          keyStore.bip44HDPath || { account: 0, change: 0, addressIndex: 0 }
+        const pubKeys: Record<string, Uint8Array> = {};
+        const cipherText = await Crypto.decrypt(
+          this.crypto,
+          keyStore,
+          currentPassword
         );
 
-        const pubKeys = {
-          [LedgerApp.Cosmos]: publicKey,
-        };
+        try {
+          const encodedPubkeys = JSON.parse(Buffer.from(cipherText).toString());
+          Object.keys(encodedPubkeys).forEach(
+            (k) => (pubKeys[k] = Buffer.from(encodedPubkeys[k], "hex"))
+          );
+        } catch (e) {
+          // Decode as bytes (Legacy representation)
+          pubKeys[LedgerApp.Cosmos] = Buffer.from(
+            Buffer.from(cipherText).toString(),
+            "hex"
+          );
+        }
 
         tmpKeyStore = await KeyRing.CreateLedgerKeyStore(
           this.crypto,
@@ -1022,11 +1025,19 @@ export class KeyRing {
         );
       }
       tmpMultiKeyStore.push(tmpKeyStore);
+      if (
+        this.keyStore?.meta?.bech32Address === keyStore?.meta?.bech32Address
+      ) {
+        this.keyStore = tmpKeyStore;
+      }
     }
-    this.multiKeyStore = tmpMultiKeyStore;
     this.password = newPassword;
-
+    this.multiKeyStore = tmpMultiKeyStore;
     await this.save();
+
+    //test unlock
+    // await this.unlock(newPassword);
+    // await this.save();
 
     return {
       status: this.status,

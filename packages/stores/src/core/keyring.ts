@@ -279,6 +279,7 @@ export class KeyRingStore {
       this.requester.sendMessage(BACKGROUND_PORT, msg)
     );
     this.status = result.status;
+    console.log(result);
 
     // Approve all waiting interaction for the enabling key ring.
     for (const interaction of this.interactionStore.getDatas("unlock")) {
@@ -320,6 +321,8 @@ export class KeyRingStore {
       this.requester.sendMessage(BACKGROUND_PORT, msg)
     );
     this.status = result.status;
+    console.log(result);
+    this.multiKeyStoreInfo = result.multiKeyStoreInfo;
   }
 
   @flow

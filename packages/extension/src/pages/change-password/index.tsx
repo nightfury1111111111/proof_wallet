@@ -83,11 +83,11 @@ export const ChangePassword: FunctionComponent = observer(() => {
               );
             } catch (e) {
               console.log("Fail to decrypt: " + e.message);
-              alert("error");
               setLoading(false);
             }
           }
           setLoading(false);
+          history.goBack();
         })}
       >
         <div style={{ display: "flex", justifyContent: "center" }}>
