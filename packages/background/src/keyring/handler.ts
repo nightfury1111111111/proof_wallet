@@ -31,6 +31,7 @@ import {
   RequestVerifyADR36AminoSignDoc,
   RequestSignEIP712CosmosTxMsg_v0,
   InitNonDefaultLedgerAppMsg,
+  ResetKeyRingMsg,
 } from "./messages";
 import { KeyRingService } from "./service";
 import { Bech32Address } from "@proof-wallet/cosmos";
@@ -45,6 +46,8 @@ export const getHandler: (service: KeyRingService) => Handler = (
         return handleRestoreKeyRingMsg(service)(env, msg as RestoreKeyRingMsg);
       case DeleteKeyRingMsg:
         return handleDeleteKeyRingMsg(service)(env, msg as DeleteKeyRingMsg);
+      case ResetKeyRingMsg:
+        return handleResetKeyRingMsg(service)(env, msg as ResetKeyRingMsg);
       case UpdateNameKeyRingMsg:
         return handleUpdateNameKeyRingMsg(service)(
           env,
@@ -149,6 +152,14 @@ const handleDeleteKeyRingMsg: (
 ) => InternalHandler<DeleteKeyRingMsg> = (service) => {
   return async (_, msg) => {
     return await service.deleteKeyRing(msg.index, msg.password);
+  };
+};
+
+const handleResetKeyRingMsg: (
+  service: KeyRingService
+) => InternalHandler<ResetKeyRingMsg> = (service) => {
+  return async (_, msg) => {
+    return await service.resetKeyRing(msg.password);
   };
 };
 

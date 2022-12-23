@@ -83,6 +83,32 @@ export class DeleteKeyRingMsg extends Message<{
   }
 }
 
+export class ResetKeyRingMsg extends Message<{
+  status: KeyRingStatus;
+}> {
+  public static type() {
+    return "reset-keyring";
+  }
+
+  constructor(public readonly password: string) {
+    super();
+  }
+
+  validateBasic(): void {
+    if (!this.password) {
+      throw new KeplrError("keyring", 274, "password not set");
+    }
+  }
+
+  route(): string {
+    return ROUTE;
+  }
+
+  type(): string {
+    return ResetKeyRingMsg.type();
+  }
+}
+
 export class UpdateNameKeyRingMsg extends Message<{
   multiKeyStoreInfo: MultiKeyStoreInfoWithSelected;
 }> {

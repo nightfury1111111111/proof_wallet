@@ -138,7 +138,15 @@ export const SettingPage: FunctionComponent = observer(() => {
           <i className="fas fa-chevron-right" style={{ color: "#696969" }} />
         </div>
         <div style={{ background: "#333333", height: "1px" }} />
-        <div className={style.settingBox}>
+        <div
+          className={style.settingBox}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            history.push("/setting/reset-seed");
+          }}
+        >
           <div>Reset Secret Recovery Phrase</div>
           <i className="fas fa-chevron-right" style={{ color: "#696969" }} />
         </div>

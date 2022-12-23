@@ -612,6 +612,23 @@ export class KeyRing {
     };
   }
 
+  public async resetKeyRing(password: string) {
+    if (this.status !== KeyRingStatus.UNLOCKED) {
+      throw new KeplrError("keyring", 143, "Key ring is not unlocked");
+    }
+
+    if (this.password !== password) {
+      throw new KeplrError("keyring", 121, "Invalid password");
+    }
+
+    this.keyStore = null;
+    this.mnemonicMasterSeed = undefined;
+    this.privateKey = undefined;
+    this.ledgerPublicKeyCache = undefined;
+    this.multiKeyStore = [];
+    await this.save();
+  }
+
   public async updateNameKeyRing(
     index: number,
     name: string

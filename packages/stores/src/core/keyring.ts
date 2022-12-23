@@ -9,6 +9,7 @@ import {
   CreateMnemonicKeyMsg,
   CreatePrivateKeyMsg,
   DeleteKeyRingMsg,
+  ResetKeyRingMsg,
   UpdateNameKeyRingMsg,
   GetIsKeyStoreCoinTypeSetMsg,
   GetMultiKeyStoreInfoMsg,
@@ -342,6 +343,15 @@ export class KeyRingStore {
       this.dispatchKeyStoreChangeEvent();
       this.selectablesMap.forEach((selectables) => selectables.refresh());
     }
+  }
+
+  @flow
+  *resetKeyRing(password: string) {
+    const msg = new ResetKeyRingMsg(password);
+    const result = yield* toGenerator(
+      this.requester.sendMessage(BACKGROUND_PORT, msg)
+    );
+    this.status = result.status;
   }
 
   @flow

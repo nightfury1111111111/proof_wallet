@@ -17,6 +17,7 @@ import { ManageNftPage } from "./pages/nft";
 import { IBCTransferPage } from "./pages/ibc-transfer";
 import { SetKeyRingPage } from "./pages/setting/keyring";
 import { ChangePassword } from "./pages/change-password";
+import { ResetSeedPage } from "./pages/setting/reset-seed";
 
 import { Banner } from "./components/banner";
 
@@ -232,6 +233,11 @@ ReactDOM.render(
                     exact
                     path="/setting/change-password"
                     component={ChangePassword}
+                  />
+                  <Route
+                    exact
+                    path="/setting/reset-seed"
+                    component={ResetSeedPage}
                   />
                   <Route
                     exact

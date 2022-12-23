@@ -135,6 +135,17 @@ export class KeyRingService {
     }
   }
 
+  async resetKeyRing(
+    password: string
+  ): Promise<{
+    status: KeyRingStatus;
+  }> {
+    await this.keyRing.resetKeyRing(password);
+    return {
+      status: this.keyRing.status,
+    };
+  }
+
   async updateNameKeyRing(
     index: number,
     name: string

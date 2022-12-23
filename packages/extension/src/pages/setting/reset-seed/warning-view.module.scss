@@ -1,0 +1,24 @@
+.inner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.trash-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 116.5%;
+  color: #ffffff;
+  font-family: colfax-web;
+  margin-bottom: 19px;
+
+  img {
+    width: 160.38px;
+    height: 160.38px;
+  }
+}
