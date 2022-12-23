@@ -1,4 +1,10 @@
-import React, { FunctionComponent, useEffect, useMemo, useState } from "react";
+import React, {
+  FunctionComponent,
+  useEffect,
+  useMemo,
+  useState,
+  useRef,
+} from "react";
 import { RegisterConfig } from "@proof-wallet/hooks";
 import { observer } from "mobx-react-lite";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -105,6 +111,7 @@ export const AddPassswordModePage: FunctionComponent<{
   bip44Option: BIP44Option;
 }> = observer(({ registerConfig, newMnemonicConfig }) => {
   const intl = useIntl();
+  const passwordRef = useRef<HTMLInputElement | null>();
 
   const { register, handleSubmit, getValues, errors } = useForm<FormData>({
     defaultValues: {
@@ -114,6 +121,13 @@ export const AddPassswordModePage: FunctionComponent<{
       confirmPassword: "",
     },
   });
+
+  useEffect(() => {
+    if (passwordRef.current) {
+      // Focus the password input on enter.
+      passwordRef.current.focus();
+    }
+  }, []);
 
   return (
     <div style={{ width: "100%" }}>
@@ -147,11 +161,14 @@ export const AddPassswordModePage: FunctionComponent<{
           name="name"
           placeholder="Enter account name"
           spellCheck={false}
-          ref={register({
-            required: intl.formatMessage({
-              id: "register.name.error.required",
-            }),
-          })}
+          ref={(ref) => {
+            passwordRef.current = ref;
+            register({
+              required: intl.formatMessage({
+                id: "register.name.error.required",
+              }),
+            })(ref);
+          }}
           error={errors.name && errors.name.message}
         />
         {registerConfig.mode === "create" ? (

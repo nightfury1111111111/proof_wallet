@@ -28,7 +28,8 @@ export const SettingAutoLockPage: FunctionComponent = () => {
 
   // const minDuration = 0;
   // const maxDuration = 4320;
-  const durationTime = [1, 5, 10, 15, 20, 30, 40, 60, 0];
+  // const durationTime = [1, 5, 10, 15, 20, 30, 40, 60, 0];   // if 0 - forever
+  const durationTime = [1, 5, 10, 15, 20, 30, 40, 60];
 
   const [currentDuration, setCurrentDuration] = useState(30);
 
@@ -55,10 +56,6 @@ export const SettingAutoLockPage: FunctionComponent = () => {
         setCurrentDuration(duration / 60000);
       });
   }, []);
-
-  useEffect(() => {
-    console.log("currentDuration", currentDuration);
-  }, [currentDuration]);
 
   function updateAutoLockDuration(input: string) {
     let duration = parseInt(input);

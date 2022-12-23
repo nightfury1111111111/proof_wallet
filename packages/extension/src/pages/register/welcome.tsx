@@ -1,5 +1,12 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import Lottie from "react-lottie";
+
+import {
+  GetAutoLockAccountDurationMsg,
+  UpdateAutoLockAccountDurationMsg,
+} from "@proof-wallet/background/src/auto-lock-account";
+import { InExtensionMessageRequester } from "@proof-wallet/router-extension";
+import { BACKGROUND_PORT } from "@proof-wallet/router";
 
 import styleWelcome from "./welcome.module.scss";
 import { Button } from "reactstrap";
@@ -13,6 +20,23 @@ export const WelcomePage: FunctionComponent = () => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
+
+  useEffect(() => {
+    // set the lock time as 30 min
+    const msg = new GetAutoLockAccountDurationMsg();
+    new InExtensionMessageRequester()
+      .sendMessage(BACKGROUND_PORT, msg)
+      .then(function (duration) {
+        console.log("duration", duration);
+        if (duration === 0) {
+          const updateMsg = new UpdateAutoLockAccountDurationMsg(30 * 60000);
+          new InExtensionMessageRequester().sendMessage(
+            BACKGROUND_PORT,
+            updateMsg
+          );
+        }
+      });
+  }, []);
 
   // const intl = useIntl();
 
