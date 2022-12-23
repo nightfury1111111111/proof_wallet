@@ -2,13 +2,13 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { HeaderLayout } from "../../../layouts";
 
 import { useHistory } from "react-router";
-import { Button, Form } from "reactstrap";
-import { DescriptionView } from "./description-view";
+// import { Button, Form } from "reactstrap";
+// import { DescriptionView } from "./description-view";
 
-import { Input } from "../../../components/form";
+// import { Input } from "../../../components/form";
 import style from "./style.module.scss";
-import useForm from "react-hook-form";
-import { FormattedMessage, useIntl } from "react-intl";
+// import useForm from "react-hook-form";
+import { useIntl } from "react-intl";
 
 import {
   GetAutoLockAccountDurationMsg,
@@ -18,31 +18,47 @@ import {
 import { InExtensionMessageRequester } from "@proof-wallet/router-extension";
 import { BACKGROUND_PORT } from "@proof-wallet/router";
 
-interface FormData {
-  duration: string;
-}
+// interface FormData {
+//   duration: string;
+// }
 
 export const SettingAutoLockPage: FunctionComponent = () => {
   const history = useHistory();
   const intl = useIntl();
 
-  const minDuration = 0;
-  const maxDuration = 4320;
+  // const minDuration = 0;
+  // const maxDuration = 4320;
+  const durationTime = [1, 5, 10, 15, 20, 30, 40, 60, 0];
 
-  const { setValue, register, handleSubmit, errors } = useForm<FormData>({
-    defaultValues: {
-      duration: "30",
-    },
-  });
+  const [currentDuration, setCurrentDuration] = useState(30);
+
+  // const { setValue, register, handleSubmit, errors } = useForm<FormData>({
+  //   defaultValues: {
+  //     duration: "0",
+  //   },
+  // });
+
+  // useEffect(() => {
+  //   const msg = new GetAutoLockAccountDurationMsg();
+  //   new InExtensionMessageRequester()
+  //     .sendMessage(BACKGROUND_PORT, msg)
+  //     .then(function (duration) {
+  //       setValue("duration", (duration / 60000).toString());
+  //     });
+  // }, [setValue]);
 
   useEffect(() => {
     const msg = new GetAutoLockAccountDurationMsg();
     new InExtensionMessageRequester()
       .sendMessage(BACKGROUND_PORT, msg)
       .then(function (duration) {
-        setValue("duration", (duration / 60000).toString());
+        setCurrentDuration(duration / 60000);
       });
-  }, [setValue]);
+  }, []);
+
+  useEffect(() => {
+    console.log("currentDuration", currentDuration);
+  }, [currentDuration]);
 
   function updateAutoLockDuration(input: string) {
     let duration = parseInt(input);
@@ -54,7 +70,7 @@ export const SettingAutoLockPage: FunctionComponent = () => {
     history.goBack();
   }
 
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   return (
     <HeaderLayout
@@ -68,8 +84,50 @@ export const SettingAutoLockPage: FunctionComponent = () => {
       }}
     >
       <div className={style.container}>
-        <DescriptionView />
-        <Form
+        {/* <DescriptionView /> */}
+        {durationTime.map((time, idx) => {
+          return (
+            <div key={idx}>
+              <div
+                className={style.timeBox}
+                onClick={() => updateAutoLockDuration(time.toString())}
+              >
+                <div
+                  style={{
+                    color: currentDuration === time ? "#E9E4DF" : "#959595",
+                  }}
+                >
+                  {time === 0 ? "Don't allow auto-lock" : `${time} min`}
+                </div>
+                {currentDuration === time && (
+                  <div className={style.icon}>
+                    <div
+                      style={{
+                        position: "absolute",
+                        left: 0,
+                        top: 0,
+                        width: "25px",
+                        height: "25px",
+                        borderRadius: "30px",
+                        background: "#7eff9b",
+                        opacity: 0.15,
+                      }}
+                    />
+                    <i
+                      key="selected"
+                      className="fas fa-check"
+                      style={{ color: "#7EFF9B", scale: 0.6 }}
+                    />
+                  </div>
+                )}
+              </div>
+              {idx != durationTime.length - 1 && (
+                <div style={{ background: "#333333", height: "1px" }} />
+              )}
+            </div>
+          );
+        })}
+        {/* <Form
           onSubmit={handleSubmit(async (data) => {
             setIsLoading(true);
             updateAutoLockDuration(data.duration);
@@ -105,7 +163,7 @@ export const SettingAutoLockPage: FunctionComponent = () => {
           <Button type="submit" color="primary" block data-loading={isLoading}>
             <FormattedMessage id="setting.endpoints.button.confirm" />
           </Button>
-        </Form>
+        </Form> */}
       </div>
     </HeaderLayout>
   );
