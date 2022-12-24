@@ -125,7 +125,7 @@ export const SettingConnectionsPage: FunctionComponent = observer(() => {
                   height: "36px",
                   borderRadius: "50px",
                 }}
-                src={require("../../../public/assets/img/remove.svg")}
+                src={'https://proofwalletsvgs.s3.amazonaws.com/error'}
               />
             </div>
           );
