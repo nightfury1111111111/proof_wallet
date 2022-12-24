@@ -161,6 +161,7 @@ export const AddPassswordModePage: FunctionComponent<{
           name="name"
           placeholder="Enter account name"
           spellCheck={false}
+          maxLength={10}
           ref={(ref) => {
             passwordRef.current = ref;
             register({
