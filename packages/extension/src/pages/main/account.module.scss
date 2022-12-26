@@ -4,21 +4,26 @@
   flex-direction: row;
 }
 
-.select-popup {
+.select-popup-wrapper {
   position: absolute;
+  width: 161px;
+  left: 0px;
+  top: -4px;
+  padding: 4px 15px 10px 15px;
+  z-index: 90;
+}
+
+.select-popup {
   width: 131px;
   height: 71px;
   padding: 4px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transform: translate(-25%, 50%);
-
   background: #1f1f1f;
   border: 1px solid #393939;
   box-shadow: 0px 0px 11px rgb(0 0 0 / 30%);
   border-radius: 8px;
-  z-index: 90;
 }
 
 .select-item {
@@ -43,6 +48,8 @@
 }
 
 .name {
+  width: 160px;
+  text-align: center;
   font-size: 20px;
   color: #ffffff;
   font-weight: bold;

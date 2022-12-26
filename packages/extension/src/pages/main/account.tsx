@@ -46,7 +46,10 @@ export const AccountView: FunctionComponent = observer(() => {
 
   return (
     <div style={{ position: "relative" }}>
-      <div className={styleAccount.containerName} onClick={() => isShow(!show)}>
+      <div
+        className={styleAccount.containerName}
+        onMouseEnter={() => isShow(true)}
+      >
         <div className={styleAccount.name}>
           {accountInfo.walletStatus === WalletStatus.Loaded
             ? accountInfo.name ||
@@ -58,38 +61,48 @@ export const AccountView: FunctionComponent = observer(() => {
             : "Loading..."}
         </div>
         {show && (
-          <div className={styleAccount.selectPopup}>
-            {accountInfo.walletStatus === WalletStatus.Loaded &&
-              accountInfo.bech32Address && (
+          <div
+            className={styleAccount.selectPopupWrapper}
+            onMouseLeave={() => isShow(false)}
+          >
+            <div style={{ marginTop: "4px", paddingTop: "32px" }}>
+              <div
+                className={styleAccount.selectPopup}
+                onMouseLeave={() => isShow(false)}
+              >
+                {accountInfo.walletStatus === WalletStatus.Loaded &&
+                  accountInfo.bech32Address && (
+                    <div
+                      className={styleAccount.selectItem}
+                      onClick={async () => {
+                        await navigator.clipboard.writeText(
+                          accountInfo.bech32Address
+                        );
+                      }}
+                    >
+                      <div>
+                        {Bech32Address.shortenAddress(
+                          accountInfo.bech32Address,
+                          13
+                        )}
+                      </div>
+                      <img
+                        style={{ width: "13px", height: "13px" }}
+                        src={require("../../public/assets/img/copy-icon.svg")}
+                      />
+                    </div>
+                  )}
                 <div
                   className={styleAccount.selectItem}
-                  onClick={async () => {
-                    await navigator.clipboard.writeText(
-                      accountInfo.bech32Address
-                    );
-                  }}
+                  onClick={() => history.push("/setting/set-keyring")}
                 >
-                  <div>
-                    {Bech32Address.shortenAddress(
-                      accountInfo.bech32Address,
-                      13
-                    )}
-                  </div>
+                  <div>switch wallet</div>
                   <img
                     style={{ width: "13px", height: "13px" }}
-                    src={require("../../public/assets/img/copy-icon.svg")}
+                    src={require("../../public/assets/img/change.svg")}
                   />
                 </div>
-              )}
-            <div
-              className={styleAccount.selectItem}
-              onClick={() => history.push("/setting/set-keyring")}
-            >
-              <div>switch wallet</div>
-              <img
-                style={{ width: "13px", height: "13px" }}
-                src={require("../../public/assets/img/change.svg")}
-              />
+              </div>
             </div>
           </div>
         )}
