@@ -210,7 +210,7 @@
   "send.input.amount": "Amount",
   "send.input.amount.error.insufficient": "Insufficient asset",
   "send.input.memo": "Memo (Optional)",
-  "send.input.fee": "Fee",
+  "send.input.fee": "Fees",
   "send.input.fee.error.required": "Fee is required",
   "send.input.gas": "Gas",
   "send.input-button.balance": "Balance",

@@ -11,6 +11,7 @@ import {
   Button,
   ButtonDropdown,
   ButtonGroup,
+  Collapse,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
@@ -20,7 +21,7 @@ import {
   Label,
 } from "reactstrap";
 
-import classnames from "classnames";
+//import classnames from "classnames";
 import { observer } from "mobx-react-lite";
 import {
   IFeeConfig,
@@ -32,9 +33,7 @@ import {
 import { CoinGeckoPriceStore } from "@proof-wallet/stores";
 import { useLanguage } from "../../../languages";
 import { FormattedMessage, useIntl } from "react-intl";
-import { GasInput } from "../gas-input";
 import { action, autorun, makeObservable, observable } from "mobx";
-import { GasContainer } from "../gas-form";
 import styleCoinInput from "../coin-input.module.scss";
 import { useStore } from "../../../stores";
 
@@ -78,11 +77,9 @@ class FeeButtonState {
 export const FeeButtons: FunctionComponent<FeeButtonsProps> = observer(
   ({
     feeConfig,
-    gasConfig,
     priceStore,
     label,
     feeSelectLabels = { low: "Low", average: "Average", high: "High" },
-    gasLabel,
     gasSimulator,
     showFeeCurrencySelectorUnderSetGas,
   }) => {
@@ -93,9 +90,9 @@ export const FeeButtons: FunctionComponent<FeeButtonsProps> = observer(
     const [feeButtonState] = useState(() => new FeeButtonState());
 
     useEffect(() => {
-      // Try to find other fee currency if the account doesn't have enough fee to pay.
-      // This logic can be slightly complex, so use mobx's `autorun`.
-      // This part fairly different with the approach of react's hook.
+      // Try to find other fee currency if the account doesn"t have enough fee to pay.
+      // This logic can be slightly complex, so use mobx"s `autorun`.
+      // This part fairly different with the approach of react"s hook.
       let skip = false;
       // Try until 500ms to avoid the confusion to user.
       const timeoutId = setTimeout(() => {
@@ -116,7 +113,7 @@ export const FeeButtons: FunctionComponent<FeeButtonsProps> = observer(
             .queryBalances.getQueryBech32Address(feeConfig.sender);
 
           // Basically, `FeeConfig` implementation select the first fee currency as default.
-          // So, let's put the priority to first fee currency.
+          // So, let"s put the priority to first fee currency.
           const firstFeeCurrency = feeConfig.feeCurrencies[0];
           const firstFeeCurrencyBal = queryBalances.getBalanceFromCurrency(
             firstFeeCurrency
@@ -173,35 +170,6 @@ export const FeeButtons: FunctionComponent<FeeButtonsProps> = observer(
             feeButtonState={feeButtonState}
             gasSimulator={gasSimulator}
           />
-        ) : null}
-        {feeButtonState.isGasInputOpen || !feeConfig.feeCurrency ? (
-          gasSimulator ? (
-            feeConfig.feeCurrencies.length > 1 &&
-            showFeeCurrencySelectorUnderSetGas ? (
-              <React.Fragment>
-                <FeeCurrencySelector feeConfig={feeConfig} />
-                <GasContainer
-                  label={gasLabel}
-                  gasConfig={gasConfig}
-                  gasSimulator={gasSimulator}
-                />
-              </React.Fragment>
-            ) : (
-              <GasContainer
-                label={gasLabel}
-                gasConfig={gasConfig}
-                gasSimulator={gasSimulator}
-              />
-            )
-          ) : feeConfig.feeCurrencies.length > 1 &&
-            showFeeCurrencySelectorUnderSetGas ? (
-            <React.Fragment>
-              <FeeCurrencySelector feeConfig={feeConfig} />
-              <GasInput label={gasLabel} gasConfig={gasConfig} />
-            </React.Fragment>
-          ) : (
-            <GasInput label={gasLabel} gasConfig={gasConfig} />
-          )
         ) : null}
       </React.Fragment>
     );
@@ -297,8 +265,8 @@ export const FeeButtonsInner: FunctionComponent<
     feeConfig,
     priceStore,
     label,
-    feeSelectLabels = { low: "Low", average: "Average", high: "High" },
     feeButtonState,
+    feeSelectLabels = { low: "Low", average: "Average", high: "High" },
     gasSimulator,
   }) => {
     useEffect(() => {
@@ -367,101 +335,116 @@ export const FeeButtonsInner: FunctionComponent<
     }
 
     return (
+
       <FormGroup style={{ position: "relative" }}>
-        {label ? (
-          <Label for={inputId} className="form-control-label">
-            {label}
-          </Label>
-        ) : null}
-        <ButtonGroup id={inputId} className={styleFeeButtons.buttons}>
+        <div style={{ position: "absolute", left: "-7px" , top:"-13px"}}>
           <Button
-            type="button"
-            className={styleFeeButtons.button}
-            color={feeConfig.feeType === "low" ? "primary" : undefined}
-            onClick={(e: MouseEvent) => {
-              feeConfig.setFeeType("low");
+            size="sm"
+            color="link"
+            onClick={(e) => {
               e.preventDefault();
+              feeButtonState.setIsGasInputOpen(!feeButtonState.isGasInputOpen);
             }}
-          >
-            <div className={styleFeeButtons.title}>{feeSelectLabels.low}</div>
-            {lowFeePrice ? (
-              <div
-                className={classnames(styleFeeButtons.fiat, {
-                  "text-muted": feeConfig.feeType !== "low",
-                })}
-              >
-                {lowFeePrice.toString()}
-              </div>
-            ) : null}
-            <div
-              className={classnames(styleFeeButtons.coin, {
-                "text-muted": feeConfig.feeType !== "low",
-              })}
             >
-              {
-                // Hide ibc metadata because there is no space to display the ibc metadata.
-                // Generally, user can distinguish the ibc metadata because the ibc metadata should be shown in the fee currency selector.
-                lowFee.hideIBCMetadata(true).trim(true).toString()
+            {!feeButtonState.isGasInputOpen 
+              ?         
+              <img
+              src={require("../../../public/assets/img/arrowDown.svg")}
+              alt="arrow-down"
+              />
+              :              
+              <img
+              src={require("../../../public/assets/img/arrowUp.svg")}
+              alt="arrown-up"
+              /> 
               }
-            </div>
+
+          {label ? (
+            <Label for={inputId} className={styleFeeButtons.feeLabel} style={{ position: "absolute",left:"30px", top:"6px", cursor: "pointer"}}>
+              {label}
+            </Label>
+          ) : null}
           </Button>
-          <Button
-            type="button"
-            className={styleFeeButtons.button}
-            color={feeConfig.feeType === "average" ? "primary" : undefined}
-            onClick={(e: MouseEvent) => {
-              feeConfig.setFeeType("average");
-              e.preventDefault();
-            }}
-          >
-            <div className={styleFeeButtons.title}>
-              {feeSelectLabels.average}
-            </div>
-            {averageFeePrice ? (
-              <div
-                className={classnames(styleFeeButtons.fiat, {
-                  "text-muted": feeConfig.feeType !== "average",
-                })}
-              >
-                {averageFeePrice.toString()}
-              </div>
-            ) : null}
-            <div
-              className={classnames(styleFeeButtons.coin, {
-                "text-muted": feeConfig.feeType !== "average",
-              })}
+        </div>
+        <Collapse isOpen={feeButtonState.isGasInputOpen}>
+          <ButtonGroup id={inputId} className={styleFeeButtons.buttons} style={{top:"20px"}} >
+            <button
+              type="button"
+              className={feeConfig.feeType === "low" ? styleFeeButtons.feeButtonsSelected : styleFeeButtons.button }
+              //color={feeConfig.feeType === "low" ? styleFeeButtons.feeButtonsSelected : undefined}
+              onClick={(e: MouseEvent) => {
+                feeConfig.setFeeType("low");
+                e.preventDefault();
+              }}
             >
-              {averageFee.hideIBCMetadata(true).trim(true).toString()}
-            </div>
-          </Button>
-          <Button
-            type="button"
-            className={styleFeeButtons.button}
-            color={feeConfig.feeType === "high" ? "primary" : undefined}
-            onClick={(e: MouseEvent) => {
-              feeConfig.setFeeType("high");
-              e.preventDefault();
-            }}
-          >
-            <div className={styleFeeButtons.title}>{feeSelectLabels.high}</div>
-            {highFeePrice ? (
+              <div className={styleFeeButtons.title}>{feeSelectLabels.low}</div>
+              {lowFeePrice ? (
+                <div
+                className={feeConfig.feeType === "low" ? styleFeeButtons.fiatSelected : styleFeeButtons.fiat }
+                >
+                  {lowFeePrice.toString()}
+                </div>
+              ) : null}
               <div
-                className={classnames(styleFeeButtons.fiat, {
-                  "text-muted": feeConfig.feeType !== "high",
-                })}
+                className={feeConfig.feeType === "low" ? styleFeeButtons.coinSelected : styleFeeButtons.coin }
               >
-                {highFeePrice.toString()}
+                {
+                  // Hide ibc metadata because there is no space to display the ibc metadata.
+                  // Generally, user can distinguish the ibc metadata because the ibc metadata should be shown in the fee currency selector.
+                  lowFee.hideIBCMetadata(true).trim(true).toString()
+                }
               </div>
-            ) : null}
-            <div
-              className={classnames(styleFeeButtons.coin, {
-                "text-muted": feeConfig.feeType !== "high",
-              })}
+            </button>
+            <button
+              type="button"
+              className={feeConfig.feeType === "average" ? styleFeeButtons.feeButtonsSelected : styleFeeButtons.button }
+              //color={feeConfig.feeType === "average" ? styleFeeButtons.feeButtonsSelected : undefined}
+              onClick={(e: MouseEvent) => {
+                feeConfig.setFeeType("average");
+                e.preventDefault();
+              }}
             >
-              {highFee.hideIBCMetadata(true).trim(true).toString()}
-            </div>
-          </Button>
-        </ButtonGroup>
+              <div className={styleFeeButtons.title}>
+                {feeSelectLabels.average}
+              </div>
+              {averageFeePrice ? (
+                <div
+                className={feeConfig.feeType === "average" ? styleFeeButtons.fiatSelected : styleFeeButtons.fiat }
+                >
+                  {averageFeePrice.toString()}
+                </div>
+              ) : null}
+              <div
+                className={feeConfig.feeType === "average" ? styleFeeButtons.coinSelected : styleFeeButtons.coin }
+              >
+                {averageFee.hideIBCMetadata(true).trim(true).toString()}
+              </div>
+            </button>
+            <button
+              type="button"
+              className={feeConfig.feeType === "high" ? styleFeeButtons.feeButtonsSelected : styleFeeButtons.button }
+              //color={feeConfig.feeType === "high" ? styleFeeButtons.feeButtonsSelected : undefined}
+              onClick={(e: MouseEvent) => {
+                feeConfig.setFeeType("high");
+                e.preventDefault();
+              }}
+            >
+              <div className={styleFeeButtons.title}>{feeSelectLabels.high}</div>
+              {highFeePrice ? (
+                <div 
+                className={feeConfig.feeType === "high" ? styleFeeButtons.fiatSelected : styleFeeButtons.fiat }
+                >
+                  {highFeePrice.toString()}
+                </div>
+              ) : null}
+              <div
+                className={feeConfig.feeType === "high" ? styleFeeButtons.coinSelected : styleFeeButtons.coin }
+              >
+                {highFee.hideIBCMetadata(true).trim(true).toString()}
+              </div>
+            </button>
+          </ButtonGroup>
+        </Collapse>
         {isFeeLoading ? (
           <FormText>
             <i className="fa fa-spinner fa-spin fa-fw" />
@@ -470,24 +453,6 @@ export const FeeButtonsInner: FunctionComponent<
         {errorText != null ? (
           <FormFeedback style={{ display: "block" }}>{errorText}</FormFeedback>
         ) : null}
-        <div style={{ position: "absolute", right: 0 }}>
-          <Button
-            size="sm"
-            color="link"
-            onClick={(e) => {
-              e.preventDefault();
-              feeButtonState.setIsGasInputOpen(!feeButtonState.isGasInputOpen);
-            }}
-          >
-            {!feeButtonState.isGasInputOpen
-              ? intl.formatMessage({
-                  id: "input.fee.toggle.set-gas",
-                })
-              : intl.formatMessage({
-                  id: "input.fee.toggle.set-gas.close",
-                })}
-          </Button>
-        </div>
       </FormGroup>
     );
   }

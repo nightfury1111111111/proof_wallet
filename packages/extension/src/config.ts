@@ -1929,8 +1929,8 @@ export const EmbedChainInfos: ChainInfo[] = [
       {
         coinDenom: "SEI",
         coinMinimalDenom: "usei",
-        coinDecimals: 6,
-        coinImageUrl: "https://trade.vortexprotocol.io/images/tokens/SEI.png",
+        coinDecimals: 6, 
+        coinImageUrl: "https://proofwalletsvgs.s3.amazonaws.com/sei",
       },
       {
         coinDenom: "USDC",

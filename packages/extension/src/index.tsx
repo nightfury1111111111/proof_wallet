@@ -131,7 +131,7 @@ const StateRenderer: FunctionComponent = observer(() => {
     return (
       <div style={{ height: "100%" }}>
         <Banner
-          icon={require("./public/assets/logo-round.svg")}
+          icon={'https://proofwalletsvgs.s3.amazonaws.com/logo.svg'}
           logo={require("./public/assets/brand-text.png")}
           title="Welcome Back"
           subtitle="Unlock your wallet to continue"
@@ -142,7 +142,7 @@ const StateRenderer: FunctionComponent = observer(() => {
     return (
       <div style={{ height: "100%" }}>
         <Banner
-          icon={require("./public/assets/logo-round.svg")}
+          icon={'https://proofwalletsvgs.s3.amazonaws.com/logo.svg'}
           logo={require("./public/assets/brand-text.png")}
           title="Welcome Back"
           subtitle="Unlock your wallet to continue"
