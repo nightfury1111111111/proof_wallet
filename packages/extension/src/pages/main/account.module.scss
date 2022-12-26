@@ -1,6 +1,40 @@
 .container-name {
+  position: relative;
   display: flex;
   flex-direction: row;
+}
+
+.select-popup {
+  position: absolute;
+  width: 131px;
+  height: 71px;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transform: translate(-25%, 50%);
+
+  background: #1f1f1f;
+  border: 1px solid #393939;
+  box-shadow: 0px 0px 11px rgb(0 0 0 / 30%);
+  border-radius: 8px;
+  z-index: 90;
+}
+
+.select-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 9px;
+
+  color: #959595;
+  font-family: colfax-web;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: 0.3px;
+  cursor: pointer;
 }
 
 .name {

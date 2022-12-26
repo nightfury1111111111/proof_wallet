@@ -11,14 +11,15 @@ import { ToolTip } from "../../components/tooltip";
 import { useIntl } from "react-intl";
 import { WalletStatus } from "@proof-wallet/stores";
 import { KeplrError } from "@proof-wallet/router";
-import { useHistory } from "react-router";
+// import { useHistory } from "react-router";
+import { Bech32Address } from "@proof-wallet/cosmos";
 
 export const AccountView: FunctionComponent = observer(() => {
   const { accountStore, chainStore } = useStore();
   const accountInfo = accountStore.getAccount(chainStore.current.chainId);
 
   const intl = useIntl();
-  const history = useHistory();
+  // const history = useHistory();
   const notification = useNotification();
 
   const copyAddress = useCallback(
@@ -45,7 +46,6 @@ export const AccountView: FunctionComponent = observer(() => {
   return (
     <div style={{ position: "relative" }}>
       <div className={styleAccount.containerName}>
-        <div style={{ flex: 1 }} />
         <div className={styleAccount.name}>
           {accountInfo.walletStatus === WalletStatus.Loaded
             ? accountInfo.name ||
@@ -56,7 +56,27 @@ export const AccountView: FunctionComponent = observer(() => {
             ? "Unable to Load Key"
             : "Loading..."}
         </div>
-        <div style={{ flex: 1 }} />
+        <div className={styleAccount.selectPopup}>
+          {accountInfo.walletStatus === WalletStatus.Loaded &&
+            accountInfo.bech32Address && (
+              <div className={styleAccount.selectItem}>
+                <div>
+                  {Bech32Address.shortenAddress(accountInfo.bech32Address, 10)}
+                </div>
+                <img
+                  style={{ width: "13px", height: "13px" }}
+                  src={require("../../public/assets/img/copy-icon.svg")}
+                />
+              </div>
+            )}
+          <div className={styleAccount.selectItem}>
+            <div>switch wallet</div>
+            <img
+              style={{ width: "13px", height: "13px" }}
+              src={require("../../public/assets/img/change.svg")}
+            />
+          </div>
+        </div>
       </div>
       {accountInfo.walletStatus === WalletStatus.Rejected && (
         <ToolTip
@@ -89,7 +109,7 @@ export const AccountView: FunctionComponent = observer(() => {
           />
         </ToolTip>
       )}
-      {accountInfo.walletStatus !== WalletStatus.Rejected && (
+      {/* {accountInfo.walletStatus !== WalletStatus.Rejected && (
         <div className={styleAccount.containerAccount}>
           <div style={{ flex: 1 }} />
           <div
@@ -106,7 +126,7 @@ export const AccountView: FunctionComponent = observer(() => {
           </div>
           <div style={{ flex: 1 }} />
         </div>
-      )}
+      )} */}
       {accountInfo.hasEthereumHexAddress && (
         <div
           className={styleAccount.containerAccount}
