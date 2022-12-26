@@ -34,13 +34,19 @@
   font-size: 14px;
   line-height: 17px;
   letter-spacing: 0.3px;
+  border-radius: 6px;
   cursor: pointer;
+
+  &:hover {
+    background: rgba(233, 228, 223, 0.1);
+  }
 }
 
 .name {
   font-size: 20px;
   color: #ffffff;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .container-account {
