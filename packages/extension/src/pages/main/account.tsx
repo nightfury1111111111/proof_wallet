@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 
 import { Address } from "../../components/address";
 
@@ -15,7 +15,6 @@ import { useHistory } from "react-router";
 import { Bech32Address } from "@proof-wallet/cosmos";
 
 export const AccountView: FunctionComponent = observer(() => {
-  const [show, isShow] = useState(false);
   const { accountStore, chainStore } = useStore();
   const accountInfo = accountStore.getAccount(chainStore.current.chainId);
 
@@ -48,7 +47,7 @@ export const AccountView: FunctionComponent = observer(() => {
     <div style={{ position: "relative" }}>
       <div
         className={styleAccount.containerName}
-        onMouseEnter={() => isShow(true)}
+        // onMouseEnter={() => isShow(true)}
       >
         <div className={styleAccount.name}>
           {accountInfo.walletStatus === WalletStatus.Loaded
@@ -60,49 +59,45 @@ export const AccountView: FunctionComponent = observer(() => {
             ? "Unable to Load Key"
             : "Loading..."}
         </div>
-        {show && (
-          <div className={styleAccount.selectPopupWrapper}>
-            <div style={{ marginTop: "4px", paddingTop: "32px" }}>
-              <div
-                className={styleAccount.selectPopup}
-                onMouseLeave={() => isShow(false)}
-              >
-                {accountInfo.walletStatus === WalletStatus.Loaded &&
-                  accountInfo.bech32Address && (
-                    <div
-                      className={styleAccount.selectItem}
-                      onClick={async () => {
-                        await navigator.clipboard.writeText(
-                          accountInfo.bech32Address
-                        );
-                      }}
-                    >
-                      <div>
-                        {Bech32Address.shortenAddress(
-                          accountInfo.bech32Address,
-                          13
-                        )}
-                      </div>
-                      <img
-                        style={{ width: "13px", height: "13px" }}
-                        src={require("../../public/assets/img/copy-icon.svg")}
-                      />
-                    </div>
-                  )}
+        <div className={styleAccount.selectPopupWrapper}>
+          <div
+            className={styleAccount.selectPopup}
+            // onMouseLeave={() => isShow(false)}
+          >
+            {accountInfo.walletStatus === WalletStatus.Loaded &&
+              accountInfo.bech32Address && (
                 <div
                   className={styleAccount.selectItem}
-                  onClick={() => history.push("/setting/set-keyring")}
+                  onClick={async () => {
+                    await navigator.clipboard.writeText(
+                      accountInfo.bech32Address
+                    );
+                  }}
                 >
-                  <div>switch wallet</div>
+                  <div>
+                    {Bech32Address.shortenAddress(
+                      accountInfo.bech32Address,
+                      13
+                    )}
+                  </div>
                   <img
                     style={{ width: "13px", height: "13px" }}
-                    src={require("../../public/assets/img/change.svg")}
+                    src={require("../../public/assets/img/copy-icon.svg")}
                   />
                 </div>
-              </div>
+              )}
+            <div
+              className={styleAccount.selectItem}
+              onClick={() => history.push("/setting/set-keyring")}
+            >
+              <div>switch wallet</div>
+              <img
+                style={{ width: "13px", height: "13px" }}
+                src={require("../../public/assets/img/change.svg")}
+              />
             </div>
           </div>
-        )}
+        </div>
       </div>
       {accountInfo.walletStatus === WalletStatus.Rejected && (
         <ToolTip
