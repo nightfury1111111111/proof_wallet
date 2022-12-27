@@ -61,10 +61,7 @@ export const AccountView: FunctionComponent = observer(() => {
             : "Loading..."}
         </div>
         {show && (
-          <div
-            className={styleAccount.selectPopupWrapper}
-            onMouseLeave={() => isShow(false)}
-          >
+          <div className={styleAccount.selectPopupWrapper}>
             <div style={{ marginTop: "4px", paddingTop: "32px" }}>
               <div
                 className={styleAccount.selectPopup}
