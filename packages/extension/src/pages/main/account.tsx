@@ -14,6 +14,16 @@ import { KeplrError } from "@proof-wallet/router";
 import { useHistory } from "react-router";
 import { Bech32Address } from "@proof-wallet/cosmos";
 
+const createShortenName = (name: string) => {
+  if (name === "") {
+    return "";
+  } else if (name.indexOf(" ") > 0 && name.indexOf(" ") < name.length - 1) {
+    return name[0] + name[name.indexOf(" ") + 1];
+  } else {
+    return name[0];
+  }
+};
+
 export const AccountView: FunctionComponent = observer(() => {
   const { accountStore, chainStore } = useStore();
   const accountInfo = accountStore.getAccount(chainStore.current.chainId);
@@ -50,6 +60,14 @@ export const AccountView: FunctionComponent = observer(() => {
         // onMouseEnter={() => isShow(true)}
       >
         <div className={styleAccount.name}>
+          {accountInfo.walletStatus === WalletStatus.Loaded && (
+            <div
+              className={styleAccount.avatar}
+              style={{ background: "#FFD48A" }}
+            >
+              {createShortenName(accountInfo.name)}
+            </div>
+          )}
           {accountInfo.walletStatus === WalletStatus.Loaded
             ? accountInfo.name ||
               intl.formatMessage({
@@ -58,6 +76,10 @@ export const AccountView: FunctionComponent = observer(() => {
             : accountInfo.walletStatus === WalletStatus.Rejected
             ? "Unable to Load Key"
             : "Loading..."}
+          <img
+            className={styleAccount.dropdownImage}
+            src={require("../../public/assets/img/arrow.svg")}
+          />
         </div>
         <div className={styleAccount.selectPopupWrapper}>
           <div
