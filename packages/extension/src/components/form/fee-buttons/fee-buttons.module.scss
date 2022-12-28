@@ -16,6 +16,7 @@
     height: 52px;
     cursor: pointer;
     margin:.4em;
+    line-height: 17px;
     color: #696969;
     border: 1px solid rgba(0, 0, 0, 0);
     background-color: rgba(0, 0, 0, 0);
@@ -26,15 +27,18 @@
     }
 
     .title {
-      font-weight: bold;
+      font-weight: 500;
+      font-size: 14px;
     }
 
     .fiat {
-      font-size: 10px;
+      font-weight: 400;
+      font-size: 14px;
     }
 
     .coin {
-      font-size: 10px;
+      font-weight: 400;
+      font-size: 14px;
     }
   }
 
@@ -43,9 +47,9 @@
     flex: 1;
     padding-left: 0;
     padding-right: 0;
-    font-family: colfax-web;
+    font-family: "colfax-web";
     font-style: normal;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 14px;
     line-height: 17px;
     height: 52px;
@@ -64,16 +68,18 @@
 
   }
   .title-selected {
-    font-weight: bold;
+    font-weight: 500;
+    font-size: 14px;
   }
   .coin-selected {
-    font-size: 10px;
+    font-size: 14px;
+    font-weight: 400;
     color: #E9E4DF;
   }
 }
 
 .fee-label {
-  font-family: colfax-web;
+  font-family: "colfax-web";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
