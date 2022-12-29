@@ -10,6 +10,45 @@
   justify-content: space-between;
 }
 
+.noNftContainer {
+  padding-top: 14px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 11.6em;
+  //justify-content: space-between;
+  position: fixed;
+}
+
+.noNfts {
+  position: relative;
+  display: flex;
+  margin-bottom: 16px;
+  // justify-content: center;
+}
+
+.noNftsBubble {
+  width: 179px;
+  height: 31px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  position: absolute;
+  z-index: 10;
+  margin: 4.6em;
+  text-align: center;
+  padding-top: 0.1rem;
+  border-radius: 70px;
+
+  .noNftsBubbleText {
+
+    font-family: 'colfax-web';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #959595;
+  }
+}
+
 .nftTile {
   position: relative;
   display: flex;

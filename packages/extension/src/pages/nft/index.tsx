@@ -112,7 +112,7 @@ export const ManageNftPage: FunctionComponent = observer(() => {
     <HeaderLayout
       showChainName
       canChangeChainInfo={false}
-      style={{ height: "auto", minHeight: "100%" }}
+      style={{ height: "auto", minHeight: "100%"}}
       onBackButton={() => {
         history.goBack();
       }}
@@ -142,84 +142,110 @@ export const ManageNftPage: FunctionComponent = observer(() => {
     >
       {page === "collection" && (
         <div>
-          {isLoading && (
-            <div className={style.loadingContainer}>
-              <i
-                className="fas fa-spinner fa-spin ml-1"
-                style={{ color: "white" }}
-              />
-            </div>
-          )}
-          {!isLoading && (
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
             <div
               style={{
-                width: "100%",
+                width: "280px",
+                position: "relative",
                 display: "flex",
-                justifyContent: "space-between",
+                alignItems: "center",
+                marginTop: "14px",
               }}
             >
               <div
-                style={{
-                  width: "280px",
-                  position: "relative",
-                  display: "flex",
-                  alignItems: "center",
-                  marginTop: "14px",
-                }}
+                className={style.inputWrapper}
+                style={
+                  focused
+                    ? {
+                        border: "4px solid rgba(255, 212, 138, 0.3)",
+                        // transform: "translate(-4px, -4px)",
+                      }
+                    : {}
+                }
               >
-                <div
-                  className={style.inputWrapper}
-                  style={
-                    focused
-                      ? {
-                          border: "4px solid rgba(255, 212, 138, 0.3)",
-                          // transform: "translate(-4px, -4px)",
-                        }
-                      : {}
-                  }
-                >
-                  <Input
-                    className={classnames(
-                      "form-control-alternative",
-                      style.searchBox
-                    )}
-                    placeholder="Search a collectible"
-                    value={keyword}
-                    spellCheck={false}
-                    onFocus={() => {
-                      setFocused(true);
-                    }}
-                    onBlur={() => {
-                      setFocused(false);
-                    }}
-                    onChange={(e) => {
-                      setKeyword(e.target.value);
-                      const availableNfts = nfts.filter((nft) => {
-                        return (
-                          nft.name
-                            .toLowerCase()
-                            .indexOf(e.target.value.toLowerCase()) > -1
-                        );
-                      });
-                      setTmpNfts(availableNfts);
-                      e.preventDefault();
-                    }}
-                    autoComplete="off"
-                  />
-                </div>
-                <img
-                  className={style.searchIcon}
-                  src={require("../../public/assets/img/search.svg")}
+                <Input
+                  className={classnames(
+                    "form-control-alternative",
+                    style.searchBox
+                  )}
+                  placeholder="Search a collectible"
+                  value={keyword}
+                  spellCheck={false}
+                  
+                  onFocus={() => {
+                    setFocused(true);
+                  }}
+                  onBlur={() => {
+                    setFocused(false);
+                  }}
+                  onChange={(e) => {
+                    setKeyword(e.target.value);
+                    const availableNfts = nfts.filter((nft) => {
+                      return (
+                        nft.name
+                          .toLowerCase()
+                          .indexOf(e.target.value.toLowerCase()) > -1
+                      );
+                    });
+                    setTmpNfts(availableNfts);
+                    e.preventDefault();
+                  }}
+                  autoComplete="off"
                 />
               </div>
-              <div className={style.funcBtn}>
-                <img
-                  style={{ width: "43px", height: "43px" }}
-                  src={require("../../public/assets/img/button.svg")}
-                />
-              </div>
+              <img
+                className={style.searchIcon}
+                src={require("../../public/assets/img/search.svg")}
+              />
+            </div>
+            <div className={style.funcBtn}>
+              <img
+                style={{ width: "43px", height: "43px" }}
+                src={require("../../public/assets/img/button.svg")}
+              />
+            </div>
+          </div>
+          {isLoading && (
+            <div className={style.noNftContainer}>
+              <img
+                src={require("../../public/assets/img/noNFT.svg")}
+                className={style.noNfts}
+                alt="No NFTs"
+              />
+              <img
+                src={require("../../public/assets/img/noNFT.svg")}
+                className={style.noNfts}
+                alt="No NFTs"
+              />
+              <img
+                src={require("../../public/assets/img/noNFT.svg")}
+                className={style.noNfts}
+                alt="No NFTs"
+              />
+              <img
+                src={require("../../public/assets/img/noNFT.svg")}
+                className={style.noNfts}
+                alt="No NFTs"
+              />
+              <img
+                src={require("../../public/assets/img/noNFT.svg")}
+                className={style.noNfts}
+                alt="No NFTs"
+              />
+              <img
+                src={require("../../public/assets/img/noNFT.svg")}
+                className={style.noNfts}
+                alt="No NFTs"
+              />
             </div>
           )}
+          {tmpNfts.length > 0 ? 
           <div className={style.nftContainer}>
             {tmpNfts.map((nft, idx) => {
               return (
@@ -244,6 +270,45 @@ export const ManageNftPage: FunctionComponent = observer(() => {
               );
             })}
           </div>
+          : 
+          !isLoading && (<div>
+            <div className={style.noNftsBubble}>
+              <span className={style.noNftsBubbleText}>You don’t own any NFTs</span>
+            </div>
+             <div className={style.noNftContainer}>
+              <img
+                src={require("../../public/assets/img/noNFT.svg")}
+                className={style.noNfts}
+                alt="No NFTs"
+              />
+              <img
+                src={require("../../public/assets/img/noNFT.svg")}
+                className={style.noNfts}
+                alt="No NFTs"
+              />
+              <img
+                src={require("../../public/assets/img/noNFT.svg")}
+                className={style.noNfts}
+                alt="No NFTs"
+              />
+              <img
+                src={require("../../public/assets/img/noNFT.svg")}
+                className={style.noNfts}
+                alt="No NFTs"
+              />
+              <img
+                src={require("../../public/assets/img/noNFT.svg")}
+                className={style.noNfts}
+                alt="No NFTs"
+              />
+              <img
+                src={require("../../public/assets/img/noNFT.svg")}
+                className={style.noNfts}
+                alt="No NFTs"
+              />
+            </div>
+          </div>)
+          }
           {!isLoading && (
             <div style={{ height: "70px", color: "transparent" }} />
           )}
