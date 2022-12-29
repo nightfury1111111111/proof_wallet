@@ -92,6 +92,9 @@
     background: rgba(233, 228, 223, 0.1);
     color: #ffffff;
   }
+  &:active {
+    transform: scale(0.95);
+  }
 }
 
 .container-account {
