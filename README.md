@@ -9,6 +9,7 @@ used on SEI chain
 -- missing
 background/src/keyring/crypto.ts -- "sei" hard cording
 didn't implement ledger feature -- change password
+nft transfer msg() -- hard coding
 
 
 -- have to remember

@@ -21,6 +21,7 @@ import { SignMode } from "@proof-wallet/proto-types/cosmos/tx/signing/v1beta1/si
 import { PubKey } from "@proof-wallet/proto-types/cosmos/crypto/secp256k1/keys";
 import { Coin } from "@proof-wallet/proto-types/cosmos/base/v1beta1/coin";
 import { MsgSend } from "@proof-wallet/proto-types/cosmos/bank/v1beta1/tx";
+import { MsgExecuteContract } from "@proof-wallet/proto-types/cosmwasm/wasm/v1/tx";
 import { MsgTransfer } from "@proof-wallet/proto-types/ibc/applications/transfer/v1/tx";
 import {
   MsgBeginRedelegate,
@@ -335,6 +336,77 @@ export class CosmosAccountImpl {
     }
 
     return false;
+  }
+
+  protected async processSendNft(
+    currency: AppCurrency,
+    nftContract: string,
+    tokenId: number,
+    recipient: string,
+    memo: string,
+    stdFee: Partial<StdFee>,
+    signOptions?: KeplrSignOptions,
+    onTxEvents?:
+      | ((tx: any) => void)
+      | {
+          onBroadcasted?: (txHash: Uint8Array) => void;
+          onFulfill?: (tx: any) => void;
+        }
+  ): Promise<boolean> {
+    const msg = {
+      type: "wasm/MsgExecuteContract",
+      value: {
+        contract: nftContract,
+        funds: [],
+        msg: {
+          transfer_nft: {
+            recipient,
+            token_id: tokenId,
+          },
+        },
+        sender: this.base.bech32Address,
+      },
+    };
+
+    await this.sendMsgs(
+      "send",
+      {
+        aminoMsgs: [msg],
+        protoMsgs: [
+          {
+            typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
+            value: MsgSend.encode({
+              fromAddress: msg.value.from_address,
+              toAddress: msg.value.to_address,
+              amount: msg.value.amount,
+            }).finish(),
+          },
+        ],
+      },
+      memo,
+      {
+        amount: stdFee.amount ?? [],
+        gas: stdFee.gas ?? this.msgOpts.send.native.gas.toString(),
+      },
+      signOptions,
+      txEventsWithPreOnFulfill(onTxEvents, (tx) => {
+        if (tx.code == null || tx.code === 0) {
+          // After succeeding to send token, refresh the balance.
+          const queryBalance = this.queries.queryBalances
+            .getQueryBech32Address(this.base.bech32Address)
+            .balances.find((bal) => {
+              return (
+                bal.currency.coinMinimalDenom === currency.coinMinimalDenom
+              );
+            });
+
+          if (queryBalance) {
+            queryBalance.fetch();
+          }
+        }
+      })
+    );
+    return true;
   }
 
   async sendMsgs(
