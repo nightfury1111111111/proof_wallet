@@ -214,32 +214,7 @@ export const ManageNftPage: FunctionComponent = observer(() => {
           {isLoading && (
             <div className={style.noNftContainer}>
               <img
-                src={require("../../public/assets/img/noNFT.svg")}
-                className={style.noNfts}
-                alt="No NFTs"
-              />
-              <img
-                src={require("../../public/assets/img/noNFT.svg")}
-                className={style.noNfts}
-                alt="No NFTs"
-              />
-              <img
-                src={require("../../public/assets/img/noNFT.svg")}
-                className={style.noNfts}
-                alt="No NFTs"
-              />
-              <img
-                src={require("../../public/assets/img/noNFT.svg")}
-                className={style.noNfts}
-                alt="No NFTs"
-              />
-              <img
-                src={require("../../public/assets/img/noNFT.svg")}
-                className={style.noNfts}
-                alt="No NFTs"
-              />
-              <img
-                src={require("../../public/assets/img/noNFT.svg")}
+                src={require("../../public/assets/img/noNFTgroup.svg")}
                 className={style.noNfts}
                 alt="No NFTs"
               />
@@ -277,32 +252,7 @@ export const ManageNftPage: FunctionComponent = observer(() => {
             </div>
              <div className={style.noNftContainer}>
               <img
-                src={require("../../public/assets/img/noNFT.svg")}
-                className={style.noNfts}
-                alt="No NFTs"
-              />
-              <img
-                src={require("../../public/assets/img/noNFT.svg")}
-                className={style.noNfts}
-                alt="No NFTs"
-              />
-              <img
-                src={require("../../public/assets/img/noNFT.svg")}
-                className={style.noNfts}
-                alt="No NFTs"
-              />
-              <img
-                src={require("../../public/assets/img/noNFT.svg")}
-                className={style.noNfts}
-                alt="No NFTs"
-              />
-              <img
-                src={require("../../public/assets/img/noNFT.svg")}
-                className={style.noNfts}
-                alt="No NFTs"
-              />
-              <img
-                src={require("../../public/assets/img/noNFT.svg")}
+                src={require("../../public/assets/img/noNFTgroup.svg")}
                 className={style.noNfts}
                 alt="No NFTs"
               />
