@@ -75,7 +75,7 @@ const sassRule = {
 };
 const tsRule = { test: /\.tsx?$/, loader: "ts-loader" };
 const fileRule = {
-  test: /\.(svg|png|jpe?g|gif|woff|woff2|eot|ttf)$/i,
+  test: /\.(svg|png|jpe?g|gif|woff|woff2|eot|ttf|otf)$/i,
   use: [
     {
       loader: "file-loader",

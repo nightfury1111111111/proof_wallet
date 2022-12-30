@@ -67,7 +67,7 @@ export const SendPage: FunctionComponent = observer(() => {
   const current = chainStore.current;
 
   const accountInfo = accountStore.getAccount(current.chainId);
-
+  console.log(accountInfo.isSendingMsg)
   const sendConfigs = useSendTxConfig(
     chainStore,
     queriesStore,
@@ -418,7 +418,7 @@ export const SendPage: FunctionComponent = observer(() => {
           <Button
             type="submit"
             block
-            data-loading={accountInfo.isSendingMsg === "send"}
+            
             disabled={!accountInfo.isReadyToSendMsgs || !txStateIsValid}
             className={style.buttonActive}
           >
