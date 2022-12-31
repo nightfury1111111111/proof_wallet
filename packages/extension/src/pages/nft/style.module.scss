@@ -73,6 +73,101 @@
   word-break: break-all;
 }
 
+.nftSelectedContainer {
+
+  .nftImage {
+    width: 328px;
+    height: 331px;
+    border-radius: 7px;
+  }
+
+  .nftTitle {
+    width: 124px;
+    height: 26px;
+    background: rgba(255, 213, 138, 0.15);
+    border-radius: 17px;
+    margin: 1em 6em;
+    white-space: nowrap;
+    text-align: center;
+
+    .nftTitleText{
+      font-family: 'Colfax-web';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 17px;
+      color: #FFD48A;
+    }
+  }
+  .buttonActive {
+    margin-top: 16px;
+    margin-bottom: 8px;
+    width: 328px;
+    height: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(180deg, #ffdf8b 0%, #ffc989 100%);
+    box-shadow: inset 0px 1px 0px #fff9ef;
+    border-radius: 35px;
+    border: none !important;
+    color: #141414;
+    font-family: 'Colfax-web';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    cursor: pointer;
+  }
+  .nftDescription {
+    font-family: 'Colfax-web';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    align-items: center;
+    text-align: center;
+
+    color: #696969;
+  }
+  .attributesContainer{
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 16px;
+    .attributeBox {
+      flex-basis: auto;
+      box-sizing: border-box;
+      width: fit-content;
+      height: fit-content;
+      border: 1px solid #323232;
+      border-radius: 6px;
+      margin-left: 10px;
+      margin-bottom: 8px;
+      text-align: center;
+      padding-left: .7em;
+      padding-right: .7em;
+      .attributeHead {
+        font-family: 'Colfax-web';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 21px;
+        color: #FFD48A;
+      }
+      .attributeText {
+        font-family: 'Colfax-web';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 21px;
+        display: block;
+        color: #E9E4DF;
+      }
+    }
+  }
+}
+
 .loadingContainer {
   width: 336px;
   height: 480px;
