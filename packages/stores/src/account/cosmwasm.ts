@@ -103,6 +103,7 @@ export class CosmwasmAccountImpl {
     protected readonly _msgOpts: CosmwasmMsgOpts
   ) {
     this.base.registerMakeSendTokenFn(this.processMakeSendTokenTx.bind(this));
+    // this.base.registerMakeSendNftFn(this.processMakeSendNftTx.bind(this));
     this.base.registerSendTokenFn(this.processSendToken.bind(this));
   }
 
@@ -114,6 +115,59 @@ export class CosmwasmAccountImpl {
   }
 
   protected processMakeSendTokenTx(
+    amount: string,
+    currency: AppCurrency,
+    recipient: string
+  ) {
+    const denomHelper = new DenomHelper(currency.coinMinimalDenom);
+
+    if (denomHelper.type === "cw20") {
+      const actualAmount = (() => {
+        let dec = new Dec(amount);
+        dec = dec.mul(DecUtils.getPrecisionDec(currency.coinDecimals));
+        return dec.truncate().toString();
+      })();
+
+      if (!("type" in currency) || currency.type !== "cw20") {
+        throw new Error("Currency is not cw20");
+      }
+
+      Bech32Address.validate(
+        recipient,
+        this.chainGetter.getChain(this.chainId).bech32Config.bech32PrefixAccAddr
+      );
+
+      return this.makeExecuteContractTx(
+        "send",
+        currency.contractAddress,
+        {
+          transfer: {
+            recipient: recipient,
+            amount: actualAmount,
+          },
+        },
+        [],
+        (tx) => {
+          if (tx.code == null || tx.code === 0) {
+            // After succeeding to send token, refresh the balance.
+            const queryBalance = this.queries.queryBalances
+              .getQueryBech32Address(this.base.bech32Address)
+              .balances.find((bal) => {
+                return (
+                  bal.currency.coinMinimalDenom === currency.coinMinimalDenom
+                );
+              });
+
+            if (queryBalance) {
+              queryBalance.fetch();
+            }
+          }
+        }
+      );
+    }
+  }
+
+  protected processMakeSendNftTx(
     amount: string,
     currency: AppCurrency,
     recipient: string
