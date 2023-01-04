@@ -338,76 +338,76 @@ export class CosmosAccountImpl {
     return false;
   }
 
-  protected async processSendNft(
-    currency: AppCurrency,
-    nftContract: string,
-    tokenId: number,
-    recipient: string,
-    memo: string,
-    stdFee: Partial<StdFee>,
-    signOptions?: KeplrSignOptions,
-    onTxEvents?:
-      | ((tx: any) => void)
-      | {
-          onBroadcasted?: (txHash: Uint8Array) => void;
-          onFulfill?: (tx: any) => void;
-        }
-  ): Promise<boolean> {
-    const msg = {
-      type: "wasm/MsgExecuteContract",
-      value: {
-        contract: nftContract,
-        funds: [],
-        msg: {
-          transfer_nft: {
-            recipient,
-            token_id: tokenId,
-          },
-        },
-        sender: this.base.bech32Address,
-      },
-    };
+  // protected async processSendNft(
+  //   currency: AppCurrency,
+  //   nftContract: string,
+  //   tokenId: number,
+  //   recipient: string,
+  //   memo: string,
+  //   stdFee: Partial<StdFee>,
+  //   signOptions?: KeplrSignOptions,
+  //   onTxEvents?:
+  //     | ((tx: any) => void)
+  //     | {
+  //         onBroadcasted?: (txHash: Uint8Array) => void;
+  //         onFulfill?: (tx: any) => void;
+  //       }
+  // ): Promise<boolean> {
+  //   const msg = {
+  //     type: "wasm/MsgExecuteContract",
+  //     value: {
+  //       contract: nftContract,
+  //       funds: [],
+  //       msg: {
+  //         transfer_nft: {
+  //           recipient,
+  //           token_id: tokenId,
+  //         },
+  //       },
+  //       sender: this.base.bech32Address,
+  //     },
+  //   };
 
-    await this.sendMsgs(
-      "send",
-      {
-        aminoMsgs: [msg],
-        protoMsgs: [
-          {
-            typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
-            value: MsgSend.encode({
-              fromAddress: msg.value.from_address,
-              toAddress: msg.value.to_address,
-              amount: msg.value.amount,
-            }).finish(),
-          },
-        ],
-      },
-      memo,
-      {
-        amount: stdFee.amount ?? [],
-        gas: stdFee.gas ?? this.msgOpts.send.native.gas.toString(),
-      },
-      signOptions,
-      txEventsWithPreOnFulfill(onTxEvents, (tx) => {
-        if (tx.code == null || tx.code === 0) {
-          // After succeeding to send token, refresh the balance.
-          const queryBalance = this.queries.queryBalances
-            .getQueryBech32Address(this.base.bech32Address)
-            .balances.find((bal) => {
-              return (
-                bal.currency.coinMinimalDenom === currency.coinMinimalDenom
-              );
-            });
+  //   await this.sendMsgs(
+  //     "send",
+  //     {
+  //       aminoMsgs: [msg],
+  //       protoMsgs: [
+  //         {
+  //           typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
+  //           value: MsgSend.encode({
+  //             fromAddress: msg.value.from_address,
+  //             toAddress: msg.value.to_address,
+  //             amount: msg.value.amount,
+  //           }).finish(),
+  //         },
+  //       ],
+  //     },
+  //     memo,
+  //     {
+  //       amount: stdFee.amount ?? [],
+  //       gas: stdFee.gas ?? this.msgOpts.send.native.gas.toString(),
+  //     },
+  //     signOptions,
+  //     txEventsWithPreOnFulfill(onTxEvents, (tx) => {
+  //       if (tx.code == null || tx.code === 0) {
+  //         // After succeeding to send token, refresh the balance.
+  //         const queryBalance = this.queries.queryBalances
+  //           .getQueryBech32Address(this.base.bech32Address)
+  //           .balances.find((bal) => {
+  //             return (
+  //               bal.currency.coinMinimalDenom === currency.coinMinimalDenom
+  //             );
+  //           });
 
-          if (queryBalance) {
-            queryBalance.fetch();
-          }
-        }
-      })
-    );
-    return true;
-  }
+  //         if (queryBalance) {
+  //           queryBalance.fetch();
+  //         }
+  //       }
+  //     })
+  //   );
+  //   return true;
+  // }
 
   async sendMsgs(
     type: string | "unknown",

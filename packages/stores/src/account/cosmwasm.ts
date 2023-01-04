@@ -74,6 +74,26 @@ export const defaultCosmwasmMsgOpts: CosmwasmMsgOpts = {
   },
 };
 
+export interface NftCosmwasmMsgOpts {
+  readonly transfer_nft: {
+    readonly cw721: Pick<MsgOpt, "gas">;
+  };
+
+  readonly executeWasm: Pick<MsgOpt, "type">;
+}
+
+export const nftCosmwasmMsgOpts: NftCosmwasmMsgOpts = {
+  transfer_nft: {
+    cw721: {
+      gas: 150000,
+    },
+  },
+
+  executeWasm: {
+    type: "wasm/MsgExecuteContract",
+  },
+};
+
 export class CosmwasmAccountImpl {
   constructor(
     protected readonly base: AccountSetBase & CosmosAccount,

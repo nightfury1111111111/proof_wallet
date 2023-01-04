@@ -74,6 +74,22 @@ export class AccountSetBase {
         }
   ) => Promise<boolean>)[] = [];
 
+  protected sendNftFns: ((
+    amount: string,
+    currency: AppCurrency,
+    recipient: string,
+    memo: string,
+    stdFee: Partial<StdFee>,
+    signOptions?: KeplrSignOptions,
+    onTxEvents?:
+      | ((tx: any) => void)
+      | {
+          onBroadcastFailed?: (e?: Error) => void;
+          onBroadcasted?: (txHash: Uint8Array) => void;
+          onFulfill?: (tx: any) => void;
+        }
+  ) => Promise<boolean>)[] = [];
+
   protected makeSendTokenTxFns: ((
     amount: string,
     currency: AppCurrency,
@@ -119,6 +135,25 @@ export class AccountSetBase {
     ) => Promise<boolean>
   ) {
     this.sendTokenFns.push(fn);
+  }
+
+  registerSendNftFn(
+    fn: (
+      amount: string,
+      currency: AppCurrency,
+      recipient: string,
+      memo: string,
+      stdFee: Partial<StdFee>,
+      signOptions?: KeplrSignOptions,
+      onTxEvents?:
+        | ((tx: any) => void)
+        | {
+            onBroadcasted?: (txHash: Uint8Array) => void;
+            onFulfill?: (tx: any) => void;
+          }
+    ) => Promise<boolean>
+  ) {
+    this.sendNftFns.push(fn);
   }
 
   registerMakeSendTokenFn(
@@ -289,6 +324,43 @@ export class AccountSetBase {
   ) {
     for (let i = 0; i < this.sendTokenFns.length; i++) {
       const fn = this.sendTokenFns[i];
+
+      if (
+        await fn(
+          amount,
+          currency,
+          recipient,
+          memo,
+          stdFee,
+          signOptions,
+          onTxEvents
+        )
+      ) {
+        return;
+      }
+    }
+
+    const denomHelper = new DenomHelper(currency.coinMinimalDenom);
+
+    throw new Error(`Unsupported type of currency (${denomHelper.type})`);
+  }
+
+  async sendNft(
+    amount: string,
+    currency: AppCurrency,
+    recipient: string,
+    memo: string = "",
+    stdFee: Partial<StdFee> = {},
+    signOptions?: KeplrSignOptions,
+    onTxEvents?:
+      | ((tx: any) => void)
+      | {
+          onBroadcasted?: (txHash: Uint8Array) => void;
+          onFulfill?: (tx: any) => void;
+        }
+  ) {
+    for (let i = 0; i < this.sendNftFns.length; i++) {
+      const fn = this.sendNftFns[i];
 
       if (
         await fn(
