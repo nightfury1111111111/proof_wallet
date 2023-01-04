@@ -7,7 +7,7 @@ export const WarningView = () => {
     <div className={styleWarningView.innerContainer}>
       <div className={styleWarningView.trashContainer}>
         <img
-          src={'https://proofwalletsvgs.s3.amazonaws.com/error'}
+          src={"https://proofwalletsvgs.s3.amazonaws.com/error"}
           alt="trash-can"
         />
         <div>Reset Seed Phrase</div>

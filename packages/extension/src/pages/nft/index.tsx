@@ -38,7 +38,7 @@ export const ManageNftPage: FunctionComponent = observer(() => {
   const [keyword, setKeyword] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState<string>("collection");
-  const [selectedNFT, setSelectedNFT] = useState('');
+  const [selectedNFT, setSelectedNFT] = useState("");
   const [currentCollectionIdx, setCurrentCollectionIdx] = useState(0);
   const [focused, setFocused] = useState(false);
 
@@ -53,7 +53,13 @@ export const ManageNftPage: FunctionComponent = observer(() => {
 
   const accountInfo = accountStore.getAccount(current.chainId);
 
-  const fakeAttributes = [{"trait_type":"face","value":"in love"},{"trait_type":"hair","value":"blue brushcut"},{"trait_type":"body","value":"pink puffer"},{"trait_type":"background","value":"gradient 1"},{"trait_type":"head","value":"pink"}]
+  const fakeAttributes = [
+    { trait_type: "face", value: "in love" },
+    { trait_type: "hair", value: "blue brushcut" },
+    { trait_type: "body", value: "pink puffer" },
+    { trait_type: "background", value: "gradient 1" },
+    { trait_type: "head", value: "pink" },
+  ];
   const intl = useIntl();
   const getTokens = async () => {
     // const gasPrice = GasPrice.fromString("0.05usei");
@@ -65,7 +71,7 @@ export const ManageNftPage: FunctionComponent = observer(() => {
       rpcEndpoint,
       sender_wallet
     );
-   
+
     const tmpNftArray: Array<Nft> = [];
     setIsLoading(true);
     await Promise.all(
@@ -115,10 +121,10 @@ export const ManageNftPage: FunctionComponent = observer(() => {
     <HeaderLayout
       showChainName
       canChangeChainInfo={false}
-      style={{ height: "auto", minHeight: "100%"}}
+      style={{ height: "auto", minHeight: "100%" }}
       onBackButton={() => {
-        if(page === "singleNFT" ) {
-          history.push('/collection');
+        if (page === "singleNFT") {
+          history.push("/collection");
         }
         history.goBack();
       }}
@@ -183,7 +189,6 @@ export const ManageNftPage: FunctionComponent = observer(() => {
                   placeholder="Search a collectible"
                   value={keyword}
                   spellCheck={false}
-                  
                   onFocus={() => {
                     setFocused(true);
                   }}
@@ -226,51 +231,55 @@ export const ManageNftPage: FunctionComponent = observer(() => {
               />
             </div>
           )}
-          {tmpNfts.length > 0 ? 
-          <div className={style.nftContainer}>
-            {tmpNfts.map((nft, idx) => {
-              return (
-                <div
-                  key={idx}
-                  className={style.nftTile}
-                  style={{
-                    backgroundImage: `url(${nft.apiEndpoint}images/${nft.id[0]}.${nft.ext})`,
-                  }}
-                  onClick={() => {
-                    if(nft.id.length == 1) {
-                      setSelectedNFT(nft.id[0])
-                      setCurrentCollectionIdx(idx);
-                      setPage("singleNFT");
-                    } else {
-                      setCurrentCollectionIdx(idx);
-                      setPage("nfts");
-                    }
-                  }}
-                >
-                  <div className={style.nftName}>
-                    <span>{nft.name}</span>
-                    <span style={{ marginLeft: "7px", opacity: "0.8" }}>
-                      {nft.id.length}
-                    </span>
+          {tmpNfts.length > 0 ? (
+            <div className={style.nftContainer}>
+              {tmpNfts.map((nft, idx) => {
+                return (
+                  <div
+                    key={idx}
+                    className={style.nftTile}
+                    style={{
+                      backgroundImage: `url(${nft.apiEndpoint}images/${nft.id[0]}.${nft.ext})`,
+                    }}
+                    onClick={() => {
+                      if (nft.id.length == 1) {
+                        setSelectedNFT(nft.id[0]);
+                        setCurrentCollectionIdx(idx);
+                        setPage("singleNFT");
+                      } else {
+                        setCurrentCollectionIdx(idx);
+                        setPage("nfts");
+                      }
+                    }}
+                  >
+                    <div className={style.nftName}>
+                      <span>{nft.name}</span>
+                      <span style={{ marginLeft: "7px", opacity: "0.8" }}>
+                        {nft.id.length}
+                      </span>
+                    </div>
                   </div>
+                );
+              })}
+            </div>
+          ) : (
+            !isLoading && (
+              <div>
+                <div className={style.noNftsBubble}>
+                  <span className={style.noNftsBubbleText}>
+                    You don’t own any NFTs
+                  </span>
                 </div>
-              );
-            })}
-          </div>
-          : 
-          !isLoading && (<div>
-            <div className={style.noNftsBubble}>
-              <span className={style.noNftsBubbleText}>You don’t own any NFTs</span>
-            </div>
-             <div className={style.noNftContainer}>
-              <img
-                src={require("../../public/assets/img/noNFTgroup.svg")}
-                className={style.noNfts}
-                alt="No NFTs"
-              />
-            </div>
-          </div>)
-          }
+                <div className={style.noNftContainer}>
+                  <img
+                    src={require("../../public/assets/img/noNFTgroup.svg")}
+                    className={style.noNfts}
+                    alt="No NFTs"
+                  />
+                </div>
+              </div>
+            )
+          )}
           {!isLoading && (
             <div style={{ height: "70px", color: "transparent" }} />
           )}
@@ -299,7 +308,7 @@ export const ManageNftPage: FunctionComponent = observer(() => {
                     backgroundImage: `url(${tmpNfts[currentCollectionIdx].apiEndpoint}images/${nft}.${tmpNfts[currentCollectionIdx].ext})`,
                   }}
                   onClick={() => {
-                    setSelectedNFT(nft)
+                    setSelectedNFT(nft);
                     setPage("singleNFT");
                   }}
                 >
@@ -324,32 +333,37 @@ export const ManageNftPage: FunctionComponent = observer(() => {
             </div>
           )}
           <div className={style.nftSelectedContainer}>
-           <div className={style.nftTitle}>
-              <span className={style.nftTitleText}>{tmpNfts[currentCollectionIdx].name} #{selectedNFT}</span>
+            <div className={style.nftTitle}>
+              <span className={style.nftTitleText}>
+                {tmpNfts[currentCollectionIdx].name} #{selectedNFT}
+              </span>
             </div>
             <img
               src={`${tmpNfts[currentCollectionIdx].apiEndpoint}images/${selectedNFT}.${tmpNfts[currentCollectionIdx].ext}`}
               className={style.nftImage}
               alt="No NFTs"
             />
-            <Button
-            type="submit"
-            block
-            className={style.buttonActive}
-            >
-            {intl.formatMessage({
-              id: "send.button.send",
-            })}
-          </Button>
-            <span className={style.nftDescription}>A community-driven collectibles project featuring art by Burnt Toast. Doodles come in a joyful</span>
+            <Button type="submit" block className={style.buttonActive}>
+              {intl.formatMessage({
+                id: "send.button.send",
+              })}
+            </Button>
+            <span className={style.nftDescription}>
+              A community-driven collectibles project featuring art by Burnt
+              Toast. Doodles come in a joyful
+            </span>
             <div className={style.attributesContainer}>
-              {fakeAttributes.map((attribute,index) => {
+              {fakeAttributes.map((attribute, index) => {
                 return (
                   <div className={style.attributeBox} key={index}>
-                    <span className={style.attributeHead}>{attribute.trait_type.toUpperCase()}</span>
-                    <span className={style.attributeText}>{attribute.value}</span>
+                    <span className={style.attributeHead}>
+                      {attribute.trait_type.toUpperCase()}
+                    </span>
+                    <span className={style.attributeText}>
+                      {attribute.value}
+                    </span>
                   </div>
-                )
+                );
               })}
             </div>
           </div>

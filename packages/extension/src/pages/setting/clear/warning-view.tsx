@@ -42,7 +42,7 @@ export const WarningView: FunctionComponent<{
       ) : null} */}
       <div className={styleWarningView.trashContainer}>
         <img
-          src={'https://proofwalletsvgs.s3.amazonaws.com/error'}
+          src={"https://proofwalletsvgs.s3.amazonaws.com/error"}
           alt="trash-can"
         />
         <div>Remove Wallet</div>

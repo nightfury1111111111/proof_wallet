@@ -103,7 +103,7 @@ export class CosmwasmAccountImpl {
     protected readonly _msgOpts: CosmwasmMsgOpts
   ) {
     this.base.registerMakeSendTokenFn(this.processMakeSendTokenTx.bind(this));
-    // this.base.registerMakeSendNftFn(this.processMakeSendNftTx.bind(this));
+    this.base.registerMakeSendNftFn(this.processMakeSendNftTx.bind(this));
     this.base.registerSendTokenFn(this.processSendToken.bind(this));
   }
 
@@ -168,56 +168,42 @@ export class CosmwasmAccountImpl {
   }
 
   protected processMakeSendNftTx(
-    amount: string,
-    currency: AppCurrency,
+    nftContract: string,
+    nftId: number,
     recipient: string
   ) {
-    const denomHelper = new DenomHelper(currency.coinMinimalDenom);
+    Bech32Address.validate(
+      recipient,
+      this.chainGetter.getChain(this.chainId).bech32Config.bech32PrefixAccAddr
+    );
 
-    if (denomHelper.type === "cw20") {
-      const actualAmount = (() => {
-        let dec = new Dec(amount);
-        dec = dec.mul(DecUtils.getPrecisionDec(currency.coinDecimals));
-        return dec.truncate().toString();
-      })();
-
-      if (!("type" in currency) || currency.type !== "cw20") {
-        throw new Error("Currency is not cw20");
-      }
-
-      Bech32Address.validate(
-        recipient,
-        this.chainGetter.getChain(this.chainId).bech32Config.bech32PrefixAccAddr
-      );
-
-      return this.makeExecuteContractTx(
-        "send",
-        currency.contractAddress,
-        {
-          transfer: {
-            recipient: recipient,
-            amount: actualAmount,
-          },
+    return this.makeExecuteContractNftTx(
+      "send",
+      nftContract,
+      {
+        transfer_nft: {
+          recipient,
+          token_id: nftId,
         },
-        [],
-        (tx) => {
-          if (tx.code == null || tx.code === 0) {
-            // After succeeding to send token, refresh the balance.
-            const queryBalance = this.queries.queryBalances
-              .getQueryBech32Address(this.base.bech32Address)
-              .balances.find((bal) => {
-                return (
-                  bal.currency.coinMinimalDenom === currency.coinMinimalDenom
-                );
-              });
+      },
+      []
+      // (tx) => {
+      //   if (tx.code == null || tx.code === 0) {
+      //     // After succeeding to send token, refresh the balance.
+      //     const queryBalance = this.queries.queryBalances
+      //       .getQueryBech32Address(this.base.bech32Address)
+      //       .balances.find((bal) => {
+      //         return (
+      //           bal.currency.coinMinimalDenom === currency.coinMinimalDenom
+      //         );
+      //       });
 
-            if (queryBalance) {
-              queryBalance.fetch();
-            }
-          }
-        }
-      );
-    }
+      //     if (queryBalance) {
+      //       queryBalance.fetch();
+      //     }
+      //   }
+      // }
+    );
   }
 
   /**
@@ -287,6 +273,55 @@ export class CosmwasmAccountImpl {
     }
 
     return false;
+  }
+
+  makeExecuteContractNftTx(
+    // This arg can be used to override the type of sending tx if needed.
+    type: keyof CosmwasmMsgOpts | "unknown" = "executeWasm",
+    contractAddress: string,
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    obj: object,
+    funds: CoinPrimitive[],
+    preOnTxEvents?:
+      | ((tx: any) => void)
+      | {
+          onBroadcasted?: (txHash: Uint8Array) => void;
+          onFulfill?: (tx: any) => void;
+        }
+  ) {
+    Bech32Address.validate(
+      contractAddress,
+      this.chainGetter.getChain(this.chainId).bech32Config.bech32PrefixAccAddr
+    );
+
+    const msg = {
+      type: this.msgOpts.executeWasm.type,
+      value: {
+        sender: this.base.bech32Address,
+        contract: contractAddress,
+        msg: obj,
+        funds,
+      },
+    };
+
+    return this.base.cosmos.makeNftTx(
+      type,
+      {
+        aminoMsgs: [msg],
+        protoMsgs: [
+          {
+            typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
+            value: MsgExecuteContract.encode({
+              sender: msg.value.sender,
+              contract: msg.value.contract,
+              msg: Buffer.from(JSON.stringify(msg.value.msg)),
+              funds: msg.value.funds,
+            }).finish(),
+          },
+        ],
+      },
+      preOnTxEvents
+    );
   }
 
   makeExecuteContractTx(

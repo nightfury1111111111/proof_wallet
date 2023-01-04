@@ -335,9 +335,8 @@ export const FeeButtonsInner: FunctionComponent<
     }
 
     return (
-
       <FormGroup style={{ position: "relative" }}>
-        <div style={{ position: "absolute", left: "-7px" , top:"-13px"}}>
+        <div style={{ position: "absolute", left: "-7px", top: "-13px" }}>
           <Button
             size="sm"
             color="link"
@@ -345,32 +344,48 @@ export const FeeButtonsInner: FunctionComponent<
               e.preventDefault();
               feeButtonState.setIsGasInputOpen(!feeButtonState.isGasInputOpen);
             }}
-            >
-            {!feeButtonState.isGasInputOpen 
-              ?         
+          >
+            {!feeButtonState.isGasInputOpen ? (
               <img
-              src={require("../../../public/assets/img/arrowDown.svg")}
-              alt="arrow-down"
+                src={require("../../../public/assets/img/arrowDown.svg")}
+                alt="arrow-down"
               />
-              :              
+            ) : (
               <img
-              src={require("../../../public/assets/img/arrowUp.svg")}
-              alt="arrown-up"
-              /> 
-              }
+                src={require("../../../public/assets/img/arrowUp.svg")}
+                alt="arrown-up"
+              />
+            )}
 
-          {label ? (
-            <Label for={inputId} className={styleFeeButtons.feeLabel} style={{ position: "absolute",left:"30px", top:"6px", cursor: "pointer"}}>
-              {label}
-            </Label>
-          ) : null}
+            {label ? (
+              <Label
+                for={inputId}
+                className={styleFeeButtons.feeLabel}
+                style={{
+                  position: "absolute",
+                  left: "30px",
+                  top: "6px",
+                  cursor: "pointer",
+                }}
+              >
+                {label}
+              </Label>
+            ) : null}
           </Button>
         </div>
         <Collapse isOpen={feeButtonState.isGasInputOpen}>
-          <ButtonGroup id={inputId} className={styleFeeButtons.buttons} style={{top:"20px"}} >
+          <ButtonGroup
+            id={inputId}
+            className={styleFeeButtons.buttons}
+            style={{ top: "20px" }}
+          >
             <button
               type="button"
-              className={feeConfig.feeType === "low" ? styleFeeButtons.feeButtonsSelected : styleFeeButtons.button }
+              className={
+                feeConfig.feeType === "low"
+                  ? styleFeeButtons.feeButtonsSelected
+                  : styleFeeButtons.button
+              }
               //color={feeConfig.feeType === "low" ? styleFeeButtons.feeButtonsSelected : undefined}
               onClick={(e: MouseEvent) => {
                 feeConfig.setFeeType("low");
@@ -380,13 +395,21 @@ export const FeeButtonsInner: FunctionComponent<
               <div className={styleFeeButtons.title}>{feeSelectLabels.low}</div>
               {lowFeePrice ? (
                 <div
-                className={feeConfig.feeType === "low" ? styleFeeButtons.fiatSelected : styleFeeButtons.fiat }
+                  className={
+                    feeConfig.feeType === "low"
+                      ? styleFeeButtons.fiatSelected
+                      : styleFeeButtons.fiat
+                  }
                 >
                   {lowFeePrice.toString()}
                 </div>
               ) : null}
               <div
-                className={feeConfig.feeType === "low" ? styleFeeButtons.coinSelected : styleFeeButtons.coin }
+                className={
+                  feeConfig.feeType === "low"
+                    ? styleFeeButtons.coinSelected
+                    : styleFeeButtons.coin
+                }
               >
                 {
                   // Hide ibc metadata because there is no space to display the ibc metadata.
@@ -397,7 +420,11 @@ export const FeeButtonsInner: FunctionComponent<
             </button>
             <button
               type="button"
-              className={feeConfig.feeType === "average" ? styleFeeButtons.feeButtonsSelected : styleFeeButtons.button }
+              className={
+                feeConfig.feeType === "average"
+                  ? styleFeeButtons.feeButtonsSelected
+                  : styleFeeButtons.button
+              }
               //color={feeConfig.feeType === "average" ? styleFeeButtons.feeButtonsSelected : undefined}
               onClick={(e: MouseEvent) => {
                 feeConfig.setFeeType("average");
@@ -409,36 +436,58 @@ export const FeeButtonsInner: FunctionComponent<
               </div>
               {averageFeePrice ? (
                 <div
-                className={feeConfig.feeType === "average" ? styleFeeButtons.fiatSelected : styleFeeButtons.fiat }
+                  className={
+                    feeConfig.feeType === "average"
+                      ? styleFeeButtons.fiatSelected
+                      : styleFeeButtons.fiat
+                  }
                 >
                   {averageFeePrice.toString()}
                 </div>
               ) : null}
               <div
-                className={feeConfig.feeType === "average" ? styleFeeButtons.coinSelected : styleFeeButtons.coin }
+                className={
+                  feeConfig.feeType === "average"
+                    ? styleFeeButtons.coinSelected
+                    : styleFeeButtons.coin
+                }
               >
                 {averageFee.hideIBCMetadata(true).trim(true).toString()}
               </div>
             </button>
             <button
               type="button"
-              className={feeConfig.feeType === "high" ? styleFeeButtons.feeButtonsSelected : styleFeeButtons.button }
+              className={
+                feeConfig.feeType === "high"
+                  ? styleFeeButtons.feeButtonsSelected
+                  : styleFeeButtons.button
+              }
               //color={feeConfig.feeType === "high" ? styleFeeButtons.feeButtonsSelected : undefined}
               onClick={(e: MouseEvent) => {
                 feeConfig.setFeeType("high");
                 e.preventDefault();
               }}
             >
-              <div className={styleFeeButtons.title}>{feeSelectLabels.high}</div>
+              <div className={styleFeeButtons.title}>
+                {feeSelectLabels.high}
+              </div>
               {highFeePrice ? (
-                <div 
-                className={feeConfig.feeType === "high" ? styleFeeButtons.fiatSelected : styleFeeButtons.fiat }
+                <div
+                  className={
+                    feeConfig.feeType === "high"
+                      ? styleFeeButtons.fiatSelected
+                      : styleFeeButtons.fiat
+                  }
                 >
                   {highFeePrice.toString()}
                 </div>
               ) : null}
               <div
-                className={feeConfig.feeType === "high" ? styleFeeButtons.coinSelected : styleFeeButtons.coin }
+                className={
+                  feeConfig.feeType === "high"
+                    ? styleFeeButtons.coinSelected
+                    : styleFeeButtons.coin
+                }
               >
                 {highFee.hideIBCMetadata(true).trim(true).toString()}
               </div>

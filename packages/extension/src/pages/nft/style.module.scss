@@ -33,7 +33,7 @@
   border-radius: 70px;
 
   .noNftsBubbleText {
-    font-family: 'colfax-web';
+    font-family: "colfax-web";
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -74,7 +74,6 @@
 }
 
 .nftSelectedContainer {
-
   .nftImage {
     width: 328px;
     height: 331px;
@@ -90,13 +89,13 @@
     white-space: nowrap;
     text-align: center;
 
-    .nftTitleText{
-      font-family: 'Colfax-web';
+    .nftTitleText {
+      font-family: "Colfax-web";
       font-style: normal;
       font-weight: 500;
       font-size: 14px;
       line-height: 17px;
-      color: #FFD48A;
+      color: #ffd48a;
     }
   }
   .buttonActive {
@@ -112,7 +111,7 @@
     border-radius: 35px;
     border: none !important;
     color: #141414;
-    font-family: 'Colfax-web';
+    font-family: "Colfax-web";
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
@@ -120,7 +119,7 @@
     cursor: pointer;
   }
   .nftDescription {
-    font-family: 'Colfax-web';
+    font-family: "Colfax-web";
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -130,7 +129,7 @@
 
     color: #696969;
   }
-  .attributesContainer{
+  .attributesContainer {
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
@@ -145,24 +144,24 @@
       margin-left: 10px;
       margin-bottom: 8px;
       text-align: center;
-      padding-left: .7em;
-      padding-right: .7em;
+      padding-left: 0.7em;
+      padding-right: 0.7em;
       .attributeHead {
-        font-family: 'Colfax-web';
+        font-family: "Colfax-web";
         font-style: normal;
         font-weight: 500;
         font-size: 12px;
         line-height: 21px;
-        color: #FFD48A;
+        color: #ffd48a;
       }
       .attributeText {
-        font-family: 'Colfax-web';
+        font-family: "Colfax-web";
         font-style: normal;
         font-weight: 400;
         font-size: 14px;
         line-height: 21px;
         display: block;
-        color: #E9E4DF;
+        color: #e9e4df;
       }
     }
   }

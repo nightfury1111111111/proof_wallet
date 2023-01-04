@@ -8,7 +8,7 @@ export const WarningView: FunctionComponent = () => {
     <div className={styleWarningView.innerContainer}>
       <img
         className={styleWarningView.imgLock}
-        src={'https://proofwalletsvgs.s3.amazonaws.com/warning.svg'}
+        src={"https://proofwalletsvgs.s3.amazonaws.com/warning.svg"}
         alt="lock"
       />
       <p>

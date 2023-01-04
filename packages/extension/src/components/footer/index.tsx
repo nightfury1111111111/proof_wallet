@@ -51,6 +51,9 @@ export const Footer: FunctionComponent = () => {
       <img
         src={require("../../public/assets/img/trade.svg")}
         className={style.footerIcon}
+        onClick={() => {
+          history.push("/send-nft");
+        }}
       />
       <img
         src={

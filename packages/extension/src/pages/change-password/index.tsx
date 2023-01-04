@@ -93,7 +93,7 @@ export const ChangePassword: FunctionComponent = observer(() => {
         <div style={{ display: "flex", justifyContent: "center" }}>
           <img
             className={style.image}
-            src={'https://proofwalletsvgs.s3.amazonaws.com/lockicon'}
+            src={"https://proofwalletsvgs.s3.amazonaws.com/lockicon"}
           />
         </div>
         <div className={style.title}>Change Password</div>

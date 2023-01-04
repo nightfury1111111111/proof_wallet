@@ -97,8 +97,8 @@ export class AccountSetBase {
   ) => MakeTxResponse | undefined)[] = [];
 
   protected makeSendNftTxFns: ((
-    amount: string,
-    currency: AppCurrency,
+    nftContract: string,
+    nftId: number,
     recipient: string
   ) => MakeTxResponse | undefined)[] = [];
 
@@ -174,8 +174,8 @@ export class AccountSetBase {
 
   registerMakeSendNftFn(
     fn: (
-      amount: string,
-      currency: AppCurrency,
+      nftContract: string,
+      nftId: number,
       recipient: string
     ) => MakeTxResponse | undefined
   ) {
@@ -325,22 +325,29 @@ export class AccountSetBase {
   }
 
   makeSendNftTx(
-    amount: string,
-    currency: AppCurrency,
+    nftContract: string,
+    nftId: number,
     recipient: string
   ): MakeTxResponse {
-    for (let i = 0; i < this.makeSendNftTxFns.length; i++) {
-      const fn = this.makeSendNftTxFns[i];
+    // for (let i = 0; i < this.makeSendNftTxFns.length; i++) {
+    //   const fn = this.makeSendNftTxFns[i];
 
-      const res = fn(amount, currency, recipient);
-      if (res) {
-        return res;
-      }
+    //   const res = fn(amount, currency, recipient);
+    //   if (res) {
+    //     return res;
+    //   }
+    // }
+
+    // const denomHelper = new DenomHelper(currency.coinMinimalDenom);
+
+    // throw new Error(`Unsupported type of currency (${denomHelper.type})`);
+    const fn = this.makeSendNftTxFns[0];
+
+    const res = fn(nftContract, nftId, recipient);
+    if (res) {
+      return res;
     }
-
-    const denomHelper = new DenomHelper(currency.coinMinimalDenom);
-
-    throw new Error(`Unsupported type of currency (${denomHelper.type})`);
+    throw new Error(`Unsupported type of currency (NFT)`);
   }
 
   async sendToken(

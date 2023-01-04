@@ -12,6 +12,7 @@ import { RegisterPage } from "./pages/register";
 import { MainPage } from "./pages/main";
 import { LockPage } from "./pages/lock";
 import { SendPage } from "./pages/send";
+import { SendNftPage } from "./pages/send-nft";
 import { SelectTokenPage } from "./pages/selectToken";
 import { ManageNftPage } from "./pages/nft";
 import { IBCTransferPage } from "./pages/ibc-transfer";
@@ -131,7 +132,7 @@ const StateRenderer: FunctionComponent = observer(() => {
     return (
       <div style={{ height: "100%" }}>
         <Banner
-          icon={'https://proofwalletsvgs.s3.amazonaws.com/logo.svg'}
+          icon={"https://proofwalletsvgs.s3.amazonaws.com/logo.svg"}
           logo={require("./public/assets/brand-text.png")}
           title="Welcome Back"
           subtitle="Unlock your wallet to continue"
@@ -142,7 +143,7 @@ const StateRenderer: FunctionComponent = observer(() => {
     return (
       <div style={{ height: "100%" }}>
         <Banner
-          icon={'https://proofwalletsvgs.s3.amazonaws.com/logo.svg'}
+          icon={"https://proofwalletsvgs.s3.amazonaws.com/logo.svg"}
           logo={require("./public/assets/brand-text.png")}
           title="Welcome Back"
           subtitle="Unlock your wallet to continue"
@@ -176,6 +177,7 @@ ReactDOM.render(
                   />
                   <Route exact path="/register" component={RegisterPage} />
                   <Route exact path="/send" component={SendPage} />
+                  <Route exact path="/send-nft" component={SendNftPage} />
                   <Route exact path="/nft" component={ManageNftPage} />
                   <Route
                     exact

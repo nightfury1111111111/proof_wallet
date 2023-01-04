@@ -20,7 +20,7 @@ import { useNotification } from "../../components/notification";
 import { useIntl } from "react-intl";
 import { Button } from "reactstrap";
 
-import { useHistory, useLocation } from "react-router";
+import { useHistory } from "react-router";
 import queryString from "querystring";
 
 import { useGasSimulator, useSendTxConfig } from "@proof-wallet/hooks";
@@ -32,9 +32,10 @@ import {
 } from "@proof-wallet/popup";
 import { DenomHelper, ExtensionKVStore } from "@proof-wallet/common";
 
-export const SendPage: FunctionComponent = observer(() => {
+export const SendNftPage: FunctionComponent = observer(() => {
   const history = useHistory();
-  let search = useLocation().search;
+  let search =
+    "?defaultDenom=factory/sei1466nf3zuxpya8q9emxukd7vftaf6h4psr0a07srl5zw74zh84yjqpeheyc/uust2";
   if (search.startsWith("?")) {
     search = search.slice(1);
   }
@@ -67,6 +68,7 @@ export const SendPage: FunctionComponent = observer(() => {
   const current = chainStore.current;
 
   const accountInfo = accountStore.getAccount(current.chainId);
+  console.log(accountInfo.isSendingMsg);
   const sendConfigs = useSendTxConfig(
     chainStore,
     queriesStore,
@@ -280,12 +282,14 @@ export const SendPage: FunctionComponent = observer(() => {
             try {
               const stdFee = sendConfigs.feeConfig.toStdFee();
 
-              const tx = accountInfo.makeSendTokenTx(
-                sendConfigs.amountConfig.amount,
+              console.log("send-nft");
+              const tx = accountInfo.makeSendNftTx(
+                "sei16sxavw8h0uqe565e5t7f9t72dxh8cr8d6ca8mq5xt9nn3djwy5ksqnqmen",
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                sendConfigs.amountConfig.sendCurrency!,
+                624,
                 sendConfigs.recipientConfig.recipient
               );
+              console.log("send-nft-tx", tx);
 
               await tx.send(
                 stdFee,

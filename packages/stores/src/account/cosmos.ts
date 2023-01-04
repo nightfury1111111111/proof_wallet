@@ -21,7 +21,7 @@ import { SignMode } from "@proof-wallet/proto-types/cosmos/tx/signing/v1beta1/si
 import { PubKey } from "@proof-wallet/proto-types/cosmos/crypto/secp256k1/keys";
 import { Coin } from "@proof-wallet/proto-types/cosmos/base/v1beta1/coin";
 import { MsgSend } from "@proof-wallet/proto-types/cosmos/bank/v1beta1/tx";
-import { MsgExecuteContract } from "@proof-wallet/proto-types/cosmwasm/wasm/v1/tx";
+// import { MsgExecuteContract } from "@proof-wallet/proto-types/cosmwasm/wasm/v1/tx";
 import { MsgTransfer } from "@proof-wallet/proto-types/ibc/applications/transfer/v1/tx";
 import {
   MsgBeginRedelegate,
@@ -520,6 +520,117 @@ export class CosmosAccountImpl {
     });
   }
 
+  async sendNftMsgs(
+    type: string | "unknown",
+    msgs:
+      | ProtoMsgsOrWithAminoMsgs
+      | (() => Promise<ProtoMsgsOrWithAminoMsgs> | ProtoMsgsOrWithAminoMsgs),
+    memo: string = "",
+    fee: StdFee,
+    signOptions?: KeplrSignOptions,
+    onTxEvents?:
+      | ((tx: any) => void)
+      | {
+          onBroadcastFailed?: (e?: Error) => void;
+          onBroadcasted?: (txHash: Uint8Array) => void;
+          onFulfill?: (tx: any) => void;
+        }
+  ) {
+    this.base.setTxTypeInProgress(type);
+
+    let txHash: Uint8Array;
+    let signDoc: StdSignDoc;
+    try {
+      if (typeof msgs === "function") {
+        msgs = await msgs();
+      }
+
+      const result = await this.broadcastMsgs(
+        msgs,
+        fee,
+        memo,
+        signOptions,
+        this.broadcastMode
+      );
+      txHash = result.txHash;
+      signDoc = result.signDoc;
+    } catch (e) {
+      this.base.setTxTypeInProgress("");
+
+      if (this.txOpts.preTxEvents?.onBroadcastFailed) {
+        this.txOpts.preTxEvents.onBroadcastFailed(this.chainId, e);
+      }
+
+      if (
+        onTxEvents &&
+        "onBroadcastFailed" in onTxEvents &&
+        onTxEvents.onBroadcastFailed
+      ) {
+        onTxEvents.onBroadcastFailed(e);
+      }
+
+      throw e;
+    }
+
+    let onBroadcasted: ((txHash: Uint8Array) => void) | undefined;
+    let onFulfill: ((tx: any) => void) | undefined;
+
+    if (onTxEvents) {
+      if (typeof onTxEvents === "function") {
+        onFulfill = onTxEvents;
+      } else {
+        onBroadcasted = onTxEvents.onBroadcasted;
+        onFulfill = onTxEvents.onFulfill;
+      }
+    }
+
+    if (this.txOpts.preTxEvents?.onBroadcasted) {
+      this.txOpts.preTxEvents.onBroadcasted(this.chainId, txHash);
+    }
+    if (onBroadcasted) {
+      onBroadcasted(txHash);
+    }
+
+    // const txTracer = new TendermintTxTracer(
+    //   this.chainGetter.getChain(this.chainId).rpc,
+    //   "/websocket",
+    //   {
+    //     wsObject: this.txOpts.wsObject,
+    //   }
+    // );
+    // txTracer.traceTx(txHash).then((tx) => {
+    //   txTracer.close();
+
+    //   this.base.setTxTypeInProgress("");
+
+    //   // After sending tx, the balances is probably changed due to the fee.
+    //   for (const feeAmount of signDoc.fee.amount) {
+    //     const bal = this.queries.queryBalances
+    //       .getQueryBech32Address(this.base.bech32Address)
+    //       .balances.find(
+    //         (bal) => bal.currency.coinMinimalDenom === feeAmount.denom
+    //       );
+
+    //     if (bal) {
+    //       bal.fetch();
+    //     }
+    //   }
+
+    //   // Always add the tx hash data.
+    //   if (tx && !tx.hash) {
+    //     tx.hash = Buffer.from(txHash).toString("hex");
+    //   }
+
+    //   if (this.txOpts.preTxEvents?.onFulfill) {
+    //     this.txOpts.preTxEvents.onFulfill(this.chainId, tx);
+    //   }
+
+    //   if (onFulfill) {
+    //     onFulfill(tx);
+    //   }
+    // });
+  }
+
   // Return the tx hash.
   protected async broadcastMsgs(
     msgs: ProtoMsgsOrWithAminoMsgs,
@@ -802,6 +913,158 @@ export class CosmosAccountImpl {
 
     return {
       gasUsed,
+    };
+  }
+
+  makeNftTx(
+    type: string | "unknown",
+    msgs: ProtoMsgsOrWithAminoMsgs | (() => Promise<ProtoMsgsOrWithAminoMsgs>),
+    preOnTxEvents?:
+      | ((tx: any) => void)
+      | {
+          onBroadcasted?: (txHash: Uint8Array) => void;
+          onFulfill?: (tx: any) => void;
+        }
+  ): MakeTxResponse {
+    const simulate = async (
+      fee: Partial<Omit<StdFee, "gas">> = {},
+      memo: string = ""
+    ): Promise<{
+      gasUsed: number;
+    }> => {
+      if (typeof msgs === "function") {
+        msgs = await msgs();
+      }
+
+      return this.simulateTx(
+        msgs.protoMsgs,
+        {
+          amount: fee.amount ?? [],
+        },
+        memo
+      );
+    };
+
+    const sendWithGasPrice = async (
+      gasInfo: {
+        gas: number;
+        gasPrice?: {
+          denom: string;
+          amount: Dec;
+        };
+      },
+      memo: string = "",
+      signOptions?: KeplrSignOptions,
+      onTxEvents?:
+        | ((tx: any) => void)
+        | {
+            onBroadcastFailed?: (e?: Error) => void;
+            onBroadcasted?: (txHash: Uint8Array) => void;
+            onFulfill?: (tx: any) => void;
+          }
+    ): Promise<void> => {
+      if (gasInfo.gas < 0) {
+        throw new Error("Gas is zero or negative");
+      }
+
+      const fee = {
+        gas: gasInfo.gas.toString(),
+        amount: gasInfo.gasPrice
+          ? [
+              {
+                denom: gasInfo.gasPrice.denom,
+                amount: gasInfo.gasPrice.amount
+                  .mul(new Dec(gasInfo.gas))
+                  .truncate()
+                  .toString(),
+              },
+            ]
+          : [],
+      };
+
+      return this.sendNftMsgs(
+        type,
+        msgs,
+        memo,
+        fee,
+        signOptions,
+        txEventsWithPreOnFulfill(onTxEvents, preOnTxEvents)
+      );
+    };
+
+    return {
+      msgs: async (): Promise<ProtoMsgsOrWithAminoMsgs> => {
+        if (typeof msgs === "function") {
+          msgs = await msgs();
+        }
+        return msgs;
+      },
+      simulate,
+      simulateAndSend: async (
+        feeOptions: {
+          gasAdjustment: number;
+          gasPrice?: {
+            denom: string;
+            amount: Dec;
+          };
+        },
+        memo: string = "",
+        signOptions?: KeplrSignOptions,
+        onTxEvents?:
+          | ((tx: any) => void)
+          | {
+              onBroadcastFailed?: (e?: Error) => void;
+              onBroadcasted?: (txHash: Uint8Array) => void;
+              onFulfill?: (tx: any) => void;
+            }
+      ): Promise<void> => {
+        this.base.setTxTypeInProgress(type);
+
+        try {
+          const { gasUsed } = await simulate({}, memo);
+
+          if (gasUsed < 0) {
+            throw new Error("Gas estimated is zero or negative");
+          }
+
+          const gasAdjusted = Math.floor(feeOptions.gasAdjustment * gasUsed);
+
+          return sendWithGasPrice(
+            {
+              gas: gasAdjusted,
+              gasPrice: feeOptions.gasPrice,
+            },
+            memo,
+            signOptions,
+            onTxEvents
+          );
+        } catch (e) {
+          this.base.setTxTypeInProgress("");
+          throw e;
+        }
+      },
+      send: async (
+        fee: StdFee,
+        memo: string = "",
+        signOptions?: KeplrSignOptions,
+        onTxEvents?:
+          | ((tx: any) => void)
+          | {
+              onBroadcastFailed?: (e?: Error) => void;
+              onBroadcasted?: (txHash: Uint8Array) => void;
+              onFulfill?: (tx: any) => void;
+            }
+      ): Promise<void> => {
+        return this.sendNftMsgs(
+          type,
+          msgs,
+          memo,
+          fee,
+          signOptions,
+          txEventsWithPreOnFulfill(onTxEvents, preOnTxEvents)
+        );
+      },
+      sendWithGasPrice,
     };
   }
 
