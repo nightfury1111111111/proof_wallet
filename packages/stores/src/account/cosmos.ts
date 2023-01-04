@@ -539,7 +539,7 @@ export class CosmosAccountImpl {
     this.base.setTxTypeInProgress(type);
 
     let txHash: Uint8Array;
-    // let signDoc: StdSignDoc;
+    let signDoc: StdSignDoc;
     try {
       if (typeof msgs === "function") {
         msgs = await msgs();
@@ -553,7 +553,7 @@ export class CosmosAccountImpl {
         this.broadcastMode
       );
       txHash = result.txHash;
-      // signDoc = result.signDoc;
+      signDoc = result.signDoc;
     } catch (e) {
       this.base.setTxTypeInProgress("");
 
@@ -573,14 +573,14 @@ export class CosmosAccountImpl {
     }
 
     let onBroadcasted: ((txHash: Uint8Array) => void) | undefined;
-    // let onFulfill: ((tx: any) => void) | undefined;
+    let onFulfill: ((tx: any) => void) | undefined;
 
     if (onTxEvents) {
       if (typeof onTxEvents === "function") {
-        // onFulfill = onTxEvents;
+        onFulfill = onTxEvents;
       } else {
         onBroadcasted = onTxEvents.onBroadcasted;
-        // onFulfill = onTxEvents.onFulfill;
+        onFulfill = onTxEvents.onFulfill;
       }
     }
 
@@ -591,44 +591,44 @@ export class CosmosAccountImpl {
       onBroadcasted(txHash);
     }
 
-    // const txTracer = new TendermintTxTracer(
-    //   this.chainGetter.getChain(this.chainId).rpc,
-    //   "/websocket",
-    //   {
-    //     wsObject: this.txOpts.wsObject,
-    //   }
-    // );
-    // txTracer.traceTx(txHash).then((tx) => {
-    //   txTracer.close();
+    const txTracer = new TendermintTxTracer(
+      this.chainGetter.getChain(this.chainId).rpc,
+      "/websocket",
+      {
+        wsObject: this.txOpts.wsObject,
+      }
+    );
+    txTracer.traceTx(txHash).then((tx) => {
+      txTracer.close();
 
-    //   this.base.setTxTypeInProgress("");
+      this.base.setTxTypeInProgress("");
 
-    //   // After sending tx, the balances is probably changed due to the fee.
-    //   for (const feeAmount of signDoc.fee.amount) {
-    //     const bal = this.queries.queryBalances
-    //       .getQueryBech32Address(this.base.bech32Address)
-    //       .balances.find(
-    //         (bal) => bal.currency.coinMinimalDenom === feeAmount.denom
-    //       );
+      // After sending tx, the balances is probably changed due to the fee.
+      for (const feeAmount of signDoc.fee.amount) {
+        const bal = this.queries.queryBalances
+          .getQueryBech32Address(this.base.bech32Address)
+          .balances.find(
+            (bal) => bal.currency.coinMinimalDenom === feeAmount.denom
+          );
 
-    //     if (bal) {
-    //       bal.fetch();
-    //     }
-    //   }
+        if (bal) {
+          bal.fetch();
+        }
+      }
 
-    //   // Always add the tx hash data.
-    //   if (tx && !tx.hash) {
-    //     tx.hash = Buffer.from(txHash).toString("hex");
-    //   }
+      // Always add the tx hash data.
+      if (tx && !tx.hash) {
+        tx.hash = Buffer.from(txHash).toString("hex");
+      }
 
-    //   if (this.txOpts.preTxEvents?.onFulfill) {
-    //     this.txOpts.preTxEvents.onFulfill(this.chainId, tx);
-    //   }
+      if (this.txOpts.preTxEvents?.onFulfill) {
+        this.txOpts.preTxEvents.onFulfill(this.chainId, tx);
+      }
 
-    //   if (onFulfill) {
-    //     onFulfill(tx);
-    //   }
-    // });
+      if (onFulfill) {
+        onFulfill(tx);
+      }
+    });
   }
 
   // Return the tx hash.

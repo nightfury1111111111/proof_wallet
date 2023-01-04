@@ -35,7 +35,7 @@ enum Tab {
 export const SignPage: FunctionComponent = observer(() => {
   const history = useHistory();
 
-  const [tab] = useState<Tab>(Tab.Details);
+  const [tab] = useState<Tab>(Tab.Data);
 
   // const intl = useIntl();
 
@@ -359,9 +359,6 @@ export const SignPage: FunctionComponent = observer(() => {
                     }}
                     outline
                   >
-                    {/* {intl.formatMessage({
-                      id: "sign.button.reject",
-                    })} */}
                     Cancel
                   </Button>
                   <Button
@@ -390,9 +387,6 @@ export const SignPage: FunctionComponent = observer(() => {
                       }
                     }}
                   >
-                    {/* {intl.formatMessage({
-                      id: "sign.button.approve",
-                    })} */}
                     Send
                   </Button>
                 </React.Fragment>

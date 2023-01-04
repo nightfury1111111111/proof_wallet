@@ -305,6 +305,8 @@ export const SendPage: FunctionComponent = observer(() => {
                 }
               );
 
+              console.log("successs");
+
               if (!isDetachedPage) {
                 history.replace("/");
               }
