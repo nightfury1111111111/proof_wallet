@@ -343,7 +343,21 @@ export const ManageNftPage: FunctionComponent = observer(() => {
               className={style.nftImage}
               alt="No NFTs"
             />
-            <Button type="submit" block className={style.buttonActive}>
+            <Button
+              type="submit"
+              block
+              className={style.buttonActive}
+              onClick={() => {
+                history.push({
+                  pathname: "/send-nft",
+                  search: `?contractAddress=${
+                    tmpNfts[currentCollectionIdx].address
+                  }&imageUrl=${`${tmpNfts[currentCollectionIdx].apiEndpoint}images/${selectedNFT}.${tmpNfts[currentCollectionIdx].ext}`}&name=${
+                    tmpNfts[currentCollectionIdx].name
+                  }&nftId=${selectedNFT}`,
+                });
+              }}
+            >
               {intl.formatMessage({
                 id: "send.button.send",
               })}

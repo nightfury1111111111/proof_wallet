@@ -2,13 +2,11 @@ import React, { FunctionComponent, useEffect, useMemo } from "react";
 import {
   AddressInput,
   // FeeButtons,
-  CoinInput,
   // MemoInput,
 } from "../../components/form";
 import { useStore } from "../../stores";
 
 import { HeaderLayout } from "../../layouts";
-import { TokenView } from "../main/token";
 import { FeeButtons } from "../../components/form";
 import { Menu } from "../main/menu";
 
@@ -20,7 +18,7 @@ import { useNotification } from "../../components/notification";
 import { useIntl } from "react-intl";
 import { Button } from "reactstrap";
 
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import queryString from "querystring";
 
 import { useGasSimulator, useSendTxConfig } from "@proof-wallet/hooks";
@@ -34,18 +32,24 @@ import { DenomHelper, ExtensionKVStore } from "@proof-wallet/common";
 
 export const SendNftPage: FunctionComponent = observer(() => {
   const history = useHistory();
-  let search =
-    "?defaultDenom=factory/sei1466nf3zuxpya8q9emxukd7vftaf6h4psr0a07srl5zw74zh84yjqpeheyc/uust2";
+  console.log(useLocation().search);
+  let search = useLocation().search;
   if (search.startsWith("?")) {
     search = search.slice(1);
   }
   const query = queryString.parse(search) as {
+    contractAddress: string;
+    nftId: string;
+    imageUrl: string;
+    name: string;
     defaultDenom: string | undefined;
     defaultRecipient: string | undefined;
     defaultAmount: string | undefined;
     defaultMemo: string | undefined;
     detached: string | undefined;
   };
+
+  console.log(query);
 
   useEffect(() => {
     // Scroll to top on page mounted.
@@ -79,16 +83,6 @@ export const SendNftPage: FunctionComponent = observer(() => {
       ensEndpoint: EthereumEndpoint,
       allowHexAddressOnEthermint: true,
     }
-  );
-
-  const queryBalances = queriesStore
-    .get(sendConfigs.amountConfig.chainId)
-    .queryBalances.getQueryBech32Address(sendConfigs.amountConfig.sender);
-
-  const queryBalance = queryBalances.balances.filter(
-    (bal) =>
-      sendConfigs.amountConfig.sendCurrency.coinMinimalDenom ===
-      bal.currency.coinMinimalDenom
   );
 
   const gasSimulatorKey = useMemo(() => {
@@ -209,7 +203,6 @@ export const SendNftPage: FunctionComponent = observer(() => {
 
   const sendConfigError =
     sendConfigs.recipientConfig.error ??
-    sendConfigs.amountConfig.error ??
     sendConfigs.memoConfig.error ??
     sendConfigs.gasConfig.error ??
     sendConfigs.feeConfig.error;
@@ -284,9 +277,9 @@ export const SendNftPage: FunctionComponent = observer(() => {
 
               console.log("send-nft");
               const tx = accountInfo.makeSendNftTx(
-                "sei16sxavw8h0uqe565e5t7f9t72dxh8cr8d6ca8mq5xt9nn3djwy5ksqnqmen",
+                query.contractAddress,
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                624,
+                Number(query.nftId),
                 sendConfigs.recipientConfig.recipient
               );
               console.log("send-nft-tx", tx);
@@ -350,35 +343,20 @@ export const SendNftPage: FunctionComponent = observer(() => {
                   width: "20px",
                 }}
                 onClick={() => {
-                  history.push({
-                    pathname: "/select/token",
-                  });
+                  history.goBack();
                 }}
               />
               <div
                 className={style.title}
-              >{`Send ${queryBalance[0].currency.coinDenom}`}</div>
+              >{`Send ${query.name} ${query.nftId}`}</div>
             </div>
-            <TokenView
-              balance={queryBalance[0]}
-              onClick={() => {
-                history.push({
-                  pathname: "/send",
-                  search: `?defaultDenom=${queryBalance[0].currency.coinMinimalDenom}`,
-                });
-              }}
-            />
+            <div style={{ textAlign: "center" }}>
+              <img className={style.nftImage} src={query.imageUrl} />
+            </div>
             <AddressInput
               recipientConfig={sendConfigs.recipientConfig}
               memoConfig={sendConfigs.memoConfig}
               // label={intl.formatMessage({ id: "send.input.recipient" })}
-            />
-            <CoinInput
-              amountConfig={sendConfigs.amountConfig}
-              label={intl.formatMessage({ id: "send.input.amount" })}
-              balanceText={intl.formatMessage({
-                id: "send.input-button.balance",
-              })}
             />
             {/* <MemoInput
               memoConfig={sendConfigs.memoConfig}

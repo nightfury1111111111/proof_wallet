@@ -372,6 +372,11 @@ export const SignPage: FunctionComponent = observer(() => {
                       if (needSetIsProcessing) {
                         setIsProcessing(true);
                       }
+                      console.log(
+                        "signDocHelper",
+                        signDocHelper,
+                        interactionInfo
+                      );
 
                       if (signDocHelper.signDocWrapper) {
                         await signInteractionStore.approveAndWaitEnd(
@@ -387,7 +392,7 @@ export const SignPage: FunctionComponent = observer(() => {
                       }
                     }}
                   >
-                    Send
+                    Confirm
                   </Button>
                 </React.Fragment>
               )}
