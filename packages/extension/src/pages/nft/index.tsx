@@ -2,12 +2,12 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 
-import { Input } from "reactstrap";
+import { Input, Button } from "reactstrap";
 import classnames from "classnames";
 
 import { useStore } from "../../stores";
 import { NftList } from "../../config";
-
+import { useIntl } from "react-intl";
 import { HeaderLayout } from "../../layouts";
 import { Footer } from "../../components/footer";
 
@@ -38,6 +38,7 @@ export const ManageNftPage: FunctionComponent = observer(() => {
   const [keyword, setKeyword] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState<string>("collection");
+  const [selectedNFT, setSelectedNFT] = useState('');
   const [currentCollectionIdx, setCurrentCollectionIdx] = useState(0);
   const [focused, setFocused] = useState(false);
 
@@ -52,6 +53,8 @@ export const ManageNftPage: FunctionComponent = observer(() => {
 
   const accountInfo = accountStore.getAccount(current.chainId);
 
+  const fakeAttributes = [{"trait_type":"face","value":"in love"},{"trait_type":"hair","value":"blue brushcut"},{"trait_type":"body","value":"pink puffer"},{"trait_type":"background","value":"gradient 1"},{"trait_type":"head","value":"pink"}]
+  const intl = useIntl();
   const getTokens = async () => {
     // const gasPrice = GasPrice.fromString("0.05usei");
     const sender_wallet = await DirectSecp256k1HdWallet.fromMnemonic(
@@ -62,7 +65,7 @@ export const ManageNftPage: FunctionComponent = observer(() => {
       rpcEndpoint,
       sender_wallet
     );
-
+   
     const tmpNftArray: Array<Nft> = [];
     setIsLoading(true);
     await Promise.all(
@@ -114,6 +117,9 @@ export const ManageNftPage: FunctionComponent = observer(() => {
       canChangeChainInfo={false}
       style={{ height: "auto", minHeight: "100%"}}
       onBackButton={() => {
+        if(page === "singleNFT" ) {
+          history.push('/collection');
+        }
         history.goBack();
       }}
       rightRenderer={
@@ -231,8 +237,14 @@ export const ManageNftPage: FunctionComponent = observer(() => {
                     backgroundImage: `url(${nft.apiEndpoint}images/${nft.id[0]}.${nft.ext})`,
                   }}
                   onClick={() => {
-                    setCurrentCollectionIdx(idx);
-                    setPage("nfts");
+                    if(nft.id.length == 1) {
+                      setSelectedNFT(nft.id[0])
+                      setCurrentCollectionIdx(idx);
+                      setPage("singleNFT");
+                    } else {
+                      setCurrentCollectionIdx(idx);
+                      setPage("nfts");
+                    }
                   }}
                 >
                   <div className={style.nftName}>
@@ -287,13 +299,59 @@ export const ManageNftPage: FunctionComponent = observer(() => {
                     backgroundImage: `url(${tmpNfts[currentCollectionIdx].apiEndpoint}images/${nft}.${tmpNfts[currentCollectionIdx].ext})`,
                   }}
                   onClick={() => {
-                    setPage("nfts");
+                    setSelectedNFT(nft)
+                    setPage("singleNFT");
                   }}
                 >
                   <div className={style.nftName}>{`# ${nft}`}</div>
                 </div>
               );
             })}
+          </div>
+          {!isLoading && (
+            <div style={{ height: "70px", color: "transparent" }} />
+          )}
+        </div>
+      )}
+      {page === "singleNFT" && (
+        <div>
+          {isLoading && (
+            <div className={style.loadingContainer}>
+              <i
+                className="fas fa-spinner fa-spin ml-1"
+                style={{ color: "white" }}
+              />
+            </div>
+          )}
+          <div className={style.nftSelectedContainer}>
+           <div className={style.nftTitle}>
+              <span className={style.nftTitleText}>{tmpNfts[currentCollectionIdx].name} #{selectedNFT}</span>
+            </div>
+            <img
+              src={`${tmpNfts[currentCollectionIdx].apiEndpoint}images/${selectedNFT}.${tmpNfts[currentCollectionIdx].ext}`}
+              className={style.nftImage}
+              alt="No NFTs"
+            />
+            <Button
+            type="submit"
+            block
+            className={style.buttonActive}
+            >
+            {intl.formatMessage({
+              id: "send.button.send",
+            })}
+          </Button>
+            <span className={style.nftDescription}>A community-driven collectibles project featuring art by Burnt Toast. Doodles come in a joyful</span>
+            <div className={style.attributesContainer}>
+              {fakeAttributes.map((attribute,index) => {
+                return (
+                  <div className={style.attributeBox} key={index}>
+                    <span className={style.attributeHead}>{attribute.trait_type.toUpperCase()}</span>
+                    <span className={style.attributeText}>{attribute.value}</span>
+                  </div>
+                )
+              })}
+            </div>
           </div>
           {!isLoading && (
             <div style={{ height: "70px", color: "transparent" }} />

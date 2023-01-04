@@ -182,7 +182,7 @@ export const HistoryPage: FunctionComponent = observer(() => {
     setIsLoading(true);
     const send = async () => {
       const result = await axios.get(
-        `https://rest-sei-test.ecostake.com/cosmos/tx/v1beta1/txs?pagination.limit=100&pagination.offset=0&orderBy=ORDER_BY_DESC&events=transfer.sender%3D%27${accountInfo.bech32Address}%27`
+        `https://sei-chain-incentivized.com/sei-chain-app/cosmos/tx/v1beta1/txs?pagination.limit=100&pagination.offset=0&orderBy=ORDER_BY_DESC&events=transfer.sender%3D%27${accountInfo.bech32Address}%27`
       );
       if (result.data.tx_responses.length > 0) {
         result.data.tx_responses.map((tx: any) => {
@@ -254,7 +254,7 @@ export const HistoryPage: FunctionComponent = observer(() => {
     };
     const receive = async () => {
       const result = await axios.get(
-        `https://rest-sei-test.ecostake.com/cosmos/tx/v1beta1/txs?pagination.limit=100&pagination.offset=0&orderBy=ORDER_BY_DESC&events=transfer.recipient%3D%27${accountInfo.bech32Address}%27`
+        `https://sei-chain-incentivized.com/sei-chain-app/cosmos/tx/v1beta1/txs?pagination.limit=100&pagination.offset=0&orderBy=ORDER_BY_DESC&events=transfer.recipient%3D%27${accountInfo.bech32Address}%27`
       );
       if (result.data.tx_responses.length > 0) {
         console.log(result.data.tx_responses);
