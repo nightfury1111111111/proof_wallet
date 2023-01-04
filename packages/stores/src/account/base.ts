@@ -204,6 +204,7 @@ export class AccountSetBase {
       );
     }
     this.hasInited = true;
+    console.log(0);
 
     // Set wallet status as loading whenever try to init.
     this._walletStatus = WalletStatus.Loading;
