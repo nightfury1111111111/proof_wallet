@@ -96,6 +96,12 @@ export class AccountSetBase {
     recipient: string
   ) => MakeTxResponse | undefined)[] = [];
 
+  protected makeSendNftTxFns: ((
+    amount: string,
+    currency: AppCurrency,
+    recipient: string
+  ) => MakeTxResponse | undefined)[] = [];
+
   constructor(
     protected readonly eventListener: {
       addEventListener: (type: string, fn: () => unknown) => void;
@@ -166,6 +172,16 @@ export class AccountSetBase {
     this.makeSendTokenTxFns.push(fn);
   }
 
+  registerMakeSendNftFn(
+    fn: (
+      amount: string,
+      currency: AppCurrency,
+      recipient: string
+    ) => MakeTxResponse | undefined
+  ) {
+    this.makeSendNftTxFns.push(fn);
+  }
+
   protected async enable(keplr: Keplr, chainId: string): Promise<void> {
     const chainInfo = this.chainGetter.getChain(chainId);
 
@@ -204,7 +220,6 @@ export class AccountSetBase {
       );
     }
     this.hasInited = true;
-    console.log(0);
 
     // Set wallet status as loading whenever try to init.
     this._walletStatus = WalletStatus.Loading;
@@ -309,6 +324,25 @@ export class AccountSetBase {
     throw new Error(`Unsupported type of currency (${denomHelper.type})`);
   }
 
+  makeSendNftTx(
+    amount: string,
+    currency: AppCurrency,
+    recipient: string
+  ): MakeTxResponse {
+    for (let i = 0; i < this.makeSendNftTxFns.length; i++) {
+      const fn = this.makeSendNftTxFns[i];
+
+      const res = fn(amount, currency, recipient);
+      if (res) {
+        return res;
+      }
+    }
+
+    const denomHelper = new DenomHelper(currency.coinMinimalDenom);
+
+    throw new Error(`Unsupported type of currency (${denomHelper.type})`);
+  }
+
   async sendToken(
     amount: string,
     currency: AppCurrency,
@@ -346,42 +380,42 @@ export class AccountSetBase {
     throw new Error(`Unsupported type of currency (${denomHelper.type})`);
   }
 
-  async sendNft(
-    amount: string,
-    currency: AppCurrency,
-    recipient: string,
-    memo: string = "",
-    stdFee: Partial<StdFee> = {},
-    signOptions?: KeplrSignOptions,
-    onTxEvents?:
-      | ((tx: any) => void)
-      | {
-          onBroadcasted?: (txHash: Uint8Array) => void;
-          onFulfill?: (tx: any) => void;
-        }
-  ) {
-    for (let i = 0; i < this.sendNftFns.length; i++) {
-      const fn = this.sendNftFns[i];
+  // async sendNft(
+  //   amount: string,
+  //   currency: AppCurrency,
+  //   recipient: string,
+  //   memo: string = "",
+  //   stdFee: Partial<StdFee> = {},
+  //   signOptions?: KeplrSignOptions,
+  //   onTxEvents?:
+  //     | ((tx: any) => void)
+  //     | {
+  //         onBroadcasted?: (txHash: Uint8Array) => void;
+  //         onFulfill?: (tx: any) => void;
+  //       }
+  // ) {
+  //   for (let i = 0; i < this.sendNftFns.length; i++) {
+  //     const fn = this.sendNftFns[i];
 
-      if (
-        await fn(
-          amount,
-          currency,
-          recipient,
-          memo,
-          stdFee,
-          signOptions,
-          onTxEvents
-        )
-      ) {
-        return;
-      }
-    }
+  //     if (
+  //       await fn(
+  //         amount,
+  //         currency,
+  //         recipient,
+  //         memo,
+  //         stdFee,
+  //         signOptions,
+  //         onTxEvents
+  //       )
+  //     ) {
+  //       return;
+  //     }
+  //   }
 
-    const denomHelper = new DenomHelper(currency.coinMinimalDenom);
+  //   const denomHelper = new DenomHelper(currency.coinMinimalDenom);
 
-    throw new Error(`Unsupported type of currency (${denomHelper.type})`);
-  }
+  //   throw new Error(`Unsupported type of currency (${denomHelper.type})`);
+  // }
 
   get walletStatus(): WalletStatus {
     return this._walletStatus;
