@@ -309,6 +309,8 @@ export const SendNftPage: FunctionComponent = observer(() => {
                 }
               );
 
+              console.log("success");
+
               if (!isDetachedPage) {
                 history.replace("/");
               }

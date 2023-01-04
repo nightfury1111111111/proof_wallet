@@ -539,7 +539,7 @@ export class CosmosAccountImpl {
     this.base.setTxTypeInProgress(type);
 
     let txHash: Uint8Array;
-    let signDoc: StdSignDoc;
+    // let signDoc: StdSignDoc;
     try {
       if (typeof msgs === "function") {
         msgs = await msgs();
@@ -553,7 +553,7 @@ export class CosmosAccountImpl {
         this.broadcastMode
       );
       txHash = result.txHash;
-      signDoc = result.signDoc;
+      // signDoc = result.signDoc;
     } catch (e) {
       this.base.setTxTypeInProgress("");
 
@@ -573,14 +573,14 @@ export class CosmosAccountImpl {
     }
 
     let onBroadcasted: ((txHash: Uint8Array) => void) | undefined;
-    let onFulfill: ((tx: any) => void) | undefined;
+    // let onFulfill: ((tx: any) => void) | undefined;
 
     if (onTxEvents) {
       if (typeof onTxEvents === "function") {
-        onFulfill = onTxEvents;
+        // onFulfill = onTxEvents;
       } else {
         onBroadcasted = onTxEvents.onBroadcasted;
-        onFulfill = onTxEvents.onFulfill;
+        // onFulfill = onTxEvents.onFulfill;
       }
     }
 
