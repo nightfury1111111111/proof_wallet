@@ -252,9 +252,7 @@ export const SignPage: FunctionComponent = observer(() => {
                   width: "20px",
                 }}
                 onClick={() => {
-                  history.push({
-                    pathname: "/send",
-                  });
+                  history.goBack();
                 }}
               />
               <div className={style.title}>{`Sending Confirmation`}</div>
@@ -372,17 +370,21 @@ export const SignPage: FunctionComponent = observer(() => {
                       if (needSetIsProcessing) {
                         setIsProcessing(true);
                       }
+                      console.log("here-ok");
+
+                      if (signDocHelper.signDocWrapper) {
+                        console.log("here2-ok");
+                        await signInteractionStore.approveAndWaitEnd(
+                          signDocHelper.signDocWrapper
+                        );
+                        console.log("here3-ok");
+                      }
+                      console.log("here4-ok");
                       console.log(
                         "signDocHelper",
                         signDocHelper,
                         interactionInfo
                       );
-
-                      if (signDocHelper.signDocWrapper) {
-                        await signInteractionStore.approveAndWaitEnd(
-                          signDocHelper.signDocWrapper
-                        );
-                      }
 
                       if (
                         interactionInfo.interaction &&
