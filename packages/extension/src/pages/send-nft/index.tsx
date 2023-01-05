@@ -25,14 +25,13 @@ import { useGasSimulator, useSendTxConfig } from "@proof-wallet/hooks";
 import { EthereumEndpoint } from "../../config.ui";
 import {
   fitPopupWindow,
-  openPopupWindow,
-  PopupSize,
+  // openPopupWindow,
+  // PopupSize,
 } from "@proof-wallet/popup";
 import { DenomHelper, ExtensionKVStore } from "@proof-wallet/common";
 
 export const SendNftPage: FunctionComponent = observer(() => {
   const history = useHistory();
-  console.log(useLocation().search);
   let search = useLocation().search;
   if (search.startsWith("?")) {
     search = search.slice(1);
@@ -48,8 +47,6 @@ export const SendNftPage: FunctionComponent = observer(() => {
     defaultMemo: string | undefined;
     detached: string | undefined;
   };
-
-  console.log(query);
 
   useEffect(() => {
     // Scroll to top on page mounted.
@@ -214,56 +211,27 @@ export const SendNftPage: FunctionComponent = observer(() => {
       showChainName
       menuRenderer={<Menu />}
       rightRenderer={
-        isDetachedPage ? undefined : (
+        <div
+          style={{
+            height: "36px",
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            paddingRight: "20px",
+          }}
+        >
           <div
             style={{
-              height: "36px",
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              paddingRight: "20px",
+              background:
+                "radial-gradient(75% 75% at 50% 25%, #C4FFD1 3.88%, #7EFF9B 100%)", // if it is connected, green color if not, red
+              width: "5px",
+              height: "5px",
+              borderRadius: "10px",
+              cursor: "pointer",
+              padding: "4px",
             }}
-          >
-            <i
-              className="fas fa-external-link-alt"
-              style={{
-                cursor: "pointer",
-                padding: "4px",
-                color: "#8B8B9A",
-              }}
-              onClick={async (e) => {
-                e.preventDefault();
-
-                const windowInfo = await browser.windows.getCurrent();
-
-                let queryString = `?detached=true&defaultDenom=${sendConfigs.amountConfig.sendCurrency.coinMinimalDenom}`;
-                if (sendConfigs.recipientConfig.rawRecipient) {
-                  queryString += `&defaultRecipient=${sendConfigs.recipientConfig.rawRecipient}`;
-                }
-                if (sendConfigs.amountConfig.amount) {
-                  queryString += `&defaultAmount=${sendConfigs.amountConfig.amount}`;
-                }
-                if (sendConfigs.memoConfig.memo) {
-                  queryString += `&defaultMemo=${sendConfigs.memoConfig.memo}`;
-                }
-
-                await openPopupWindow(
-                  browser.runtime.getURL(`/popup.html#/send${queryString}`),
-                  undefined,
-                  {
-                    top: (windowInfo.top || 0) + 80,
-                    left:
-                      (windowInfo.left || 0) +
-                      (windowInfo.width || 0) -
-                      PopupSize.width -
-                      20,
-                  }
-                );
-                window.close();
-              }}
-            />
-          </div>
-        )
+          />
+        </div>
       }
     >
       <form
@@ -275,7 +243,6 @@ export const SendNftPage: FunctionComponent = observer(() => {
             try {
               const stdFee = sendConfigs.feeConfig.toStdFee();
 
-              console.log("send-nft");
               const tx = accountInfo.makeSendNftTx(
                 query.contractAddress,
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

@@ -177,7 +177,7 @@ export class CosmwasmAccountImpl {
       this.chainGetter.getChain(this.chainId).bech32Config.bech32PrefixAccAddr
     );
 
-    return this.makeExecuteContractNftTx(
+    return this.makeExecuteContractTx(
       "send",
       nftContract,
       {
@@ -275,54 +275,54 @@ export class CosmwasmAccountImpl {
     return false;
   }
 
-  makeExecuteContractNftTx(
-    // This arg can be used to override the type of sending tx if needed.
-    type: keyof CosmwasmMsgOpts | "unknown" = "executeWasm",
-    contractAddress: string,
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    obj: object,
-    funds: CoinPrimitive[],
-    preOnTxEvents?:
-      | ((tx: any) => void)
-      | {
-          onBroadcasted?: (txHash: Uint8Array) => void;
-          onFulfill?: (tx: any) => void;
-        }
-  ) {
-    Bech32Address.validate(
-      contractAddress,
-      this.chainGetter.getChain(this.chainId).bech32Config.bech32PrefixAccAddr
-    );
+  // makeExecuteContractNftTx(
+  //   // This arg can be used to override the type of sending tx if needed.
+  //   type: keyof CosmwasmMsgOpts | "unknown" = "executeWasm",
+  //   contractAddress: string,
+  //   // eslint-disable-next-line @typescript-eslint/ban-types
+  //   obj: object,
+  //   funds: CoinPrimitive[],
+  //   preOnTxEvents?:
+  //     | ((tx: any) => void)
+  //     | {
+  //         onBroadcasted?: (txHash: Uint8Array) => void;
+  //         onFulfill?: (tx: any) => void;
+  //       }
+  // ) {
+  //   Bech32Address.validate(
+  //     contractAddress,
+  //     this.chainGetter.getChain(this.chainId).bech32Config.bech32PrefixAccAddr
+  //   );
 
-    const msg = {
-      type: this.msgOpts.executeWasm.type,
-      value: {
-        sender: this.base.bech32Address,
-        contract: contractAddress,
-        msg: obj,
-        funds,
-      },
-    };
+  //   const msg = {
+  //     type: this.msgOpts.executeWasm.type,
+  //     value: {
+  //       sender: this.base.bech32Address,
+  //       contract: contractAddress,
+  //       msg: obj,
+  //       funds,
+  //     },
+  //   };
 
-    return this.base.cosmos.makeNftTx(
-      type,
-      {
-        aminoMsgs: [msg],
-        protoMsgs: [
-          {
-            typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
-            value: MsgExecuteContract.encode({
-              sender: msg.value.sender,
-              contract: msg.value.contract,
-              msg: Buffer.from(JSON.stringify(msg.value.msg)),
-              funds: msg.value.funds,
-            }).finish(),
-          },
-        ],
-      },
-      preOnTxEvents
-    );
-  }
+  //   return this.base.cosmos.makeNftTx(
+  //     type,
+  //     {
+  //       aminoMsgs: [msg],
+  //       protoMsgs: [
+  //         {
+  //           typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
+  //           value: MsgExecuteContract.encode({
+  //             sender: msg.value.sender,
+  //             contract: msg.value.contract,
+  //             msg: Buffer.from(JSON.stringify(msg.value.msg)),
+  //             funds: msg.value.funds,
+  //           }).finish(),
+  //         },
+  //       ],
+  //     },
+  //     preOnTxEvents
+  //   );
+  // }
 
   makeExecuteContractTx(
     // This arg can be used to override the type of sending tx if needed.
