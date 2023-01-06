@@ -7,6 +7,7 @@ used on SEI chain
 background/src/keyring/crypto.ts -- "sei" hard cording
 didn't implement ledger feature -- change password
 fix gas config and simulator
+use "send-nft" type instead of "send" -- cause send button loading in main page
 
 
 -- have to remember

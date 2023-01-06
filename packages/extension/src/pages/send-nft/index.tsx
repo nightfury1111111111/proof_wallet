@@ -82,6 +82,8 @@ export const SendNftPage: FunctionComponent = observer(() => {
     }
   );
 
+  console.log(sendConfigs);
+
   const gasSimulatorKey = useMemo(() => {
     if (sendConfigs.amountConfig.sendCurrency) {
       const denomHelper = new DenomHelper(
@@ -249,7 +251,6 @@ export const SendNftPage: FunctionComponent = observer(() => {
                 Number(query.nftId),
                 sendConfigs.recipientConfig.recipient
               );
-              console.log("send-nft-tx", tx);
 
               await tx.send(
                 stdFee,

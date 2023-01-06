@@ -373,19 +373,13 @@ export const SignPage: FunctionComponent = observer(() => {
                       console.log("here-ok");
 
                       if (signDocHelper.signDocWrapper) {
-                        console.log("here2-ok");
+                        console.log("here2-ok", signDocHelper.signDocWrapper);
                         await signInteractionStore.approveAndWaitEnd(
                           signDocHelper.signDocWrapper
                         );
                         console.log("here3-ok");
                       }
                       console.log("here4-ok");
-                      console.log(
-                        "signDocHelper",
-                        signDocHelper,
-                        interactionInfo
-                      );
-
                       if (
                         interactionInfo.interaction &&
                         !interactionInfo.interactionInternal
