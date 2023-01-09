@@ -178,7 +178,7 @@ export class CosmwasmAccountImpl {
     );
 
     return this.makeExecuteContractTx(
-      "send",
+      "executeWasm",
       nftContract,
       {
         transfer_nft: {
