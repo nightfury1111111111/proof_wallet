@@ -183,7 +183,7 @@ export class CosmwasmAccountImpl {
       {
         transfer_nft: {
           recipient,
-          token_id: nftId,
+          token_id: nftId.toString(),
         },
       },
       []
