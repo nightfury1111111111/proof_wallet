@@ -35,7 +35,7 @@ enum Tab {
 export const SignPage: FunctionComponent = observer(() => {
   const history = useHistory();
 
-  const [tab] = useState<Tab>(Tab.Data);
+  const [tab] = useState<Tab>(Tab.Details);
 
   // const intl = useIntl();
 

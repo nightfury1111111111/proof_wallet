@@ -512,6 +512,64 @@ export function renderMsgInstantiateContract(
   };
 }
 
+export function renderNftSend(nftName: string, toAddress: string) {
+  return {
+    icon: "fas fa-paper-plane",
+    title: "Send NFT",
+    content: (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            width: "223px",
+            fontWeight: 600,
+            textAlign: "center",
+            fontSize: "20px",
+            lineHeight: "116.5%",
+            color: "white",
+          }}
+        >
+          <div>You are sending</div>
+          <div>{nftName}</div>
+        </div>
+        <i
+          className="fas fa-light fa-arrow-down"
+          style={{
+            cursor: "pointer",
+            padding: "4px",
+            color: "#696969",
+            width: "20px",
+            height: "20px",
+            scale: 2,
+            margin: "12px",
+          }}
+        />
+        <div
+          style={{
+            width: "310px",
+            background: "#131313",
+            borderRadius: "3px",
+            textAlign: "center",
+            fontSize: "14px",
+            padding: "10px 20px",
+            letterSpacing: "0.5px",
+          }}
+        >
+          <div style={{ color: "#E9E4DF" }}>to this address</div>
+          <div style={{ color: "#696969", wordBreak: "break-all" }}>
+            {toAddress}
+          </div>
+        </div>
+      </div>
+    ),
+  };
+}
+
 export function renderMsgExecuteContract(
   currencies: Currency[],
   intl: IntlShape,
@@ -521,6 +579,7 @@ export function renderMsgExecuteContract(
   // eslint-disable-next-line @typescript-eslint/ban-types
   msg: object | string
 ) {
+  console.log(msg);
   const sent: { amount: string; denom: string }[] = [];
   for (const coinPrimitive of sentFunds) {
     const coin = new Coin(coinPrimitive.denom, coinPrimitive.amount);
@@ -570,7 +629,7 @@ export function renderMsgExecuteContract(
         ) : (
           <br />
         )}
-        <WasmExecutionMsgView msg={msg} />
+        {/* <WasmExecutionMsgView msg={msg} /> */}
       </React.Fragment>
     ),
   };

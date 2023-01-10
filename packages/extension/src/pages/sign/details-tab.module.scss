@@ -18,7 +18,7 @@
   border-radius: 5px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
 
   overflow: auto;
@@ -75,8 +75,8 @@
       }
 
       .content {
-        font-size: 12px;
-        color: gray;
+        font-size: 14px;
+        color: #ffffff;
       }
     }
   }

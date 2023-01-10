@@ -27,12 +27,15 @@ import {
   renderMsgExecuteContract,
   renderMsgInstantiateContract,
   renderMsgSend,
+  renderNftSend,
   renderMsgTransfer,
   renderMsgUndelegate,
   renderMsgVote,
   renderMsgWithdrawDelegatorReward,
   renderUnknownMessage,
 } from "./messages";
+
+import { NftList } from "../../config";
 
 export function renderAminoMessage(
   msgOpts: {
@@ -130,14 +133,24 @@ export function renderAminoMessage(
       msg.type === msgOpts.secret.msgOpts.executeSecretWasm.type
     ) {
       const value = msg.value as MsgExecuteContract["value"];
-      return renderMsgExecuteContract(
-        currencies,
-        intl,
-        value.funds ?? value.sent_funds ?? [],
-        value.callback_code_hash,
-        value.contract,
-        value.msg
-      );
+      if (Object.keys(value.msg)[0] === "transfer_nft") {
+        const tmpMsg: any = value.msg;
+        const currentNft = NftList.filter((nft) => {
+          return nft.address === value.contract;
+        })[0];
+        const name = `${currentNft.name} #${tmpMsg.transfer_nft.token_id}`;
+        const toAddress = tmpMsg.transfer_nft.recipient;
+        return renderNftSend(name, toAddress);
+      } else {
+        return renderMsgExecuteContract(
+          currencies,
+          intl,
+          value.funds ?? value.sent_funds ?? [],
+          value.callback_code_hash,
+          value.contract,
+          value.msg
+        );
+      }
     }
 
     if (msg.type === "cyber/Link") {

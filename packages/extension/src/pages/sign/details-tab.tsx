@@ -23,6 +23,7 @@ import { AnyWithUnpacked } from "@proof-wallet/cosmos";
 import { CoinPretty } from "@proof-wallet/unit";
 import { Currency } from "@proof-wallet/types";
 import { StoreUtils } from "@proof-wallet/stores";
+import { NftList } from "../../config";
 
 export const DetailsTab: FunctionComponent<{
   signDocHelper: SignDocHelper;
@@ -77,11 +78,25 @@ export const DetailsTab: FunctionComponent<{
         ? signDocHelper.signDocWrapper.aminoSignDoc.msgs
         : signDocHelper.signDocWrapper.protoSignDoc.txMsgs
       : [];
+    console.log(msgs);
 
-    const currentCoin = StoreUtils.getBalancesFromCurrencies(
-      currenciesMap,
-      msgs[0].value.amount
-    );
+    const currentNft =
+      !msgs[0].value.amount &&
+      Object.keys(msgs[0].value.msg)[0] === "transfer_nft" &&
+      NftList.filter((nft) => {
+        return nft.address === msgs[0].value.contract;
+      })[0];
+
+    const currentCoin =
+      !msgs[0].value.amount &&
+      Object.keys(msgs[0].value.msg)[0] === "transfer_nft"
+        ? StoreUtils.getBalancesFromCurrencies(currenciesMap, [
+            { denom: "usei", amount: "1000000" },
+          ])
+        : StoreUtils.getBalancesFromCurrencies(
+            currenciesMap,
+            msgs[0].value.amount
+          );
 
     const balance = currentCoin[0].trim(true).shrink(true);
     const name =
@@ -89,9 +104,14 @@ export const DetailsTab: FunctionComponent<{
         ? balance.currency.coinDenom.toUpperCase()
         : "NFT";
     const imageUrl =
-      Object.keys(balance.currency).indexOf("coinImageUrl") > -1
+      currentNft &&
+      !msgs[0].value.amount &&
+      Object.keys(msgs[0].value.msg)[0] === "transfer_nft"
+        ? `${currentNft.apiEndpoint}images/${msgs[0].value.msg.transfer_nft.token_id}.${currentNft.ext}`
+        : Object.keys(balance.currency).indexOf("coinImageUrl") > -1
         ? balance.currency.coinImageUrl
         : "";
+
     const minimalDenom =
       Object.keys(balance).length > 0
         ? balance.currency.coinMinimalDenom
