@@ -11,6 +11,7 @@ import { Bech32Address } from "@proof-wallet/cosmos";
 import { StoreUtils } from "@proof-wallet/stores";
 import { CoinPretty } from "@proof-wallet/unit";
 import { Currency } from "@proof-wallet/types";
+import { NftList } from "../../config";
 
 import { observer } from "mobx-react-lite";
 
@@ -19,6 +20,8 @@ import style from "./style.module.scss";
 import { useHistory } from "react-router";
 
 export interface History {
+  type?: string;
+  tokenId?: string;
   height: number;
   timestamp: Date;
   address: string;
@@ -28,7 +31,6 @@ export interface History {
 }
 
 const camelize = (str: string) => {
-  console.log(str.substr(-str.length + 1));
   const newStr: string = str[0].toUpperCase() + str.substr(-str.length + 1);
   return newStr;
 };
@@ -44,13 +46,20 @@ export const HistoryView: FunctionComponent<{
     "#fb6340",
   ]);
 
+  const currentNft = NftList.filter((nft) => {
+    return nft.address === history.address;
+  })[0];
   const balance = history.balance.trim(true).shrink(true);
   const name =
-    Object.keys(balance).length > 0
+    history.type === "NFT"
+      ? currentNft.name
+      : Object.keys(balance).length > 0
       ? balance.currency.coinDenom.toUpperCase()
       : "NFT";
   const imageUrl =
-    Object.keys(balance.currency).indexOf("coinImageUrl") > -1
+    history.type === "NFT"
+      ? `${currentNft.apiEndpoint}images/${history.tokenId}.${currentNft.ext}`
+      : Object.keys(balance.currency).indexOf("coinImageUrl") > -1
       ? balance.currency.coinImageUrl
       : "";
   const minimalDenom =
@@ -125,8 +134,8 @@ export const HistoryView: FunctionComponent<{
               color: history.activity === "Sent" ? "#FFFFFF" : "#7EFF9B",
             }}
           >
-            {Object.keys(balance).length === 0
-              ? "NFT"
+            {history.type === "NFT"
+              ? `${currentNft.name} (NFT)`
               : history.activity === "Sent"
               ? `- ${balance.maxDecimals(6).toString()}`
               : `+ ${balance.maxDecimals(6).toString()}`}
@@ -186,6 +195,27 @@ export const HistoryPage: FunctionComponent = observer(() => {
       );
       if (result.data.tx_responses.length > 0) {
         result.data.tx_responses.map((tx: any) => {
+          if (
+            tx.tx.body.messages[0]["@type"] ===
+              "/cosmwasm.wasm.v1.MsgExecuteContract" &&
+            Object.keys(tx.tx.body.messages[0].msg)[0] === "transfer_nft"
+          ) {
+            const hist: History = {
+              type: "NFT",
+              tokenId: tx.tx.body.messages[0].msg.transfer_nft.token_id,
+              height: tx.height,
+              timestamp: tx.timestamp,
+              address: tx.tx.body.messages[0].contract,
+              txHash: tx.txhash,
+              // fake balance
+              balance: StoreUtils.getBalancesFromCurrencies(currenciesMap, [
+                { denom: "usei", amount: "1000000" },
+              ])[0],
+              activity: "Sent",
+            };
+            histories = histories.concat(hist);
+            return true;
+          }
           const tmpBalance =
             tx.tx.body.messages[0]["@type"] ===
               "/cosmwasm.wasm.v1.MsgExecuteContract" &&
@@ -257,7 +287,6 @@ export const HistoryPage: FunctionComponent = observer(() => {
         `https://sei-chain-incentivized.com/sei-chain-app/cosmos/tx/v1beta1/txs?pagination.limit=100&pagination.offset=0&orderBy=ORDER_BY_DESC&events=transfer.recipient%3D%27${accountInfo.bech32Address}%27`
       );
       if (result.data.tx_responses.length > 0) {
-        console.log(result.data.tx_responses);
         result.data.tx_responses.map((tx: any) => {
           const tmpBalance =
             tx.tx.body.messages[0]["@type"] ===
@@ -324,11 +353,11 @@ export const HistoryPage: FunctionComponent = observer(() => {
         });
       }
     };
+
     await Promise.all([send(), receive()]);
     histories.sort((a, b) => {
       return b.height - a.height;
     });
-    console.log(histories);
     setTmpHistories(histories);
     setIsLoading(false);
   };
