@@ -135,7 +135,7 @@ export const HistoryView: FunctionComponent<{
             }}
           >
             {history.type === "NFT"
-              ? `${currentNft.name} (NFT)`
+              ? `${currentNft.name} #${history.tokenId}`
               : history.activity === "Sent"
               ? `- ${balance.maxDecimals(6).toString()}`
               : `+ ${balance.maxDecimals(6).toString()}`}
