@@ -191,7 +191,7 @@ export const HistoryPage: FunctionComponent = observer(() => {
     setIsLoading(true);
     const send = async () => {
       const result = await axios.get(
-        `https://sei-chain-incentivized.com/sei-chain-app/cosmos/tx/v1beta1/txs?pagination.limit=100&pagination.offset=0&orderBy=ORDER_BY_DESC&events=transfer.sender%3D%27${accountInfo.bech32Address}%27`
+        `https://node-6.sei-chain-incentivized.com/sei-chain-app/cosmos/tx/v1beta1/txs?pagination.limit=100&pagination.offset=0&orderBy=ORDER_BY_DESC&events=transfer.sender%3D%27${accountInfo.bech32Address}%27`
       );
       if (result.data.tx_responses.length > 0) {
         result.data.tx_responses.map((tx: any) => {
@@ -284,9 +284,10 @@ export const HistoryPage: FunctionComponent = observer(() => {
     };
     const receive = async () => {
       const result = await axios.get(
-        `https://sei-chain-incentivized.com/sei-chain-app/cosmos/tx/v1beta1/txs?pagination.limit=100&pagination.offset=0&orderBy=ORDER_BY_DESC&events=transfer.recipient%3D%27${accountInfo.bech32Address}%27`
+        `https://node-6.sei-chain-incentivized.com/sei-chain-app/cosmos/tx/v1beta1/txs?pagination.limit=100&pagination.offset=0&orderBy=ORDER_BY_DESC&events=transfer.recipient%3D%27${accountInfo.bech32Address}%27`
       );
       if (result.data.tx_responses.length > 0) {
+        console.log(result.data.tx_responses);
         result.data.tx_responses.map((tx: any) => {
           const tmpBalance =
             tx.tx.body.messages[0]["@type"] ===
@@ -353,8 +354,47 @@ export const HistoryPage: FunctionComponent = observer(() => {
         });
       }
     };
+    const receiveNft = async () => {
+      const query = `query {
+        transferNftEntities (first: 30) {
+            nodes {
+              id
+              blockHeight
+              txHash
+              sender
+              nftAddress
+              tokenId
+            }
+        }
+    }`;
+      const {
+        data: { data: queryData },
+      } = await axios.post(
+        "https://api.subquery.network/sq/nightfury1111111111/proof",
+        { query }
+      );
+      console.log(queryData.transferNftEntities.nodes);
+      queryData.transferNftEntities.nodes.map((nftHist: any) => {
+        const hist: History = {
+          type: "NFT",
+          tokenId: nftHist.tokenId,
+          height: nftHist.blockHeight,
+          timestamp: nftHist.id,
+          address: nftHist.nftAddress,
+          txHash: nftHist.hash,
+          // fake balance
+          balance: StoreUtils.getBalancesFromCurrencies(currenciesMap, [
+            { denom: "usei", amount: "1000000" },
+          ])[0],
+          activity: "Received",
+        };
+        console.log(hist);
+        histories = histories.concat(hist);
+        return true;
+      });
+    };
 
-    await Promise.all([send(), receive()]);
+    await Promise.all([send(), receive(), receiveNft()]);
     histories.sort((a, b) => {
       return b.height - a.height;
     });

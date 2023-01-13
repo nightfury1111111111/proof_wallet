@@ -8,7 +8,8 @@ background/src/keyring/crypto.ts -- "sei" hard cording
 didn't implement ledger feature -- change password
 fix gas config and simulator
 transaction history page rebuild -- for NFT transfer
-NFT sign page rebuild -- for query balance
+NFT sign page rebuild -- for query balance(hard coding  -- will cause error)
+History page for NFT received -- ask for api
 
 -- have to remember
 after adding new Msg, have to rmeove wallet and import again

@@ -1913,7 +1913,7 @@ export const EmbedChainInfos: ChainInfo[] = [
     chainId: "atlantic-1",
     chainName: "Sei Testnet",
     rpc: "https://node-6.sei-chain-incentivized.com/sei-chain-tm/",
-    rest: "https://sei-chain-incentivized.com/sei-chain-app",
+    rest: "https://node-6.sei-chain-incentivized.com/sei-chain-app",
     bip44: {
       coinType: 118,
     },
