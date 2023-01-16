@@ -56,7 +56,7 @@ import { LedgerGrantPage } from "./pages/ledger";
 import { AddTokenPage } from "./pages/setting/token/add";
 import { ManageTokenPage } from "./pages/setting/token/manage";
 import { HistoryPage } from "./pages/history";
-
+import { DepositPage } from "./pages/qr-code";
 // import * as BackgroundTxResult from "../../background/tx/foreground";
 import { AdditionalIntlMessages, LanguageToFiatCurrency } from "./config.ui";
 
@@ -175,6 +175,7 @@ ReactDOM.render(
                     path="/access/viewing-key"
                     component={Secret20ViewingKeyAccessPage}
                   />
+                  <Route exact path="/deposit" component={DepositPage} />
                   <Route exact path="/register" component={RegisterPage} />
                   <Route exact path="/send" component={SendPage} />
                   <Route exact path="/send-nft" component={SendNftPage} />

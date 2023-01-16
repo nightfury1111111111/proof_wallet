@@ -14,7 +14,7 @@ import { KeplrError } from "@proof-wallet/router";
 import { useHistory } from "react-router";
 import { Bech32Address } from "@proof-wallet/cosmos";
 
-const createShortenName = (name: string) => {
+export const createShortenName = (name: string) => {
   if (name === "") {
     return "";
   } else if (name.indexOf(" ") > 0 && name.indexOf(" ") < name.length - 1) {

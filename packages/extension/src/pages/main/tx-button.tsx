@@ -81,10 +81,13 @@ export const TxButtonView: FunctionComponent = observer(() => {
         className={styleTxButton.txButton}
         // color="primary"
         // outline
-        onClick={(e) => {
-          e.preventDefault();
+        // onClick={(e) => {
+        //   e.preventDefault();
 
-          setIsDepositOpen(true);
+        //   setIsDepositOpen(true);
+        // }}
+        onClick={() => {
+          history.push("/deposit");
         }}
       >
         <FormattedMessage id="main.account.button.deposit" />
