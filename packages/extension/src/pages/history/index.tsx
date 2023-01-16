@@ -355,7 +355,8 @@ export const HistoryPage: FunctionComponent = observer(() => {
       }
     };
     const receiveNft = async () => {
-      const query = `query {
+      try {
+        const query = `query {
         transferNftEntities (first: 30) {
             nodes {
               id
@@ -367,31 +368,35 @@ export const HistoryPage: FunctionComponent = observer(() => {
             }
         }
     }`;
-      const {
-        data: { data: queryData },
-      } = await axios.post(
-        "https://api.subquery.network/sq/nightfury1111111111/proof",
-        { query }
-      );
-      console.log(queryData.transferNftEntities.nodes);
-      queryData.transferNftEntities.nodes.map((nftHist: any) => {
-        const hist: History = {
-          type: "NFT",
-          tokenId: nftHist.tokenId,
-          height: nftHist.blockHeight,
-          timestamp: nftHist.id,
-          address: nftHist.nftAddress,
-          txHash: nftHist.hash,
-          // fake balance
-          balance: StoreUtils.getBalancesFromCurrencies(currenciesMap, [
-            { denom: "usei", amount: "1000000" },
-          ])[0],
-          activity: "Received",
-        };
-        console.log(hist);
-        histories = histories.concat(hist);
+        const {
+          data: { data: queryData },
+        } = await axios.post(
+          "https://api.subquery.network/sq/nightfury1111111111/proof",
+          { query }
+        );
+        console.log(queryData.transferNftEntities.nodes);
+        queryData.transferNftEntities.nodes.map((nftHist: any) => {
+          const hist: History = {
+            type: "NFT",
+            tokenId: nftHist.tokenId,
+            height: nftHist.blockHeight,
+            timestamp: nftHist.id,
+            address: nftHist.nftAddress,
+            txHash: nftHist.hash,
+            // fake balance
+            balance: StoreUtils.getBalancesFromCurrencies(currenciesMap, [
+              { denom: "usei", amount: "1000000" },
+            ])[0],
+            activity: "Received",
+          };
+          console.log(hist);
+          histories = histories.concat(hist);
+          return true;
+        });
+      } catch (err) {
+        console.log(err);
         return true;
-      });
+      }
     };
 
     await Promise.all([send(), receive(), receiveNft()]);
