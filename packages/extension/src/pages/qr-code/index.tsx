@@ -66,7 +66,13 @@ export const DepositPage: FunctionComponent = observer(() => {
     >
       <div className={style.depositContainer}>
         <canvas className={style.qrcode} id="qrcode" ref={qrCodeRef} />
-        <div className={style.rawAddress}>
+        <div
+          className={style.rawAddress}
+          onClick={async () => {
+            await navigator.clipboard.writeText(accountInfo.bech32Address);
+            setIsCopied(true);
+          }}
+        >
           <div className={style.title}>
             {accountInfo.walletStatus === WalletStatus.Loaded && (
               <div className={style.avatar} style={{ background: "#FFD48A" }}>
@@ -87,10 +93,6 @@ export const DepositPage: FunctionComponent = observer(() => {
             <img
               style={{ width: "13px", height: "13px" }}
               src={require("../../public/assets/img/copy-icon.svg")}
-              onClick={async () => {
-                await navigator.clipboard.writeText(accountInfo.bech32Address);
-                setIsCopied(true);
-              }}
             />
           </div>
           {isCopied && (
