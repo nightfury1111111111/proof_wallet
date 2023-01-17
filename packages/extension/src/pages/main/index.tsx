@@ -6,6 +6,7 @@ import { Footer } from "../../components/footer";
 // import { Card, CardBody } from "reactstrap";
 
 import style from "./style.module.scss";
+import styleToken from "./token.module.scss";
 import { Menu } from "./menu";
 // import { AccountView } from "./account";
 import { TxButtonView } from "./tx-button";
@@ -27,6 +28,43 @@ import { IBCTransferView } from "./ibc-transfer";
 import { WalletStatus } from "@proof-wallet/stores";
 import { VestingInfo } from "./vesting-info";
 import { LedgerAppModal } from "./ledger-app-modal";
+import { DenomHelper } from "@proof-wallet/common";
+import { Dec } from "@proof-wallet/unit";
+
+const TmpTokenView = () => {
+  const imageUrl = "https://proofwalletsvgs.s3.amazonaws.com/sei";
+  const name = "SEI";
+  return (
+    <div className={styleToken.tokenContainer} style={{ marginTop: "23px" }}>
+      {
+        <div className={styleToken.icon}>
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              borderRadius: "100000px",
+              backgroundImage: `url(${imageUrl})`,
+              backgroundSize: "cover",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+
+              color: "#FFFFFF",
+              fontSize: "16px",
+            }}
+          />
+        </div>
+      }
+      <div className={styleToken.innerContainer}>
+        <div className={styleToken.content}>
+          <div className={styleToken.name}>{name}</div>
+          <div className={styleToken.amount}>0 SEI</div>
+        </div>
+        <div style={{ flex: 1 }} />
+      </div>
+    </div>
+  );
+};
 
 export const MainPage: FunctionComponent = observer(() => {
   // const history = useHistory();
@@ -102,14 +140,35 @@ export const MainPage: FunctionComponent = observer(() => {
   //   .get(chainStore.current.chainId)
   //   .queryBalances.getQueryBech32Address(accountInfo.bech32Address);
 
-  // const tokens = queryBalances.unstakables.filter((bal) => {
-  //   // Temporary implementation for trimming the 0 balanced native tokens.
-  //   // TODO: Remove this part.
-  //   if (new DenomHelper(bal.currency.coinMinimalDenom).type === "native") {
-  //     return bal.balance.toDec().gt(new Dec("0"));
-  //   }
-  //   return true;
-  // });
+  const tokens = queriesStore
+    .get(chainStore.current.chainId)
+    .queryBalances.getQueryBech32Address(accountInfo.bech32Address)
+    .unstakables.concat(
+      queriesStore
+        .get(chainStore.current.chainId)
+        .queryBalances.getQueryBech32Address(accountInfo.bech32Address).stakable
+    )
+    .filter((bal) => {
+      // Temporary implementation for trimming the 0 balanced native tokens.
+      // TODO: Remove this part.
+      if (new DenomHelper(bal.currency.coinMinimalDenom).type === "native") {
+        return bal.balance.toDec().gt(new Dec("0"));
+      }
+      return true;
+    })
+    .sort((a, b) => {
+      const aDecIsZero = a.balance.toDec().isZero();
+      const bDecIsZero = b.balance.toDec().isZero();
+
+      if (aDecIsZero && !bDecIsZero) {
+        return 1;
+      }
+      if (!aDecIsZero && bDecIsZero) {
+        return -1;
+      }
+
+      return a.currency.coinDenom < b.currency.coinDenom ? -1 : 1;
+    });
 
   // const hasTokens = tokens.length > 0;
 
@@ -160,7 +219,7 @@ export const MainPage: FunctionComponent = observer(() => {
       {/* </Card> */}
       {showVestingInfo ? <VestingInfo /> : null}
       {/* {chainStore.current.walletUrlForStaking ? <StakeView /> : null} */}
-      <TokensView />
+      {tokens.length > 0 ? <TokensView /> : <TmpTokenView />}
       {/* {hasTokens ? (
         // <Card className={classnames(style.card, "shadow")}>
         // <CardBody>
