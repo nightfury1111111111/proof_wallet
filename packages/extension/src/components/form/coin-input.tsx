@@ -40,6 +40,7 @@ export interface CoinInputProps {
 export const CoinInput: FunctionComponent<CoinInputProps> = observer(
   ({ amountConfig, className, label, disableAllBalance }) => {
     const intl = useIntl();
+    const [focused, setFocused] = useState(false);
 
     const { queriesStore } = useStore();
     const queryBalances = queriesStore
@@ -174,31 +175,49 @@ export const CoinInput: FunctionComponent<CoinInputProps> = observer(
             </Label>
           ) : null}
           <div className={styleCoinInput.inputGroup}>
-            <Input
-              className={classnames(
-                "form-control-alternative",
-                styleCoinInput.input
-              )}
-              placeholder="0.00"
-              id={`input-${randomId}`}
-              type="number"
-              value={amountConfig.amount}
-              onChange={(e) => {
-                e.preventDefault();
+            <div
+              className={styleCoinInput.inputWrapper}
+              style={
+                focused
+                  ? {
+                      border: "4px solid rgba(255, 212, 138, 0.3)",
+                      // transform: "translate(-4px, -4px)",
+                    }
+                  : {}
+              }
+            >
+              <Input
+                className={classnames(
+                  "form-control-alternative",
+                  styleCoinInput.input
+                )}
+                placeholder="0.00"
+                id={`input-${randomId}`}
+                type="number"
+                value={amountConfig.amount}
+                onFocus={() => {
+                  setFocused(true);
+                }}
+                onBlur={() => {
+                  setFocused(false);
+                }}
+                onChange={(e) => {
+                  e.preventDefault();
 
-                amountConfig.setAmount(e.target.value);
-              }}
-              step={new Dec(1)
-                .quo(
-                  DecUtils.getPrecisionDec(
-                    amountConfig.sendCurrency?.coinDecimals ?? 0
+                  amountConfig.setAmount(e.target.value);
+                }}
+                step={new Dec(1)
+                  .quo(
+                    DecUtils.getPrecisionDec(
+                      amountConfig.sendCurrency?.coinDecimals ?? 0
+                    )
                   )
-                )
-                .toString(amountConfig.sendCurrency?.coinDecimals ?? 0)}
-              min={0}
-              // disabled={amountConfig.isMax}
-              autoComplete="off"
-            />
+                  .toString(amountConfig.sendCurrency?.coinDecimals ?? 0)}
+                min={0}
+                // disabled={amountConfig.isMax}
+                autoComplete="off"
+              />
+            </div>
             <div className={styleCoinInput.maxButtonGroup}>
               <div
                 style={{
