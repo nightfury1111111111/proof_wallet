@@ -16,6 +16,7 @@ import { observer } from "mobx-react-lite";
 import style from "./style.module.scss";
 
 import { useHistory, useLocation } from "react-router";
+import axios from "axios";
 
 const rpcEndpoint = "https://node-6.sei-chain-incentivized.com/sei-chain-tm/";
 const sender = {
@@ -32,6 +33,11 @@ export interface Nft {
   id: Array<string>;
 }
 
+export interface NftAttribute {
+  trait_type: string;
+  value: string;
+}
+
 export const ManageNftPage: FunctionComponent = observer(() => {
   const [nfts, setNfts] = useState<Array<Nft>>([]);
   const [tmpNfts, setTmpNfts] = useState<Array<Nft>>([]);
@@ -41,6 +47,8 @@ export const ManageNftPage: FunctionComponent = observer(() => {
   const [selectedNFT, setSelectedNFT] = useState("");
   const [currentCollectionIdx, setCurrentCollectionIdx] = useState(0);
   const [focused, setFocused] = useState(false);
+  const [nftDescription, setNftDescription] = useState("");
+  const [nftAttributes, setNftAttributes] = useState<Array<NftAttribute>>([]);
 
   const history = useHistory();
   let search = useLocation().search;
@@ -53,13 +61,13 @@ export const ManageNftPage: FunctionComponent = observer(() => {
 
   const accountInfo = accountStore.getAccount(current.chainId);
 
-  const fakeAttributes = [
-    { trait_type: "face", value: "in love" },
-    { trait_type: "hair", value: "blue brushcut" },
-    { trait_type: "body", value: "pink puffer" },
-    { trait_type: "background", value: "gradient 1" },
-    { trait_type: "head", value: "pink" },
-  ];
+  // const fakeAttributes = [
+  //   { trait_type: "face", value: "in love" },
+  //   { trait_type: "hair", value: "blue brushcut" },
+  //   { trait_type: "body", value: "pink puffer" },
+  //   { trait_type: "background", value: "gradient 1" },
+  //   { trait_type: "head", value: "pink" },
+  // ];
   const intl = useIntl();
   const getTokens = async () => {
     // const gasPrice = GasPrice.fromString("0.05usei");
@@ -241,10 +249,25 @@ export const ManageNftPage: FunctionComponent = observer(() => {
                     style={{
                       backgroundImage: `url(${nft.apiEndpoint}images/${nft.id[0]}.${nft.ext})`,
                     }}
-                    onClick={() => {
+                    onClick={async () => {
                       if (nft.id.length == 1) {
                         setSelectedNFT(nft.id[0]);
                         setCurrentCollectionIdx(idx);
+                        const { data: metadata } = await axios.get(
+                          `${nft.apiEndpoint}${nft.id[0]}`
+                        );
+                        if (
+                          metadata.description != undefined &&
+                          metadata.description != null
+                        )
+                          setNftDescription(metadata.description);
+
+                        if (
+                          metadata.attributes != undefined &&
+                          metadata.attributes != null
+                        )
+                          setNftAttributes(metadata.attributes);
+
                         setPage("singleNFT");
                       } else {
                         setCurrentCollectionIdx(idx);
@@ -307,8 +330,22 @@ export const ManageNftPage: FunctionComponent = observer(() => {
                   style={{
                     backgroundImage: `url(${tmpNfts[currentCollectionIdx].apiEndpoint}images/${nft}.${tmpNfts[currentCollectionIdx].ext})`,
                   }}
-                  onClick={() => {
+                  onClick={async () => {
                     setSelectedNFT(nft);
+                    const { data: metadata } = await axios.get(
+                      `${tmpNfts[currentCollectionIdx].apiEndpoint}${nft}`
+                    );
+                    if (
+                      metadata.description != undefined &&
+                      metadata.description != null
+                    )
+                      setNftDescription(metadata.description);
+
+                    if (
+                      metadata.attributes != undefined &&
+                      metadata.attributes != null
+                    )
+                      setNftAttributes(metadata.attributes);
                     setPage("singleNFT");
                   }}
                 >
@@ -362,12 +399,9 @@ export const ManageNftPage: FunctionComponent = observer(() => {
                 id: "send.button.send",
               })}
             </Button>
-            <span className={style.nftDescription}>
-              A community-driven collectibles project featuring art by Burnt
-              Toast. Doodles come in a joyful
-            </span>
+            <span className={style.nftDescription}>{nftDescription}</span>
             <div className={style.attributesContainer}>
-              {fakeAttributes.map((attribute, index) => {
+              {nftAttributes.map((attribute, index) => {
                 return (
                   <div className={style.attributeBox} key={index}>
                     <span className={style.attributeHead}>
