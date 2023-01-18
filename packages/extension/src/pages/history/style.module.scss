@@ -20,6 +20,11 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 218, 139, 0.2);
+  }
 }
 
 .icon {

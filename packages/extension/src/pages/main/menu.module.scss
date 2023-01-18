@@ -25,6 +25,10 @@
   align-items: center;
   color: #e9e4df;
   cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 218, 139, 0.2);
+  }
 }
 
 .footer {
