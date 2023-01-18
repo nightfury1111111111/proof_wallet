@@ -61,6 +61,11 @@
   justify-content: center;
   color: #959595;
   cursor: pointer;
+
+  &:hover {
+    color: #212529;
+    background-color: #f7fafc;
+  }
 }
 
 // .footer {

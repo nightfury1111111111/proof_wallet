@@ -20,6 +20,10 @@ import { Input, PasswordInput } from "../../../components/form";
 import { BackButton } from "../index";
 import { NewMnemonicConfig, useNewMnemonicConfig } from "./hook";
 import { useStore } from "../../../stores";
+import { useAddressBookConfig } from "@proof-wallet/hooks";
+import { Bech32Address } from "@proof-wallet/cosmos";
+import { Mnemonic, PrivKeySecp256k1 } from "@proof-wallet/crypto";
+import { ExtensionKVStore } from "@proof-wallet/common";
 
 export const TypeNewMnemonic = "new-mnemonic";
 
@@ -235,6 +239,7 @@ export const GenerateMnemonicModePage: FunctionComponent<{
   bip44Option: BIP44Option;
 }> = observer(({ registerConfig, newMnemonicConfig, bip44Option }) => {
   // const intl = useIntl();
+  const { chainStore } = useStore();
   const words = newMnemonicConfig.mnemonic.split(" ");
   useEffect(() => {
     for (let i = 0; i < words.length; i++) {
@@ -252,6 +257,20 @@ export const GenerateMnemonicModePage: FunctionComponent<{
       confirmPassword: "",
     },
   });
+
+  const addressBookConfig = useAddressBookConfig(
+    new ExtensionKVStore("address-book"),
+    chainStore,
+    chainStore.current.chainId,
+    {
+      setRecipient: (): void => {
+        // noop
+      },
+      setMemo: (): void => {
+        // noop
+      },
+    }
+  );
 
   return (
     <div style={{ width: "100%" }}>
@@ -327,11 +346,7 @@ export const GenerateMnemonicModePage: FunctionComponent<{
           </div>
           <div className={style.btnGroup}>
             <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                cursor: "pointer",
-              }}
+              className={style.subButton}
               onClick={() => {
                 navigator.clipboard.writeText(newMnemonicConfig.mnemonic);
               }}
@@ -343,11 +358,7 @@ export const GenerateMnemonicModePage: FunctionComponent<{
               <div style={{ marginLeft: "7px" }}>Copy</div>
             </div>
             <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                cursor: "pointer",
-              }}
+              className={style.subButton}
               onClick={() => {
                 const link = document.createElement("a");
 
@@ -439,6 +450,24 @@ export const GenerateMnemonicModePage: FunctionComponent<{
           size="lg"
           onClick={async (e) => {
             e.preventDefault();
+
+            const masterSeed = Mnemonic.generateMasterSeedFromMnemonic(
+              newMnemonicConfig.mnemonic
+            );
+            const privKey = new PrivKeySecp256k1(
+              Mnemonic.generatePrivateKeyFromMasterSeed(masterSeed)
+            );
+
+            const publicKey = privKey.getPubKey().getAddress();
+            const bech32Address = new Bech32Address(publicKey).toBech32("sei");
+
+            await addressBookConfig.addAddressBook({
+              name: newMnemonicConfig.name,
+              address: bech32Address,
+              memo: "",
+              bgColor: "#FFD48A",
+              pinned: false,
+            });
 
             try {
               await registerConfig.createMnemonic(

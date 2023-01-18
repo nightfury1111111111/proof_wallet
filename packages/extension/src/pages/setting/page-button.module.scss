@@ -7,6 +7,10 @@
   padding: 11px;
   cursor: pointer;
 
+  &:hover {
+    background: rgba(255, 218, 139, 0.2);
+  }
+
   &.with-sub-paragraph {
     // height: 84px;
 

@@ -166,6 +166,21 @@ html[data-register-page="true"] {
     width: 516px;
     background: #4a4545;
     border-radius: 0 0 12px 12px;
+
+    .sub-button {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      &:hover {
+        color: #ffd48a;
+      }
+
+      &:active {
+        transform: scale(0.95);
+        color: #ffffff;
+      }
+    }
   }
 
   .word {

@@ -19,6 +19,11 @@ import { observer } from "mobx-react-lite";
 import { RegisterConfig } from "@proof-wallet/hooks";
 import { useBIP44Option } from "../advanced-bip44";
 
+import { useAddressBookConfig } from "@proof-wallet/hooks";
+import { Bech32Address } from "@proof-wallet/cosmos";
+import { Mnemonic, PrivKeySecp256k1 } from "@proof-wallet/crypto";
+import { ExtensionKVStore } from "@proof-wallet/common";
+
 import { Buffer } from "buffer/";
 import { useStore } from "../../../stores";
 import classnames from "classnames";
@@ -122,7 +127,21 @@ export const RecoverMnemonicPage: FunctionComponent<{
 
   const bip44Option = useBIP44Option();
 
-  const { analyticsStore } = useStore();
+  const { analyticsStore, chainStore } = useStore();
+
+  const addressBookConfig = useAddressBookConfig(
+    new ExtensionKVStore("address-book"),
+    chainStore,
+    chainStore.current.chainId,
+    {
+      setRecipient: (): void => {
+        // noop
+      },
+      setMemo: (): void => {
+        // noop
+      },
+    }
+  );
 
   const { register, handleSubmit, getValues, errors } = useForm<FormData>({
     defaultValues: {
@@ -655,10 +674,27 @@ export const RecoverMnemonicPage: FunctionComponent<{
 
                 handleSubmit(async (data: FormData) => {
                   try {
+                    let privKey;
+                    // if (type === "mnemonic") {
+                    //   const masterSeed = Mnemonic.generateMasterSeedFromMnemonic(
+                    //     text
+                    //   );
+                    //   privKey = new PrivKeySecp256k1(
+                    //     Mnemonic.generatePrivateKeyFromMasterSeed(masterSeed)
+                    //   );
+                    // } else {
+                    //   privKey = new PrivKeySecp256k1(
+                    //     Buffer.from(text.replace("0x", ""), "hex")
+                    //   );
+                    // }
+
                     if (seedWords.length === 1 && isPrivateKey(seedWords[0])) {
                       const privateKey = Buffer.from(
                         seedWords[0].replace("0x", ""),
                         "hex"
+                      );
+                      privKey = new PrivKeySecp256k1(
+                        Buffer.from(seedWords[0].replace("0x", ""), "hex")
                       );
                       await registerConfig.createPrivateKey(
                         data.name,
@@ -670,6 +706,12 @@ export const RecoverMnemonicPage: FunctionComponent<{
                         accountType: "privateKey",
                       });
                     } else {
+                      const masterSeed = Mnemonic.generateMasterSeedFromMnemonic(
+                        seedWords.join(" ").trim()
+                      );
+                      privKey = new PrivKeySecp256k1(
+                        Mnemonic.generatePrivateKeyFromMasterSeed(masterSeed)
+                      );
                       await registerConfig.createMnemonic(
                         data.name,
                         // In logic, not 12/24 words can be handled.
@@ -685,6 +727,18 @@ export const RecoverMnemonicPage: FunctionComponent<{
                         accountType: "mnemonic",
                       });
                     }
+                    const publicKey = privKey.getPubKey().getAddress();
+                    const bech32Address = new Bech32Address(publicKey).toBech32(
+                      "sei"
+                    );
+
+                    await addressBookConfig.addAddressBook({
+                      name: data.name,
+                      address: bech32Address,
+                      memo: "",
+                      bgColor: "#FFD48A",
+                      pinned: false,
+                    });
                   } catch (e) {
                     alert(e.message ? e.message : e.toString());
                     registerConfig.clear();

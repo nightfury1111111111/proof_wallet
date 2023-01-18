@@ -201,6 +201,75 @@ export const AddressBookPage: FunctionComponent<{
         </ModalBody>
       </Modal>
       <div className={styleAddressBook.container}>
+        {/* {keyRingStore.multiKeyStoreInfo.map((keyStore, i) => {
+          // const bip44HDPath = keyStore.bip44HDPath
+          //   ? keyStore.bip44HDPath
+          //   : {
+          //       account: 0,
+          //       change: 0,
+          //       addressIndex: 0,
+          //     };
+
+          const tmpAccountName = keyStore.meta?.name ? keyStore.meta.name : "";
+          let avatarname = "";
+          if (tmpAccountName === "") {
+            avatarname = "";
+          } else if (
+            tmpAccountName.indexOf(" ") > 0 &&
+            tmpAccountName.indexOf(" ") < tmpAccountName.length - 1
+          ) {
+            avatarname =
+              tmpAccountName[0] +
+              tmpAccountName[tmpAccountName.indexOf(" ") + 1];
+          } else {
+            avatarname = tmpAccountName[0];
+          }
+
+          return (
+            <div key={i.toString()} className={styleAddressBook.accountBox}>
+              <div className={styleAddressBook.accountInfo}>
+                <div
+                  className={styleAddressBook.avatar}
+                  style={{ background: "#FFD48A" }}
+                >
+                  {avatarname}
+                </div>
+                <div style={{ marginLeft: "10.14px" }}>
+                  <div className={styleAddressBook.accountName}>
+                    {keyStore.meta?.name
+                      ? keyStore.meta.name
+                      : intl.formatMessage({
+                          id: "setting.keyring.unnamed-account",
+                        })}
+                  </div>
+                  <div
+                    className={styleAddressBook.accountAddress}
+                    style={{
+                      color: keyStore.selected ? "#7EFF9B" : "#696969",
+                    }}
+                  >
+                    {keyStore.meta?.bech32Address &&
+                      Bech32Address.shortenAddress(
+                        keyStore.meta?.bech32Address,
+                        16
+                      )}
+                  </div>
+                </div>
+              </div>
+              <div
+                className={styleAddressBook.copyButton}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  keyStore.meta?.bech32Address &&
+                    navigator.clipboard.writeText(keyStore.meta?.bech32Address);
+                }}
+              >
+                Copy
+              </div>
+            </div>
+          );
+        })} */}
         {/* <div style={{ flex: "1 1 0", overflowY: "auto" }}> */}
         {addresses.map((data, i) => {
           let avatarname = "";
