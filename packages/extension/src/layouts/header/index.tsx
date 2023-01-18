@@ -146,8 +146,6 @@ export const Header: FunctionComponent<Props & LocalProps> = observer(
           <div className={style.headerTitle}>Reset Seed Phrase</div>
         ) : location.pathname === "/deposit" ? (
           <div className={style.headerTitle}>Deopsit</div>
-        ) : location.pathname === "/history" ? (
-          <div className={style.headerTitle}>History</div>
         ) : location.pathname === "/nft" ? (
           <div className={style.headerTitle}>NFT</div>
         ) : location.pathname === "/send-nft" ? (
