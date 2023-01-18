@@ -203,22 +203,22 @@ export const AddressBookPage: FunctionComponent<{
       <div className={styleAddressBook.container}>
         {/* <div style={{ flex: "1 1 0", overflowY: "auto" }}> */}
         {addresses.map((data, i) => {
-          let avatarName = "";
+          let avatarname = "";
           if (data.name === "") {
-            avatarName = "";
+            avatarname = "";
           } else if (
             data.name.indexOf(" ") > 0 &&
             data.name.indexOf(" ") < data.name.length - 1
           ) {
-            avatarName = data.name[0] + data.name[data.name.indexOf(" ") + 1];
+            avatarname = data.name[0] + data.name[data.name.indexOf(" ") + 1];
           } else {
-            avatarName = data.name[0];
+            avatarname = data.name[0];
           }
           return (
             <PageButton
               key={i.toString()}
-              avatarName={avatarName}
-              avatarColor={data.bgColor}
+              avatarname={avatarname}
+              avatarcolor={data.bgColor}
               pinned={data.pinned}
               title={data.name}
               paragraph={

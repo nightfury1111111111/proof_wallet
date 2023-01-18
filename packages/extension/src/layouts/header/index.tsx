@@ -13,6 +13,7 @@ import { AccountView } from "../../pages/main/account";
 import { Menu, useMenu, MenuButton } from "../menu";
 
 import { motion } from "framer-motion";
+import { useLocation } from "react-router";
 
 export interface Props {
   showChainName: boolean;
@@ -39,6 +40,8 @@ export const Header: FunctionComponent<Props & LocalProps> = observer(
     onBackButton,
   }) => {
     // const { chainStore } = useStore();
+    const location = useLocation();
+    console.log(location);
     const menu = useMenu();
 
     // const chainInfoChangable =
@@ -73,7 +76,7 @@ export const Header: FunctionComponent<Props & LocalProps> = observer(
                   }
                 }}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                   <path
                     fill="transparent"
                     strokeWidth="2"
@@ -81,7 +84,11 @@ export const Header: FunctionComponent<Props & LocalProps> = observer(
                     strokeLinecap="round"
                     d="M 6.5 10 L 13.5 3.5 M 6.5 10 L 13.5 16.5"
                   />
-                </svg>
+                </svg> */}
+                <i
+                  className="fas fa-thin fa-arrow-left"
+                  style={{ color: "white" }}
+                />
               </div>
             ) : null}
           </div>
@@ -117,7 +124,43 @@ export const Header: FunctionComponent<Props & LocalProps> = observer(
             </div>
           </ToolTip>
         ) : null} */}
-        <AccountView />
+        {location.pathname === "/select/token" ? (
+          <div className={style.headerTitle}>Send</div>
+        ) : location.pathname === "/setting/address-book" ? (
+          <div className={style.headerTitle}>Address Book</div>
+        ) : location.pathname === "/setting/language" ? (
+          <div className={style.headerTitle}>Language</div>
+        ) : location.pathname === "/setting" ? (
+          <div className={style.headerTitle}>Security & Privacy</div>
+        ) : location.pathname.includes("/setting/clear") ? (
+          <div className={style.headerTitle}>Remove Wallet</div>
+        ) : location.pathname.includes("/setting/connections") ? (
+          <div className={style.headerTitle}>Trusted Apps</div>
+        ) : location.pathname.includes("/setting/export") ? (
+          <div className={style.headerTitle}>Export Private Key</div>
+        ) : location.pathname === "/setting/autolock" ? (
+          <div className={style.headerTitle}>Auto Lock Time</div>
+        ) : location.pathname === "/setting/change-password" ? (
+          <div className={style.headerTitle}>Change Password</div>
+        ) : location.pathname === "/setting/reset-seed" ? (
+          <div className={style.headerTitle}>Reset Seed Phrase</div>
+        ) : location.pathname === "/deposit" ? (
+          <div className={style.headerTitle}>Deopsit</div>
+        ) : location.pathname === "/history" ? (
+          <div className={style.headerTitle}>History</div>
+        ) : location.pathname === "/nft" ? (
+          <div className={style.headerTitle}>NFT</div>
+        ) : location.pathname === "/send-nft" ? (
+          <div className={style.headerTitle}>Send NFT</div>
+        ) : location.pathname === "/sign" ? (
+          <div className={style.headerTitle}>Confirm</div>
+        ) : location.pathname === "/send" ? (
+          <div className={style.headerTitle}>Send</div>
+        ) : location.pathname === "/setting/set-keyring" ? (
+          <div className={style.headerTitle}>Select Wallet</div>
+        ) : (
+          <AccountView />
+        )}
       </CompHeader>
     );
   }

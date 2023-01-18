@@ -8,7 +8,7 @@ import { observer } from "mobx-react-lite";
 import { useStore } from "../../stores";
 import useForm from "react-hook-form";
 
-import { EmptyLayout } from "../../layouts/empty-layout";
+import { HeaderLayout } from "../../layouts";
 
 import style from "./style.module.scss";
 
@@ -51,13 +51,37 @@ export const ChangePassword: FunctionComponent = observer(() => {
   }, []);
 
   return (
-    <EmptyLayout className={style.layout}>
-      <div className={style.header}>
-        <img
-          className={style.headerLogo}
-          src={require("../../public/assets/img/logo-title.svg")}
-        />
-      </div>
+    <HeaderLayout
+      showChainName
+      canChangeChainInfo={false}
+      style={{ height: "auto", minHeight: "100%" }}
+      onBackButton={() => {
+        history.goBack();
+      }}
+      rightRenderer={
+        <div
+          style={{
+            height: "36px",
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            paddingRight: "20px",
+          }}
+        >
+          <div
+            style={{
+              background:
+                "radial-gradient(75% 75% at 50% 25%, #C4FFD1 3.88%, #7EFF9B 100%)", // if it is connected, green color if not, red
+              width: "5px",
+              height: "5px",
+              borderRadius: "10px",
+              cursor: "pointer",
+              padding: "4px",
+            }}
+          />
+        </div>
+      }
+    >
       <Form
         className={style.formContainer}
         onSubmit={handleSubmit(async (data) => {
@@ -162,6 +186,6 @@ export const ChangePassword: FunctionComponent = observer(() => {
           </Button>
         </div>
       </Form>
-    </EmptyLayout>
+    </HeaderLayout>
   );
 });

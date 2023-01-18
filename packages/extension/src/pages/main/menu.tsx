@@ -9,7 +9,7 @@ import { useHistory } from "react-router";
 import { useLanguage } from "../../languages";
 
 export const Menu: FunctionComponent = observer(() => {
-  const { chainStore, keyRingStore } = useStore();
+  const { keyRingStore } = useStore();
   const language = useLanguage();
 
   const history = useHistory();
@@ -97,7 +97,7 @@ export const Menu: FunctionComponent = observer(() => {
           />
         </div>
       </div> */}
-      {(chainStore.current.features ?? []).find(
+      {/* {(chainStore.current.features ?? []).find(
         (feature) => feature === "cosmwasm" || feature === "secretwasm"
       ) ? (
         <div
@@ -136,7 +136,7 @@ export const Menu: FunctionComponent = observer(() => {
             />
           </div>
         </div>
-      ) : null}
+      ) : null} */}
       {/* Empty div for separating last item */}
       <div style={{ flex: 1 }} />
       <div className={styleMenu.footer}>

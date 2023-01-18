@@ -10,6 +10,8 @@ fix gas config and simulator
 transaction history page rebuild -- for NFT transfer
 NFT sign page rebuild -- for query balance(hard coding  -- will cause error)
 History page for NFT received -- ask for api
+Add token - commented in menu
+Token List - commented in menu
 
 -- have to remember
 after adding new Msg, have to rmeove wallet and import again

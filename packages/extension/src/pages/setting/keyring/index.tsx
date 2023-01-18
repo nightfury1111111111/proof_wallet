@@ -47,18 +47,18 @@ export const SetKeyRingPage: FunctionComponent = observer(() => {
             const tmpAccountName = keyStore.meta?.name
               ? keyStore.meta.name
               : "";
-            let avatarName = "";
+            let avatarname = "";
             if (tmpAccountName === "") {
-              avatarName = "";
+              avatarname = "";
             } else if (
               tmpAccountName.indexOf(" ") > 0 &&
               tmpAccountName.indexOf(" ") < tmpAccountName.length - 1
             ) {
-              avatarName =
+              avatarname =
                 tmpAccountName[0] +
                 tmpAccountName[tmpAccountName.indexOf(" ") + 1];
             } else {
-              avatarName = tmpAccountName[0];
+              avatarname = tmpAccountName[0];
             }
 
             return (
@@ -91,7 +91,7 @@ export const SetKeyRingPage: FunctionComponent = observer(() => {
                     className={style.avatar}
                     style={{ background: "#FFD48A" }}
                   >
-                    {avatarName}
+                    {avatarname}
                   </div>
                   <div style={{ marginLeft: "10.14px" }}>
                     <div className={style.accountName}>

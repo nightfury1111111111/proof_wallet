@@ -6,8 +6,8 @@ import stylePageButton from "./page-button.module.scss";
 
 export const PageButton: FunctionComponent<
   {
-    avatarColor?: string;
-    avatarName?: string;
+    avatarcolor?: string;
+    avatarname?: string;
     pinned?: boolean;
     title: string;
     paragraph?: string;
@@ -16,8 +16,8 @@ export const PageButton: FunctionComponent<
   } & React.HTMLAttributes<HTMLDivElement>
 > = (props) => {
   const {
-    avatarColor,
-    avatarName,
+    avatarcolor,
+    avatarname,
     pinned,
     title,
     paragraph,
@@ -37,12 +37,12 @@ export const PageButton: FunctionComponent<
       })}
       {...attributes}
     >
-      {avatarColor && (
+      {avatarcolor && (
         <div
           className={stylePageButton.avatar}
-          style={{ background: avatarColor }}
+          style={{ background: avatarcolor }}
         >
-          {avatarName?.toUpperCase()}
+          {avatarname?.toUpperCase()}
         </div>
       )}
       <div className={stylePageButton.innerContainer}>
