@@ -7,22 +7,28 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "../../../../node_modules/@fortawesome/fontawesome-free/scss/solid";
 @import "../../../../node_modules/@fortawesome/fontawesome-free/scss/brands";
 
-@import url("https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800&display=swap");
-// @font-face {
-//   font-family: Nanum Barun Gothic;
-//   src: url(../public/assets/font/NanumBarunGothic.ttf);
-//   font-weight: normal;
-// }
-// @font-face {
-//   font-family: Nanum Barun Gothic;
-//   src: url(../public/assets/font/NanumBarunGothicLight.ttf);
-//   font-weight: 300;
-// }
-// @font-face {
-//   font-family: Nanum Barun Gothic;
-//   src: url(../public/assets/font/NanumBarunGothicBold.ttf);
-//   font-weight: bold;
-// }
+// @import url("https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800&display=swap");
+
+@font-face {
+  font-family: colfax-web;
+  src: url(../public/assets/font/Colfax-Bold.otf);
+  font-weight: 600;
+}
+@font-face {
+  font-family: colfax-web;
+  src: url(../public/assets/font/Colfax-Medium.otf);
+  font-weight: 500;
+}
+@font-face {
+  font-family: colfax-web;
+  src: url(../public/assets/font/Colfax-Thin.otf);
+  font-weight: 100;
+}
+@font-face {
+  font-family: colfax-web;
+  src: url(../public/assets/font/Colfax-Regular.otf);
+  font-weight: 400;
+}
 
 $font-family-base: colfax-web;
 $body-color: black;
