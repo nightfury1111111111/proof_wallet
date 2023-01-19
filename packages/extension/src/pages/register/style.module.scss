@@ -80,7 +80,7 @@ html[data-register-page="true"] {
 
   .logo-container {
     margin-top: 40px;
-    margin-bottom: 40px;
+    margin-bottom: 40px !important;
     width: 515px;
     margin: auto;
 
@@ -217,7 +217,7 @@ html[data-register-page="true"] {
     }
 
     &::placeholder {
-      font-family: "Nunito Sans", sans-serif;
+      font-family: colfax-web;
 
       body[data-lang="ko"] & {
         font-family: "Nanum Barun Gothic", sans-serif !important;
@@ -262,13 +262,14 @@ html[data-register-page="true"] {
 }
 
 .buttonContainer {
-  width: 515px;
+  width: 527px;
   margin: auto;
-  margin-top: 32px;
+  // margin-top: 32px;
 }
 
 .createBtn,
 .importBtn {
+  // width: 266px;
   padding: 22px;
   background: #1d1d1d;
   color: white;
@@ -294,7 +295,7 @@ html[data-register-page="true"] {
 }
 
 .btnContainer {
-  width: 252px;
+  width: 260px;
   height: 153px;
   box-sizing: border-box;
   &:hover {

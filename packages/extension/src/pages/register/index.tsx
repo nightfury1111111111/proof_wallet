@@ -149,7 +149,7 @@ export const RegisterPage: FunctionComponent = observer(() => {
           />
         </div>
       ) : null} */}
-      <div style={{ flex: 13 }} />
+      <div style={{ flex: 10 }} />
     </EmptyLayout>
   );
 });

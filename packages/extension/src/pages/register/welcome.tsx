@@ -43,7 +43,6 @@ export const WelcomePage: FunctionComponent = () => {
   return (
     <div
       style={{
-        paddingTop: "20px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",

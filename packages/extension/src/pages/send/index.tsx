@@ -347,7 +347,7 @@ export const SendPage: FunctionComponent = observer(() => {
                 }}
                 onClick={() => {
                   history.push({
-                    pathname: "/select/token",
+                    pathname: "/",
                   });
                 }}
               />
