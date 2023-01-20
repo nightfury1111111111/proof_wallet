@@ -135,8 +135,8 @@ export const SetKeyRingPage: FunctionComponent = observer(() => {
                   style={
                     i === copiedIdx
                       ? {
-                          // background: "rgb(126, 255, 155)",
-                          // color: "#000000",
+                          background: "rgb(126, 255, 155)",
+                          color: "#000000",
                           width: "60px",
                         }
                       : {}
