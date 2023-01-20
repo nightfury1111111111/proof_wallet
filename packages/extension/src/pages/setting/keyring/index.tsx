@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from "react";
 
 import { HeaderLayout } from "../../../layouts";
 
@@ -18,10 +18,18 @@ export const SetKeyRingPage: FunctionComponent = observer(() => {
   const intl = useIntl();
 
   const { keyRingStore, analyticsStore } = useStore();
+  const [copiedIdx, setCopiedIdx] = useState(-1);
   const history = useHistory();
-  console.log(keyRingStore);
 
   const loadingIndicator = useLoadingIndicator();
+
+  // useEffect(() => {
+  //   if (copiedIdx > -1) {
+  //     setTimeout(() => {
+  //       setCopiedIdx(-1);
+  //     }, 1000);
+  //   }
+  // }, [copiedIdx]);
 
   return (
     <HeaderLayout
@@ -124,16 +132,26 @@ export const SetKeyRingPage: FunctionComponent = observer(() => {
                 </div>
                 <div
                   className={style.copyButton}
+                  style={
+                    i === copiedIdx
+                      ? {
+                          background: "rgb(126, 255, 155)",
+                          color: "#000000",
+                          width: "60px",
+                        }
+                      : {}
+                  }
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
+                    setCopiedIdx(i);
                     keyStore.meta?.bech32Address &&
                       navigator.clipboard.writeText(
                         keyStore.meta?.bech32Address
                       );
                   }}
                 >
-                  Copy
+                  {i === copiedIdx ? "Copied" : "Copy"}
                 </div>
               </div>
             );

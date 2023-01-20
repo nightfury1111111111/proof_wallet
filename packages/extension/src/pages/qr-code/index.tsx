@@ -95,16 +95,17 @@ export const DepositPage: FunctionComponent = observer(() => {
               src={require("../../public/assets/img/copy-icon.svg")}
             />
           </div>
-          {isCopied && (
-            <div className={style.copied}>
-              Copied
-              <i
-                key="selected"
-                className="fas fa-check"
-                style={{ color: "#000000", marginLeft: "7px" }}
-              />
-            </div>
-          )}
+          <div
+            className={style.copied}
+            style={isCopied ? { opacity: 1 } : { opacity: 0 }}
+          >
+            Copied
+            <i
+              key="selected"
+              className="fas fa-check"
+              style={{ color: "#000000", marginLeft: "7px" }}
+            />
+          </div>
         </div>
         <div className={style.description}>
           Make sure you send{" "}

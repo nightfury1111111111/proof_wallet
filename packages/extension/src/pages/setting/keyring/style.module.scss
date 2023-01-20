@@ -30,7 +30,7 @@
   margin-bottom: 9px;
 
   &:hover {
-    background: rgba(255, 218, 139, 0.2);
+    background: #272727;
   }
 }
 
@@ -84,6 +84,8 @@
   letter-spacing: 0.07em;
   color: #959595;
   cursor: pointer;
+
+  transition-duration: 400ms;
 
   &:active {
     transform: scale(0.95);
