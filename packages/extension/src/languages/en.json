@@ -181,9 +181,9 @@
 
   "access.title": "Requesting Connection",
   "access.paragraph": "<b>{host}</b> is requesting to connect to your Keplr account on <b>{chainId}</b>.",
-  "access.permission.title": "By approving this request, the website will:",
-  "access.permission.account": "Know your wallet address",
-  "access.permission.tx-request": "Be able to request signatures for txs",
+  "access.permission.title": "This app would like to::",
+  "access.permission.account": "View  your wallet balance & activity",
+  "access.permission.tx-request": "Request approval for transactions",
   "access.permission.secret": "Be able to encrypt/decrypt your messages",
   "access.button.approve": "Approve",
   "access.button.reject": "Reject",

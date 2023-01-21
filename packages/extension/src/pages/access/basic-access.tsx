@@ -48,27 +48,29 @@ export const AccessPage: FunctionComponent = observer(() => {
     }
   }, [waitingPermission]);
 
-  const chainIds = useMemo(() => {
-    if (!waitingPermission) {
-      return "";
-    }
+  // const chainIds = useMemo(() => {
+  //   if (!waitingPermission) {
+  //     return "";
+  //   }
 
-    return waitingPermission.data.chainIds.join(", ");
-  }, [waitingPermission]);
+  //   return waitingPermission.data.chainIds.join(", ");
+  // }, [waitingPermission]);
 
   return (
-    <EmptyLayout style={{ height: "100%", paddingTop: "80px" }}>
+    <EmptyLayout style={{ height: "100%", paddingTop: "36px" }}>
       <div className={style.container}>
-        <img
-          src={require("../../public/assets/256.png")}
-          alt="logo"
-          style={{ width: "92px", height: "92px", margin: "0 auto" }}
-        />
+        <div style={{ width: "100%", textAlign: "center" }}>
+          <img
+            alt="unlink"
+            src={`https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${host}&size=64`}
+            style={{ width: "64px", height: "64px" }}
+          />
+        </div>
         <h1 className={style.header}>
           <FormattedMessage id="access.title" />
         </h1>
         <p className={style.paragraph}>
-          <FormattedMessage
+          {/* <FormattedMessage
             id="access.paragraph"
             values={{
               host,
@@ -76,16 +78,18 @@ export const AccessPage: FunctionComponent = observer(() => {
               // eslint-disable-next-line react/display-name
               b: (...chunks: any) => <b>{chunks}</b>,
             }}
-          />
+          /> */}
+          {host}
         </p>
+        <div className={style.divideLine} />
         <div className={style.permission}>
           <FormattedMessage id="access.permission.title" />
         </div>
         <ul>
-          <li>
+          <li style={{ marginBottom: "19px" }}>
             <FormattedMessage id="access.permission.account" />
           </li>
-          <li>
+          <li style={{ marginBottom: "8px" }}>
             <FormattedMessage id="access.permission.tx-request" />
           </li>
           {isSecretWasmIncluded ? (
@@ -94,6 +98,18 @@ export const AccessPage: FunctionComponent = observer(() => {
             </li>
           ) : null}
         </ul>
+        <div className={style.divideLine} />
+        <div
+          style={{
+            fontSize: "14px",
+            color: "#6c6c6c",
+            fontWeight: 400,
+            textAlign: "center",
+            marginTop: "14px",
+          }}
+        >
+          Only connect to websites you trust
+        </div>
         <div style={{ flex: 1 }} />
         <div className={style.buttons}>
           <Button

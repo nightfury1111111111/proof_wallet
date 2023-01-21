@@ -2,23 +2,35 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  font-family: colfax-web;
 
   .header {
     margin-top: 20px;
     text-align: center;
+    font-size: 28px;
+    color: #ffffff;
   }
 
   .paragraph {
     text-align: center;
     padding: 0 24px;
+    color: #6c6c6c;
+    font-weight: 400;
     overflow-y: auto;
   }
 
   .permission {
-    margin-top: 30px;
+    margin-top: 24px;
     font-size: 14px;
-    color: #525f7f;
-    text-align: center;
+    font-weight: 400;
+    color: #6c6c6c;
+    text-align: left;
+  }
+
+  .divideLine {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #2d2d2d;
   }
 
   ul {
@@ -26,8 +38,8 @@
     font-size: 14px;
     padding: 0;
     width: fit-content;
-    margin: auto;
-    color: #525f7f;
+    margin-top: 19px;
+    color: #ffffff;
 
     li:before {
       content: "- ";
