@@ -81,37 +81,38 @@ export const AccessPage: FunctionComponent = observer(() => {
           /> */}
           {host}
         </p>
-        <div className={style.divideLine} />
-        <div className={style.permission}>
-          <FormattedMessage id="access.permission.title" />
+        <div className={style.description}>
+          <div className={style.permission}>
+            <FormattedMessage id="access.permission.title" />
+          </div>
+          <ul>
+            <div style={{ marginBottom: "19px" }}>
+              <img
+                src={require("../../public/assets/img/check.svg")}
+                style={{ width: "20px", height: "20px", marginRight: "10px" }}
+              />
+              <FormattedMessage id="access.permission.account" />
+            </div>
+            <div>
+              <img
+                src={require("../../public/assets/img/check.svg")}
+                style={{ width: "20px", height: "20px", marginRight: "10px" }}
+              />
+              <FormattedMessage id="access.permission.tx-request" />
+            </div>
+            {isSecretWasmIncluded ? (
+              <div>
+                <i
+                  key="selected"
+                  className="fas fa-check"
+                  style={{ color: "#7EFF9B", marginRight: "10px" }}
+                />
+                <FormattedMessage id="access.permission.secret" />
+              </div>
+            ) : null}
+          </ul>
         </div>
-        <ul>
-          <li style={{ marginBottom: "19px" }}>
-            <FormattedMessage id="access.permission.account" />
-          </li>
-          <li style={{ marginBottom: "8px" }}>
-            <FormattedMessage id="access.permission.tx-request" />
-          </li>
-          {isSecretWasmIncluded ? (
-            <li>
-              <FormattedMessage id="access.permission.secret" />
-            </li>
-          ) : null}
-        </ul>
-        <div className={style.divideLine} />
-        <div
-          style={{
-            fontSize: "14px",
-            color: "#6c6c6c",
-            fontWeight: 400,
-            textAlign: "center",
-            marginTop: "14px",
-          }}
-        >
-          Only connect to websites you trust
-        </div>
-        <div style={{ flex: 1 }} />
-        <div className={style.buttons}>
+        {/* <div className={style.buttons}>
           <Button
             className={style.button}
             color="danger"
@@ -140,6 +141,57 @@ export const AccessPage: FunctionComponent = observer(() => {
           <Button
             className={style.button}
             color="primary"
+            onClick={async (e) => {
+              e.preventDefault();
+
+              if (waitingPermission) {
+                await permissionStore.approve(waitingPermission.id);
+                if (
+                  permissionStore.waitingBasicAccessPermissions.length === 0
+                ) {
+                  if (
+                    ineractionInfo.interaction &&
+                    !ineractionInfo.interactionInternal
+                  ) {
+                    window.close();
+                  }
+                }
+              }
+            }}
+            disabled={!waitingPermission}
+            data-loading={permissionStore.isLoading}
+          >
+            <FormattedMessage id="access.button.approve" />
+          </Button>
+        </div> */}
+        <div className={style.footer}>
+          <Button
+            className={style.button}
+            onClick={async (e) => {
+              e.preventDefault();
+
+              if (waitingPermission) {
+                await permissionStore.reject(waitingPermission.id);
+                if (
+                  permissionStore.waitingBasicAccessPermissions.length === 0
+                ) {
+                  if (
+                    ineractionInfo.interaction &&
+                    !ineractionInfo.interactionInternal
+                  ) {
+                    window.close();
+                  }
+                }
+              }
+            }}
+            data-loading={permissionStore.isLoading}
+          >
+            <FormattedMessage id="access.button.reject" />
+          </Button>
+          <Button
+            type="submit"
+            block
+            className={style.buttonActive}
             onClick={async (e) => {
               e.preventDefault();
 
