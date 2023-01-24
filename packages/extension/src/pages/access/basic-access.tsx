@@ -57,7 +57,13 @@ export const AccessPage: FunctionComponent = observer(() => {
   // }, [waitingPermission]);
 
   return (
-    <EmptyLayout style={{ height: "100%", paddingTop: "36px" }}>
+    <EmptyLayout
+      style={{
+        height: "100%",
+        paddingTop: "36px",
+        background: "rgba(29, 29, 29, 0.5)",
+      }}
+    >
       <div className={style.container}>
         <div style={{ width: "100%", textAlign: "center" }}>
           <img
