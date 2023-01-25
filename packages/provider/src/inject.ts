@@ -24,14 +24,14 @@ import deepmerge from "deepmerge";
 import Long from "long";
 
 export interface ProxyRequest {
-  type: "proxy-request";
+  type: "proof-proxy-request";
   id: string;
   method: keyof Proof;
   args: any[];
 }
 
 export interface ProxyRequestResponse {
-  type: "proxy-request-response";
+  type: "proof-proxy-request-response";
   id: string;
   result: Result | undefined;
 }
@@ -102,7 +102,7 @@ export class InjectedProof implements IProof {
       const message: ProxyRequest = parseMessage
         ? parseMessage(e.data)
         : e.data;
-      if (!message || message.type !== "proxy-request") {
+      if (!message || message.type !== "proof-proxy-request") {
         return;
       }
 
@@ -189,7 +189,7 @@ export class InjectedProof implements IProof {
               );
 
         const proxyResponse: ProxyRequestResponse = {
-          type: "proxy-request-response",
+          type: "proof-proxy-request-response",
           id: message.id,
           result: {
             return: JSONUint8Array.wrap(result),
@@ -199,7 +199,7 @@ export class InjectedProof implements IProof {
         eventListener.postMessage(proxyResponse);
       } catch (e) {
         const proxyResponse: ProxyRequestResponse = {
-          type: "proxy-request-response",
+          type: "proof-proxy-request-response",
           id: message.id,
           result: {
             error: e.message || e.toString(),
@@ -220,7 +220,7 @@ export class InjectedProof implements IProof {
       .join("");
 
     const proxyMessage: ProxyRequest = {
-      type: "proxy-request",
+      type: "proof-proxy-request",
       id,
       method,
       args: JSONUint8Array.wrap(args),
@@ -232,7 +232,10 @@ export class InjectedProof implements IProof {
           ? this.parseMessage(e.data)
           : e.data;
 
-        if (!proxyResponse || proxyResponse.type !== "proxy-request-response") {
+        if (
+          !proxyResponse ||
+          proxyResponse.type !== "proof-proxy-request-response"
+        ) {
           return;
         }
 
