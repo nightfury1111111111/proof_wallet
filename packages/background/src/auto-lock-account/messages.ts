@@ -3,7 +3,7 @@ import { ROUTE } from "./constants";
 
 export class GetAutoLockAccountDurationMsg extends Message<number> {
   public static type() {
-    return "get-auto-lock-account-duration";
+    return "proof-get-auto-lock-account-duration";
   }
 
   constructor() {
@@ -25,7 +25,7 @@ export class GetAutoLockAccountDurationMsg extends Message<number> {
 
 export class UpdateAutoLockAccountDurationMsg extends Message<void> {
   public static type() {
-    return "update-auto-lock-account-duration";
+    return "proof-update-auto-lock-account-duration";
   }
 
   constructor(public readonly duration: number) {
@@ -53,7 +53,7 @@ export class UpdateAutoLockAccountDurationMsg extends Message<void> {
 
 export class StartAutoLockMonitoringMsg extends Message<void> {
   public static type() {
-    return "start-auto-lock-monitoring";
+    return "proof-start-auto-lock-monitoring";
   }
 
   constructor() {

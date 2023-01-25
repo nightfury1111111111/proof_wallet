@@ -3,7 +3,7 @@ import { ROUTE } from "./constants";
 
 export class GetPubkeyMsg extends Message<Uint8Array> {
   public static type() {
-    return "get-pubkey-msg";
+    return "proof-get-pubkey-msg";
   }
 
   constructor(public readonly chainId: string) {
@@ -31,7 +31,7 @@ export class GetPubkeyMsg extends Message<Uint8Array> {
 
 export class ReqeustEncryptMsg extends Message<Uint8Array> {
   public static type() {
-    return "request-encrypt-msg";
+    return "proof-request-encrypt-msg";
   }
 
   constructor(
@@ -72,7 +72,7 @@ export class ReqeustEncryptMsg extends Message<Uint8Array> {
 
 export class RequestDecryptMsg extends Message<Uint8Array> {
   public static type() {
-    return "request-decrypt-msg";
+    return "proof-request-decrypt-msg";
   }
 
   constructor(
@@ -112,7 +112,7 @@ export class RequestDecryptMsg extends Message<Uint8Array> {
 
 export class GetTxEncryptionKeyMsg extends Message<Uint8Array> {
   public static type() {
-    return "get-tx-encryption-key-msg";
+    return "proof-get-tx-encryption-key-msg";
   }
 
   constructor(

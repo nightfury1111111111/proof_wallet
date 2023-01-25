@@ -7,7 +7,7 @@ export class GetChainInfosMsg extends Message<{
   chainInfos: ChainInfoWithEmbed[];
 }> {
   public static type() {
-    return "get-chain-infos";
+    return "proof-get-chain-infos";
   }
 
   validateBasic(): void {
@@ -25,7 +25,7 @@ export class GetChainInfosMsg extends Message<{
 
 export class SuggestChainInfoMsg extends Message<void> {
   public static type() {
-    return "suggest-chain-info";
+    return "proof-suggest-chain-info";
   }
 
   constructor(public readonly chainInfo: ChainInfo) {
@@ -53,7 +53,7 @@ export class SuggestChainInfoMsg extends Message<void> {
 
 export class RemoveSuggestedChainInfoMsg extends Message<ChainInfoWithEmbed[]> {
   public static type() {
-    return "remove-suggested-chain-info";
+    return "proof-remove-suggested-chain-info";
   }
 
   constructor(public readonly chainId: string) {

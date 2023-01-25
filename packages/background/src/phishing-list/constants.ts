@@ -1,1 +1,1 @@
-export const ROUTE = "phishing-list";
+export const ROUTE = "proof-phishing-list";

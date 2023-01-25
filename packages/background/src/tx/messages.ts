@@ -4,7 +4,7 @@ import { ROUTE } from "./constants";
 // Return the tx hash
 export class SendTxMsg extends Message<Uint8Array> {
   public static type() {
-    return "send-tx-to-background";
+    return "proof-send-tx-to-background";
   }
 
   constructor(

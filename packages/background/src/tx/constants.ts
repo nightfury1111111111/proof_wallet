@@ -1,1 +1,1 @@
-export const ROUTE = "background-tx";
+export const ROUTE = "proof-background-tx";

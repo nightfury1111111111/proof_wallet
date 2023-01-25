@@ -1,1 +1,1 @@
-export const ROUTE = "persistent-memory";
+export const ROUTE = "proof-persistent-memory";

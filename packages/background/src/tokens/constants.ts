@@ -1,1 +1,1 @@
-export const ROUTE = "tokens";
+export const ROUTE = "proof-tokens";

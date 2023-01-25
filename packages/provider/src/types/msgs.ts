@@ -9,9 +9,9 @@ import {
   StdSignDoc,
 } from "@proof-wallet/types";
 
-export class EnableAccessMsg extends Message<void> {
+export class EnableAccessProofMsg extends Message<void> {
   public static type() {
-    return "enable-access";
+    return "proof-enable-access";
   }
 
   constructor(public readonly chainIds: string[]) {
@@ -29,13 +29,13 @@ export class EnableAccessMsg extends Message<void> {
   }
 
   type(): string {
-    return EnableAccessMsg.type();
+    return EnableAccessProofMsg.type();
   }
 }
 
 export class GetKeyMsg extends Message<Key> {
   public static type() {
-    return "get-key";
+    return "proof-get-key";
   }
 
   constructor(public readonly chainId: string) {
@@ -59,7 +59,7 @@ export class GetKeyMsg extends Message<Key> {
 
 export class SuggestChainInfoMsg extends Message<void> {
   public static type() {
-    return "suggest-chain-info";
+    return "proof-suggest-chain-info";
   }
 
   constructor(public readonly chainInfo: ChainInfo) {
@@ -83,7 +83,7 @@ export class SuggestChainInfoMsg extends Message<void> {
 
 export class SuggestTokenMsg extends Message<void> {
   public static type() {
-    return "suggest-token";
+    return "proof-suggest-token";
   }
 
   constructor(
@@ -116,7 +116,7 @@ export class SuggestTokenMsg extends Message<void> {
 // Return the tx hash
 export class SendTxMsg extends Message<Uint8Array> {
   public static type() {
-    return "send-tx-to-background";
+    return "proof-send-tx-to-background";
   }
 
   constructor(
@@ -155,7 +155,7 @@ export class SendTxMsg extends Message<Uint8Array> {
 
 export class GetSecret20ViewingKey extends Message<string> {
   public static type() {
-    return "get-secret20-viewing-key";
+    return "proof-get-secret20-viewing-key";
   }
 
   constructor(
@@ -186,7 +186,7 @@ export class GetSecret20ViewingKey extends Message<string> {
 
 export class RequestSignAminoMsg extends Message<AminoSignResponse> {
   public static type() {
-    return "request-sign-amino";
+    return "proof-request-sign-amino";
   }
 
   constructor(
@@ -257,7 +257,7 @@ export class RequestSignAminoMsg extends Message<AminoSignResponse> {
 
 export class RequestSignEIP712CosmosTxMsg_v0 extends Message<AminoSignResponse> {
   public static type() {
-    return "request-sign-eip-712-cosmos-tx-v0";
+    return "proof-request-sign-eip-712-cosmos-tx-v0";
   }
 
   constructor(
@@ -309,7 +309,7 @@ export class RequestSignEIP712CosmosTxMsg_v0 extends Message<AminoSignResponse> 
 
 export class RequestVerifyADR36AminoSignDoc extends Message<boolean> {
   public static type() {
-    return "request-verify-adr-36-amino-doc";
+    return "proof-request-verify-adr-36-amino-doc";
   }
 
   constructor(
@@ -358,7 +358,7 @@ export class RequestSignDirectMsg extends Message<{
   readonly signature: StdSignature;
 }> {
   public static type() {
-    return "request-sign-direct";
+    return "proof-request-sign-direct";
   }
 
   constructor(
@@ -419,7 +419,7 @@ export class RequestSignDirectMsg extends Message<{
 
 export class GetPubkeyMsg extends Message<Uint8Array> {
   public static type() {
-    return "get-pubkey-msg";
+    return "proof-get-pubkey-msg";
   }
 
   constructor(public readonly chainId: string) {
@@ -443,7 +443,7 @@ export class GetPubkeyMsg extends Message<Uint8Array> {
 
 export class ReqeustEncryptMsg extends Message<Uint8Array> {
   public static type() {
-    return "request-encrypt-msg";
+    return "proof-request-encrypt-msg";
   }
 
   constructor(
@@ -480,7 +480,7 @@ export class ReqeustEncryptMsg extends Message<Uint8Array> {
 
 export class RequestDecryptMsg extends Message<Uint8Array> {
   public static type() {
-    return "request-decrypt-msg";
+    return "proof-request-decrypt-msg";
   }
 
   constructor(
@@ -516,7 +516,7 @@ export class RequestDecryptMsg extends Message<Uint8Array> {
 
 export class GetTxEncryptionKeyMsg extends Message<Uint8Array> {
   public static type() {
-    return "get-tx-encryption-key-msg";
+    return "proof-get-tx-encryption-key-msg";
   }
 
   constructor(

@@ -121,7 +121,7 @@ export class PermissionService {
 
     await this.grantPermission(
       env,
-      "/access",
+      "/access-wallet",
       chainIds,
       getBasicAccessPermissionType(),
       origins

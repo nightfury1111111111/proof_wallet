@@ -1,1 +1,1 @@
-export const ROUTE = "interaction-foreground";
+export const ROUTE = "proof-interaction-foreground";

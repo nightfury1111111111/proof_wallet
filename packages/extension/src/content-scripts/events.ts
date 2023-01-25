@@ -2,7 +2,7 @@ import { Message, Router } from "@proof-wallet/router";
 
 class PushEventDataMsg extends Message<void> {
   public static type() {
-    return "push-event-data";
+    return "proof-push-event-data";
   }
 
   constructor(

@@ -168,7 +168,7 @@ export class ExtensionEnv {
             return (
               window.location.href !== backgroundPage.location.href &&
               (routerMeta.routerId == null ||
-                routerMeta.routerId === window.keplrExtensionRouterId)
+                routerMeta.routerId === window.proofExtensionRouterId)
             );
           });
         if (views.length > 0) {

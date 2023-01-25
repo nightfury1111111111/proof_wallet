@@ -4,7 +4,7 @@ import { parseDomainUntilSecondLevel } from "./utils";
 
 export class CheckURLIsPhishingMsg extends Message<boolean> {
   public static type() {
-    return "check-url-is-phishing";
+    return "proof-check-url-is-phishing";
   }
 
   constructor() {
@@ -33,7 +33,7 @@ export class CheckURLIsPhishingMsg extends Message<boolean> {
 
 export class URLTempAllowMsg extends Message<void> {
   public static type() {
-    return "url-temp-allow";
+    return "proof-url-temp-allow";
   }
 
   constructor(public readonly url: string) {
@@ -57,7 +57,7 @@ export class URLTempAllowMsg extends Message<void> {
 
 export class CheckBadTwitterIdMsg extends Message<boolean> {
   public static type() {
-    return "check-bad-twitter-id";
+    return "proof-check-bad-twitter-id";
   }
 
   constructor(public readonly id: string) {

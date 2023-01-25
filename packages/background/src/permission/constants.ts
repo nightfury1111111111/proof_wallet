@@ -1,1 +1,1 @@
-export const ROUTE = "permission";
+export const ROUTE = "proof-permission";

@@ -3,7 +3,7 @@ import { ROUTE } from "./constants";
 
 export class ApproveInteractionMsg extends Message<void> {
   public static type() {
-    return "approve-interaction";
+    return "proof-approve-interaction";
   }
 
   constructor(public readonly id: string, public readonly result: unknown) {
@@ -25,7 +25,7 @@ export class ApproveInteractionMsg extends Message<void> {
 
 export class RejectInteractionMsg extends Message<void> {
   public static type() {
-    return "reject-interaction";
+    return "proof-reject-interaction";
   }
 
   constructor(public readonly id: string) {

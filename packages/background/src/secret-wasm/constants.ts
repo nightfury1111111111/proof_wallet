@@ -1,1 +1,1 @@
-export const ROUTE = "secret-wasm";
+export const ROUTE = "proof-secret-wasm";

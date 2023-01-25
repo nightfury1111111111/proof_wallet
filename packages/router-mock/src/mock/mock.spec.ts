@@ -7,7 +7,7 @@ import { MockGuards } from "../guard";
 
 class MockMessage extends Message<boolean> {
   public static type() {
-    return "mock";
+    return "proof-mock";
   }
 
   route(): string {
@@ -25,7 +25,7 @@ class MockMessage extends Message<boolean> {
 
 class MockExternalMessage extends Message<boolean> {
   public static type() {
-    return "mock-extern";
+    return "proof-mock-extern";
   }
 
   route(): string {

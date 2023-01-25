@@ -4,7 +4,7 @@ import { InteractionWaitingData } from "../types";
 
 export class PushInteractionDataMsg extends Message<void> {
   public static type() {
-    return "push-interaction-data";
+    return "proof-push-interaction-data";
   }
 
   constructor(public readonly data: InteractionWaitingData) {
@@ -28,7 +28,7 @@ export class PushInteractionDataMsg extends Message<void> {
 
 export class PushEventDataMsg extends Message<void> {
   public static type() {
-    return "push-event-data";
+    return "proof-push-event-data";
   }
 
   constructor(

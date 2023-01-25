@@ -4,7 +4,7 @@ import { ChainInfoWithEmbed } from "../chains";
 
 export class TryUpdateChainMsg extends Message<void> {
   public static type() {
-    return "try-update-chain";
+    return "proof-try-update-chain";
   }
 
   constructor(public readonly chainId: string) {
@@ -28,7 +28,7 @@ export class TryUpdateChainMsg extends Message<void> {
 
 export class SetChainEndpointsMsg extends Message<ChainInfoWithEmbed[]> {
   public static type() {
-    return "set-chain-endpoints";
+    return "proof-set-chain-endpoints";
   }
 
   constructor(
@@ -71,7 +71,7 @@ export class SetChainEndpointsMsg extends Message<ChainInfoWithEmbed[]> {
 
 export class ResetChainEndpointsMsg extends Message<ChainInfoWithEmbed[]> {
   public static type() {
-    return "reset-chain-endpoints";
+    return "proof-reset-chain-endpoints";
   }
 
   constructor(public readonly chainId: string) {

@@ -4,7 +4,7 @@ import { AppCurrency } from "@proof-wallet/types";
 
 export class GetTokensMsg extends Message<AppCurrency[]> {
   public static type() {
-    return "get-tokens";
+    return "proof-get-tokens";
   }
 
   constructor(public readonly chainId: string) {
@@ -28,7 +28,7 @@ export class GetTokensMsg extends Message<AppCurrency[]> {
 
 export class SuggestTokenMsg extends Message<void> {
   public static type() {
-    return "suggest-token";
+    return "proof-suggest-token";
   }
 
   constructor(
@@ -64,7 +64,7 @@ export class SuggestTokenMsg extends Message<void> {
 
 export class AddTokenMsg extends Message<void> {
   public static type() {
-    return "add-token";
+    return "proof-add-token";
   }
 
   constructor(
@@ -91,7 +91,7 @@ export class AddTokenMsg extends Message<void> {
 
 export class RemoveTokenMsg extends Message<void> {
   public static type() {
-    return "remove-token";
+    return "proof-remove-token";
   }
 
   constructor(
@@ -118,7 +118,7 @@ export class RemoveTokenMsg extends Message<void> {
 
 export class GetSecret20ViewingKey extends Message<string> {
   public static type() {
-    return "get-secret20-viewing-key";
+    return "proof-get-secret20-viewing-key";
   }
 
   constructor(

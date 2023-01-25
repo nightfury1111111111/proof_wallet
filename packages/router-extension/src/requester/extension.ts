@@ -4,7 +4,7 @@ import {
   JSONUint8Array,
   ProofError,
 } from "@proof-wallet/router";
-import { getKeplrExtensionRouterId } from "../utils";
+import { getProofExtensionRouterId } from "../utils";
 
 export class InExtensionMessageRequester implements MessageRequester {
   async sendMessage<M extends Message<unknown>>(
@@ -19,7 +19,7 @@ export class InExtensionMessageRequester implements MessageRequester {
     msg["origin"] = window.location.origin;
     msg.routerMeta = {
       ...msg.routerMeta,
-      routerId: getKeplrExtensionRouterId(),
+      routerId: getProofExtensionRouterId(),
     };
 
     const result = JSONUint8Array.unwrap(
@@ -62,7 +62,7 @@ export class InExtensionMessageRequester implements MessageRequester {
     msg["origin"] = window.location.origin;
     msg.routerMeta = {
       ...msg.routerMeta,
-      routerId: getKeplrExtensionRouterId(),
+      routerId: getProofExtensionRouterId(),
     };
 
     const result = JSONUint8Array.unwrap(

@@ -1,6 +1,6 @@
 import {
   AddPermissionOrigin,
-  EnableAccessMsg,
+  EnableAccessProofMsg,
   GetOriginPermittedChainsMsg,
   GetPermissionOriginsMsg,
   RemovePermissionOrigin,
@@ -19,8 +19,11 @@ export const getHandler: (service: PermissionService) => Handler = (
 ) => {
   return (env: Env, msg: Message<unknown>) => {
     switch (msg.constructor) {
-      case EnableAccessMsg:
-        return handleEnableAccessMsg(service)(env, msg as EnableAccessMsg);
+      case EnableAccessProofMsg:
+        return handleEnableAccessProofMsg(service)(
+          env,
+          msg as EnableAccessProofMsg
+        );
       case GetPermissionOriginsMsg:
         return handleGetPermissionOriginsMsg(service)(
           env,
@@ -47,9 +50,9 @@ export const getHandler: (service: PermissionService) => Handler = (
   };
 };
 
-const handleEnableAccessMsg: (
+const handleEnableAccessProofMsg: (
   service: PermissionService
-) => InternalHandler<EnableAccessMsg> = (service) => {
+) => InternalHandler<EnableAccessProofMsg> = (service) => {
   return async (env, msg) => {
     return await service.checkOrGrantBasicAccessPermission(
       env,

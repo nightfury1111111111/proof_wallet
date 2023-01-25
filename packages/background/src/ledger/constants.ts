@@ -1,1 +1,1 @@
-export const ROUTE = "ledger";
+export const ROUTE = "proof-ledger";

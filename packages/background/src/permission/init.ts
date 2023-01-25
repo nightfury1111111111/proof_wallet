@@ -2,7 +2,7 @@ import { Router } from "@proof-wallet/router";
 import { PermissionService } from "./service";
 import {
   AddPermissionOrigin,
-  EnableAccessMsg,
+  EnableAccessProofMsg,
   GetOriginPermittedChainsMsg,
   GetPermissionOriginsMsg,
   RemovePermissionOrigin,
@@ -11,7 +11,7 @@ import { ROUTE } from "./constants";
 import { getHandler } from "./handler";
 
 export function init(router: Router, service: PermissionService): void {
-  router.registerMessage(EnableAccessMsg);
+  router.registerMessage(EnableAccessProofMsg);
   router.registerMessage(GetPermissionOriginsMsg);
   router.registerMessage(GetOriginPermittedChainsMsg);
   router.registerMessage(AddPermissionOrigin);

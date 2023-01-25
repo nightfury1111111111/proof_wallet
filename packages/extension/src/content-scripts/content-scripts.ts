@@ -29,7 +29,7 @@ scriptElement.remove();
 
 export class CheckURLIsPhishingMsg extends Message<boolean> {
   public static type() {
-    return "check-url-is-phishing";
+    return "proof-check-url-is-phishing";
   }
 
   constructor() {
@@ -55,7 +55,7 @@ export class CheckURLIsPhishingMsg extends Message<boolean> {
 
 export class CheckBadTwitterIdMsg extends Message<boolean> {
   public static type() {
-    return "check-bad-twitter-id";
+    return "proof-check-bad-twitter-id";
   }
 
   constructor(public readonly id: string) {

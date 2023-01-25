@@ -1,10 +1,10 @@
 /**
- * getKeplrExtensionRouterId returns the `window.keplrExtensionRouterId`.
- * If the `window.keplrExtensionRouterId` is not initialized, it will be initialized and returned.
+ * getProofExtensionRouterId returns the `window.proofExtensionRouterId`.
+ * If the `window.proofExtensionRouterId` is not initialized, it will be initialized and returned.
  */
-export function getKeplrExtensionRouterId(): number {
-  if (window.keplrExtensionRouterId == null) {
-    window.keplrExtensionRouterId = Math.floor(Math.random() * 1000000);
+export function getProofExtensionRouterId(): number {
+  if (window.proofExtensionRouterId == null) {
+    window.proofExtensionRouterId = Math.floor(Math.random() * 1000000);
   }
-  return window.keplrExtensionRouterId;
+  return window.proofExtensionRouterId;
 }

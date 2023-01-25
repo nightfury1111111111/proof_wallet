@@ -169,7 +169,7 @@ ReactDOM.render(
                 <LogPageViewWrapper>
                   <Route exact path="/" component={StateRenderer} />
                   <Route exact path="/unlock" component={LockPage} />
-                  <Route exact path="/access" component={AccessPage} />
+                  <Route exact path="/access-wallet" component={AccessPage} />
                   <Route
                     exact
                     path="/access/viewing-key"

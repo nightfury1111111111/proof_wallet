@@ -33,7 +33,7 @@ export class RestoreKeyRingMsg extends Message<{
   multiKeyStoreInfo: MultiKeyStoreInfoWithSelected;
 }> {
   public static type() {
-    return "restore-keyring";
+    return "proof-restore-keyring";
   }
 
   constructor() {
@@ -57,7 +57,7 @@ export class DeleteKeyRingMsg extends Message<{
   multiKeyStoreInfo: MultiKeyStoreInfoWithSelected;
 }> {
   public static type() {
-    return "delete-keyring";
+    return "proof-delete-keyring";
   }
 
   constructor(public readonly index: number, public readonly password: string) {
@@ -87,7 +87,7 @@ export class ResetKeyRingMsg extends Message<{
   status: KeyRingStatus;
 }> {
   public static type() {
-    return "reset-keyring";
+    return "proof-reset-keyring";
   }
 
   constructor(public readonly password: string) {
@@ -113,7 +113,7 @@ export class UpdateNameKeyRingMsg extends Message<{
   multiKeyStoreInfo: MultiKeyStoreInfoWithSelected;
 }> {
   public static type() {
-    return "update-name-keyring";
+    return "proof-update-name-keyring";
   }
 
   constructor(public readonly index: number, public readonly name: string) {
@@ -141,7 +141,7 @@ export class UpdateNameKeyRingMsg extends Message<{
 
 export class ShowKeyRingMsg extends Message<string> {
   public static type() {
-    return "show-keyring";
+    return "proof-show-keyring";
   }
 
   constructor(public readonly index: number, public readonly password: string) {
@@ -172,7 +172,7 @@ export class ChangePasswordMsg extends Message<{
   multiKeyStoreInfo: MultiKeyStoreInfoWithSelected;
 }> {
   public static type() {
-    return "change-password";
+    return "proof-change-password";
   }
 
   constructor(
@@ -215,7 +215,7 @@ export class CreateMnemonicKeyMsg extends Message<{
   multiKeyStoreInfo: MultiKeyStoreInfoWithSelected;
 }> {
   public static type() {
-    return "create-mnemonic-key";
+    return "proof-create-mnemonic-key";
   }
 
   constructor(
@@ -272,7 +272,7 @@ export class AddMnemonicKeyMsg extends Message<{
   multiKeyStoreInfo: MultiKeyStoreInfoWithSelected;
 }> {
   public static type() {
-    return "add-mnemonic-key";
+    return "proof-add-mnemonic-key";
   }
 
   constructor(
@@ -325,7 +325,7 @@ export class CreatePrivateKeyMsg extends Message<{
   multiKeyStoreInfo: MultiKeyStoreInfoWithSelected;
 }> {
   public static type() {
-    return "create-private-key";
+    return "proof-create-private-key";
   }
 
   constructor(
@@ -373,7 +373,7 @@ export class CreateLedgerKeyMsg extends Message<{
   multiKeyStoreInfo: MultiKeyStoreInfoWithSelected;
 }> {
   public static type() {
-    return "create-ledger-key";
+    return "proof-create-ledger-key";
   }
 
   constructor(
@@ -414,7 +414,7 @@ export class AddPrivateKeyMsg extends Message<{
   multiKeyStoreInfo: MultiKeyStoreInfoWithSelected;
 }> {
   public static type() {
-    return "add-private-key";
+    return "proof-add-private-key";
   }
 
   constructor(
@@ -456,7 +456,7 @@ export class AddLedgerKeyMsg extends Message<{
   multiKeyStoreInfo: MultiKeyStoreInfoWithSelected;
 }> {
   public static type() {
-    return "add-ledger-key";
+    return "proof-add-ledger-key";
   }
 
   constructor(
@@ -490,7 +490,7 @@ export class AddLedgerKeyMsg extends Message<{
 
 export class LockKeyRingMsg extends Message<{ status: KeyRingStatus }> {
   public static type() {
-    return "lock-keyring";
+    return "proof-lock-keyring";
   }
 
   constructor() {
@@ -512,7 +512,7 @@ export class LockKeyRingMsg extends Message<{ status: KeyRingStatus }> {
 
 export class UnlockKeyRingMsg extends Message<{ status: KeyRingStatus }> {
   public static type() {
-    return "unlock-keyring";
+    return "proof-unlock-keyring";
   }
 
   constructor(public readonly password = "") {
@@ -536,7 +536,7 @@ export class UnlockKeyRingMsg extends Message<{ status: KeyRingStatus }> {
 
 export class GetKeyMsg extends Message<Key> {
   public static type() {
-    return "get-key";
+    return "proof-get-key";
   }
 
   constructor(public readonly chainId: string) {
@@ -564,7 +564,7 @@ export class GetKeyMsg extends Message<Key> {
 
 export class RequestSignAminoMsg extends Message<AminoSignResponse> {
   public static type() {
-    return "request-sign-amino";
+    return "proof-request-sign-amino";
   }
 
   constructor(
@@ -654,7 +654,7 @@ export class RequestSignAminoMsg extends Message<AminoSignResponse> {
 
 export class RequestSignEIP712CosmosTxMsg_v0 extends Message<AminoSignResponse> {
   public static type() {
-    return "request-sign-eip-712-cosmos-tx-v0";
+    return "proof-request-sign-eip-712-cosmos-tx-v0";
   }
 
   constructor(
@@ -724,7 +724,7 @@ export class RequestSignEIP712CosmosTxMsg_v0 extends Message<AminoSignResponse> 
 
 export class RequestVerifyADR36AminoSignDoc extends Message<boolean> {
   public static type() {
-    return "request-verify-adr-36-amino-doc";
+    return "proof-request-verify-adr-36-amino-doc";
   }
 
   constructor(
@@ -776,7 +776,7 @@ export class RequestSignDirectMsg extends Message<{
   readonly signature: StdSignature;
 }> {
   public static type() {
-    return "request-sign-direct";
+    return "proof-request-sign-direct";
   }
 
   constructor(
@@ -842,7 +842,7 @@ export class GetMultiKeyStoreInfoMsg extends Message<{
   multiKeyStoreInfo: MultiKeyStoreInfoWithSelected;
 }> {
   public static type() {
-    return "get-multi-key-store-info";
+    return "proof-get-multi-key-store-info";
   }
 
   constructor() {
@@ -866,7 +866,7 @@ export class ChangeKeyRingMsg extends Message<{
   multiKeyStoreInfo: MultiKeyStoreInfoWithSelected;
 }> {
   public static type() {
-    return "change-keyring";
+    return "proof-change-keyring";
   }
 
   constructor(public readonly index: number) {
@@ -901,7 +901,7 @@ export class GetIsKeyStoreCoinTypeSetMsg extends Message<
   }[]
 > {
   public static type() {
-    return "get-is-keystore-coin-type-set";
+    return "proof-get-is-keystore-coin-type-set";
   }
 
   constructor(public readonly chainId: string, public readonly paths: BIP44[]) {
@@ -929,7 +929,7 @@ export class GetIsKeyStoreCoinTypeSetMsg extends Message<
 
 export class SetKeyStoreCoinTypeMsg extends Message<KeyRingStatus> {
   public static type() {
-    return "set-keystore-coin-type";
+    return "proof-set-keystore-coin-type";
   }
 
   constructor(
@@ -964,7 +964,7 @@ export class SetKeyStoreCoinTypeMsg extends Message<KeyRingStatus> {
 
 export class CheckPasswordMsg extends Message<boolean> {
   public static type() {
-    return "check-keyring-password";
+    return "proof-check-keyring-password";
   }
 
   constructor(public readonly password: string) {
@@ -988,7 +988,7 @@ export class CheckPasswordMsg extends Message<boolean> {
 
 export class ExportKeyRingDatasMsg extends Message<ExportKeyRingData[]> {
   public static type() {
-    return "export-keyring-datas";
+    return "proof-export-keyring-datas";
   }
 
   constructor(public readonly password: string) {
@@ -1012,7 +1012,7 @@ export class ExportKeyRingDatasMsg extends Message<ExportKeyRingData[]> {
 
 export class InitNonDefaultLedgerAppMsg extends Message<void> {
   public static type() {
-    return "init-non-default-ledger-app";
+    return "proof-init-non-default-ledger-app";
   }
 
   constructor(public readonly ledgerApp: LedgerApp) {

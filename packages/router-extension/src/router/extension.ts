@@ -5,7 +5,7 @@ import {
   EnvProducer,
   ProofError,
 } from "@proof-wallet/router";
-import { getKeplrExtensionRouterId } from "../utils";
+import { getProofExtensionRouterId } from "../utils";
 
 export class ExtensionRouter extends Router {
   constructor(envProducer: EnvProducer) {
@@ -55,7 +55,7 @@ export class ExtensionRouter extends Router {
     // If this value exists, it compares this value with the current router id and processes them only if they are the same.
     if (
       message.msg?.routerMeta?.receiverRouterId &&
-      message.msg.routerMeta.receiverRouterId !== getKeplrExtensionRouterId()
+      message.msg.routerMeta.receiverRouterId !== getProofExtensionRouterId()
     ) {
       return;
     }

@@ -1,3 +1,3 @@
-export const BACKGROUND_PORT = "background";
-export const APP_PORT = "popup";
-export const WEBPAGE_PORT = "webpage";
+export const BACKGROUND_PORT = "proof-background";
+export const APP_PORT = "proof-popup";
+export const WEBPAGE_PORT = "proof-webpage";

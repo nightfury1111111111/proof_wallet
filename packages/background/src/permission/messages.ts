@@ -1,9 +1,9 @@
 import { ProofError, Message } from "@proof-wallet/router";
 import { ROUTE } from "./constants";
 
-export class EnableAccessMsg extends Message<void> {
+export class EnableAccessProofMsg extends Message<void> {
   public static type() {
-    return "enable-access";
+    return "proof-enable-access";
   }
 
   constructor(public readonly chainIds: string[]) {
@@ -25,13 +25,13 @@ export class EnableAccessMsg extends Message<void> {
   }
 
   type(): string {
-    return EnableAccessMsg.type();
+    return EnableAccessProofMsg.type();
   }
 }
 
 export class GetPermissionOriginsMsg extends Message<string[]> {
   public static type() {
-    return "get-permission-origins";
+    return "proof-get-permission-origins";
   }
 
   constructor(
@@ -62,7 +62,7 @@ export class GetPermissionOriginsMsg extends Message<string[]> {
 
 export class GetOriginPermittedChainsMsg extends Message<string[]> {
   public static type() {
-    return "get-origin-permitted-chains";
+    return "proof-get-origin-permitted-chains";
   }
 
   constructor(
@@ -93,7 +93,7 @@ export class GetOriginPermittedChainsMsg extends Message<string[]> {
 
 export class AddPermissionOrigin extends Message<void> {
   public static type() {
-    return "add-permission-origin";
+    return "proof-add-permission-origin";
   }
 
   constructor(
@@ -129,7 +129,7 @@ export class AddPermissionOrigin extends Message<void> {
 
 export class RemovePermissionOrigin extends Message<void> {
   public static type() {
-    return "remove-permission-origin";
+    return "proof-remove-permission-origin";
   }
 
   constructor(

@@ -1,1 +1,1 @@
-export const ROUTE = "auto-lock-account";
+export const ROUTE = "proof-auto-lock-account";

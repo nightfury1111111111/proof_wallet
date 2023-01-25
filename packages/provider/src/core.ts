@@ -17,7 +17,7 @@ import {
 } from "@proof-wallet/types";
 import { BACKGROUND_PORT, MessageRequester } from "@proof-wallet/router";
 import {
-  EnableAccessMsg,
+  EnableAccessProofMsg,
   SuggestChainInfoMsg,
   GetKeyMsg,
   SuggestTokenMsg,
@@ -59,7 +59,7 @@ export class Proof implements IProof {
 
     await this.requester.sendMessage(
       BACKGROUND_PORT,
-      new EnableAccessMsg(chainIds)
+      new EnableAccessProofMsg(chainIds)
     );
   }
 
