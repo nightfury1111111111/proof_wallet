@@ -2,7 +2,7 @@ import {
   Router,
   MessageSender,
   Result,
-  KeplrError,
+  ProofError,
 } from "@proof-wallet/router";
 import { EventEmitter } from "events";
 
@@ -44,7 +44,7 @@ export class MockRouter extends Router {
       console.log(
         `Failed to process msg ${message.type}: ${e?.message || e?.toString()}`
       );
-      if (e instanceof KeplrError) {
+      if (e instanceof ProofError) {
         sender.resolver({
           error: {
             code: e.code,

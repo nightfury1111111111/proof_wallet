@@ -7,7 +7,7 @@ import {
 } from "@proof-wallet/stores";
 import { IndexedDBKVStore } from "@proof-wallet/common";
 import { ChainInfo } from "@proof-wallet/types";
-import { getWCKeplr } from "../get-wc-keplr";
+import { getWCProof } from "../get-wc-proof";
 import { EmbedChainInfos } from "../config";
 
 export class RootStore {
@@ -32,7 +32,7 @@ export class RootStore {
         return {
           suggestChain: false,
           autoInit: true,
-          getKeplr: getWCKeplr,
+          getProof: getWCProof,
         };
       },
       CosmosAccount.use({

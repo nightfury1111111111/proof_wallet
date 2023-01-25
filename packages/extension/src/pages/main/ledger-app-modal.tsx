@@ -4,7 +4,7 @@ import style from "./ledger-app-modal.module.scss";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../stores";
 import { InExtensionMessageRequester } from "@proof-wallet/router-extension";
-import { BACKGROUND_PORT, KeplrError } from "@proof-wallet/router";
+import { BACKGROUND_PORT, ProofError } from "@proof-wallet/router";
 import {
   InitNonDefaultLedgerAppMsg,
   LedgerApp,
@@ -33,7 +33,7 @@ export const LedgerAppModal: FunctionComponent = observer(() => {
   const isOpen = (() => {
     if (
       accountInfo.rejectionReason &&
-      accountInfo.rejectionReason instanceof KeplrError
+      accountInfo.rejectionReason instanceof ProofError
     ) {
       if (
         accountInfo.rejectionReason.module === "keyring" &&

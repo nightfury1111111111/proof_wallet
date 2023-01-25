@@ -2,7 +2,7 @@ import {
   Env,
   Handler,
   InternalHandler,
-  KeplrError,
+  ProofError,
   Message,
 } from "@proof-wallet/router";
 import { ApproveInteractionMsg, RejectInteractionMsg } from "./messages";
@@ -24,7 +24,7 @@ export const getHandler: (service: InteractionService) => Handler = (
           msg as RejectInteractionMsg
         );
       default:
-        throw new KeplrError("interaction", 100, "Unknown msg type");
+        throw new ProofError("interaction", 100, "Unknown msg type");
     }
   };
 };

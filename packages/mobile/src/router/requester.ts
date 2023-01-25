@@ -1,5 +1,5 @@
 import {
-  KeplrError,
+  ProofError,
   Message,
   MessageRequester,
   Result,
@@ -67,7 +67,7 @@ export class RNMessageRequesterBase implements MessageRequester {
       if (typeof result.error === "string") {
         throw new Error(result.error);
       } else {
-        throw new KeplrError(
+        throw new ProofError(
           result.error.module,
           result.error.code,
           result.error.message

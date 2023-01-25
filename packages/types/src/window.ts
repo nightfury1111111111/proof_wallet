@@ -1,9 +1,9 @@
-import { Keplr } from "./wallet";
+import { Proof } from "./wallet";
 import { OfflineAminoSigner, OfflineDirectSigner } from "./cosmjs";
 import { SecretUtils } from "secretjs/types/enigmautils";
 
 export interface Window {
-  proof?: Keplr;
+  proof?: Proof;
   getOfflineSigner?: (
     chainId: string
   ) => OfflineAminoSigner & OfflineDirectSigner;

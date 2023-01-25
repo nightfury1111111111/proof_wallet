@@ -6,7 +6,7 @@ import { Hash } from "@proof-wallet/crypto";
 import { KVStore, Debouncer } from "@proof-wallet/common";
 import { ChainInfo } from "@proof-wallet/types";
 import { Bech32Address } from "@proof-wallet/cosmos";
-import { Env, KeplrError } from "@proof-wallet/router";
+import { Env, ProofError } from "@proof-wallet/router";
 import { Buffer } from "buffer/";
 
 export class SecretWasmService {
@@ -48,7 +48,7 @@ export class SecretWasmService {
 
     const keyRingType = await this.keyRingService.getKeyRingType();
     if (keyRingType === "none") {
-      throw new KeplrError("secret-wasm", 130, "Key ring is not initialized");
+      throw new ProofError("secret-wasm", 130, "Key ring is not initialized");
     }
 
     const seed = await this.getSeed(env, chainInfo);
@@ -66,7 +66,7 @@ export class SecretWasmService {
 
     const keyRingType = await this.keyRingService.getKeyRingType();
     if (keyRingType === "none") {
-      throw new KeplrError("secret-wasm", 130, "Key ring is not initialized");
+      throw new ProofError("secret-wasm", 130, "Key ring is not initialized");
     }
 
     const seed = await this.getSeed(env, chainInfo);
@@ -86,11 +86,11 @@ export class SecretWasmService {
 
     const keyRingType = await this.keyRingService.getKeyRingType();
     if (keyRingType === "none") {
-      throw new KeplrError("secret-wasm", 130, "Key ring is not initialized");
+      throw new ProofError("secret-wasm", 130, "Key ring is not initialized");
     }
 
-    // XXX: Keplr should generate the seed deterministically according to the account.
-    // Otherwise, it will lost the encryption/decryption key if Keplr is uninstalled or local storage is cleared.
+    // XXX: Proof should generate the seed deterministically according to the account.
+    // Otherwise, it will lost the encryption/decryption key if Proof is uninstalled or local storage is cleared.
     // For now, use the signature of some string to generate the seed.
     // It need to more research.
     const seed = await this.getSeed(env, chainInfo);
@@ -110,11 +110,11 @@ export class SecretWasmService {
 
     const keyRingType = await this.keyRingService.getKeyRingType();
     if (keyRingType === "none") {
-      throw new KeplrError("secret-wasm", 130, "Key ring is not initialized");
+      throw new ProofError("secret-wasm", 130, "Key ring is not initialized");
     }
 
-    // XXX: Keplr should generate the seed deterministically according to the account.
-    // Otherwise, it will lost the encryption/decryption key if Keplr is uninstalled or local storage is cleared.
+    // XXX: Proof should generate the seed deterministically according to the account.
+    // Otherwise, it will lost the encryption/decryption key if Proof is uninstalled or local storage is cleared.
     // For now, use the signature of some string to generate the seed.
     // It need to more research.
     const seed = await this.getSeed(env, chainInfo);
@@ -186,7 +186,7 @@ export class SecretWasmService {
               chain_id: chainInfo.chainId,
               fee: [],
               memo:
-                "Create Keplr Secret encryption key. Only approve requests by Keplr.",
+                "Create Proof Secret encryption key. Only approve requests by Proof.",
               msgs: [],
               sequence: 0,
             })

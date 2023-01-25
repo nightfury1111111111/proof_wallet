@@ -1,7 +1,7 @@
 import { AccountSetBaseSuper, MsgOpt, WalletStatus } from "./base";
 import {
   AppCurrency,
-  KeplrSignOptions,
+  ProofSignOptions,
   BroadcastMode,
   Msg,
   StdFee,
@@ -262,7 +262,7 @@ export class CosmosAccountImpl {
     recipient: string,
     memo: string,
     stdFee: Partial<StdFee>,
-    signOptions?: KeplrSignOptions,
+    signOptions?: ProofSignOptions,
     onTxEvents?:
       | ((tx: any) => void)
       | {
@@ -345,7 +345,7 @@ export class CosmosAccountImpl {
   //   recipient: string,
   //   memo: string,
   //   stdFee: Partial<StdFee>,
-  //   signOptions?: KeplrSignOptions,
+  //   signOptions?: ProofSignOptions,
   //   onTxEvents?:
   //     | ((tx: any) => void)
   //     | {
@@ -416,7 +416,7 @@ export class CosmosAccountImpl {
       | (() => Promise<ProtoMsgsOrWithAminoMsgs> | ProtoMsgsOrWithAminoMsgs),
     memo: string = "",
     fee: StdFee,
-    signOptions?: KeplrSignOptions,
+    signOptions?: ProofSignOptions,
     onTxEvents?:
       | ((tx: any) => void)
       | {
@@ -527,7 +527,7 @@ export class CosmosAccountImpl {
   //     | (() => Promise<ProtoMsgsOrWithAminoMsgs> | ProtoMsgsOrWithAminoMsgs),
   //   memo: string = "",
   //   fee: StdFee,
-  //   signOptions?: KeplrSignOptions,
+  //   signOptions?: ProofSignOptions,
   //   onTxEvents?:
   //     | ((tx: any) => void)
   //     | {
@@ -636,7 +636,7 @@ export class CosmosAccountImpl {
     msgs: ProtoMsgsOrWithAminoMsgs,
     fee: StdFee,
     memo: string = "",
-    signOptions?: KeplrSignOptions,
+    signOptions?: ProofSignOptions,
     mode: "block" | "async" | "sync" = "async"
   ): Promise<{
     txHash: Uint8Array;
@@ -678,7 +678,7 @@ export class CosmosAccountImpl {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const keplr = (await this.base.getKeplr())!;
+    const proof = (await this.base.getProof())!;
 
     const signDocRaw: StdSignDoc = {
       chain_id: this.chainId,
@@ -693,7 +693,7 @@ export class CosmosAccountImpl {
 
     const signResponse = await (async () => {
       if (!eip712Signing) {
-        return await keplr.signAmino(
+        return await proof.signAmino(
           this.chainId,
           this.base.bech32Address,
           signDoc,
@@ -708,7 +708,7 @@ export class CosmosAccountImpl {
         //      That means this part is not standard.
         altSignDoc.fee["feePayer"] = this.base.bech32Address;
 
-        return await keplr.experimentalSignEIP712CosmosTx_v0(
+        return await proof.experimentalSignEIP712CosmosTx_v0(
           this.chainId,
           this.base.bech32Address,
           {
@@ -834,7 +834,7 @@ export class CosmosAccountImpl {
     }).finish();
 
     return {
-      txHash: await keplr.sendTx(this.chainId, signedTx, mode as BroadcastMode),
+      txHash: await proof.sendTx(this.chainId, signedTx, mode as BroadcastMode),
       signDoc: signResponse.signed,
     };
   }
@@ -954,7 +954,7 @@ export class CosmosAccountImpl {
   //       };
   //     },
   //     memo: string = "",
-  //     signOptions?: KeplrSignOptions,
+  //     signOptions?: ProofSignOptions,
   //     onTxEvents?:
   //       | ((tx: any) => void)
   //       | {
@@ -1009,7 +1009,7 @@ export class CosmosAccountImpl {
   //         };
   //       },
   //       memo: string = "",
-  //       signOptions?: KeplrSignOptions,
+  //       signOptions?: ProofSignOptions,
   //       onTxEvents?:
   //         | ((tx: any) => void)
   //         | {
@@ -1046,7 +1046,7 @@ export class CosmosAccountImpl {
   //     send: async (
   //       fee: StdFee,
   //       memo: string = "",
-  //       signOptions?: KeplrSignOptions,
+  //       signOptions?: ProofSignOptions,
   //       onTxEvents?:
   //         | ((tx: any) => void)
   //         | {
@@ -1106,7 +1106,7 @@ export class CosmosAccountImpl {
         };
       },
       memo: string = "",
-      signOptions?: KeplrSignOptions,
+      signOptions?: ProofSignOptions,
       onTxEvents?:
         | ((tx: any) => void)
         | {
@@ -1161,7 +1161,7 @@ export class CosmosAccountImpl {
           };
         },
         memo: string = "",
-        signOptions?: KeplrSignOptions,
+        signOptions?: ProofSignOptions,
         onTxEvents?:
           | ((tx: any) => void)
           | {
@@ -1198,7 +1198,7 @@ export class CosmosAccountImpl {
       send: async (
         fee: StdFee,
         memo: string = "",
-        signOptions?: KeplrSignOptions,
+        signOptions?: ProofSignOptions,
         onTxEvents?:
           | ((tx: any) => void)
           | {
@@ -1400,7 +1400,7 @@ export class CosmosAccountImpl {
     recipient: string,
     memo: string = "",
     stdFee: Partial<StdFee> = {},
-    signOptions?: KeplrSignOptions,
+    signOptions?: ProofSignOptions,
     onTxEvents?:
       | ((tx: any) => void)
       | {
@@ -1606,7 +1606,7 @@ export class CosmosAccountImpl {
     validatorAddress: string,
     memo: string = "",
     stdFee: Partial<StdFee> = {},
-    signOptions?: KeplrSignOptions,
+    signOptions?: ProofSignOptions,
     onTxEvents?:
       | ((tx: any) => void)
       | {
@@ -1752,7 +1752,7 @@ export class CosmosAccountImpl {
     validatorAddress: string,
     memo: string = "",
     stdFee: Partial<StdFee> = {},
-    signOptions?: KeplrSignOptions,
+    signOptions?: ProofSignOptions,
     onTxEvents?:
       | ((tx: any) => void)
       | {
@@ -1911,7 +1911,7 @@ export class CosmosAccountImpl {
     dstValidatorAddress: string,
     memo: string = "",
     stdFee: Partial<StdFee> = {},
-    signOptions?: KeplrSignOptions,
+    signOptions?: ProofSignOptions,
     onTxEvents?:
       | ((tx: any) => void)
       | {
@@ -2032,7 +2032,7 @@ export class CosmosAccountImpl {
     validatorAddresses: string[],
     memo: string = "",
     stdFee: Partial<StdFee> = {},
-    signOptions?: KeplrSignOptions,
+    signOptions?: ProofSignOptions,
     onTxEvents?:
       | ((tx: any) => void)
       | {
@@ -2174,7 +2174,7 @@ export class CosmosAccountImpl {
     option: "Yes" | "No" | "Abstain" | "NoWithVeto",
     memo: string = "",
     stdFee: Partial<StdFee> = {},
-    signOptions?: KeplrSignOptions,
+    signOptions?: ProofSignOptions,
     onTxEvents?:
       | ((tx: any) => void)
       | {

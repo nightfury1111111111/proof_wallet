@@ -3,7 +3,7 @@ import { CosmwasmQueries, IQueriesStore, QueriesSetBase } from "../query";
 import { ChainGetter, CoinPrimitive } from "../common";
 import { DenomHelper } from "@proof-wallet/common";
 import { Dec, DecUtils } from "@proof-wallet/unit";
-import { AppCurrency, KeplrSignOptions, StdFee } from "@proof-wallet/types";
+import { AppCurrency, ProofSignOptions, StdFee } from "@proof-wallet/types";
 import { DeepPartial, DeepReadonly, Optional } from "utility-types";
 import { MsgExecuteContract } from "@proof-wallet/proto-types/cosmwasm/wasm/v1/tx";
 import { Buffer } from "buffer/";
@@ -215,7 +215,7 @@ export class CosmwasmAccountImpl {
     recipient: string,
     memo: string,
     stdFee: Partial<StdFee>,
-    signOptions?: KeplrSignOptions,
+    signOptions?: ProofSignOptions,
     onTxEvents?:
       | ((tx: any) => void)
       | {
@@ -385,7 +385,7 @@ export class CosmwasmAccountImpl {
     funds: CoinPrimitive[],
     memo: string = "",
     stdFee: Optional<StdFee, "amount">,
-    signOptions?: KeplrSignOptions,
+    signOptions?: ProofSignOptions,
     onTxEvents?:
       | ((tx: any) => void)
       | {

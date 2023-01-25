@@ -2,7 +2,7 @@ import {
   Env,
   Handler,
   InternalHandler,
-  KeplrError,
+  ProofError,
   Message,
 } from "@proof-wallet/router";
 import { TokensService } from "./service";
@@ -31,7 +31,7 @@ export const getHandler: (service: TokensService) => Handler = (service) => {
           msg as GetSecret20ViewingKey
         );
       default:
-        throw new KeplrError("tokens", 120, "Unknown msg type");
+        throw new ProofError("tokens", 120, "Unknown msg type");
     }
   };
 };

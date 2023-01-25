@@ -2,7 +2,7 @@ import {
   Env,
   Handler,
   InternalHandler,
-  KeplrError,
+  ProofError,
   Message,
 } from "@proof-wallet/router";
 import { LedgerGetWebHIDFlagMsg, LedgerSetWebHIDFlagMsg } from "./messages";
@@ -24,7 +24,7 @@ export const getHandler: (service: LedgerService) => Handler = (
           msg as LedgerSetWebHIDFlagMsg
         );
       default:
-        throw new KeplrError("ledger", 111, "Unknown msg type");
+        throw new ProofError("ledger", 111, "Unknown msg type");
     }
   };
 };

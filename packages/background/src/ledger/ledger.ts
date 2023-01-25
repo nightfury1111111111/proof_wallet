@@ -2,7 +2,7 @@ import { TransportIniter } from "./options";
 import TransportWebHID from "@ledgerhq/hw-transport-webhid";
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
 import { publicKeyConvert, signatureImport } from "secp256k1";
-import { KeplrError } from "@proof-wallet/router";
+import { ProofError } from "@proof-wallet/router";
 import Eth from "@ledgerhq/hw-app-eth";
 import { EthSignType } from "@proof-wallet/types";
 import { BIP44HDPath, EIP712MessageValidator } from "../keyring";
@@ -57,7 +57,7 @@ export class Ledger {
       if (app === LedgerApp.Ethereum) {
         const ethereumApp = new Eth(transport);
 
-        // Ensure that the keplr can connect to ethereum app on ledger.
+        // Ensure that the proof can connect to ethereum app on ledger.
         // getAppConfiguration() works even if the ledger is on screen saver mode.
         // To detect the screen saver mode, we should request the address before using.
         await ethereumApp.getAddress("m/44'/60'/0'/0/0");
@@ -74,7 +74,7 @@ export class Ledger {
       // However, it is almost same as that the device is not unlocked to user-side.
       // So, handle this case as initializing failed in `Transport`.
       if (versionResponse.deviceLocked) {
-        throw new KeplrError("ledger", 102, "Device is on screen saver");
+        throw new ProofError("ledger", 102, "Device is on screen saver");
       }
 
       return ledger;
@@ -99,7 +99,7 @@ export class Ledger {
     testMode: boolean;
   }> {
     if (!this.cosmosApp) {
-      throw new KeplrError("ledger", 100, "Cosmos App not initialized");
+      throw new ProofError("ledger", 100, "Cosmos App not initialized");
     }
 
     const result = await this.cosmosApp.getVersion();
@@ -120,7 +120,7 @@ export class Ledger {
   async getPublicKey(app: LedgerApp, fields: BIP44HDPath): Promise<Uint8Array> {
     if (app === LedgerApp.Ethereum) {
       if (!this.ethereumApp) {
-        throw new KeplrError("ledger", 100, "Ethereum App not initialized");
+        throw new ProofError("ledger", 100, "Ethereum App not initialized");
       }
 
       try {
@@ -136,7 +136,7 @@ export class Ledger {
       }
     } else {
       if (!this.cosmosApp) {
-        throw new KeplrError("ledger", 100, "Cosmos App not initialized");
+        throw new ProofError("ledger", 100, "Cosmos App not initialized");
       }
 
       const result = await this.cosmosApp.publicKey(
@@ -152,7 +152,7 @@ export class Ledger {
 
   async sign(fields: BIP44HDPath, message: Uint8Array): Promise<Uint8Array> {
     if (!this.cosmosApp) {
-      throw new KeplrError("ledger", 100, "Cosmos App not initialized");
+      throw new ProofError("ledger", 100, "Cosmos App not initialized");
     }
 
     const result = await this.cosmosApp.sign(
@@ -173,7 +173,7 @@ export class Ledger {
     message: Uint8Array
   ) {
     if (!this.ethereumApp) {
-      throw new KeplrError("ledger", 100, "Ethereum App not initialized");
+      throw new ProofError("ledger", 100, "Ethereum App not initialized");
     }
 
     const formattedPath = Ledger.pathToString(Ledger.createPath(60, fields));

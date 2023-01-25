@@ -44,7 +44,7 @@ export class SignDocHelper {
       const signDoc = {
         ...aminoSignDoc,
         // XXX: Set fee payer/granter if the requested sign doc has fee payer/granter.
-        //      Currently, there is no support for fee delegation within keplr,
+        //      Currently, there is no support for fee delegation within proof,
         //      but this handling is essential for external services that set fee payer/granter.
         fee: (() => {
           const fee = { ...stdFee } as Mutable<StdFee>;

@@ -1,4 +1,4 @@
-import { Env, KeplrError } from "@proof-wallet/router";
+import { Env, ProofError } from "@proof-wallet/router";
 import {
   ChainInfo,
   AppCurrency,
@@ -294,7 +294,7 @@ export class TokensService {
       }
     }
 
-    throw new KeplrError("tokens", 111, "There is no matched secret20");
+    throw new ProofError("tokens", 111, "There is no matched secret20");
   }
 
   async checkOrGrantSecret20ViewingKeyPermission(
@@ -341,7 +341,7 @@ export class TokensService {
           );
           break;
         default:
-          throw new KeplrError("tokens", 110, "Unknown type of currency");
+          throw new ProofError("tokens", 110, "Unknown type of currency");
       }
     } else {
       currency = await CurrencySchema.validateAsync(currency);

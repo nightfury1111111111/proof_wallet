@@ -17,7 +17,7 @@ import style from "./style.module.scss";
 import useForm from "react-hook-form";
 import { useNotification } from "../../../components/notification";
 import { ChainUpdaterService } from "@proof-wallet/background";
-import { KeplrError } from "@proof-wallet/router";
+import { ProofError } from "@proof-wallet/router";
 import { useConfirm } from "../../../components/confirm";
 import { AlertExperimentalFeature } from "../../../components/alert-experimental-feature";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -144,7 +144,7 @@ export const SettingEndpointsPage: FunctionComponent = observer(() => {
                   // Note the implementation of `ChainUpdaterService.checkEndpointsConnectivity`.
                   // In the case of this error, the chain version is different.
                   // It gives a warning and handles it if the user wants.
-                  e instanceof KeplrError &&
+                  e instanceof ProofError &&
                   e.module === "updater" &&
                   (e.code === 8002 || e.code === 8102)
                 ) {

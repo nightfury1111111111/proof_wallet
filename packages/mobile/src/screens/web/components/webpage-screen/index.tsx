@@ -196,7 +196,7 @@ export const WebpageScreen: FunctionComponent<
     const keyStoreChangedListener = () => {
       webviewRef.current?.injectJavaScript(
         `
-            window.dispatchEvent(new Event("keplr_keystorechange"));
+            window.dispatchEvent(new Event("proof_keystorechange"));
             true; // note: this is required, or you'll sometimes get silent failures
           `
       );

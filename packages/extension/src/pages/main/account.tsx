@@ -10,7 +10,7 @@ import { useNotification } from "../../components/notification";
 import { ToolTip } from "../../components/tooltip";
 import { useIntl } from "react-intl";
 import { WalletStatus } from "@proof-wallet/stores";
-import { KeplrError } from "@proof-wallet/router";
+import { ProofError } from "@proof-wallet/router";
 import { useHistory } from "react-router";
 import { Bech32Address } from "@proof-wallet/cosmos";
 
@@ -126,7 +126,7 @@ export const AccountView: FunctionComponent = observer(() => {
           tooltip={(() => {
             if (
               accountInfo.rejectionReason &&
-              accountInfo.rejectionReason instanceof KeplrError &&
+              accountInfo.rejectionReason instanceof ProofError &&
               accountInfo.rejectionReason.module === "keyring" &&
               accountInfo.rejectionReason.code === 152
             ) {

@@ -25,28 +25,28 @@ export interface Key {
   readonly isNanoLedger: boolean;
 }
 
-export type KeplrMode = "core" | "extension" | "mobile-web" | "walletconnect";
+export type ProofMode = "core" | "extension" | "mobile-web" | "walletconnect";
 
-export interface KeplrIntereactionOptions {
-  readonly sign?: KeplrSignOptions;
+export interface ProofIntereactionOptions {
+  readonly sign?: ProofSignOptions;
 }
 
-export interface KeplrSignOptions {
+export interface ProofSignOptions {
   readonly preferNoSetFee?: boolean;
   readonly preferNoSetMemo?: boolean;
 
   readonly disableBalanceCheck?: boolean;
 }
 
-export interface Keplr {
+export interface Proof {
   readonly version: string;
   /**
-   * mode means that how Keplr is connected.
-   * If the connected Keplr is browser's extension, the mode should be "extension".
-   * If the connected Keplr is on the mobile app with the embeded web browser, the mode should be "mobile-web".
+   * mode means that how Proof is connected.
+   * If the connected Proof is browser's extension, the mode should be "extension".
+   * If the connected Proof is on the mobile app with the embeded web browser, the mode should be "mobile-web".
    */
-  readonly mode: KeplrMode;
-  defaultOptions: KeplrIntereactionOptions;
+  readonly mode: ProofMode;
+  defaultOptions: ProofIntereactionOptions;
 
   experimentalSuggestChain(chainInfo: ChainInfo): Promise<void>;
   enable(chainIds: string | string[]): Promise<void>;
@@ -55,7 +55,7 @@ export interface Keplr {
     chainId: string,
     signer: string,
     signDoc: StdSignDoc,
-    signOptions?: KeplrSignOptions
+    signOptions?: ProofSignOptions
   ): Promise<AminoSignResponse>;
   signDirect(
     chainId: string,
@@ -73,7 +73,7 @@ export interface Keplr {
       /** SignDoc accountNumber */
       accountNumber?: Long | null;
     },
-    signOptions?: KeplrSignOptions
+    signOptions?: ProofSignOptions
   ): Promise<DirectSignResponse>;
   sendTx(
     chainId: string,
@@ -158,6 +158,6 @@ export interface Keplr {
       primaryType: string;
     },
     signDoc: StdSignDoc,
-    signOptions?: KeplrSignOptions
+    signOptions?: ProofSignOptions
   ): Promise<AminoSignResponse>;
 }

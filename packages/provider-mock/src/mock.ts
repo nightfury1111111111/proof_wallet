@@ -1,9 +1,9 @@
 import {
   EthSignType,
-  Keplr,
-  KeplrIntereactionOptions,
-  KeplrMode,
-  KeplrSignOptions,
+  Proof,
+  ProofIntereactionOptions,
+  ProofMode,
+  ProofSignOptions,
   Key,
   AminoSignResponse,
   BroadcastMode,
@@ -27,11 +27,11 @@ import { Mnemonic, PrivKeySecp256k1 } from "@proof-wallet/crypto";
 import Long from "long";
 import { SignDoc } from "@proof-wallet/proto-types/cosmos/tx/v1beta1/tx";
 
-export class MockKeplr implements Keplr {
+export class MockProof implements Proof {
   readonly version: string = "0.0.1";
-  readonly mode: KeplrMode = "extension";
+  readonly mode: ProofMode = "extension";
 
-  public defaultOptions: KeplrIntereactionOptions = {};
+  public defaultOptions: ProofIntereactionOptions = {};
 
   public readonly walletMap: {
     [chainId: string]: PrivKeySecp256k1 | undefined;
@@ -160,7 +160,7 @@ export class MockKeplr implements Keplr {
     chainId: string,
     signer: string,
     signDoc: StdSignDoc,
-    _?: KeplrSignOptions
+    _?: ProofSignOptions
   ): Promise<AminoSignResponse> {
     const wallet = await this.getWallet(chainId);
 
@@ -196,7 +196,7 @@ export class MockKeplr implements Keplr {
       /** SignDoc accountNumber */
       accountNumber?: Long | null;
     },
-    _?: KeplrSignOptions
+    _?: ProofSignOptions
   ): Promise<DirectSignResponse> {
     const wallet = await this.getWallet(chainId);
 
@@ -260,7 +260,7 @@ export class MockKeplr implements Keplr {
       primaryType: string;
     },
     _signDoc: StdSignDoc,
-    _signOptions: KeplrSignOptions = {}
+    _signOptions: ProofSignOptions = {}
   ): Promise<AminoSignResponse> {
     throw new Error("Not yet implemented");
   }

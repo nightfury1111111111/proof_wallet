@@ -1,6 +1,6 @@
-import { Window as KeplrWindow } from "@proof-wallet/types";
+import { Window as ProofWindow } from "@proof-wallet/types";
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface Window extends KeplrWindow {}
+  interface Window extends ProofWindow {}
 }

@@ -819,8 +819,8 @@ export const WasmExecutionMsgView: FunctionComponent<{
   useEffect(() => {
     // If msg is string, it will be the message for secret-wasm.
     // So, try to decrypt.
-    // But, if this msg is not encrypted via Keplr, Keplr cannot decrypt it.
-    // TODO: Handle the error case. If an error occurs, rather than rejecting the signing, it informs the user that Keplr cannot decrypt it and allows the user to choose.
+    // But, if this msg is not encrypted via Proof, Proof cannot decrypt it.
+    // TODO: Handle the error case. If an error occurs, rather than rejecting the signing, it informs the user that Proof cannot decrypt it and allows the user to choose.
     if (typeof msg === "string") {
       (async () => {
         try {
@@ -829,14 +829,14 @@ export const WasmExecutionMsgView: FunctionComponent<{
           const nonce = cipherText.slice(0, 32);
           cipherText = cipherText.slice(64);
 
-          const keplr = await accountStore
+          const proof = await accountStore
             .getAccount(chainStore.current.chainId)
-            .getKeplr();
-          if (!keplr) {
-            throw new Error("Can't get the keplr API");
+            .getProof();
+          if (!proof) {
+            throw new Error("Can't get the proof API");
           }
 
-          const enigmaUtils = keplr.getEnigmaUtils(chainStore.current.chainId);
+          const enigmaUtils = proof.getEnigmaUtils(chainStore.current.chainId);
           let plainText = Buffer.from(
             await enigmaUtils.decrypt(cipherText, nonce)
           );

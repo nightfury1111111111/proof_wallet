@@ -24,13 +24,13 @@ import {
   BIP44,
   ChainInfo,
   EthSignType,
-  KeplrSignOptions,
+  ProofSignOptions,
   AminoSignResponse,
   StdSignature,
   StdSignDoc,
   DirectSignResponse,
 } from "@proof-wallet/types";
-import { APP_PORT, Env, KeplrError, WEBPAGE_PORT } from "@proof-wallet/router";
+import { APP_PORT, Env, ProofError, WEBPAGE_PORT } from "@proof-wallet/router";
 import { InteractionService } from "../interaction";
 import { PermissionService } from "../permission";
 
@@ -89,7 +89,7 @@ export class KeyRingService {
 
   async enable(env: Env): Promise<KeyRingStatus> {
     if (this.keyRing.status === KeyRingStatus.EMPTY) {
-      throw new KeplrError("keyring", 261, "key doesn't exist");
+      throw new ProofError("keyring", 261, "key doesn't exist");
     }
 
     if (this.keyRing.status === KeyRingStatus.NOTLOADED) {
@@ -271,7 +271,7 @@ export class KeyRingService {
     chainId: string,
     signer: string,
     signDoc: StdSignDoc,
-    signOptions: KeplrSignOptions & {
+    signOptions: ProofSignOptions & {
       // Hack option field to detect the sign arbitrary for string
       isADR36WithString?: boolean;
       ethSignType?: EthSignType;
@@ -304,7 +304,7 @@ export class KeyRingService {
       .bech32Config.bech32PrefixAccAddr;
     const bech32Address = new Bech32Address(key.address).toBech32(bech32Prefix);
     if (signer !== bech32Address) {
-      throw new KeplrError("keyring", 231, "Signer mismatched");
+      throw new ProofError("keyring", 231, "Signer mismatched");
     }
 
     const isADR36SignDoc = checkAndValidateADR36AminoSignDoc(
@@ -313,12 +313,12 @@ export class KeyRingService {
     );
     if (isADR36SignDoc) {
       if (signDoc.msgs[0].value.signer !== signer) {
-        throw new KeplrError("keyring", 233, "Unmatched signer in sign doc");
+        throw new ProofError("keyring", 233, "Unmatched signer in sign doc");
       }
     }
 
     if (signOptions.isADR36WithString != null && !isADR36SignDoc) {
-      throw new KeplrError(
+      throw new ProofError(
         "keyring",
         236,
         'Sign doc is not for ADR-36. But, "isADR36WithString" option is defined'
@@ -357,14 +357,14 @@ export class KeyRingService {
       // Validate the new sign doc, if it was for ADR-36.
       if (checkAndValidateADR36AminoSignDoc(signDoc, bech32Prefix)) {
         if (signDoc.msgs[0].value.signer !== signer) {
-          throw new KeplrError(
+          throw new ProofError(
             "keyring",
             232,
             "Unmatched signer in new sign doc"
           );
         }
       } else {
-        throw new KeplrError(
+        throw new ProofError(
           "keyring",
           237,
           "Signing request was for ADR-36. But, accidentally, new sign doc is not for ADR-36"
@@ -431,7 +431,7 @@ export class KeyRingService {
       primaryType: string;
     },
     signDoc: StdSignDoc,
-    signOptions: KeplrSignOptions
+    signOptions: ProofSignOptions
   ): Promise<AminoSignResponse> {
     signDoc = {
       ...signDoc,
@@ -460,7 +460,7 @@ export class KeyRingService {
       .bech32Config.bech32PrefixAccAddr;
     const bech32Address = new Bech32Address(key.address).toBech32(bech32Prefix);
     if (signer !== bech32Address) {
-      throw new KeplrError("keyring", 231, "Signer mismatched");
+      throw new ProofError("keyring", 231, "Signer mismatched");
     }
 
     let newSignDoc = (await this.interactionService.waitApprove(
@@ -519,7 +519,7 @@ export class KeyRingService {
     chainId: string,
     signer: string,
     signDoc: SignDoc,
-    signOptions: KeplrSignOptions
+    signOptions: ProofSignOptions
   ): Promise<DirectSignResponse> {
     const coinType = await this.chainsService.getChainCoinType(chainId);
     const ethereumKeyFeatures = await this.chainsService.getChainEthereumKeyFeatures(
@@ -541,7 +541,7 @@ export class KeyRingService {
         .bech32PrefixAccAddr
     );
     if (signer !== bech32Address) {
-      throw new KeplrError("keyring", 231, "Signer mismatched");
+      throw new ProofError("keyring", 231, "Signer mismatched");
     }
 
     const newSignDocBytes = (await this.interactionService.waitApprove(
@@ -601,10 +601,10 @@ export class KeyRingService {
       .bech32Config.bech32PrefixAccAddr;
     const bech32Address = new Bech32Address(key.address).toBech32(bech32Prefix);
     if (signer !== bech32Address) {
-      throw new KeplrError("keyring", 231, "Signer mismatched");
+      throw new ProofError("keyring", 231, "Signer mismatched");
     }
     if (signature.pub_key.type !== "tendermint/PubKeySecp256k1") {
-      throw new KeplrError(
+      throw new ProofError(
         "keyring",
         211,
         `Unsupported type of pub key: ${signature.pub_key.type}`
@@ -613,7 +613,7 @@ export class KeyRingService {
     if (
       Buffer.from(key.pubKey).toString("base64") !== signature.pub_key.value
     ) {
-      throw new KeplrError("keyring", 210, "Pub key unmatched");
+      throw new ProofError("keyring", 210, "Pub key unmatched");
     }
 
     const signDoc = makeADR36AminoSignDoc(signer, data);

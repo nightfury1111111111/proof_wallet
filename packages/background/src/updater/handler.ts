@@ -2,7 +2,7 @@ import {
   Env,
   Handler,
   InternalHandler,
-  KeplrError,
+  ProofError,
   Message,
 } from "@proof-wallet/router";
 import { ChainUpdaterService } from "./service";
@@ -30,7 +30,7 @@ export const getHandler: (service: ChainUpdaterService) => Handler = (
           msg as ResetChainEndpointsMsg
         );
       default:
-        throw new KeplrError("updater", 110, "Unknown msg type");
+        throw new ProofError("updater", 110, "Unknown msg type");
     }
   };
 };

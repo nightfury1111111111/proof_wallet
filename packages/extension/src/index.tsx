@@ -61,7 +61,7 @@ import { DepositPage } from "./pages/qr-code";
 import { AdditionalIntlMessages, LanguageToFiatCurrency } from "./config.ui";
 
 import manifest from "./manifest.json";
-import { Keplr } from "@proof-wallet/provider";
+import { Proof } from "@proof-wallet/provider";
 import { InExtensionMessageRequester } from "@proof-wallet/router-extension";
 import { ExportToMobilePage } from "./pages/setting/export-to-mobile";
 import { LogPageViewWrapper } from "./components/analytics";
@@ -69,7 +69,7 @@ import { SettingEndpointsPage } from "./pages/setting/endpoints";
 import { SettingAutoLockPage } from "./pages/setting/autolock";
 import { BACKGROUND_PORT } from "@proof-wallet/router";
 
-window.proof = new Keplr(
+window.proof = new Proof(
   manifest.version,
   "core",
   new InExtensionMessageRequester()

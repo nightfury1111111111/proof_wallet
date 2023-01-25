@@ -1,6 +1,6 @@
 import { Any } from "@proof-wallet/proto-types/google/protobuf/any";
 import { Dec } from "@proof-wallet/unit";
-import { KeplrSignOptions, Msg, StdFee } from "@proof-wallet/types";
+import { ProofSignOptions, Msg, StdFee } from "@proof-wallet/types";
 
 export type ProtoMsgsOrWithAminoMsgs = {
   // TODO: Make `aminoMsgs` nullable
@@ -36,7 +36,7 @@ export interface MakeTxResponse {
       };
     },
     memo?: string,
-    signOptions?: KeplrSignOptions,
+    signOptions?: ProofSignOptions,
     onTxEvents?:
       | ((tx: any) => void)
       | {
@@ -48,7 +48,7 @@ export interface MakeTxResponse {
   send(
     fee: StdFee,
     memo?: string,
-    signOptions?: KeplrSignOptions,
+    signOptions?: ProofSignOptions,
     onTxEvents?:
       | ((tx: any) => void)
       | {
@@ -66,7 +66,7 @@ export interface MakeTxResponse {
       };
     },
     memo?: string,
-    signOptions?: KeplrSignOptions,
+    signOptions?: ProofSignOptions,
     onTxEvents?:
       | ((tx: any) => void)
       | {

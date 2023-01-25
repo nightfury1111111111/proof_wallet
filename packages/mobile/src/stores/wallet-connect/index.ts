@@ -82,7 +82,8 @@ export abstract class WalletConnectManager {
     const client = new WalletConnect({
       clientMeta: {
         name: "Keplr",
-        description: "Proof is a browser extension wallet for the Inter blockchain ecosystem.",
+        description:
+          "Proof is a browser extension wallet for the Inter blockchain ecosystem.",
         url: "#",
         icons: ["https://dhj8dql1kzq2v.cloudfront.net/keplr-256x256.png"],
       },
@@ -164,7 +165,8 @@ export abstract class WalletConnectManager {
       uri,
       clientMeta: {
         name: "Keplr",
-        description: "Proof is a browser extension wallet for the Inter blockchain ecosystem.",
+        description:
+          "Proof is a browser extension wallet for the Inter blockchain ecosystem.",
         url: "#",
         icons: ["https://dhj8dql1kzq2v.cloudfront.net/keplr-256x256.png"],
       },
@@ -278,7 +280,7 @@ export abstract class WalletConnectManager {
       this.onCallBeforeRequested(client);
 
       switch (payload.method) {
-        case "keplr_enable_wallet_connect_v1": {
+        case "proof_enable_wallet_connect_v1": {
           if (payload.params.length === 0) {
             throw new Error("Invalid parmas");
           }
@@ -294,7 +296,7 @@ export abstract class WalletConnectManager {
           });
           break;
         }
-        case "keplr_get_key_wallet_connect_v1": {
+        case "proof_get_key_wallet_connect_v1": {
           if (payload.params.length !== 1) {
             throw new Error("Invalid parmas");
           }
@@ -317,7 +319,7 @@ export abstract class WalletConnectManager {
           });
           break;
         }
-        case "keplr_sign_amino_wallet_connect_v1": {
+        case "proof_sign_amino_wallet_connect_v1": {
           if (payload.params.length !== 3 && payload.params.length !== 4) {
             throw new Error("Invalid parmas");
           }
@@ -425,13 +427,13 @@ export class WalletConnectStore extends WalletConnectManager {
      Unfortunately, keplr can handle the one key at the same time.
      So, if the other key was selected when the wallet connect connected and the frontend uses that account
      after the user changes the key on Keplr, the requests can't be handled properly.
-     To reduce this problem, Keplr send the "keplr_keystore_may_changed_event_wallet_connect_v1" to the connected clients
+     To reduce this problem, Keplr send the "proof_keystore_may_changed_event_wallet_connect_v1" to the connected clients
      whenever the app is unlocked or user changes the key.
      */
-    this.eventListener.addEventListener("keplr_keystoreunlock", () =>
+    this.eventListener.addEventListener("proof_keystoreunlock", () =>
       this.sendAccountMayChangedEventToClients()
     );
-    this.eventListener.addEventListener("keplr_keystorechange", () =>
+    this.eventListener.addEventListener("proof_keystorechange", () =>
       this.sendAccountMayChangedEventToClients()
     );
   }
@@ -610,7 +612,7 @@ export class WalletConnectStore extends WalletConnectManager {
         client.sendCustomRequest({
           id: Math.floor(Math.random() * 100000),
           jsonrpc: "2.0",
-          method: "keplr_keystore_may_changed_event_wallet_connect_v1",
+          method: "proof_keystore_may_changed_event_wallet_connect_v1",
           params: [keys],
         });
       }

@@ -1,4 +1,4 @@
-import { KeplrError, Message } from "@proof-wallet/router";
+import { ProofError, Message } from "@proof-wallet/router";
 import { ROUTE } from "./constants";
 import { ChainInfoWithEmbed } from "../chains";
 
@@ -13,7 +13,7 @@ export class TryUpdateChainMsg extends Message<void> {
 
   validateBasic(): void {
     if (!this.chainId) {
-      throw new KeplrError("updater", 100, "Empty chain id");
+      throw new ProofError("updater", 100, "Empty chain id");
     }
   }
 
@@ -41,7 +41,7 @@ export class SetChainEndpointsMsg extends Message<ChainInfoWithEmbed[]> {
 
   validateBasic(): void {
     if (!this.chainId) {
-      throw new KeplrError("updater", 100, "Empty chain id");
+      throw new ProofError("updater", 100, "Empty chain id");
     }
 
     if (this.rpc) {
@@ -80,7 +80,7 @@ export class ResetChainEndpointsMsg extends Message<ChainInfoWithEmbed[]> {
 
   validateBasic(): void {
     if (!this.chainId) {
-      throw new KeplrError("updater", 100, "Empty chain id");
+      throw new ProofError("updater", 100, "Empty chain id");
     }
   }
 

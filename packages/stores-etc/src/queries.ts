@@ -4,11 +4,11 @@ import { DeepReadonly } from "utility-types";
 import { ObservableQueryERC20Metadata } from "./erc20";
 import { ObservableQueryEVMTokenInfo } from "./axelar";
 
-export interface KeplrETCQueries {
-  keplrETC: KeplrETCQueriesImpl;
+export interface ProofETCQueries {
+  proofETC: ProofETCQueriesImpl;
 }
 
-export const KeplrETCQueries = {
+export const ProofETCQueries = {
   use(options: {
     ethereumURL: string;
   }): (
@@ -16,7 +16,7 @@ export const KeplrETCQueries = {
     kvStore: KVStore,
     chainId: string,
     chainGetter: ChainGetter
-  ) => KeplrETCQueries {
+  ) => ProofETCQueries {
     return (
       queriesSetBase: QueriesSetBase,
       kvStore: KVStore,
@@ -24,7 +24,7 @@ export const KeplrETCQueries = {
       chainGetter: ChainGetter
     ) => {
       return {
-        keplrETC: new KeplrETCQueriesImpl(
+        proofETC: new ProofETCQueriesImpl(
           queriesSetBase,
           kvStore,
           chainId,
@@ -36,7 +36,7 @@ export const KeplrETCQueries = {
   },
 };
 
-export class KeplrETCQueriesImpl {
+export class ProofETCQueriesImpl {
   public readonly queryERC20Metadata: DeepReadonly<ObservableQueryERC20Metadata>;
   public readonly queryEVMTokenInfo: DeepReadonly<ObservableQueryEVMTokenInfo>;
 

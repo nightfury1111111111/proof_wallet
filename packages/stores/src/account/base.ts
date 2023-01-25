@@ -1,8 +1,8 @@
 import { action, computed, flow, makeObservable, observable } from "mobx";
 import {
   AppCurrency,
-  Keplr,
-  KeplrSignOptions,
+  Proof,
+  ProofSignOptions,
   StdFee,
 } from "@proof-wallet/types";
 import { ChainGetter } from "../common";
@@ -26,11 +26,11 @@ export interface MsgOpt {
 export interface AccountSetOpts {
   readonly suggestChain: boolean;
   readonly suggestChainFn?: (
-    keplr: Keplr,
+    proof: Proof,
     chainInfo: ReturnType<ChainGetter["getChain"]>
   ) => Promise<void>;
   readonly autoInit: boolean;
-  readonly getKeplr: () => Promise<Keplr | undefined>;
+  readonly getProof: () => Promise<Proof | undefined>;
 }
 
 export class AccountSetBase {
@@ -64,7 +64,7 @@ export class AccountSetBase {
     recipient: string,
     memo: string,
     stdFee: Partial<StdFee>,
-    signOptions?: KeplrSignOptions,
+    signOptions?: ProofSignOptions,
     onTxEvents?:
       | ((tx: any) => void)
       | {
@@ -80,7 +80,7 @@ export class AccountSetBase {
     recipient: string,
     memo: string,
     stdFee: Partial<StdFee>,
-    signOptions?: KeplrSignOptions,
+    signOptions?: ProofSignOptions,
     onTxEvents?:
       | ((tx: any) => void)
       | {
@@ -120,8 +120,8 @@ export class AccountSetBase {
     }
   }
 
-  getKeplr(): Promise<Keplr | undefined> {
-    return this.opts.getKeplr();
+  getProof(): Promise<Proof | undefined> {
+    return this.opts.getProof();
   }
 
   registerSendTokenFn(
@@ -131,7 +131,7 @@ export class AccountSetBase {
       recipient: string,
       memo: string,
       stdFee: Partial<StdFee>,
-      signOptions?: KeplrSignOptions,
+      signOptions?: ProofSignOptions,
       onTxEvents?:
         | ((tx: any) => void)
         | {
@@ -150,7 +150,7 @@ export class AccountSetBase {
       recipient: string,
       memo: string,
       stdFee: Partial<StdFee>,
-      signOptions?: KeplrSignOptions,
+      signOptions?: ProofSignOptions,
       onTxEvents?:
         | ((tx: any) => void)
         | {
@@ -182,24 +182,24 @@ export class AccountSetBase {
     this.makeSendNftTxFns.push(fn);
   }
 
-  protected async enable(keplr: Keplr, chainId: string): Promise<void> {
+  protected async enable(proof: Proof, chainId: string): Promise<void> {
     const chainInfo = this.chainGetter.getChain(chainId);
 
     if (this.opts.suggestChain) {
       if (this.opts.suggestChainFn) {
-        await this.opts.suggestChainFn(keplr, chainInfo);
+        await this.opts.suggestChainFn(proof, chainInfo);
       } else {
-        await this.suggestChain(keplr, chainInfo);
+        await this.suggestChain(proof, chainInfo);
       }
     }
-    await keplr.enable(chainId);
+    await proof.enable(chainId);
   }
 
   protected async suggestChain(
-    keplr: Keplr,
+    proof: Proof,
     chainInfo: ReturnType<ChainGetter["getChain"]>
   ): Promise<void> {
-    await keplr.experimentalSuggestChain(chainInfo.raw);
+    await proof.experimentalSuggestChain(chainInfo.raw);
   }
 
   private readonly handleInit = () => this.init();
@@ -213,9 +213,9 @@ export class AccountSetBase {
 
     // If the store has never been initialized, add the event listener.
     if (!this.hasInited) {
-      // If key store in the keplr extension is changed, this event will be dispatched.
+      // If key store in the Proof extension is changed, this event will be dispatched.
       this.eventListener.addEventListener(
-        "keplr_keystorechange",
+        "proof_keystorechange",
         this.handleInit
       );
     }
@@ -224,16 +224,16 @@ export class AccountSetBase {
     // Set wallet status as loading whenever try to init.
     this._walletStatus = WalletStatus.Loading;
 
-    const keplr = yield* toGenerator(this.getKeplr());
-    if (!keplr) {
+    const proof = yield* toGenerator(this.getProof());
+    if (!proof) {
       this._walletStatus = WalletStatus.NotExist;
       return;
     }
 
-    this._walletVersion = keplr.version;
+    this._walletVersion = proof.version;
 
     try {
-      yield this.enable(keplr, this.chainId);
+      yield this.enable(proof, this.chainId);
     } catch (e) {
       console.log(e);
       this._walletStatus = WalletStatus.Rejected;
@@ -242,7 +242,7 @@ export class AccountSetBase {
     }
 
     try {
-      const key = yield* toGenerator(keplr.getKey(this.chainId));
+      const key = yield* toGenerator(proof.getKey(this.chainId));
       this._bech32Address = key.bech32Address;
       this._isNanoLedger = key.isNanoLedger;
       this._name = key.name;
@@ -274,7 +274,7 @@ export class AccountSetBase {
     this._walletStatus = WalletStatus.NotInit;
     this.hasInited = false;
     this.eventListener.removeEventListener(
-      "keplr_keystorechange",
+      "proof_keystorechange",
       this.handleInit
     );
     this._bech32Address = "";
@@ -356,7 +356,7 @@ export class AccountSetBase {
     recipient: string,
     memo: string = "",
     stdFee: Partial<StdFee> = {},
-    signOptions?: KeplrSignOptions,
+    signOptions?: ProofSignOptions,
     onTxEvents?:
       | ((tx: any) => void)
       | {
@@ -393,7 +393,7 @@ export class AccountSetBase {
   //   recipient: string,
   //   memo: string = "",
   //   stdFee: Partial<StdFee> = {},
-  //   signOptions?: KeplrSignOptions,
+  //   signOptions?: ProofSignOptions,
   //   onTxEvents?:
   //     | ((tx: any) => void)
   //     | {

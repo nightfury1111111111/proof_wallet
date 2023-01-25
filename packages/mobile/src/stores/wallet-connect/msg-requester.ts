@@ -3,7 +3,7 @@ import {
   MessageRequester,
   Result,
   JSONUint8Array,
-  KeplrError,
+  ProofError,
 } from "@proof-wallet/router";
 import EventEmitter from "eventemitter3";
 
@@ -73,7 +73,7 @@ export class WCMessageRequester implements MessageRequester {
       if (typeof result.error === "string") {
         throw new Error(result.error);
       } else {
-        throw new KeplrError(
+        throw new ProofError(
           result.error.module,
           result.error.code,
           result.error.message

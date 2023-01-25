@@ -1,5 +1,5 @@
 import {
-  Keplr,
+  Proof,
   OfflineDirectSigner,
   OfflineAminoSigner,
   AccountData,
@@ -12,11 +12,11 @@ import {
 export class CosmJSOfflineSignerOnlyAmino implements OfflineAminoSigner {
   constructor(
     protected readonly chainId: string,
-    protected readonly keplr: Keplr
+    protected readonly proof: Proof
   ) {}
 
   async getAccounts(): Promise<AccountData[]> {
-    const key = await this.keplr.getKey(this.chainId);
+    const key = await this.proof.getKey(this.chainId);
 
     return [
       {
@@ -36,13 +36,13 @@ export class CosmJSOfflineSignerOnlyAmino implements OfflineAminoSigner {
       throw new Error("Unmatched chain id with the offline signer");
     }
 
-    const key = await this.keplr.getKey(signDoc.chain_id);
+    const key = await this.proof.getKey(signDoc.chain_id);
 
     if (key.bech32Address !== signerAddress) {
       throw new Error("Unknown signer address");
     }
 
-    return await this.keplr.signAmino(this.chainId, signerAddress, signDoc);
+    return await this.proof.signAmino(this.chainId, signerAddress, signDoc);
   }
 
   // Fallback function for the legacy cosmjs implementation before the staragte.
@@ -59,9 +59,9 @@ export class CosmJSOfflineSigner
   implements OfflineAminoSigner, OfflineDirectSigner {
   constructor(
     protected readonly chainId: string,
-    protected readonly keplr: Keplr
+    protected readonly proof: Proof
   ) {
-    super(chainId, keplr);
+    super(chainId, proof);
   }
 
   async signDirect(
@@ -72,12 +72,12 @@ export class CosmJSOfflineSigner
       throw new Error("Unmatched chain id with the offline signer");
     }
 
-    const key = await this.keplr.getKey(signDoc.chainId);
+    const key = await this.proof.getKey(signDoc.chainId);
 
     if (key.bech32Address !== signerAddress) {
       throw new Error("Unknown signer address");
     }
 
-    return await this.keplr.signDirect(this.chainId, signerAddress, signDoc);
+    return await this.proof.signDirect(this.chainId, signerAddress, signDoc);
   }
 }

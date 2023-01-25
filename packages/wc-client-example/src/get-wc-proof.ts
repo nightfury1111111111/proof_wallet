@@ -1,13 +1,13 @@
-import { Keplr, BroadcastMode } from "@proof-wallet/types";
+import { Proof, BroadcastMode } from "@proof-wallet/types";
 import WalletConnect from "@walletconnect/client";
-import { KeplrQRCodeModalV1 } from "@proof-wallet/wc-qrcode-modal";
-import { KeplrWalletConnectV1 } from "@proof-wallet/wc-client";
+import { ProofQRCodeModalV1 } from "@proof-wallet/wc-qrcode-modal";
+import { ProofWalletConnectV1 } from "@proof-wallet/wc-client";
 import Axios from "axios";
 import { EmbedChainInfos } from "./config";
 import { Buffer } from "buffer/";
 
-let keplr: Keplr | undefined = undefined;
-let promise: Promise<Keplr> | undefined = undefined;
+let proof: Proof | undefined = undefined;
+let promise: Promise<Proof> | undefined = undefined;
 
 async function sendTx(
   chainId: string,
@@ -40,19 +40,19 @@ async function sendTx(
   return Buffer.from(result.data["tx_response"].txhash, "hex");
 }
 
-export function getWCKeplr(): Promise<Keplr> {
-  if (keplr) {
-    return Promise.resolve(keplr);
+export function getWCProof(): Promise<Proof> {
+  if (proof) {
+    return Promise.resolve(proof);
   }
 
   const fn = () => {
     const connector = new WalletConnect({
       bridge: "https://bridge.walletconnect.org", // Required
       signingMethods: [
-        "keplr_enable_wallet_connect_v1",
-        "keplr_sign_amino_wallet_connect_v1",
+        "proof_enable_wallet_connect_v1",
+        "proof_sign_amino_wallet_connect_v1",
       ],
-      qrcodeModal: new KeplrQRCodeModalV1(),
+      qrcodeModal: new ProofQRCodeModalV1(),
     });
 
     // Check if connection is already established
@@ -60,23 +60,23 @@ export function getWCKeplr(): Promise<Keplr> {
       // create new session
       connector.createSession();
 
-      return new Promise<Keplr>((resolve, reject) => {
+      return new Promise<Proof>((resolve, reject) => {
         connector.on("connect", (error) => {
           if (error) {
             reject(error);
           } else {
-            keplr = new KeplrWalletConnectV1(connector, {
+            proof = new ProofWalletConnectV1(connector, {
               sendTx,
             });
-            resolve(keplr);
+            resolve(proof);
           }
         });
       });
     } else {
-      keplr = new KeplrWalletConnectV1(connector, {
+      proof = new ProofWalletConnectV1(connector, {
         sendTx,
       });
-      return Promise.resolve(keplr);
+      return Promise.resolve(proof);
     }
   };
 

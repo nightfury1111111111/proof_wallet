@@ -183,12 +183,12 @@ export abstract class ObservableQueryBase<T = unknown, E = unknown> {
   /**
    * Allows to decide when to start the first query.
    *
-   * This is a temporarily added feature to implement custom rpc/lcd feature in keplr extension or mobile.
+   * This is a temporarily added feature to implement custom rpc/lcd feature in Proof extension or mobile.
    * Because custom rpc/lcd are handled in the background process and the front-end cannot synchronously get those values,
    * Rather than not showing the UI to the user during the delay, the UI is shown and the start of the query is delayed immediately after getting those values.
    *
    * XXX: Having a global field for this feature doesn't seem desirable in the long run.
-   *      Unless it's a keplr extension or mobile, you don't need to care about this field.
+   *      Unless it's a Proof extension or mobile, you don't need to care about this field.
    *      This field will soon be removed and can be replaced by other implementation.
    *
    */

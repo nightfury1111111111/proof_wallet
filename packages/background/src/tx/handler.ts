@@ -2,7 +2,7 @@ import {
   Env,
   Handler,
   InternalHandler,
-  KeplrError,
+  ProofError,
   Message,
 } from "@proof-wallet/router";
 import { SendTxMsg } from "./messages";
@@ -16,7 +16,7 @@ export const getHandler: (service: BackgroundTxService) => Handler = (
       case SendTxMsg:
         return handleSendTxMsg(service)(env, msg as SendTxMsg);
       default:
-        throw new KeplrError("tx", 110, "Unknown msg type");
+        throw new ProofError("tx", 110, "Unknown msg type");
     }
   };
 };

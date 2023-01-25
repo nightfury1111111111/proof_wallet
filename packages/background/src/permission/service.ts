@@ -1,5 +1,5 @@
 import { InteractionService } from "../interaction";
-import { Env, KeplrError } from "@proof-wallet/router";
+import { Env, ProofError } from "@proof-wallet/router";
 import {
   getBasicAccessPermissionType,
   INTERACTION_TYPE_PERMISSION,
@@ -134,7 +134,7 @@ export class PermissionService {
     }
 
     if (!this.hasPermisson(chainId, type, origin)) {
-      throw new KeplrError("permission", 130, `${origin} is not permitted`);
+      throw new ProofError("permission", 130, `${origin} is not permitted`);
     }
   }
 

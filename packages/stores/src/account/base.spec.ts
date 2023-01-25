@@ -1,7 +1,7 @@
 import { AccountSetBase, WalletStatus } from "./base";
 import { ChainStore } from "../chain";
 import { AppCurrency, ChainInfo } from "@proof-wallet/types";
-import { MockKeplr } from "@proof-wallet/provider-mock";
+import { MockProof } from "@proof-wallet/provider-mock";
 
 describe("Test Account set base", () => {
   test("Account set base should be inited automatically if `autoInit` is true", async () => {
@@ -33,8 +33,8 @@ describe("Test Account set base", () => {
       {
         suggestChain: false,
         autoInit: true,
-        getKeplr: async () => {
-          return new MockKeplr(
+        getProof: async () => {
+          return new MockProof(
             async () => {
               return new Uint8Array(0);
             },
@@ -47,7 +47,7 @@ describe("Test Account set base", () => {
 
     expect(accountSetBase.walletStatus).toBe(WalletStatus.Loading);
 
-    // Need wait some time to get the Keplr.
+    // Need wait some time to get the Proof.
     await (() => {
       return new Promise<void>((resolve) => {
         setTimeout(resolve, 1000);
@@ -90,8 +90,8 @@ describe("Test Account set base", () => {
       {
         suggestChain: false,
         autoInit: false,
-        getKeplr: async () => {
-          return new MockKeplr(
+        getProof: async () => {
+          return new MockProof(
             async () => {
               return new Uint8Array(0);
             },
@@ -104,7 +104,7 @@ describe("Test Account set base", () => {
 
     expect(accountSetBase.walletStatus).toBe(WalletStatus.NotInit);
 
-    // Need wait some time to get the Keplr.
+    // Need wait some time to get the Proof.
     await (() => {
       return new Promise<void>((resolve) => {
         setTimeout(resolve, 1000);

@@ -506,7 +506,7 @@ export const WasmExecutionMsgView: FunctionComponent<{
 
           const keplr = await accountStore
             .getAccount(chainStore.current.chainId)
-            .getKeplr();
+            .getProof();
           if (!keplr) {
             throw new Error("Can't get the keplr API");
           }
@@ -626,7 +626,7 @@ export const WasmExecutionMsgView: FunctionComponent<{
 
           const keplr = await accountStore
             .getAccount(chainStore.current.chainId)
-            .getKeplr();
+            .getProof();
           if (!keplr) {
             throw new Error("Can't get the keplr API");
           }

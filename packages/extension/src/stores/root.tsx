@@ -15,7 +15,7 @@ import {
   CosmwasmQueries,
   OsmosisQueries,
   DeferInitialQueryController,
-  getKeplrFromWindow,
+  getProofFromWindow,
   IBCChannelStore,
   IBCCurrencyRegsitrar,
   InteractionStore,
@@ -31,7 +31,7 @@ import {
   WalletStatus,
 } from "@proof-wallet/stores";
 import {
-  KeplrETCQueries,
+  ProofETCQueries,
   GravityBridgeCurrencyRegsitrar,
   AxelarEVMBridgeCurrencyRegistrar,
 } from "@proof-wallet/stores-etc";
@@ -70,7 +70,7 @@ export class RootStore {
       CosmwasmQueries,
       SecretQueries,
       OsmosisQueries,
-      KeplrETCQueries
+      ProofETCQueries
     ]
   >;
   public readonly accountStore: AccountStore<
@@ -164,10 +164,10 @@ export class RootStore {
       CosmosQueries.use(),
       CosmwasmQueries.use(),
       SecretQueries.use({
-        apiGetter: getKeplrFromWindow,
+        apiGetter: getProofFromWindow,
       }),
       OsmosisQueries.use(),
-      KeplrETCQueries.use({
+      ProofETCQueries.use({
         ethereumURL: EthereumEndpoint,
       })
     );
@@ -179,7 +179,7 @@ export class RootStore {
         return {
           suggestChain: false,
           autoInit: true,
-          getKeplr: getKeplrFromWindow,
+          getProof: getProofFromWindow,
         };
       },
       CosmosAccount.use({

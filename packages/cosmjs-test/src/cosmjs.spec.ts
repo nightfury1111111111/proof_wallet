@@ -1,4 +1,4 @@
-import { MockKeplr } from "@proof-wallet/provider-mock";
+import { MockProof } from "@proof-wallet/provider-mock";
 import { SigningStargateClient } from "@cosmjs/stargate";
 
 /*
@@ -8,7 +8,7 @@ import { SigningStargateClient } from "@cosmjs/stargate";
 
 describe("Test cosmjs compatibility", () => {
   test("test type conflict with offline signer", async () => {
-    const keplr = new MockKeplr(
+    const proof = new MockProof(
       () => {
         throw new Error("Not implemented");
       },
@@ -23,7 +23,7 @@ describe("Test cosmjs compatibility", () => {
       "diary match wagon soccer worth planet sea stumble thought post easily want"
     );
 
-    const offlineSigner = keplr.getOfflineSignerOnlyAmino("test-1");
+    const offlineSigner = proof.getOfflineSignerOnlyAmino("test-1");
 
     const signer = (await offlineSigner.getAccounts())[0].address;
     expect(signer).toBe("test1ce0nzfm5a0j5yg48xz88qr430caaxdrs2ec4f4");
@@ -68,7 +68,7 @@ describe("Test cosmjs compatibility", () => {
   });
 
   test("test type conflict with direct signer", async () => {
-    const keplr = new MockKeplr(
+    const proof = new MockProof(
       () => {
         throw new Error("Not implemented");
       },
@@ -83,7 +83,7 @@ describe("Test cosmjs compatibility", () => {
       "diary match wagon soccer worth planet sea stumble thought post easily want"
     );
 
-    const offlineSigner = keplr.getOfflineSigner("test-1");
+    const offlineSigner = proof.getOfflineSigner("test-1");
 
     const signer = (await offlineSigner.getAccounts())[0].address;
     expect(signer).toBe("test1ce0nzfm5a0j5yg48xz88qr430caaxdrs2ec4f4");

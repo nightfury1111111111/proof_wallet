@@ -69,7 +69,7 @@ export async function importFromExtension(
   const result = (
     await connector.sendCustomRequest({
       id: Math.floor(Math.random() * 100000),
-      method: "keplr_request_export_keyring_datas_wallet_connect_v1",
+      method: "proof_request_export_keyring_datas_wallet_connect_v1",
       params: [
         {
           addressBookChainIds: chainIdsForAddressBook,

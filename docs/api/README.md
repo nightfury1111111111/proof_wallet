@@ -12,9 +12,9 @@ You can register the function to `window.onload`:
 ```javascript
 window.onload = async () => {
     if (!window.proof) {
-        alert("Please install keplr extension");
+        alert("Please install proof extension");
     } else {
-        const chainId = "cosmoshub-4";
+        const chainId = "atlantic-1";
 
         // Enabling before using the Keplr is recommended.
         // This method will ask the user whether to allow access if they haven't visited this website.
@@ -42,7 +42,7 @@ window.onload = async () => {
 or track the document's ready state through the document event listener:
 
 ```javascript
-async getKeplr(): Promise<Keplr | undefined> {
+async getProof(): Promise<Keplr | undefined> {
     if (window.proof) {
         return window.proof;
     }
@@ -267,15 +267,15 @@ window.proof.defaultOptions = {
 ### Change Key Store Event
 
 ```javascript
-keplr_keystorechange
+proof_keystorechange
 ```
 
 When the user switches their key store/account after the webpage has received the information on the key store/account the key that the webpage is aware of may not match the selected key in Keplr which may cause issues in the interactions.
 
-To prevent this from happening, when the key store/account is changed, Keplr emits a `keplr_keystorechange` event to the webpage's window. You can request the new key/account based on this event listener.
+To prevent this from happening, when the key store/account is changed, Keplr emits a `proof_keystorechange` event to the webpage's window. You can request the new key/account based on this event listener.
 
 ```javascript
-window.addEventListener("keplr_keystorechange", () => {
+window.addEventListener("proof_keystorechange", () => {
     console.log("Key store in Keplr is changed. You may need to refetch the account info.")
 })
 ```

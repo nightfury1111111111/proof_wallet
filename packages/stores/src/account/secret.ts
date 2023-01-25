@@ -6,7 +6,7 @@ import { DenomHelper } from "@proof-wallet/common";
 import { MsgExecuteContract } from "@proof-wallet/proto-types/secret/compute/v1beta1/msg";
 import { Bech32Address } from "@proof-wallet/cosmos";
 import { Dec, DecUtils } from "@proof-wallet/unit";
-import { AppCurrency, KeplrSignOptions, StdFee } from "@proof-wallet/types";
+import { AppCurrency, ProofSignOptions, StdFee } from "@proof-wallet/types";
 import { DeepPartial, DeepReadonly, Optional } from "utility-types";
 import { CosmosAccount } from "./cosmos";
 import deepmerge from "deepmerge";
@@ -160,7 +160,7 @@ export class SecretAccountImpl {
     recipient: string,
     memo: string,
     stdFee: Partial<StdFee>,
-    signOptions?: KeplrSignOptions,
+    signOptions?: ProofSignOptions,
     onTxEvents?:
       | ((tx: any) => void)
       | {
@@ -224,7 +224,7 @@ export class SecretAccountImpl {
     contractAddress: string,
     memo: string = "",
     stdFee: Partial<StdFee> = {},
-    signOptions?: KeplrSignOptions,
+    signOptions?: ProofSignOptions,
     onFulfill?: (tx: any, viewingKey: string) => void
   ) {
     const random = new Uint8Array(32);
@@ -334,7 +334,7 @@ export class SecretAccountImpl {
     sentFunds: CoinPrimitive[],
     memo: string = "",
     stdFee: Optional<StdFee, "amount">,
-    signOptions?: KeplrSignOptions,
+    signOptions?: ProofSignOptions,
     onTxEvents?:
       | ((tx: any) => void)
       | {
@@ -412,12 +412,12 @@ export class SecretAccountImpl {
 
     const contractCodeHash = queryContractCodeHashResponse.data.result;
 
-    const keplr = await this.base.getKeplr();
-    if (!keplr) {
-      throw new Error("Can't get the Keplr API");
+    const proof = await this.base.getProof();
+    if (!proof) {
+      throw new Error("Can't get the Proof API");
     }
 
-    const enigmaUtils = keplr.getEnigmaUtils(this.chainId);
+    const enigmaUtils = proof.getEnigmaUtils(this.chainId);
     return await enigmaUtils.encrypt(contractCodeHash, obj);
   }
 

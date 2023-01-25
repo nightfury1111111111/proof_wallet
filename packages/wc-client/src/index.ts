@@ -6,10 +6,10 @@ import {
 import {
   ChainInfo,
   EthSignType,
-  Keplr,
-  KeplrIntereactionOptions,
-  KeplrMode,
-  KeplrSignOptions,
+  Proof,
+  ProofIntereactionOptions,
+  ProofMode,
+  ProofSignOptions,
   Key,
   DirectSignResponse,
   OfflineDirectSigner,
@@ -50,7 +50,7 @@ function parseChainId(
   }
 }
 
-export type KeplrGetKeyWalletCoonectV1Response = {
+export type ProofGetKeyWalletCoonectV1Response = {
   address: string;
   algo: string;
   bech32Address: string;
@@ -59,7 +59,7 @@ export type KeplrGetKeyWalletCoonectV1Response = {
   pubKey: string;
 };
 
-export type KeplrKeystoreMayChangedEventParam = {
+export type ProofKeystoreMayChangedEventParam = {
   algo: string;
   name: string;
   isNanoLedger: boolean;
@@ -71,12 +71,12 @@ export type KeplrKeystoreMayChangedEventParam = {
   }[];
 };
 
-export class KeplrWalletConnectV1 implements Keplr {
+export class ProofWalletConnectV1 implements Proof {
   constructor(
     public readonly connector: IConnector,
     public readonly options: {
       kvStore?: KVStore;
-      sendTx?: Keplr["sendTx"];
+      sendTx?: Proof["sendTx"];
       onBeforeSendRequest?: (
         request: Partial<IJsonRpcRequest>,
         options?: IRequestOptions
@@ -89,7 +89,7 @@ export class KeplrWalletConnectV1 implements Keplr {
     } = {}
   ) {
     if (!options.kvStore) {
-      options.kvStore = new IndexedDBKVStore("keplr_wallet_connect");
+      options.kvStore = new IndexedDBKVStore("proof_wallet_connect");
     }
 
     connector.on("disconnect", () => {
@@ -100,9 +100,9 @@ export class KeplrWalletConnectV1 implements Keplr {
   }
 
   readonly version: string = "0.9.0";
-  readonly mode: KeplrMode = "walletconnect";
+  readonly mode: ProofMode = "walletconnect";
 
-  defaultOptions: KeplrIntereactionOptions = {};
+  defaultOptions: ProofIntereactionOptions = {};
 
   protected readonly onCallReqeust = async (
     error: Error | null,
@@ -118,10 +118,10 @@ export class KeplrWalletConnectV1 implements Keplr {
     }
 
     if (
-      payload.method === "keplr_keystore_may_changed_event_wallet_connect_v1"
+      payload.method === "proof_keystore_may_changed_event_wallet_connect_v1"
     ) {
       const param = payload.params[0] as
-        | KeplrKeystoreMayChangedEventParam
+        | ProofKeystoreMayChangedEventParam
         | undefined;
       if (!param) {
         return;
@@ -134,7 +134,7 @@ export class KeplrWalletConnectV1 implements Keplr {
 
       const mayChangedKeyMap: Record<
         string,
-        KeplrGetKeyWalletCoonectV1Response
+        ProofGetKeyWalletCoonectV1Response
       > = {};
       for (const mayChangedKey of param.keys) {
         mayChangedKeyMap[mayChangedKey.chainIdentifier] = {
@@ -173,7 +173,7 @@ export class KeplrWalletConnectV1 implements Keplr {
 
       if (hasChanged) {
         await this.saveAllLastSeenKey(lastSeenKeys);
-        window.dispatchEvent(new Event("keplr_keystorechange"));
+        window.dispatchEvent(new Event("proof_keystorechange"));
       }
     }
   };
@@ -225,7 +225,7 @@ export class KeplrWalletConnectV1 implements Keplr {
     await this.sendCustomRequest({
       id: payloadId(),
       jsonrpc: "2.0",
-      method: "keplr_enable_wallet_connect_v1",
+      method: "proof_enable_wallet_connect_v1",
       params: chainIds,
     });
 
@@ -308,10 +308,10 @@ export class KeplrWalletConnectV1 implements Keplr {
       await this.sendCustomRequest({
         id: payloadId(),
         jsonrpc: "2.0",
-        method: "keplr_get_key_wallet_connect_v1",
+        method: "proof_get_key_wallet_connect_v1",
         params: [chainId],
       })
-    )[0] as KeplrGetKeyWalletCoonectV1Response;
+    )[0] as ProofGetKeyWalletCoonectV1Response;
 
     await this.saveLastSeenKey(chainId, response);
 
@@ -331,7 +331,7 @@ export class KeplrWalletConnectV1 implements Keplr {
 
   protected async getLastSeenKey(
     chainId: string
-  ): Promise<KeplrGetKeyWalletCoonectV1Response | undefined> {
+  ): Promise<ProofGetKeyWalletCoonectV1Response | undefined> {
     const saved = await this.getAllLastSeenKey();
 
     if (!saved) {
@@ -343,19 +343,19 @@ export class KeplrWalletConnectV1 implements Keplr {
 
   protected async getAllLastSeenKey() {
     return await this.options.kvStore!.get<{
-      [chainId: string]: KeplrGetKeyWalletCoonectV1Response | undefined;
+      [chainId: string]: ProofGetKeyWalletCoonectV1Response | undefined;
     }>(this.getKeyLastSeenKey());
   }
 
   protected async saveAllLastSeenKey(data: {
-    [chainId: string]: KeplrGetKeyWalletCoonectV1Response | undefined;
+    [chainId: string]: ProofGetKeyWalletCoonectV1Response | undefined;
   }) {
     await this.options.kvStore!.set(this.getKeyLastSeenKey(), data);
   }
 
   protected async saveLastSeenKey(
     chainId: string,
-    response: KeplrGetKeyWalletCoonectV1Response
+    response: ProofGetKeyWalletCoonectV1Response
   ) {
     let saved = await this.getAllLastSeenKey();
 
@@ -422,7 +422,7 @@ export class KeplrWalletConnectV1 implements Keplr {
   /**
    * In the extension environment, this API let the extension to send the tx on behalf of the client.
    * But, in the wallet connect environment, in order to send the tx on behalf of the client, wallet should receive the tx data from remote.
-   * However, this approach is not efficient and hard to ensure the stability and `KeplrWalletConnect` should have the informations of rpc and rest endpoints.
+   * However, this approach is not efficient and hard to ensure the stability and `ProofWalletConnect` should have the informations of rpc and rest endpoints.
    * So, rather than implementing this, just fallback to the client sided implementation or throw error of the client sided implementation is not delivered to the `options`.
    * @param chainId
    * @param stdTx
@@ -444,13 +444,13 @@ export class KeplrWalletConnectV1 implements Keplr {
     chainId: string,
     signer: string,
     signDoc: StdSignDoc,
-    signOptions: KeplrSignOptions = {}
+    signOptions: ProofSignOptions = {}
   ): Promise<AminoSignResponse> {
     return (
       await this.sendCustomRequest({
         id: payloadId(),
         jsonrpc: "2.0",
-        method: "keplr_sign_amino_wallet_connect_v1",
+        method: "proof_sign_amino_wallet_connect_v1",
         params: [
           chainId,
           signer,
@@ -470,7 +470,7 @@ export class KeplrWalletConnectV1 implements Keplr {
       chainId?: string | null;
       accountNumber?: Long | null;
     },
-    _signOptions: KeplrSignOptions = {}
+    _signOptions: ProofSignOptions = {}
   ): Promise<DirectSignResponse> {
     throw new Error("Not yet implemented");
   }
@@ -492,7 +492,7 @@ export class KeplrWalletConnectV1 implements Keplr {
       primaryType: string;
     },
     _signDoc: StdSignDoc,
-    _signOptions: KeplrSignOptions = {}
+    _signOptions: ProofSignOptions = {}
   ): Promise<AminoSignResponse> {
     throw new Error("Not yet implemented");
   }

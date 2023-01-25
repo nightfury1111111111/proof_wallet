@@ -3,7 +3,7 @@ import { ChainInfo } from "@proof-wallet/types";
 import { KVStore, Debouncer, MemoryKVStore } from "@proof-wallet/common";
 import { ChainUpdaterService } from "../updater";
 import { InteractionService } from "../interaction";
-import { Env, KeplrError } from "@proof-wallet/router";
+import { Env, ProofError } from "@proof-wallet/router";
 import { SuggestChainInfoMsg } from "./messages";
 import { ChainIdHelper } from "@proof-wallet/cosmos";
 import { getBasicAccessPermissionType, PermissionService } from "../permission";
@@ -119,7 +119,7 @@ export class ChainsService {
     });
 
     if (!chainInfo) {
-      throw new KeplrError(
+      throw new ProofError(
         "chains",
         411,
         `There is no chain info for ${chainId}`
@@ -132,7 +132,7 @@ export class ChainsService {
     const chainInfo = await this.getChainInfo(chainId);
 
     if (!chainInfo) {
-      throw new KeplrError(
+      throw new ProofError(
         "chains",
         411,
         `There is no chain info for ${chainId}`
@@ -189,7 +189,7 @@ export class ChainsService {
 
   async addChainInfo(chainInfo: ChainInfo): Promise<void> {
     if (await this.hasChainInfo(chainInfo.chainId)) {
-      throw new KeplrError("chains", 121, "Same chain is already registered");
+      throw new ProofError("chains", 121, "Same chain is already registered");
     }
 
     const savedChainInfos =
@@ -207,11 +207,11 @@ export class ChainsService {
 
   async removeChainInfo(chainId: string): Promise<void> {
     if (!(await this.hasChainInfo(chainId))) {
-      throw new KeplrError("chains", 120, "Chain is not registered");
+      throw new ProofError("chains", 120, "Chain is not registered");
     }
 
     if ((await this.getChainInfo(chainId)).embeded) {
-      throw new KeplrError("chains", 122, "Can't remove the embedded chain");
+      throw new ProofError("chains", 122, "Can't remove the embedded chain");
     }
 
     const savedChainInfos =

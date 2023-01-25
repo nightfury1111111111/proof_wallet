@@ -1,4 +1,4 @@
-import { KeplrError } from "@proof-wallet/router";
+import { ProofError } from "@proof-wallet/router";
 import {
   AppCurrency,
   Bech32Config,
@@ -172,7 +172,7 @@ export const ChainInfoSchema = Joi.object<ChainInfo>({
     .unique()
     .custom((value: string[]) => {
       if (value.indexOf("cosmwasm") >= 0 && value.indexOf("secretwasm") >= 0) {
-        throw new KeplrError(
+        throw new ProofError(
           "chains",
           430,
           "cosmwasm and secretwasm are not compatible"

@@ -35,7 +35,7 @@ import { ChainIdHelper } from "@proof-wallet/cosmos";
 import {
   AxelarEVMBridgeCurrencyRegistrar,
   GravityBridgeCurrencyRegsitrar,
-  KeplrETCQueries,
+  ProofETCQueries,
 } from "@proof-wallet/stores-etc";
 
 export class RootStore {
@@ -49,7 +49,7 @@ export class RootStore {
   public readonly chainSuggestStore: ChainSuggestStore;
 
   public readonly queriesStore: QueriesStore<
-    [CosmosQueries, CosmwasmQueries, SecretQueries, KeplrETCQueries]
+    [CosmosQueries, CosmwasmQueries, SecretQueries, ProofETCQueries]
   >;
   public readonly accountStore: AccountStore<
     [CosmosAccount, CosmwasmAccount, SecretAccount]
@@ -142,7 +142,7 @@ export class RootStore {
           return new Keplr("", "core", new RNMessageRequesterInternal());
         },
       }),
-      KeplrETCQueries.use({
+      ProofETCQueries.use({
         ethereumURL: EthereumEndpoint,
       })
     );
@@ -161,7 +161,7 @@ export class RootStore {
         return {
           suggestChain: false,
           autoInit: true,
-          getKeplr: async () => {
+          getProof: async () => {
             // TOOD: Set version for Keplr API
             return new Keplr("", "core", new RNMessageRequesterInternal());
           },

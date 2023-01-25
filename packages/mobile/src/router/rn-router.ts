@@ -1,6 +1,6 @@
 import {
   EnvProducer,
-  KeplrError,
+  ProofError,
   MessageSender,
   Result,
   Router,
@@ -51,7 +51,7 @@ export class RNRouterBase extends Router {
       console.log(
         `Failed to process msg ${message.type}: ${e?.message || e?.toString()}`
       );
-      if (e instanceof KeplrError) {
+      if (e instanceof ProofError) {
         sender.resolver({
           error: {
             code: e.code,

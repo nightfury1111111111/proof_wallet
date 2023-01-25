@@ -1,4 +1,4 @@
-import { KeplrError, Message } from "@proof-wallet/router";
+import { ProofError, Message } from "@proof-wallet/router";
 import { ROUTE } from "./constants";
 
 export class GetAutoLockAccountDurationMsg extends Message<number> {
@@ -34,7 +34,7 @@ export class UpdateAutoLockAccountDurationMsg extends Message<void> {
 
   validateBasic(): void {
     if (this.duration < 0) {
-      throw new KeplrError(
+      throw new ProofError(
         "auto-lock-account",
         101,
         "duration cannot be set to a negative number."

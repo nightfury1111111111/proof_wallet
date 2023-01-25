@@ -5,7 +5,7 @@ import { ChainGetter, QueryError } from "../../common";
 import { ObservableQuerySecretContractCodeHash } from "./contract-hash";
 import { computed, makeObservable } from "mobx";
 import { ObservableSecretContractChainQuery } from "./contract-query";
-import { Keplr } from "@proof-wallet/types";
+import { Proof } from "@proof-wallet/types";
 
 export class ObservableQuerySecret20ContactInfoInner extends ObservableSecretContractChainQuery<Secret20ContractTokenInfo> {
   protected nonce?: Uint8Array;
@@ -14,7 +14,7 @@ export class ObservableQuerySecret20ContactInfoInner extends ObservableSecretCon
     kvStore: KVStore,
     chainId: string,
     chainGetter: ChainGetter,
-    protected readonly apiGetter: () => Promise<Keplr | undefined>,
+    protected readonly apiGetter: () => Promise<Proof | undefined>,
     protected readonly contractAddress: string,
     protected readonly querySecretContractCodeHash: ObservableQuerySecretContractCodeHash
   ) {
@@ -54,7 +54,7 @@ export class ObservableQuerySecret20ContractInfo extends ObservableChainQueryMap
     protected readonly kvStore: KVStore,
     protected readonly chainId: string,
     protected readonly chainGetter: ChainGetter,
-    protected readonly apiGetter: () => Promise<Keplr | undefined>,
+    protected readonly apiGetter: () => Promise<Proof | undefined>,
     protected readonly querySecretContractCodeHash: ObservableQuerySecretContractCodeHash
   ) {
     super(kvStore, chainId, chainGetter, (contractAddress: string) => {

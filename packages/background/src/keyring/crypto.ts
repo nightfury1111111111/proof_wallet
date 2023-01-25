@@ -10,7 +10,7 @@ import { Bech32Address } from "@proof-wallet/cosmos";
 import pbkdf2 from "pbkdf2";
 
 import { Buffer } from "buffer/";
-import { KeplrError } from "@proof-wallet/router";
+import { ProofError } from "@proof-wallet/router";
 
 /**
  * This is similar to ethereum's key store.
@@ -85,7 +85,7 @@ export class Crypto {
             );
           });
         default:
-          throw new KeplrError("keyring", 220, "Unknown kdf");
+          throw new ProofError("keyring", 220, "Unknown kdf");
       }
     })();
     const buf = Buffer.from(text);
@@ -175,7 +175,7 @@ export class Crypto {
             );
           });
         default:
-          throw new KeplrError("keyring", 220, "Unknown kdf");
+          throw new ProofError("keyring", 220, "Unknown kdf");
       }
     })();
 
@@ -190,7 +190,7 @@ export class Crypto {
       ])
     );
     if (!Buffer.from(mac).equals(Buffer.from(keyStore.crypto.mac, "hex"))) {
-      throw new KeplrError("keyring", 222, "Unmatched mac");
+      throw new ProofError("keyring", 222, "Unmatched mac");
     }
 
     return Buffer.from(

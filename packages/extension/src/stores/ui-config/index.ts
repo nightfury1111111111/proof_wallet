@@ -41,7 +41,7 @@ export class UIConfigStore {
   }
 
   /**
-   * Currently, keplr only supports the IBC UI which the users should set the counterparty channel manually.
+   * Currently, Proof only supports the IBC UI which the users should set the counterparty channel manually.
    * However, it makes the normal users take a mistake.
    * So, to reduce this problem, show the IBC UI to users who only turns on the `showAdvancedIBCTransfer` explicitly.
    */

@@ -1,7 +1,7 @@
-import { Keplr } from "@proof-wallet/types";
+import { Proof } from "@proof-wallet/types";
 
-export const getKeplrFromWindow: () => Promise<
-  Keplr | undefined
+export const getProofFromWindow: () => Promise<
+  Proof | undefined
 > = async () => {
   if (typeof window === "undefined") {
     return undefined;

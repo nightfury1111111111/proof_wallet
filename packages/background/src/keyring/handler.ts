@@ -2,7 +2,7 @@ import {
   Env,
   Handler,
   InternalHandler,
-  KeplrError,
+  ProofError,
   Message,
 } from "@proof-wallet/router";
 import {
@@ -134,7 +134,7 @@ export const getHandler: (service: KeyRingService) => Handler = (
           msg as InitNonDefaultLedgerAppMsg
         );
       default:
-        throw new KeplrError("keyring", 221, "Unknown msg type");
+        throw new ProofError("keyring", 221, "Unknown msg type");
     }
   };
 };

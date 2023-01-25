@@ -7,7 +7,7 @@ import { CoinPretty, Int } from "@proof-wallet/unit";
 import { BalanceRegistry, ObservableQueryBalanceInner } from "../balances";
 import { ObservableSecretContractChainQuery } from "./contract-query";
 import { WrongViewingKeyError } from "./errors";
-import { Keplr } from "@proof-wallet/types";
+import { Proof } from "@proof-wallet/types";
 
 export class ObservableQuerySecret20Balance extends ObservableSecretContractChainQuery<{
   balance: { amount: string };
@@ -19,7 +19,7 @@ export class ObservableQuerySecret20Balance extends ObservableSecretContractChai
     kvStore: KVStore,
     chainId: string,
     chainGetter: ChainGetter,
-    protected readonly apiGetter: () => Promise<Keplr | undefined>,
+    protected readonly apiGetter: () => Promise<Proof | undefined>,
     protected readonly contractAddress: string,
     protected readonly bech32Address: string,
     protected readonly viewingKey: string,
@@ -80,7 +80,7 @@ export class ObservableQuerySecret20BalanceInner extends ObservableQueryBalanceI
     kvStore: KVStore,
     chainId: string,
     chainGetter: ChainGetter,
-    protected readonly apiGetter: () => Promise<Keplr | undefined>,
+    protected readonly apiGetter: () => Promise<Proof | undefined>,
     denomHelper: DenomHelper,
     protected readonly bech32Address: string,
     protected readonly querySecretContractCodeHash: ObservableQuerySecretContractCodeHash
@@ -172,7 +172,7 @@ export class ObservableQuerySecret20BalanceInner extends ObservableQueryBalanceI
 export class ObservableQuerySecret20BalanceRegistry implements BalanceRegistry {
   constructor(
     protected readonly kvStore: KVStore,
-    protected readonly apiGetter: () => Promise<Keplr | undefined>,
+    protected readonly apiGetter: () => Promise<Proof | undefined>,
     protected readonly querySecretContractCodeHash: ObservableQuerySecretContractCodeHash
   ) {}
 

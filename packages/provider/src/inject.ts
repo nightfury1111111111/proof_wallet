@@ -1,11 +1,11 @@
 import {
   ChainInfo,
   EthSignType,
-  Keplr,
-  Keplr as IKeplr,
-  KeplrIntereactionOptions,
-  KeplrMode,
-  KeplrSignOptions,
+  Proof,
+  Proof as IProof,
+  ProofIntereactionOptions,
+  ProofMode,
+  ProofSignOptions,
   Key,
   BroadcastMode,
   AminoSignResponse,
@@ -18,7 +18,7 @@ import {
 } from "@proof-wallet/types";
 import { Result, JSONUint8Array } from "@proof-wallet/router";
 import { SecretUtils } from "secretjs/types/enigmautils";
-import { KeplrEnigmaUtils } from "./enigma";
+import { ProofEnigmaUtils } from "./enigma";
 import { CosmJSOfflineSigner, CosmJSOfflineSignerOnlyAmino } from "./cosmjs";
 import deepmerge from "deepmerge";
 import Long from "long";
@@ -26,7 +26,7 @@ import Long from "long";
 export interface ProxyRequest {
   type: "proxy-request";
   id: string;
-  method: keyof Keplr;
+  method: keyof Proof;
   args: any[];
 }
 
@@ -49,12 +49,12 @@ function defineUnwritablePropertyIfPossible(o: any, p: string, value: any) {
     }
   } else {
     console.warn(
-      `Failed to inject ${p} from keplr. Probably, other wallet is trying to intercept Keplr`
+      `Failed to inject ${p} from proof. Probably, other wallet is trying to intercept Proof`
     );
   }
 }
 
-export function injectProofToWindow(proof: IKeplr): void {
+export function injectProofToWindow(proof: IProof): void {
   defineUnwritablePropertyIfPossible(window, "proof", proof);
   defineUnwritablePropertyIfPossible(
     window,
@@ -84,9 +84,9 @@ export function injectProofToWindow(proof: IKeplr): void {
  * So, to request some methods of the extension, this will proxy the request to the content script that is injected to webpage on the extension level.
  * This will use `window.postMessage` to interact with the content script.
  */
-export class InjectedProof implements IKeplr {
+export class InjectedProof implements IProof {
   static startProxy(
-    proof: IKeplr,
+    proof: IProof,
     eventListener: {
       addMessageListener: (fn: (e: any) => void) => void;
       postMessage: (message: any) => void;
@@ -211,7 +211,7 @@ export class InjectedProof implements IKeplr {
     });
   }
 
-  protected requestMethod(method: keyof IKeplr, args: any[]): Promise<any> {
+  protected requestMethod(method: keyof IProof, args: any[]): Promise<any> {
     const bytes = new Uint8Array(8);
     const id: string = Array.from(crypto.getRandomValues(bytes))
       .map((value) => {
@@ -265,11 +265,11 @@ export class InjectedProof implements IKeplr {
 
   protected enigmaUtils: Map<string, SecretUtils> = new Map();
 
-  public defaultOptions: KeplrIntereactionOptions = {};
+  public defaultOptions: ProofIntereactionOptions = {};
 
   constructor(
     public readonly version: string,
-    public readonly mode: KeplrMode,
+    public readonly mode: ProofMode,
     protected readonly eventListener: {
       addMessageListener: (fn: (e: any) => void) => void;
       removeMessageListener: (fn: (e: any) => void) => void;
@@ -361,7 +361,7 @@ export class InjectedProof implements IKeplr {
     chainId: string,
     signer: string,
     signDoc: StdSignDoc,
-    signOptions: KeplrSignOptions = {}
+    signOptions: ProofSignOptions = {}
   ): Promise<AminoSignResponse> {
     return await this.requestMethod("signAmino", [
       chainId,
@@ -380,7 +380,7 @@ export class InjectedProof implements IKeplr {
       chainId?: string | null;
       accountNumber?: Long | null;
     },
-    signOptions: KeplrSignOptions = {}
+    signOptions: ProofSignOptions = {}
   ): Promise<DirectSignResponse> {
     const result = await this.requestMethod("signDirect", [
       chainId,
@@ -539,7 +539,7 @@ export class InjectedProof implements IKeplr {
       return this.enigmaUtils.get(chainId)!;
     }
 
-    const enigmaUtils = new KeplrEnigmaUtils(chainId, this);
+    const enigmaUtils = new ProofEnigmaUtils(chainId, this);
     this.enigmaUtils.set(chainId, enigmaUtils);
     return enigmaUtils;
   }
@@ -553,7 +553,7 @@ export class InjectedProof implements IKeplr {
       primaryType: string;
     },
     signDoc: StdSignDoc,
-    signOptions: KeplrSignOptions = {}
+    signOptions: ProofSignOptions = {}
   ): Promise<AminoSignResponse> {
     return await this.requestMethod("experimentalSignEIP712CosmosTx_v0", [
       chainId,

@@ -9,7 +9,7 @@ import {
   Env,
   Handler,
   InternalHandler,
-  KeplrError,
+  ProofError,
   Message,
 } from "@proof-wallet/router";
 import { PermissionService } from "./service";
@@ -42,7 +42,7 @@ export const getHandler: (service: PermissionService) => Handler = (
           msg as RemovePermissionOrigin
         );
       default:
-        throw new KeplrError("permission", 120, "Unknown msg type");
+        throw new ProofError("permission", 120, "Unknown msg type");
     }
   };
 };

@@ -2,7 +2,7 @@ import {
   Env,
   Handler,
   InternalHandler,
-  KeplrError,
+  ProofError,
   Message,
 } from "@proof-wallet/router";
 import {
@@ -33,7 +33,7 @@ export const getHandler: (service: AutoLockAccountService) => Handler = (
           msg as StartAutoLockMonitoringMsg
         );
       default:
-        throw new KeplrError("auto-lock-account", 100, "Unknown msg type");
+        throw new ProofError("auto-lock-account", 100, "Unknown msg type");
     }
   };
 };

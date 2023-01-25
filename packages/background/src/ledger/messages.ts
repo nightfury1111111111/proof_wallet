@@ -1,4 +1,4 @@
-import { KeplrError, Message } from "@proof-wallet/router";
+import { ProofError, Message } from "@proof-wallet/router";
 import { ROUTE } from "./constants";
 
 export class LedgerGetWebHIDFlagMsg extends Message<boolean> {
@@ -34,7 +34,7 @@ export class LedgerSetWebHIDFlagMsg extends Message<void> {
 
   validateBasic(): void {
     if (this.flag == null) {
-      throw new KeplrError("ledger", 101, "Flag is null");
+      throw new ProofError("ledger", 101, "Flag is null");
     }
   }
 

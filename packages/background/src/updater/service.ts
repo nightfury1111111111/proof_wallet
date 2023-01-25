@@ -4,7 +4,7 @@ import { KVStore } from "@proof-wallet/common";
 import { ChainIdHelper } from "@proof-wallet/cosmos";
 import { ChainInfoWithEmbed, ChainsService } from "../chains";
 import { Mutable } from "utility-types";
-import { KeplrError } from "@proof-wallet/router";
+import { ProofError } from "@proof-wallet/router";
 
 export class ChainUpdaterService {
   protected chainsService!: ChainsService;
@@ -390,7 +390,7 @@ export class ChainUpdaterService {
     );
 
     if (versionFromRPCStatus.identifier !== version.identifier) {
-      throw new KeplrError(
+      throw new ProofError(
         "updater",
         8001,
         `RPC endpoint has different chain id (expected: ${chainId}, actual: ${resultStatus.data.result.node_info.network})`
@@ -399,7 +399,7 @@ export class ChainUpdaterService {
       // In the form of {chain_identifier}-{chain_version}, if the identifier is the same but the version is different, it is strictly an error,
       // but it is actually the same chain but the chain version of the node is different.
       // In this case, it is possible to treat as a warning and proceed as it is, so this is separated with above error.
-      throw new KeplrError(
+      throw new ProofError(
         "updater",
         8002,
         `RPC endpoint has different chain id (expected: ${chainId}, actual: ${resultStatus.data.result.node_info.network})`
@@ -459,7 +459,7 @@ export class ChainUpdaterService {
     );
 
     if (versionFromLCDNodeInfo.identifier !== version.identifier) {
-      throw new KeplrError(
+      throw new ProofError(
         "updater",
         8101,
         `LCD endpoint has different chain id (expected: ${chainId}, actual: ${resultStatus.data.result.node_info.network})`
@@ -468,7 +468,7 @@ export class ChainUpdaterService {
       // In the form of {chain_identifier}-{chain_version}, if the identifier is the same but the version is different, it is strictly an error,
       // but it is actually the same chain but the chain version of the node is different.
       // In this case, it is possible to treat as a warning and proceed as it is, so this is separated with above error.
-      throw new KeplrError(
+      throw new ProofError(
         "updater",
         8102,
         `LCD endpoint has different chain id (expected: ${chainId}, actual: ${resultStatus.data.result.node_info.network})`

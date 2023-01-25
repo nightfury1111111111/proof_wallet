@@ -2,7 +2,7 @@ import { InteractionStore } from "./interaction";
 import { autorun, computed, flow, makeObservable, observable } from "mobx";
 import { InteractionWaitingData } from "@proof-wallet/background";
 import { SignDocWrapper } from "@proof-wallet/cosmos";
-import { EthSignType, KeplrSignOptions, StdSignDoc } from "@proof-wallet/types";
+import { EthSignType, ProofSignOptions, StdSignDoc } from "@proof-wallet/types";
 
 export class SignInteractionStore {
   @observable
@@ -31,7 +31,7 @@ export class SignInteractionStore {
           mode: "amino";
           signer: string;
           signDoc: StdSignDoc;
-          signOptions: KeplrSignOptions;
+          signOptions: ProofSignOptions;
           isADR36SignDoc: boolean;
           isADR36WithString?: boolean;
           ethSignType?: EthSignType;
@@ -42,7 +42,7 @@ export class SignInteractionStore {
           mode: "direct";
           signer: string;
           signDocBytes: Uint8Array;
-          signOptions: KeplrSignOptions;
+          signOptions: ProofSignOptions;
         }
     >("request-sign");
   }
@@ -54,7 +54,7 @@ export class SignInteractionStore {
         msgOrigin: string;
         signer: string;
         signDocWrapper: SignDocWrapper;
-        signOptions: KeplrSignOptions;
+        signOptions: ProofSignOptions;
         isADR36WithString?: boolean;
         ethSignType?: EthSignType;
       }>

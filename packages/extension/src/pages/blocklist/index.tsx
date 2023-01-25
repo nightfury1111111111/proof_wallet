@@ -27,7 +27,7 @@ export const BlocklistPage: FunctionComponent = () => {
         <div>
           <h1 className={style.title}>SECURITY ALERT</h1>
           <p className={style.description}>
-            Keplr has detected that this domain has been flagged as a phishing
+            Proof has detected that this domain has been flagged as a phishing
             site. To protect the safety of your assets, we recommend you exit
             this website immediately.
           </p>

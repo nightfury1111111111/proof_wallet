@@ -2,7 +2,7 @@ import { Message } from "@proof-wallet/router";
 import {
   ChainInfo,
   EthSignType,
-  KeplrSignOptions,
+  ProofSignOptions,
   Key,
   AminoSignResponse,
   StdSignature,
@@ -193,7 +193,7 @@ export class RequestSignAminoMsg extends Message<AminoSignResponse> {
     public readonly chainId: string,
     public readonly signer: string,
     public readonly signDoc: StdSignDoc,
-    public readonly signOptions: KeplrSignOptions & {
+    public readonly signOptions: ProofSignOptions & {
       // Hack option field to detect the sign arbitrary for string
       isADR36WithString?: boolean;
       ethSignType?: EthSignType;
@@ -269,7 +269,7 @@ export class RequestSignEIP712CosmosTxMsg_v0 extends Message<AminoSignResponse> 
       primaryType: string;
     },
     public readonly signDoc: StdSignDoc,
-    public readonly signOptions: KeplrSignOptions
+    public readonly signOptions: ProofSignOptions
   ) {
     super();
   }
@@ -370,7 +370,7 @@ export class RequestSignDirectMsg extends Message<{
       chainId?: string | null;
       accountNumber?: string | null;
     },
-    public readonly signOptions: KeplrSignOptions = {}
+    public readonly signOptions: ProofSignOptions = {}
   ) {
     super();
   }

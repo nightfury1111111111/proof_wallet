@@ -125,7 +125,7 @@ export const EnterPasswordToExportKeyRingView: FunctionComponent<{
               color: "#32325D",
             }}
           >
-            Only scan on Keplr Mobile
+            Only scan on Proof Mobile
           </h3>
           <div
             style={{
@@ -134,7 +134,7 @@ export const EnterPasswordToExportKeyRingView: FunctionComponent<{
               color: "#32325D",
             }}
           >
-            Scanning the QR code outside of Keplr Mobile can lead to loss of
+            Scanning the QR code outside of Proof Mobile can lead to loss of
             funds
           </div>
         </div>
@@ -157,7 +157,7 @@ export const EnterPasswordToExportKeyRingView: FunctionComponent<{
           lineHeight: "22px",
         }}
       >
-        Scan QR code to export accounts to Keplr Mobile
+        Scan QR code to export accounts to Proof Mobile
       </div>
       {keyRingStore.multiKeyStoreInfo.length > 2 ? (
         <div
@@ -289,7 +289,7 @@ export const WalletConnectToExportKeyRingView: FunctionComponent<{
         if (
           error ||
           payload.method !==
-            "keplr_request_export_keyring_datas_wallet_connect_v1"
+            "proof_request_export_keyring_datas_wallet_connect_v1"
         ) {
           console.log(error, payload?.method);
           history.replace("/");
@@ -379,7 +379,7 @@ export const WalletConnectToExportKeyRingView: FunctionComponent<{
             color: "#172B4D",
           }}
         >
-          Scan this QR code on Keplr Mobile to export your accounts.
+          Scan this QR code on Proof Mobile to export your accounts.
         </div>
       </div>
       <div style={{ flex: 1 }} />

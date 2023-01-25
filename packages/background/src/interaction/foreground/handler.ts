@@ -2,7 +2,7 @@ import {
   Env,
   Handler,
   InternalHandler,
-  KeplrError,
+  ProofError,
   Message,
 } from "@proof-wallet/router";
 import { PushEventDataMsg, PushInteractionDataMsg } from "./messages";
@@ -21,7 +21,7 @@ export const getHandler: (service: InteractionForegroundService) => Handler = (
       case PushEventDataMsg:
         return handlePushEventDataMsg(service)(env, msg as PushEventDataMsg);
       default:
-        throw new KeplrError("interaction", 110, "Unknown msg type");
+        throw new ProofError("interaction", 110, "Unknown msg type");
     }
   };
 };

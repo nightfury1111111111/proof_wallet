@@ -5,7 +5,7 @@ import { ObservableQuerySecretContractCodeHash } from "./contract-hash";
 import { ObservableQuerySecret20ContractInfo } from "./secret20-contract-info";
 import { DeepReadonly } from "utility-types";
 import { ObservableQuerySecret20BalanceRegistry } from "./secret20-balance";
-import { Keplr } from "@proof-wallet/types";
+import { Proof } from "@proof-wallet/types";
 
 export interface SecretQueries {
   secret: SecretQueriesImpl;
@@ -13,7 +13,7 @@ export interface SecretQueries {
 
 export const SecretQueries = {
   use(options: {
-    apiGetter: () => Promise<Keplr | undefined>;
+    apiGetter: () => Promise<Proof | undefined>;
   }): (
     queriesSetBase: QueriesSetBase,
     kvStore: KVStore,
@@ -48,7 +48,7 @@ export class SecretQueriesImpl {
     kvStore: KVStore,
     chainId: string,
     chainGetter: ChainGetter,
-    apiGetter: () => Promise<Keplr | undefined>
+    apiGetter: () => Promise<Proof | undefined>
   ) {
     this.querySecretContractCodeHash = new ObservableQuerySecretContractCodeHash(
       kvStore,

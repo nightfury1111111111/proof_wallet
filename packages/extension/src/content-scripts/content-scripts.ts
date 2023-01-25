@@ -5,13 +5,13 @@ import {
   ExtensionRouter,
   InExtensionMessageRequester,
 } from "@proof-wallet/router-extension";
-import { Keplr, InjectedProof } from "@proof-wallet/provider";
+import { Proof, InjectedProof } from "@proof-wallet/provider";
 import { initEvents } from "./events";
 
 import manifest from "../manifest.json";
 
 InjectedProof.startProxy(
-  new Keplr(manifest.version, "core", new InExtensionMessageRequester())
+  new Proof(manifest.version, "core", new InExtensionMessageRequester())
 );
 
 const router = new ExtensionRouter(ContentScriptEnv.produceEnv);
@@ -121,7 +121,7 @@ if (url.hostname === "twitter.com") {
             .then((r) => {
               if (r) {
                 alert(`Phishing Alert
-@${id} is detected as Keplr’s phishing account.
+@${id} is detected as Proof’s phishing account.
 This twitter account has malicious intent so recommend you not to interact with it.`);
               }
             })

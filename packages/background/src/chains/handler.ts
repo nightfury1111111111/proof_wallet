@@ -2,7 +2,7 @@ import {
   Env,
   Handler,
   InternalHandler,
-  KeplrError,
+  ProofError,
   Message,
 } from "@proof-wallet/router";
 import { ChainsService } from "./service";
@@ -31,7 +31,7 @@ export const getHandler: (service: ChainsService) => Handler = (service) => {
           msg as RemoveSuggestedChainInfoMsg
         );
       default:
-        throw new KeplrError("chains", 110, "Unknown msg type");
+        throw new ProofError("chains", 110, "Unknown msg type");
     }
   };
 };

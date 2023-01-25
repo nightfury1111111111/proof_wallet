@@ -67,7 +67,7 @@ export const RegisterPage: FunctionComponent = observer(() => {
       intro: RecoverMnemonicIntro,
       page: RecoverMnemonicPage,
     },
-    // Currently, there is no way to use ledger with keplr on firefox.
+    // Currently, there is no way to use ledger with Proof on firefox.
     // Temporarily, hide the ledger usage.
     // ...(uiConfigStore.platform !== "firefox"
     //   ? [

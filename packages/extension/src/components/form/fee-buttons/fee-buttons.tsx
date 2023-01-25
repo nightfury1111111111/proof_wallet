@@ -285,7 +285,7 @@ export const FeeButtonsInner: FunctionComponent<
 
     const language = useLanguage();
 
-    // For chains without feeCurrencies, Keplr assumes tx doesn’t need to include information about the fee and the fee button does not have to be rendered.
+    // For chains without feeCurrencies, Proof assumes tx doesn’t need to include information about the fee and the fee button does not have to be rendered.
     // The architecture is designed so that fee button is not rendered if the parental component doesn’t have a feeCurrency.
     // However, because there may be situations where the fee buttons is rendered before the chain information is changed,
     // and the fee button is an observer, and the sequence of rendering the observer may not appear stabilized,

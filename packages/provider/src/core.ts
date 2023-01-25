@@ -1,10 +1,10 @@
 import {
   ChainInfo,
   EthSignType,
-  Keplr as IKeplr,
-  KeplrIntereactionOptions,
-  KeplrMode,
-  KeplrSignOptions,
+  Proof as IProof,
+  ProofIntereactionOptions,
+  ProofMode,
+  ProofSignOptions,
   Key,
   BroadcastMode,
   AminoSignResponse,
@@ -34,21 +34,21 @@ import {
 } from "./types";
 import { SecretUtils } from "secretjs/types/enigmautils";
 
-import { KeplrEnigmaUtils } from "./enigma";
+import { ProofEnigmaUtils } from "./enigma";
 
 import { CosmJSOfflineSigner, CosmJSOfflineSignerOnlyAmino } from "./cosmjs";
 import deepmerge from "deepmerge";
 import Long from "long";
 import { Buffer } from "buffer/";
 
-export class Keplr implements IKeplr {
+export class Proof implements IProof {
   protected enigmaUtils: Map<string, SecretUtils> = new Map();
 
-  public defaultOptions: KeplrIntereactionOptions = {};
+  public defaultOptions: ProofIntereactionOptions = {};
 
   constructor(
     public readonly version: string,
-    public readonly mode: KeplrMode,
+    public readonly mode: ProofMode,
     protected readonly requester: MessageRequester
   ) {}
 
@@ -117,7 +117,7 @@ export class Keplr implements IKeplr {
     chainId: string,
     signer: string,
     signDoc: StdSignDoc,
-    signOptions: KeplrSignOptions = {}
+    signOptions: ProofSignOptions = {}
   ): Promise<AminoSignResponse> {
     const msg = new RequestSignAminoMsg(
       chainId,
@@ -137,7 +137,7 @@ export class Keplr implements IKeplr {
       chainId?: string | null;
       accountNumber?: Long | null;
     },
-    signOptions: KeplrSignOptions = {}
+    signOptions: ProofSignOptions = {}
   ): Promise<DirectSignResponse> {
     const msg = new RequestSignDirectMsg(
       chainId,
@@ -304,7 +304,7 @@ export class Keplr implements IKeplr {
       return this.enigmaUtils.get(chainId)!;
     }
 
-    const enigmaUtils = new KeplrEnigmaUtils(chainId, this);
+    const enigmaUtils = new ProofEnigmaUtils(chainId, this);
     this.enigmaUtils.set(chainId, enigmaUtils);
     return enigmaUtils;
   }
@@ -318,7 +318,7 @@ export class Keplr implements IKeplr {
       primaryType: string;
     },
     signDoc: StdSignDoc,
-    signOptions: KeplrSignOptions = {}
+    signOptions: ProofSignOptions = {}
   ): Promise<AminoSignResponse> {
     const msg = new RequestSignEIP712CosmosTxMsg_v0(
       chainId,

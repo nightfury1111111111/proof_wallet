@@ -6,7 +6,7 @@ import {
   IQueriesStore,
 } from "@proof-wallet/stores";
 import { DenomHelper, KVStore } from "@proof-wallet/common";
-import { KeplrETCQueries } from "../queries";
+import { ProofETCQueries } from "../queries";
 
 export class GravityBridgeCurrencyRegsitrarInner<
   C extends ChainInfo = ChainInfo
@@ -15,7 +15,7 @@ export class GravityBridgeCurrencyRegsitrarInner<
     protected readonly kvStore: KVStore,
     protected readonly chainInfoInner: ChainInfoInner<C>,
     protected readonly chainStore: ChainStore<C>,
-    protected readonly queriesStore: IQueriesStore<KeplrETCQueries>
+    protected readonly queriesStore: IQueriesStore<ProofETCQueries>
   ) {}
 
   registerUnknownCurrencies(
@@ -33,7 +33,7 @@ export class GravityBridgeCurrencyRegsitrarInner<
 
     const contractAddress = denomHelper.denom.replace("gravity", "");
 
-    const erc20Metadata = queries.keplrETC.queryERC20Metadata.get(
+    const erc20Metadata = queries.proofETC.queryERC20Metadata.get(
       contractAddress
     );
     if (erc20Metadata.symbol && erc20Metadata.decimals != null) {
@@ -61,7 +61,7 @@ export class GravityBridgeCurrencyRegsitrar<C extends ChainInfo = ChainInfo> {
   constructor(
     protected readonly kvStore: KVStore,
     protected readonly chainStore: ChainStore<C>,
-    protected readonly queriesStore: IQueriesStore<KeplrETCQueries>
+    protected readonly queriesStore: IQueriesStore<ProofETCQueries>
   ) {
     this.chainStore.addSetChainInfoHandler((chainInfoInner) =>
       this.setChainInfoHandler(chainInfoInner)

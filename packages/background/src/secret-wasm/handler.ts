@@ -2,7 +2,7 @@ import {
   Env,
   Handler,
   InternalHandler,
-  KeplrError,
+  ProofError,
   Message,
 } from "@proof-wallet/router";
 import {
@@ -30,7 +30,7 @@ export const getHandler: (service: SecretWasmService) => Handler = (
           msg as GetTxEncryptionKeyMsg
         );
       default:
-        throw new KeplrError("secret-wasm", 120, "Unknown msg type");
+        throw new ProofError("secret-wasm", 120, "Unknown msg type");
     }
   };
 };

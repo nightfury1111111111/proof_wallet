@@ -17,7 +17,7 @@ export class AxelarEVMBridgeCurrencyRegistrarInner<
     protected readonly chainInfoInner: ChainInfoInner<C>,
     protected readonly chainStore: ChainStore<C>,
     protected readonly queriesStore: IQueriesStore<{
-      keplrETC: {
+      proofETC: {
         readonly queryEVMTokenInfo: DeepReadonly<ObservableQueryEVMTokenInfo>;
       };
     }>,
@@ -37,7 +37,7 @@ export class AxelarEVMBridgeCurrencyRegistrarInner<
 
     const queries = this.queriesStore.get(this.chainInfoInner.chainId);
 
-    const tokenInfo = queries.keplrETC.queryEVMTokenInfo.getAsset(
+    const tokenInfo = queries.proofETC.queryEVMTokenInfo.getAsset(
       this.mainChain,
       coinMinimalDenom
     );
@@ -77,7 +77,7 @@ export class AxelarEVMBridgeCurrencyRegistrar<C extends ChainInfo = ChainInfo> {
     protected readonly kvStore: KVStore,
     protected readonly chainStore: ChainStore<C>,
     protected readonly queriesStore: IQueriesStore<{
-      keplrETC: {
+      proofETC: {
         readonly queryEVMTokenInfo: DeepReadonly<ObservableQueryEVMTokenInfo>;
       };
     }>,
