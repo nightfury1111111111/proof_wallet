@@ -78,10 +78,14 @@ export const DetailsTab: FunctionComponent<{
         ? signDocHelper.signDocWrapper.aminoSignDoc.msgs
         : signDocHelper.signDocWrapper.protoSignDoc.txMsgs
       : [];
-    console.log(msgs);
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    console.log(msgs[0]);
 
     const currentNft =
       !msgs[0].value.amount &&
+      msgs[0].value.msg &&
       Object.keys(msgs[0].value.msg)[0] === "transfer_nft" &&
       NftList.filter((nft) => {
         return nft.address === msgs[0].value.contract;
@@ -89,14 +93,19 @@ export const DetailsTab: FunctionComponent<{
 
     const currentCoin =
       !msgs[0].value.amount &&
+      msgs[0].value.msg &&
       Object.keys(msgs[0].value.msg)[0] === "transfer_nft"
         ? StoreUtils.getBalancesFromCurrencies(currenciesMap, [
             { denom: "usei", amount: "1000000" },
           ])
-        : StoreUtils.getBalancesFromCurrencies(
+        : isInternal
+        ? StoreUtils.getBalancesFromCurrencies(
             currenciesMap,
             msgs[0].value.amount
-          );
+          )
+        : StoreUtils.getBalancesFromCurrencies(currenciesMap, [
+            { denom: "usei", amount: "1000000" },
+          ]);
 
     const balance = currentCoin[0].trim(true).shrink(true);
     const name =
@@ -178,34 +187,36 @@ export const DetailsTab: FunctionComponent<{
             {msgs.length}
           </Badge>
         </Label> */}
-        <div id="signing-messages" className={styleDetailsTab.msgContainer}>
-          {imageUrl === "" ? (
-            <div
-              className={styleDetailsTab.tokenIcon}
-              style={{ backgroundColor }}
-            >
-              <img
-                className={styleDetailsTab.subIcon}
-                src={require("../../public/assets/img/send.svg")}
-              />
-              {name.length > 0 ? name[0] : "?"}
-            </div>
-          ) : (
-            <div
-              className={styleDetailsTab.tokenIcon}
-              style={{
-                backgroundImage: `url(${imageUrl})`,
-                backgroundSize: "cover",
-              }}
-            >
-              <img
-                className={styleDetailsTab.subIcon}
-                src={require("../../public/assets/img/send.svg")}
-              />
-            </div>
-          )}
-          {renderedMsgs}
-        </div>
+        {isInternal && (
+          <div id="signing-messages" className={styleDetailsTab.msgContainer}>
+            {imageUrl === "" ? (
+              <div
+                className={styleDetailsTab.tokenIcon}
+                style={{ backgroundColor }}
+              >
+                <img
+                  className={styleDetailsTab.subIcon}
+                  src={require("../../public/assets/img/send.svg")}
+                />
+                {name.length > 0 ? name[0] : "?"}
+              </div>
+            ) : (
+              <div
+                className={styleDetailsTab.tokenIcon}
+                style={{
+                  backgroundImage: `url(${imageUrl})`,
+                  backgroundSize: "cover",
+                }}
+              >
+                <img
+                  className={styleDetailsTab.subIcon}
+                  src={require("../../public/assets/img/send.svg")}
+                />
+              </div>
+            )}
+            {renderedMsgs}
+          </div>
+        )}
         {/* <div style={{ flex: 1 }} /> */}
         {/* {!preferNoSetMemo ? (
           <MemoInput
