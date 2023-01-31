@@ -58,22 +58,22 @@ export function injectProofToWindow(proof: IProof): void {
   defineUnwritablePropertyIfPossible(window, "proof", proof);
   defineUnwritablePropertyIfPossible(
     window,
-    "getOfflineSigner",
+    "getOfflineProofSigner",
     proof.getOfflineSigner
   );
   defineUnwritablePropertyIfPossible(
     window,
-    "getOfflineSignerOnlyAmino",
+    "getOfflineProofSignerOnlyAmino",
     proof.getOfflineSignerOnlyAmino
   );
   defineUnwritablePropertyIfPossible(
     window,
-    "getOfflineSignerAuto",
+    "getOfflineProofSignerAuto",
     proof.getOfflineSignerAuto
   );
   defineUnwritablePropertyIfPossible(
     window,
-    "getEnigmaUtils",
+    "getProofEnigmaUtils",
     proof.getEnigmaUtils
   );
 }

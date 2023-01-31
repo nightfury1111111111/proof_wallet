@@ -4,12 +4,12 @@ import { SecretUtils } from "secretjs/types/enigmautils";
 
 export interface Window {
   proof?: Proof;
-  getOfflineSigner?: (
+  getOfflineProofSigner?: (
     chainId: string
   ) => OfflineAminoSigner & OfflineDirectSigner;
-  getOfflineSignerOnlyAmino?: (chainId: string) => OfflineAminoSigner;
-  getOfflineSignerAuto?: (
+  getOfflineProofSignerOnlyAmino?: (chainId: string) => OfflineAminoSigner;
+  getOfflineProofSignerAuto?: (
     chainId: string
   ) => Promise<OfflineAminoSigner | OfflineDirectSigner>;
-  getEnigmaUtils?: (chainId: string) => SecretUtils;
+  getProofEnigmaUtils?: (chainId: string) => SecretUtils;
 }
