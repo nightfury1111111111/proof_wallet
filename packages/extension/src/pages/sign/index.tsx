@@ -242,21 +242,24 @@ export const SignPage: FunctionComponent = observer(() => {
          */
         isLoaded ? (
           <div className={style.container}>
-            <div className={style.titleContainer}>
-              <i
-                className="fas fa-light fa-arrow-left"
-                style={{
-                  cursor: "pointer",
-                  padding: "4px",
-                  color: "#696969",
-                  width: "20px",
-                }}
-                onClick={() => {
-                  history.goBack();
-                }}
-              />
-              <div className={style.title}>{`Sending Confirmation`}</div>
-            </div>
+            {interactionInfo.interaction &&
+              interactionInfo.interactionInternal && (
+                <div className={style.titleContainer}>
+                  <i
+                    className="fas fa-light fa-arrow-left"
+                    style={{
+                      cursor: "pointer",
+                      padding: "4px",
+                      color: "#696969",
+                      width: "20px",
+                    }}
+                    onClick={() => {
+                      history.goBack();
+                    }}
+                  />
+                  <div className={style.title}>{`Sending Confirmation`}</div>
+                </div>
+              )}
             {/* <div className={classnames(style.tabs)}>
               <ul>
                 <li className={classnames({ active: tab === Tab.Details })}>

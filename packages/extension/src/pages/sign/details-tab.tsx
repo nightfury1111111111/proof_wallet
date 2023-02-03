@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, useMemo } from "react";
+import React, { FunctionComponent, useState, useMemo, useEffect } from "react";
 
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../stores";
@@ -55,7 +55,14 @@ export const DetailsTab: FunctionComponent<{
       "#fb6340",
     ]);
 
-    const { chainStore, priceStore, accountStore } = useStore();
+    const [originUrl, setOriginUrl] = useState("");
+
+    const {
+      chainStore,
+      priceStore,
+      accountStore,
+      signInteractionStore,
+    } = useStore();
     const current = chainStore.current;
     const currenciesMap = current.currencies.reduce<{
       [denom: string]: Currency;
@@ -69,6 +76,11 @@ export const DetailsTab: FunctionComponent<{
 
     const intl = useIntl();
     const language = useLanguage();
+
+    useEffect(() => {
+      if (signInteractionStore.waitingData)
+        setOriginUrl(signInteractionStore.waitingData.data.msgOrigin);
+    }, [signInteractionStore]);
 
     const mode = signDocHelper.signDocWrapper
       ? signDocHelper.signDocWrapper.mode
@@ -217,6 +229,15 @@ export const DetailsTab: FunctionComponent<{
             {renderedMsgs}
           </div>
         )}
+
+        <img
+          alt="unlink"
+          src={`https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${originUrl}&size=64`}
+          style={{ width: "64px", height: "64px" }}
+        />
+
+        {!isInternal && <div>{originUrl}</div>}
+
         {/* <div style={{ flex: 1 }} /> */}
         {/* {!preferNoSetMemo ? (
           <MemoInput
