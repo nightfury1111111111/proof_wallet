@@ -117,3 +117,42 @@
   border-radius: 5px;
   box-shadow: inset 0px 1.00501px 0px rgb(67 67 67 / 75%);
 }
+
+.header {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 400;
+  color: #ffffff;
+}
+
+.paragraph {
+  font-size: 14px;
+  line-height: 116.5%;
+  color: #959595;
+  background: rgba(50, 50, 50, 0.3);
+  border: 1px solid #323232;
+  border-radius: 140px;
+
+  text-align: center;
+  padding: 8px 24px;
+  font-weight: 400;
+  overflow-y: auto;
+  margin: auto;
+  margin-top: 0;
+  margin-bottom: 30px;
+}
+
+.siteInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  width: 64px;
+  height: 64px;
+  margin-top: 24px;
+  margin-bottom: 13px;
+}

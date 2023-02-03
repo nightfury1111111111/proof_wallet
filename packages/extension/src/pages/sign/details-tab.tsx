@@ -230,13 +230,28 @@ export const DetailsTab: FunctionComponent<{
           </div>
         )}
 
-        <img
-          alt="unlink"
-          src={`https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${originUrl}&size=64`}
-          style={{ width: "64px", height: "64px" }}
-        />
-
-        {!isInternal && <div>{originUrl}</div>}
+        {!isInternal && (
+          <div className={styleDetailsTab.siteInfo}>
+            <img
+              alt="unlink"
+              src={`https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${originUrl}&size=64`}
+              className={styleDetailsTab.icon}
+            />
+            <h1 className={styleDetailsTab.header}>Approve Transaction</h1>
+            <p className={styleDetailsTab.paragraph}>
+              {/* <FormattedMessage
+            id="access.paragraph"
+            values={{
+              host,
+              chainId: chainIds,
+              // eslint-disable-next-line react/display-name
+              b: (...chunks: any) => <b>{chunks}</b>,
+            }}
+          /> */}
+              {originUrl}
+            </p>
+          </div>
+        )}
 
         {/* <div style={{ flex: 1 }} /> */}
         {/* {!preferNoSetMemo ? (
