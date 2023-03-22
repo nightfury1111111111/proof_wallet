@@ -4,6 +4,7 @@
 **/*.png
 **/*.svg
 **/*.ttf
+**/*.otf
 **/*.secret
 **/*.md
 .DS_Store

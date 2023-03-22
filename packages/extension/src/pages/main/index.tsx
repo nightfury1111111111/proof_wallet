@@ -30,6 +30,7 @@ import { VestingInfo } from "./vesting-info";
 import { LedgerAppModal } from "./ledger-app-modal";
 import { DenomHelper } from "@proof-wallet/common";
 import { Dec } from "@proof-wallet/unit";
+// import Lottie from "react-lottie";
 
 const TmpTokenView = () => {
   const imageUrl = "https://proofwalletsvgs.s3.amazonaws.com/sei";
@@ -71,6 +72,8 @@ export const MainPage: FunctionComponent = observer(() => {
   const intl = useIntl();
 
   const { chainStore, accountStore, queriesStore, uiConfigStore } = useStore();
+  // const [isLoading, setIsLoading] = useState(false);
+
   // const storeResult = useStore();
   // console.log(storeResult);
 
@@ -79,6 +82,16 @@ export const MainPage: FunctionComponent = observer(() => {
   const current = chainStore.current;
   const currentChainId = current.chainId;
   const prevChainId = useRef<string | undefined>();
+
+  // const defaultOptions = {
+  //   loop: true,
+  //   autoplay: true,
+  //   animationData: require("../../public/assets/loading-state.json"),
+  //   rendererSettings: {
+  //     preserveAspectRatio: "xMidYMid slice",
+  //   },
+  // };
+
   useEffect(() => {
     if (!chainStore.isInitializing && prevChainId.current !== currentChainId) {
       (async () => {
@@ -206,36 +219,47 @@ export const MainPage: FunctionComponent = observer(() => {
         </div>
       }
     >
-      <BIP44SelectModal />
-      <LedgerAppModal />
-      {/* <Card className={classnames(style.card, "shadow")}> */}
-      {/* <CardBody> */}
-      <div className={style.containerAccountInner}>
-        {/* <AccountView /> */}
-        <AssetView />
-        {accountInfo.walletStatus !== WalletStatus.Rejected && <TxButtonView />}
-      </div>
-      {/* </CardBody> */}
-      {/* </Card> */}
-      {showVestingInfo ? <VestingInfo /> : null}
-      {/* {chainStore.current.walletUrlForStaking ? <StakeView /> : null} */}
-      {tokens.length > 0 ? <TokensView /> : <TmpTokenView />}
-      {/* {hasTokens ? (
+      {/* {isLoading && (
+        <div className={style.loadingContainer}>
+          <Lottie options={defaultOptions} height={42} width={42} />
+        </div>
+      )} */}
+      {/* {!isLoading && ( */}
+      <div>
+        <BIP44SelectModal />
+        <LedgerAppModal />
+        {/* <Card className={classnames(style.card, "shadow")}> */}
+        {/* <CardBody> */}
+        <div className={style.containerAccountInner}>
+          {/* <AccountView /> */}
+          <AssetView />
+          {accountInfo.walletStatus !== WalletStatus.Rejected && (
+            <TxButtonView />
+          )}
+        </div>
+        {/* </CardBody> */}
+        {/* </Card> */}
+        {showVestingInfo ? <VestingInfo /> : null}
+        {/* {chainStore.current.walletUrlForStaking ? <StakeView /> : null} */}
+        {tokens.length > 0 ? <TokensView /> : <TmpTokenView />}
+        {/* {hasTokens ? (
         // <Card className={classnames(style.card, "shadow")}>
         // <CardBody>
         <TokensView />
       ) : // </CardBody>
       // </Card>
       null} */}
-      {uiConfigStore.showAdvancedIBCTransfer &&
-      chainStore.current.features?.includes("ibc-transfer") ? (
-        // <Card className={classnames(style.card, "shadow")}>
-        // <CardBody>
-        <IBCTransferView />
-      ) : // </CardBody>
-      // </Card>
-      null}
-      <div style={{ height: "70px", color: "transparent" }} />
+        {uiConfigStore.showAdvancedIBCTransfer &&
+        chainStore.current.features?.includes("ibc-transfer") ? (
+          // <Card className={classnames(style.card, "shadow")}>
+          // <CardBody>
+          <IBCTransferView />
+        ) : // </CardBody>
+        // </Card>
+        null}
+        <div style={{ height: "70px", color: "transparent" }} />
+      </div>
+      {/* )} */}
       <Footer />
     </HeaderLayout>
   );

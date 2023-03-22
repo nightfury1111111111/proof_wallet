@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useEffect, useState, useMemo } from "react";
 import axios from "axios";
 import date from "date-and-time";
+import Lottie from "react-lottie";
 
 import { useStore } from "../../stores";
 
@@ -183,6 +184,15 @@ export const HistoryPage: FunctionComponent = observer(() => {
     }
     return obj;
   }, {});
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: require("../../public/assets/loading-state.json"),
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
 
   const accountInfo = accountStore.getAccount(current.chainId);
 
@@ -450,10 +460,11 @@ export const HistoryPage: FunctionComponent = observer(() => {
       <div>
         {isLoading && (
           <div className={style.loadingContainer}>
-            <i
+            {/* <i
               className="fas fa-spinner fa-spin ml-1"
               style={{ color: "white" }}
-            />
+            /> */}
+            <Lottie options={defaultOptions} height={42} width={42} />
           </div>
         )}
         {tmpHistories.length > 0 && (
