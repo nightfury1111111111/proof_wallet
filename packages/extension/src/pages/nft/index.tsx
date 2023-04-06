@@ -18,7 +18,7 @@ import style from "./style.module.scss";
 import { useHistory, useLocation } from "react-router";
 import axios from "axios";
 
-const rpcEndpoint = "https://node-6.sei-chain-incentivized.com/sei-chain-tm/";
+const rpcEndpoint = "https://rpc.atlantic-2.seinetwork.io/";
 const sender = {
   mnemonic:
     "cheap gain pink ankle exotic exile blast escape clean much jelly renew",
