@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 
 // import { Dec, DecUtils } from "@proof-wallet/unit";
 
@@ -142,7 +142,8 @@ export const AssetStakedChartView: FunctionComponent = observer(() => {
   // const stakablePrice = priceStore.calculatePrice(stakable, fiatCurrency);
   // const stakedSumPrice = priceStore.calculatePrice(stakedSum, fiatCurrency);
 
-  const totalPrice = priceStore.calculatePrice(total, fiatCurrency);
+  //const totalPrice = priceStore.calculatePrice(total, fiatCurrency);
+  const totalPrice = "$14,902.00";
 
   // If fiat value is fetched, show the value that is multiplied with amount and fiat value.
   // If not, just show the amount of asset.
@@ -164,6 +165,10 @@ export const AssetStakedChartView: FunctionComponent = observer(() => {
   //     ];
   //   }
   // })();
+
+  useEffect(() => {
+    console.log(totalPrice);
+  }, [totalPrice]);
 
   return (
     <React.Fragment>

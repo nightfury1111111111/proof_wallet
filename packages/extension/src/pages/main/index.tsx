@@ -204,8 +204,8 @@ export const MainPage: FunctionComponent = observer(() => {
             style={{
               background:
                 "radial-gradient(75% 75% at 50% 25%, #C4FFD1 3.88%, #7EFF9B 100%)", // if it is connected, green color if not, red
-              width: "5px",
-              height: "5px",
+              width: "8px",
+              height: "8px",
               borderRadius: "10px",
               cursor: "pointer",
               padding: "4px",
