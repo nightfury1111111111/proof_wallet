@@ -3,7 +3,9 @@
   background-color: #131313;
   background-image: url("../../public/assets/img/grid.png");
   background-size: cover;
-  height: 98%;
+  background-position: 0 70px;
+  background-repeat: no-repeat;
+  height: 100%;
 }
 
 .form-container {
@@ -28,21 +30,55 @@
   font-size: 16px;
   line-height: 19px;
   letter-spacing: 0.5px;
+  color: #696969 !important;
+}
+.password::placeholder {
   color: #696969;
+}
+.password:focus::placeholder {
+  color: #606060;
+}
+
+.showError {
+  border-color: #e54d4d !important;
+}
+.showError:focus {
+  border-color: #e54d4d !important;
+}
+
+.errorImg {
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  top: 312px;
+  right: 12px;
+}
+
+.forgotPassword {
+  color: #696969;
+  font-family: colfax-web;
+  text-align: center;
+  font-weight: 400;
+  font-size: 16px;
+  margin-top: -10px;
+}
+
+.forgotPassword:hover {
+  color: #ffdf8b;
 }
 
 .unlockBtn {
   position: absolute;
   left: 0;
-  bottom: 0;
+  bottom: -12px;
   height: 38px;
   background: linear-gradient(180deg, #ffdf8b 0%, #ffc989 100%);
   box-shadow: inset 0px 1px 0px #fff9ef;
   border-radius: 35px;
   border: none !important;
-  font-family: colfax-web;
+  font-family: aeonik-trial;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 16px;
   line-height: 19px;
   text-align: center;
