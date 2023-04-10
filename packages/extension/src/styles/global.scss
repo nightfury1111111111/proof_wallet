@@ -42,6 +42,11 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
   font-weight: 400;
 }
 
+@font-face {
+  font-family: roc-grotesk;
+  src: url(../public/assets/font/Roc-Grotesk-Regular.otf);
+  font-weight: 400;
+}
 $font-family-base: colfax-web;
 $body-color: black;
 @import "../../../../node_modules/argon-dashboard-react/src/assets/scss/argon-dashboard-react";

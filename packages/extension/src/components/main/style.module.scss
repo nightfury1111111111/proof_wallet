@@ -1,0 +1,22 @@
+.priceWrap {
+  display: flex;
+  justify-content: center;
+}
+
+.fiatSymbol {
+  font-size: 18px;
+  font-weight: 500;
+  color: #696969;
+  margin-top: 10px;
+}
+
+.price {
+  font-family: roc-grotesk;
+  font-size: 40px;
+}
+
+.decimals {
+  font-family: roc-grotesk;
+  font-size: 40px;
+  color: #696969;
+}

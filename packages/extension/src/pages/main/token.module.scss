@@ -36,6 +36,7 @@
     .content {
       display: flex;
       flex-direction: column;
+      gap: 5px;
 
       .name {
         font-size: 16px;
@@ -113,4 +114,21 @@
   height: 52px;
   width: 100%;
   border-radius: 12px;
+}
+
+.tokenPriceWrap {
+  margin-right: 5px;
+}
+
+.tokenPrice {
+  float: right;
+  color: #ffffff;
+}
+
+.tokenPriceChangePositive {
+  color: #7effa2;
+}
+
+.tokenPriceChangeNegative {
+  color: #ff7e7e;
 }

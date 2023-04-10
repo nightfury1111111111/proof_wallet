@@ -77,10 +77,12 @@ export const Input = forwardRef<
           className={styleInput.inputWrapper}
           style={
             focused
-              ? {
-                  border: "4px solid rgba(255, 212, 138, 0.3)",
-                  marginTop: "-4px",
-                }
+              ? type !== "password"
+                ? {
+                    border: "4px solid rgba(255, 212, 138, 0.3)",
+                    marginTop: "-4px",
+                  }
+                : {}
               : {}
           }
         >
