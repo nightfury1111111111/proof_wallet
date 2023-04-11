@@ -104,7 +104,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
   box-shadow: inset 0px 1px 0px #393939;
 }
 
@@ -227,4 +227,18 @@
   font-size: 14.0702px;
   line-height: 17px;
   letter-spacing: 0.301504px;
+}
+
+.inputStyle {
+  &::placeholder {
+    color: "#696969";
+  }
+
+  &:-ms-input-placeholder {
+    color: "#696969";
+  }
+
+  ::-ms-input-placeholder {
+    color: "#696969";
+  }
 }

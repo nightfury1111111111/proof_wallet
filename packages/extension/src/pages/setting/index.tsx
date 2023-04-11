@@ -92,6 +92,15 @@ export const SettingPage: FunctionComponent = observer(() => {
           >
             Auto-Lock Timer
           </div>
+          <div
+            style={{
+              color: "#696969",
+              marginRight: "-60px",
+            }}
+          >
+            {/** TODO ADD ACTUAL AUTO LOCK TIMER */}
+            10 minutes
+          </div>
           <i className="fas fa-chevron-right" style={{ color: "#696969" }} />
         </div>
       </div>
@@ -135,7 +144,6 @@ export const SettingPage: FunctionComponent = observer(() => {
           <div>
             <FormattedMessage id="setting.clear" />
           </div>
-          <i className="fas fa-chevron-right" style={{ color: "#696969" }} />
         </div>
         <div style={{ background: "#333333", height: "1px" }} />
         <div
@@ -148,7 +156,6 @@ export const SettingPage: FunctionComponent = observer(() => {
           }}
         >
           <div>Reset Secret Recovery Phrase</div>
-          <i className="fas fa-chevron-right" style={{ color: "#696969" }} />
         </div>
       </div>
       {/* <div className={style.container}>

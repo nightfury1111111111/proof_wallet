@@ -6,8 +6,10 @@ import { observer } from "mobx-react-lite";
 import { useStore } from "../../stores";
 import styleAsset from "./asset.module.scss";
 import { ToolTip } from "../../components/tooltip";
+import { PriceDisplay } from "../../components/main/price-display";
 // import { FormattedMessage, useIntl } from "react-intl";
 import { useLanguage } from "../../languages";
+import { PricePretty } from "@proof-wallet/unit";
 
 // const LazyDoughnut = React.lazy(async () => {
 //   const module = await import(
@@ -142,7 +144,13 @@ export const AssetStakedChartView: FunctionComponent = observer(() => {
   // const stakablePrice = priceStore.calculatePrice(stakable, fiatCurrency);
   // const stakedSumPrice = priceStore.calculatePrice(stakedSum, fiatCurrency);
 
-  const totalPrice = priceStore.calculatePrice(total, fiatCurrency);
+  //const totalPrice = priceStore.calculatePrice(total, fiatCurrency);
+  //const totalPrice = "$14,902.00";
+
+  //TODO remove when coin is live
+  const fiat = priceStore.getFiatCurrency(fiatCurrency);
+  const totalPrice = fiat ? new PricePretty(fiat, 14902.0) : undefined;
+  //
 
   // If fiat value is fetched, show the value that is multiplied with amount and fiat value.
   // If not, just show the amount of asset.
@@ -173,15 +181,17 @@ export const AssetStakedChartView: FunctionComponent = observer(() => {
             <FormattedMessage id="main.account.chart.total-balance" />
           </div> */}
           <div className={styleAsset.small}>
-            {totalPrice
-              ? totalPrice.toString()
-              : total.shrink(true).trim(true).maxDecimals(6).toString()}
+            {totalPrice ? (
+              <PriceDisplay total={totalPrice} />
+            ) : (
+              total.shrink(true).trim(true).maxDecimals(6).toString()
+            )}
           </div>
           <div className={styleAsset.indicatorIcon}>
             <React.Fragment>
               {balanceStakableQuery.isFetching ? (
                 <i className="fas fa-spinner fa-spin" />
-              ) : balanceStakableQuery.error ? (
+              ) : !balanceStakableQuery.error ? (
                 <ToolTip
                   tooltip={
                     balanceStakableQuery.error?.message ||
@@ -195,7 +205,21 @@ export const AssetStakedChartView: FunctionComponent = observer(() => {
                 >
                   <i className="fas fa-exclamation-triangle text-danger" />
                 </ToolTip>
-              ) : null}
+              ) : (
+                <div className={styleAsset.tokenPriceChangeWrap}>
+                  <div className={styleAsset.tokenPriceChangePositive}>
+                    +$15.30
+                  </div>
+                  <div
+                    className={
+                      styleAsset.tokenPriceChangePositive &&
+                      styleAsset.tokenPriceBackgroundPositive
+                    }
+                  >
+                    +1.15%
+                  </div>
+                </div>
+              )}
             </React.Fragment>
           </div>
         </div>

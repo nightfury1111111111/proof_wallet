@@ -94,3 +94,24 @@
     font-weight: bold;
   }
 }
+
+.tokenPriceChangeWrap {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-top: -5px;
+}
+.tokenPriceChangePositive {
+  color: #7effa2;
+}
+
+.tokenPriceChangeNegative {
+  color: #ff7e7e;
+}
+
+.tokenPriceBackgroundPositive {
+  padding: 0px 5px;
+  color: #7effa2;
+  background-color: #52ff9733;
+  border-radius: 4px;
+}

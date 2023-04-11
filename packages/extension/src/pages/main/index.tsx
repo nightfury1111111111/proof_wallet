@@ -32,6 +32,10 @@ import { DenomHelper } from "@proof-wallet/common";
 import { Dec } from "@proof-wallet/unit";
 // import Lottie from "react-lottie";
 
+//TEMP VALUES
+const tokenPrice = "$312.00";
+const tokenPriceChange = "+$23.00";
+
 const TmpTokenView = () => {
   const imageUrl = "https://proofwalletsvgs.s3.amazonaws.com/sei";
   const name = "SEI";
@@ -62,6 +66,19 @@ const TmpTokenView = () => {
           <div className={styleToken.amount}>0 SEI</div>
         </div>
         <div style={{ flex: 1 }} />
+      </div>
+
+      <div className={styleToken.tokenPriceWrap}>
+        <div className={styleToken.tokenPrice}>{tokenPrice}</div>
+        <div
+          className={
+            styleToken.tokenPrice && tokenPriceChange[0] === "+"
+              ? styleToken.tokenPriceChangePositive
+              : styleToken.tokenPriceChangeNegative
+          }
+        >
+          {tokenPriceChange}
+        </div>
       </div>
     </div>
   );
@@ -204,8 +221,8 @@ export const MainPage: FunctionComponent = observer(() => {
             style={{
               background:
                 "radial-gradient(75% 75% at 50% 25%, #C4FFD1 3.88%, #7EFF9B 100%)", // if it is connected, green color if not, red
-              width: "5px",
-              height: "5px",
+              width: "8px",
+              height: "8px",
               borderRadius: "10px",
               cursor: "pointer",
               padding: "4px",

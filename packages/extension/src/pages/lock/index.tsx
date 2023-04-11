@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useRef, useState } from "react";
+import React, { FunctionComponent, useEffect, useRef, useState } from "react";
 
 import { PasswordInput } from "../../components/form";
 
@@ -31,7 +31,13 @@ export const LockPage: FunctionComponent = observer(() => {
 
   const passwordRef = useRef<HTMLInputElement | null>();
 
-  const { register, handleSubmit, setError, errors } = useForm<FormData>({
+  const {
+    register,
+    handleSubmit,
+    setError,
+    errors,
+    formState,
+  } = useForm<FormData>({
     defaultValues: {
       password: "",
     },
@@ -39,10 +45,22 @@ export const LockPage: FunctionComponent = observer(() => {
 
   const { keyRingStore, uiConfigStore } = useStore();
   const [loading, setLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const interactionInfo = useInteractionInfo(() => {
     keyRingStore.rejectAll();
   });
+
+  useEffect(() => {
+    if (formState.touched[0] === "password") {
+      //console.log("error alert");
+      setIsError(true);
+    } else {
+      setIsError(false);
+    }
+
+    //console.log(isError, errors, formState.touched[0]);
+  }, [formState.touched]);
 
   // useEffect(() => {
   //   if (passwordRef.current) {
@@ -109,7 +127,7 @@ export const LockPage: FunctionComponent = observer(() => {
           }
         })}
       >
-        <div style={{ marginTop: "77px", marginBottom: "20px" }}>
+        <div style={{ marginTop: "57px", marginBottom: "20px" }}>
           <Banner
             icon={
               uiConfigStore.isBeta
@@ -121,11 +139,12 @@ export const LockPage: FunctionComponent = observer(() => {
             subtitle="Unlock your wallet to continue"
           />
         </div>
+        <div style={{ height: "5px" }} />
         <PasswordInput
           // label={intl.formatMessage({
           //   id: "lock.input.password",
           // })}
-          className={style.password}
+          className={`${style.password} ${isError ? style.showError : ""}`}
           name="password"
           placeholder="Enter your password"
           error={errors.password && errors.password.message}
@@ -139,6 +158,20 @@ export const LockPage: FunctionComponent = observer(() => {
             })(ref);
           }}
         />
+
+        <img
+          className={style.errorImg}
+          hidden={!isError}
+          src={require("../../public/assets/svg/error-cross.svg")}
+        />
+
+        <a //TODO FORGOT PASSWORD
+          href="#"
+          className={style.forgotPassword}
+        >
+          Forgot password
+        </a>
+
         <Button
           type="submit"
           // color="primary"

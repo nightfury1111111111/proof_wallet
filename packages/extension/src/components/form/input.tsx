@@ -77,10 +77,12 @@ export const Input = forwardRef<
           className={styleInput.inputWrapper}
           style={
             focused
-              ? {
-                  border: "4px solid rgba(255, 212, 138, 0.3)",
-                  transform: "translate(-4px, -4px)",
-                }
+              ? type !== "password"
+                ? {
+                    border: "4px solid rgba(255, 212, 138, 0.3)",
+                    marginTop: "-4px",
+                  }
+                : {}
               : {}
           }
         >
@@ -110,16 +112,16 @@ export const Input = forwardRef<
         <FormText>{text}</FormText>
       ) : null} */}
       {error ? (
-        <span
+        <div
           style={{
             width: "100%",
-            marginTop: "0.25rem",
-            fontSize: "80%",
-            color: "#fb6340",
+            marginTop: "0.4rem",
+            fontSize: "100%",
+            color: "#E54D4D",
           }}
         >
           {error}
-        </span>
+        </div>
       ) : text ? (
         <FormText>{text}</FormText>
       ) : null}

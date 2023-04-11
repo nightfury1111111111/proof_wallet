@@ -10,12 +10,12 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 // @import url("https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800&display=swap");
 
 @font-face {
-  font-family: colfax-web;
+  font-family: colfax-web-bold;
   src: url(../public/assets/font/Colfax-Bold.otf);
   font-weight: 600;
 }
 @font-face {
-  font-family: colfax-web;
+  font-family: colfax-web-medium;
   src: url(../public/assets/font/Colfax-Medium.otf);
   font-weight: 500;
 }
@@ -25,11 +25,28 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
   font-weight: 100;
 }
 @font-face {
-  font-family: colfax-web;
+  font-family: colfax-web-reg;
   src: url(../public/assets/font/Colfax-Regular.otf);
   font-weight: 400;
 }
 
+@font-face {
+  font-family: aeonik-trial;
+  src: url(../public/assets/font/aeoniktrial-regular.otf);
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: aeonik-trial-light;
+  src: url(../public/assets/font/aeoniktrial-light.otf);
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: roc-grotesk;
+  src: url(../public/assets/font/Roc-Grotesk-Regular.otf);
+  font-weight: 400;
+}
 $font-family-base: colfax-web;
 $body-color: black;
 @import "../../../../node_modules/argon-dashboard-react/src/assets/scss/argon-dashboard-react";
