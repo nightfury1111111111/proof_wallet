@@ -52,7 +52,8 @@ export const LockPage: FunctionComponent = observer(() => {
   });
 
   useEffect(() => {
-    if (formState.touched[0] === "password") {
+    console.log(formState);
+    if (formState.touched[0] === "password" && formState.submitCount > 0) {
       //console.log("error alert");
       setIsError(true);
     } else {
@@ -60,7 +61,7 @@ export const LockPage: FunctionComponent = observer(() => {
     }
 
     //console.log(isError, errors, formState.touched[0]);
-  }, [formState.touched]);
+  }, [formState]);
 
   // useEffect(() => {
   //   if (passwordRef.current) {
