@@ -131,6 +131,7 @@ export const AddressBookPage: FunctionComponent<{
       //     setAddAddressModalIndex(index);
       //   }}
       // />,
+      /** 
       <i
         key="remove"
         className="fas fa-trash"
@@ -160,6 +161,12 @@ export const AddressBookPage: FunctionComponent<{
             await addressBookConfig.removeAddressBook(index);
           }
         }}
+      />,*/
+
+      <i
+        key="arrow"
+        className="fas fa-chevron-right"
+        style={{ color: "#696969" }}
       />,
     ];
   };

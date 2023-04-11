@@ -58,7 +58,9 @@ export const Header: FunctionComponent<Props & LocalProps> = observer(
               <React.Fragment>
                 <Menu isOpen={isMenuOpen}>{menuRenderer}</Menu>
                 <motion.div
-                  className={style["menu-img"]}
+                  className={`${style["menu-img"]} ${
+                    isMenuOpen ? style["open-menu"] : ""
+                  }`}
                   style={{ zIndex: 901 }}
                   animate={isMenuOpen ? "open" : "closed"}
                   onClick={menu.toggle}
@@ -76,19 +78,36 @@ export const Header: FunctionComponent<Props & LocalProps> = observer(
                   }
                 }}
               >
-                {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                {/*<i
+                  className="fas fa-thin fa-arrow-left"
+                  style={{ color: "#959595" }}
+                /> 
+                 */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  style={{
+                    width: "34px",
+                    height: "18px",
+                    marginLeft: "-14px",
+                  }}
+                >
                   <path
                     fill="transparent"
                     strokeWidth="2"
-                    stroke="#FFFFFF"
+                    stroke="#959595"
                     strokeLinecap="round"
                     d="M 6.5 10 L 13.5 3.5 M 6.5 10 L 13.5 16.5"
                   />
-                </svg> */}
-                <i
-                  className="fas fa-thin fa-arrow-left"
-                  style={{ color: "white" }}
-                />
+                  <path
+                    d="M16 1.00037L1.42448 1.00037"
+                    stroke="#959595"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    transform="translate(8, 9)"
+                  />
+                </svg>
               </div>
             ) : null}
           </div>

@@ -127,6 +127,13 @@ export const AddAddressModal: FunctionComponent<{
             //   color: "#E9E4DF",
             // }}
             // label={intl.formatMessage({ id: "setting.address-book.name" })}
+
+            style={{
+              fontFamily: "aeonik-trial",
+              color: "#E9E4DF",
+              letterSpacing: "1px",
+            }}
+            className={styleAddressBook.inputStyle}
             autoComplete="off"
             placeholder="Name"
             spellCheck={false}
@@ -141,7 +148,7 @@ export const AddAddressModal: FunctionComponent<{
             // label={intl.formatMessage({ id: "setting.address-book.address" })}
             disableAddressBook={true}
           />
-          <div style={{ marginTop: "39px" }}>
+          <div style={{ marginTop: "9px" }}>
             <div className={styleAddressBook.colorContainer}>
               <div
                 className={styleAddressBook.colorBox}
@@ -197,6 +204,27 @@ export const AddAddressModal: FunctionComponent<{
             memoConfig={memoConfig}
             label={intl.formatMessage({ id: "setting.address-book.memo" })}
           />*/}
+          <div
+            style={{
+              position: "absolute",
+              bottom: "100px",
+              width: "100%",
+              textAlign: "center",
+              left: "0",
+            }}
+          >
+            {/**TODO ADD FUNC FOR DELETE */}
+            <a
+              href="#"
+              style={{
+                color: "#696969",
+                fontSize: "14px",
+                width: "100%",
+              }}
+            >
+              Delete from the address book
+            </a>
+          </div>
           <div className={styleAddressBook.footer}>
             <Button
               className={styleAddressBook.button}
