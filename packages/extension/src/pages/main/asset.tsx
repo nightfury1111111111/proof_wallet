@@ -176,6 +176,7 @@ export const AssetStakedChartView: FunctionComponent = observer(() => {
   return (
     <React.Fragment>
       <div className={styleAsset.containerChart}>
+        <div className={styleAsset.glow} />
         <div className={styleAsset.centerText}>
           {/* <div className={styleAsset.big}>
             <FormattedMessage id="main.account.chart.total-balance" />
@@ -191,12 +192,9 @@ export const AssetStakedChartView: FunctionComponent = observer(() => {
             <React.Fragment>
               {balanceStakableQuery.isFetching ? (
                 <i className="fas fa-spinner fa-spin" />
-              ) : !balanceStakableQuery.error ? (
+              ) : balanceStakableQuery.error ? (
                 <ToolTip
-                  tooltip={
-                    balanceStakableQuery.error?.message ||
-                    balanceStakableQuery.error?.statusText
-                  }
+                  tooltip={balanceStakableQuery.error}
                   theme="dark"
                   trigger="hover"
                   options={{

@@ -99,19 +99,32 @@
   display: flex;
   justify-content: center;
   gap: 5px;
-  margin-top: -5px;
+  margin-top: 10px;
+  z-index: 999;
 }
 .tokenPriceChangePositive {
-  color: #7effa2;
+  color: #22e164;
 }
 
 .tokenPriceChangeNegative {
-  color: #ff7e7e;
+  color: #e23e3e;
 }
 
 .tokenPriceBackgroundPositive {
   padding: 0px 5px;
-  color: #7effa2;
+  color: #22e164;
   background-color: #52ff9733;
   border-radius: 4px;
+}
+
+.glow {
+  position: absolute;
+  background-color: #22e16517;
+  border-radius: 100%;
+  height: 252px;
+  width: 404px;
+  left: -53px;
+  top: -148px;
+  filter: blur(130px);
+  z-index: 1;
 }

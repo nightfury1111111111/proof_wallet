@@ -162,7 +162,6 @@ export const DetailsTab: FunctionComponent<{
               <MsgRender icon={msgContent.icon} title={msgContent.title}>
                 {msgContent.content}
               </MsgRender>
-              <hr />
             </React.Fragment>
           );
         });
@@ -178,7 +177,6 @@ export const DetailsTab: FunctionComponent<{
               <MsgRender icon={msgContent.icon} title={msgContent.title}>
                 {msgContent.content}
               </MsgRender>
-              <hr />
             </React.Fragment>
           );
         });
@@ -314,8 +312,10 @@ export const DetailsTab: FunctionComponent<{
                   return (
                     <React.Fragment>
                       <div className={styleDetailsTab.feeContainer}>
-                        <div style={{ color: "#696969" }}>Network fees</div>
-                        <div style={{ color: "#ffffff" }}>
+                        <div style={{ color: "#696969", fontWeight: 600 }}>
+                          Network fees
+                        </div>
+                        <div style={{ color: "#E9E4DF" }}>
                           {feeOrZero.maxDecimals(6).trim(true).toString()}
                           {priceStore.calculatePrice(
                             feeOrZero,

@@ -207,6 +207,9 @@ export const MainPage: FunctionComponent = observer(() => {
       showChainName
       canChangeChainInfo
       menuRenderer={<Menu />}
+      style={{
+        zIndex: 999,
+      }}
       rightRenderer={
         <div
           style={{
@@ -226,6 +229,7 @@ export const MainPage: FunctionComponent = observer(() => {
               borderRadius: "10px",
               cursor: "pointer",
               padding: "4px",
+              visibility: "hidden",
             }}
             // onClick={(e) => {
             //   e.preventDefault();

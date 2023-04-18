@@ -28,7 +28,6 @@
   border-radius: 8px;
   box-sizing: border-box;
 
-  font-family: aeonik-trial;
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
@@ -43,9 +42,13 @@
   }
   &:focus {
     background: rgba(0, 0, 0, 0.2) !important;
-    border: 1px solid #ffd48a !important;
+    border: 1px solid #696969 !important;
     color: #696969;
   }
+}
+
+.input::placeholder {
+  color: #696969;
 }
 
 .address-book-button {

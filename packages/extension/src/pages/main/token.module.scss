@@ -3,11 +3,10 @@
   flex-direction: row;
   align-items: center;
   border-radius: 5px;
-  background: rgba(255, 255, 255, 0.06);
+  background: #1d1d1d;
   box-shadow: inset 0px 1.00501px 0px rgba(67, 67, 67, 0.75);
   height: 68px;
   padding: 0 12px;
-
   cursor: pointer;
 
   margin: 0 0 12px 0;
@@ -36,7 +35,7 @@
     .content {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 2px;
 
       .name {
         font-size: 16px;
@@ -51,9 +50,8 @@
 
       .amount {
         font-size: 14px;
-        font-weight: 400;
+        font-weight: 600;
         line-height: 1.13;
-        letter-spacing: -0.3px;
         color: #696969;
 
         max-width: 216px;
@@ -79,15 +77,21 @@
     color: #525f7f;
     margin-bottom: 12px;
   }
+  position: relative;
+  z-index: 99;
 }
 
-.input {
+.inputWrapper {
+  // box-sizing: border-box;
+  height: 43px;
+  width: 100%;
+  border-radius: 12px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid #323232;
-  height: 100%;
-  border-radius: 8px;
+  border-radius: 5px;
   box-sizing: border-box;
-  padding-right: 67px;
+  margin-bottom: 5px;
+  overflow: hidden;
 
   &:hover {
     background: rgba(0, 0, 0, 0.2) !important;
@@ -96,9 +100,33 @@
   }
   &:focus {
     background: rgba(0, 0, 0, 0.2) !important;
-    border: 1px solid #ffd48a !important;
+    border: 1px solid #696969;
     color: #696969;
   }
+}
+
+.input {
+  margin-left: 32px;
+  background: rgba(0, 0, 0, 0);
+  height: 100%;
+  width: 100%;
+  font-size: 18px;
+  &:hover {
+    background: rgba(0, 0, 0, 0) !important;
+    color: #696969;
+  }
+  &:focus {
+    background: rgba(0, 0, 0, 0) !important;
+    color: #696969;
+  }
+}
+.input::placeholder {
+  color: #696969;
+}
+
+.input:focus ~ .placeholder,
+.input:valid ~ .placeholder {
+  display: none;
 }
 
 .searchIcon {
@@ -106,18 +134,13 @@
   height: 20px;
   background-size: cover;
   position: absolute;
-  right: 16px;
-}
-
-.inputWrapper {
-  // box-sizing: border-box;
-  height: 52px;
-  width: 100%;
-  border-radius: 12px;
+  left: 16px;
+  margin-top: -4px;
 }
 
 .tokenPriceWrap {
   margin-right: 5px;
+  margin-top: 2px;
 }
 
 .tokenPrice {
@@ -126,9 +149,9 @@
 }
 
 .tokenPriceChangePositive {
-  color: #7effa2;
+  color: #22e164;
 }
 
 .tokenPriceChangeNegative {
-  color: #ff7e7e;
+  color: #e23e3e;
 }

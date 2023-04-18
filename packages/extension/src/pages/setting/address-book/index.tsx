@@ -18,7 +18,7 @@ import { PageButton } from "../page-button";
 import { AddAddressModal } from "./add-address-modal";
 import { ExtensionKVStore } from "@proof-wallet/common";
 import { Bech32Address } from "@proof-wallet/cosmos";
-import { useConfirm } from "../../../components/confirm";
+//import { useConfirm } from "../../../components/confirm";
 import {
   AddressBookSelectHandler,
   IIBCChannelConfig,
@@ -85,7 +85,7 @@ export const AddressBookPage: FunctionComponent<{
     }>
   >([]);
 
-  const confirm = useConfirm();
+  //const confirm = useConfirm();
 
   const sortArray = async () => {
     const tmpPinnedAddress: Array<{
@@ -117,7 +117,7 @@ export const AddressBookPage: FunctionComponent<{
     sortArray();
   }, [addressBookConfig.addressBookDatas]);
 
-  const addressBookIcons = (index: number) => {
+  const addressBookIcons = () => {
     return [
       // <i
       //   key="edit"
@@ -162,7 +162,6 @@ export const AddressBookPage: FunctionComponent<{
           }
         }}
       />,*/
-
       <i
         key="arrow"
         className="fas fa-chevron-right"
@@ -307,7 +306,7 @@ export const AddressBookPage: FunctionComponent<{
                 Bech32Address.shortenAddress(data.address, 16)
               }
               subParagraph={data.memo}
-              icons={addressBookIcons(data.realIndex)}
+              icons={addressBookIcons()}
               data-index={data.realIndex}
               onClick={(e) => {
                 e.preventDefault();

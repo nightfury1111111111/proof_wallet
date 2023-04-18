@@ -143,9 +143,7 @@ export const Header: FunctionComponent<Props & LocalProps> = observer(
             </div>
           </ToolTip>
         ) : null} */}
-        {location.pathname === "/select/token" ? (
-          <div className={style.headerTitle}>Send</div>
-        ) : location.pathname === "/setting/address-book" ? (
+        {location.pathname === "/setting/address-book" ? (
           <div className={style.headerTitle}>Address Book</div>
         ) : location.pathname === "/setting/language" ? (
           <div className={style.headerTitle}>Language</div>
@@ -169,10 +167,6 @@ export const Header: FunctionComponent<Props & LocalProps> = observer(
           <div className={style.headerTitle}>NFT</div>
         ) : location.pathname === "/send-nft" ? (
           <div className={style.headerTitle}>Send NFT</div>
-        ) : location.pathname === "/sign" ? (
-          <div className={style.headerTitle}>Confirm</div>
-        ) : location.pathname === "/send" ? (
-          <div className={style.headerTitle}>Send</div>
         ) : location.pathname === "/setting/set-keyring" ? (
           <div className={style.headerTitle}>Select Wallet</div>
         ) : (

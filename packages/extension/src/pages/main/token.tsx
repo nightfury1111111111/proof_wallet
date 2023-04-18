@@ -18,6 +18,10 @@ import { useLoadingIndicator } from "../../components/loading-indicator";
 import { DenomHelper } from "@proof-wallet/common";
 import { Dec } from "@proof-wallet/unit";
 
+//TEMP VALUES
+const tokenPrice = "$312.00";
+const tokenPriceChange = "+$23.00";
+
 export const TokenView: FunctionComponent<{
   balance: ObservableQueryBalanceInner;
   onClick: () => void;
@@ -215,12 +219,25 @@ export const TokenView: FunctionComponent<{
           <i className="fas fa-angle-right" />
         </div> */}
       </div>
+
+      <div className={styleToken.tokenPriceWrap}>
+        <div className={styleToken.tokenPrice}>{tokenPrice}</div>
+        <div
+          className={
+            styleToken.tokenPrice && tokenPriceChange[0] === "+"
+              ? styleToken.tokenPriceChangePositive
+              : styleToken.tokenPriceChangeNegative
+          }
+        >
+          {tokenPriceChange}
+        </div>
+      </div>
     </div>
   );
 });
 
 export const TokensView: FunctionComponent = observer(() => {
-  const [focused, setFocused] = useState(false);
+  //const [focused, setFocused] = useState(false);
   const location = useLocation();
 
   const { chainStore, accountStore, queriesStore } = useStore();
@@ -277,31 +294,25 @@ export const TokensView: FunctionComponent = observer(() => {
             marginBottom: "14px",
           }}
         >
-          <div
-            className={styleToken.inputWrapper}
-            style={
-              focused
-                ? {
-                    border: "4px solid rgba(255, 212, 138, 0.3)",
-                    // transform: "translate(-4px, -4px)",
-                  }
-                : {}
-            }
-          >
+          <img
+            className={styleToken.searchIcon}
+            src={require("../../public/assets/img/search.svg")}
+          />
+          <div className={styleToken.inputWrapper}>
             <Input
               className={classnames(
                 "form-control-alternative",
                 styleToken.input
               )}
-              placeholder="Search a collectible"
               value={keyword}
               spellCheck={false}
               onFocus={() => {
-                setFocused(true);
+                //setFocused(true);
               }}
               onBlur={() => {
-                setFocused(false);
+                //setFocused(false);
               }}
+              placeholder="Search token"
               onChange={(e) => {
                 setKeyword(e.target.value);
                 const availableTokens = tokens.filter((bal) => {
@@ -317,10 +328,6 @@ export const TokensView: FunctionComponent = observer(() => {
               autoComplete="off"
             />
           </div>
-          <img
-            className={styleToken.searchIcon}
-            src={require("../../public/assets/img/search.svg")}
-          />
         </div>
       )}
       {/* <h1 className={styleToken.title}>Tokens</h1> */}

@@ -79,8 +79,7 @@ export const Input = forwardRef<
             focused
               ? type !== "password"
                 ? {
-                    border: "4px solid rgba(255, 212, 138, 0.3)",
-                    marginTop: "-4px",
+                    border: "1px solid white",
                   }
                 : {}
               : {}

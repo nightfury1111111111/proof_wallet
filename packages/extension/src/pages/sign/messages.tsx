@@ -253,14 +253,13 @@ export function renderMsgSend(
           style={{
             width: "310px",
             background: "#131313",
-            borderRadius: "3px",
+            borderRadius: "8px",
             textAlign: "center",
             fontSize: "14px",
             padding: "10px 20px",
             letterSpacing: "0.5px",
           }}
         >
-          <div style={{ color: "#E9E4DF" }}>to this address</div>
           <div style={{ color: "#696969", wordBreak: "break-all" }}>
             {toAddress}
           </div>

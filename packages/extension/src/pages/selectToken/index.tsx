@@ -226,6 +226,8 @@ export const SelectTokenPage: FunctionComponent = observer(() => {
               flexDirection: "row",
               alignItems: "center",
               paddingRight: "20px",
+              marginTop: "4px",
+              visibility: "hidden",
             }}
           >
             <i
@@ -331,7 +333,10 @@ export const SelectTokenPage: FunctionComponent = observer(() => {
           }
         }}
       >
-        <div className={style.formInnerContainer}>
+        <div
+          style={{ marginTop: "-23px" }}
+          className={style.formInnerContainer}
+        >
           <TokensView />
           {/* {hasTokens ? (
             // <Card className={classnames(style.card, "shadow")}>
@@ -342,7 +347,7 @@ export const SelectTokenPage: FunctionComponent = observer(() => {
           null} */}
         </div>
       </form>
-      <div style={{ height: "70px", color: "transparent" }} />
+      <div style={{ height: "69px", color: "transparent" }} />
       <div className={style.footer}>
         <div className={style.button} onClick={() => history.replace("/")}>
           Cancel
