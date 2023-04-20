@@ -58,29 +58,6 @@ export const ChangePassword: FunctionComponent = observer(() => {
       onBackButton={() => {
         history.goBack();
       }}
-      rightRenderer={
-        <div
-          style={{
-            height: "36px",
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            paddingRight: "20px",
-          }}
-        >
-          <div
-            style={{
-              background:
-                "radial-gradient(75% 75% at 50% 25%, #C4FFD1 3.88%, #7EFF9B 100%)", // if it is connected, green color if not, red
-              width: "5px",
-              height: "5px",
-              borderRadius: "10px",
-              cursor: "pointer",
-              padding: "4px",
-            }}
-          />
-        </div>
-      }
     >
       <Form
         className={style.formContainer}
@@ -117,7 +94,7 @@ export const ChangePassword: FunctionComponent = observer(() => {
         <div style={{ display: "flex", justifyContent: "center" }}>
           <img
             className={style.image}
-            src={"https://proofwalletsvgs.s3.amazonaws.com/lockicon"}
+            src={require("../../public/assets/img/lock_icon.svg")}
           />
         </div>
         <div className={style.title}>Change Password</div>
@@ -173,8 +150,12 @@ export const ChangePassword: FunctionComponent = observer(() => {
           error={errors.confirmPassword && errors.confirmPassword.message}
         />
         <div className={style.footer}>
-          <div className={style.button} onClick={() => history.replace("/")}>
-            Cancel
+          <div
+            style={{ marginRight: "8px" }}
+            className={style.button}
+            onClick={() => history.replace("/")}
+          >
+            Back
           </div>
           <Button
             type="submit"

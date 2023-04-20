@@ -41,6 +41,12 @@ export const SettingLanguagePage: FunctionComponent = () => {
           icons={language.automatic ? selectedIcon : undefined}
         /> */}
         <div
+          style={{
+            filter:
+              language.automatic || language.language == "en"
+                ? "opacity(100%)"
+                : "opacity(50%)",
+          }}
           className={styleLanguage.languageBox}
           onClick={useCallback(() => {
             language.setLanguage("en");

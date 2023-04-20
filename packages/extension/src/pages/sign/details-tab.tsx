@@ -91,9 +91,7 @@ export const DetailsTab: FunctionComponent<{
         : signDocHelper.signDocWrapper.protoSignDoc.txMsgs
       : [];
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    console.log(msgs[0]);
+    //console.log(msgs[0]);
 
     const currentNft =
       !msgs[0].value.amount &&
@@ -146,7 +144,7 @@ export const DetailsTab: FunctionComponent<{
       } else {
         return backgroundColors[0];
       }
-    }, [backgroundColors, minimalDenom]);
+    }, [backgroundColors, balance, minimalDenom]);
 
     const renderedMsgs = (() => {
       if (mode === "amino") {

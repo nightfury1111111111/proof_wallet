@@ -49,6 +49,7 @@ export const AddAddressModal: FunctionComponent<{
       }
     }, [
       addressBookConfig.addressBookDatas,
+      colors,
       index,
       memoConfig,
       recipientConfig,

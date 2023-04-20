@@ -19,8 +19,8 @@ import { DenomHelper } from "@proof-wallet/common";
 import { Dec } from "@proof-wallet/unit";
 
 //TEMP VALUES
-const tokenPrice = "$312.00";
-const tokenPriceChange = "+$23.00";
+const tokenPrice = "$0.00";
+const tokenPriceChange = "~$0.00";
 
 export const TokenView: FunctionComponent<{
   balance: ObservableQueryBalanceInner;
@@ -224,9 +224,11 @@ export const TokenView: FunctionComponent<{
         <div className={styleToken.tokenPrice}>{tokenPrice}</div>
         <div
           className={
-            styleToken.tokenPrice && tokenPriceChange[0] === "+"
+            tokenPriceChange[0] === "+"
               ? styleToken.tokenPriceChangePositive
-              : styleToken.tokenPriceChangeNegative
+              : tokenPriceChange[0] === "-"
+              ? styleToken.tokenPriceChangeNegative
+              : styleToken.tokenPriceChangeNone
           }
         >
           {tokenPriceChange}
@@ -278,7 +280,7 @@ export const TokensView: FunctionComponent = observer(() => {
   >([]);
   useEffect(() => {
     setTmpTokens(tokens);
-  }, [tokens.length]);
+  }, [tokens, tokens.length]);
 
   const history = useHistory();
 

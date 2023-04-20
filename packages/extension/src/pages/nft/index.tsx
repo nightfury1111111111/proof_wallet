@@ -119,7 +119,7 @@ export const ManageNftPage: FunctionComponent = observer(() => {
       window.scrollTo(0, 0);
     }
     getTokens();
-  }, []);
+  }, [getTokens]);
 
   useEffect(() => {
     if (nfts.length > 0) setTmpNfts(nfts);

@@ -26,13 +26,17 @@
   padding: 16px 24px;
   border: 1px solid #323232;
   border-radius: 8px;
-  font-family: colfax-web;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
   letter-spacing: 0.5px;
   color: #696969;
+  margin-top: 5px;
+
+  &::placeholder {
+    color: #696969;
+  }
 }
 
 .unlockBtn {
@@ -44,7 +48,6 @@
   box-shadow: inset 0px 1px 0px #fff9ef;
   border-radius: 35px;
   border: none !important;
-  font-family: colfax-web;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -73,13 +76,11 @@
 }
 
 .image {
-  margin-top: 30px;
   width: 160.38px;
   height: 160.38px;
 }
 
 .title {
-  font-family: roc-grotesk;
   font-style: normal;
   font-weight: 600;
   font-size: 30px;
@@ -90,21 +91,21 @@
 }
 
 .footer {
-  border-radius: 4px;
   width: 100%;
   height: 70px;
-  background: #272727;
+  background: #1d1d1d;
   position: fixed;
   left: 0;
   bottom: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-around;
-  box-shadow: inset 0px 1px 0px #393939;
+  justify-content: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 .button {
+  margin-top: -2px;
   border-color: transparent !important;
   width: 160px;
   height: 38px;
@@ -112,17 +113,17 @@
   justify-content: center;
   align-items: center;
   background: #323232;
-  border-radius: 35px;
+  border-radius: 8px;
   color: #959595;
-  font-family: colfax-web;
   font-style: normal;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 19px;
   cursor: pointer;
 }
 
 .buttonActive {
+  margin-top: -2px;
   width: 160px;
   height: 38px;
   display: flex;
@@ -130,13 +131,12 @@
   align-items: center;
   background: linear-gradient(180deg, #ffdf8b 0%, #ffc989 100%);
   box-shadow: inset 0px 1px 0px #fff9ef;
-  border-radius: 35px;
+  border-radius: 8px;
   border: none !important;
   color: #141414;
-  font-family: colfax-web;
   font-style: normal;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 19px;
   cursor: pointer;
 }

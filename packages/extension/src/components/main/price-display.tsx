@@ -18,7 +18,9 @@ interface Props {
 export const PriceDisplay: FunctionComponent<Props> = (props: Props) => {
   return (
     <div className={style.priceWrap}>
-      <div className={style.newPrice}>{props.total.toString()}</div>
+      <div className={style.newPrice}>
+        {props.total.maxDecimals(2).toString()}
+      </div>
     </div>
   );
 };

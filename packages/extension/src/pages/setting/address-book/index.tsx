@@ -115,7 +115,7 @@ export const AddressBookPage: FunctionComponent<{
 
   useEffect(() => {
     sortArray();
-  }, [addressBookConfig.addressBookDatas]);
+  }, [addressBookConfig.addressBookDatas, sortArray]);
 
   const addressBookIcons = () => {
     return [

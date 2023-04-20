@@ -74,7 +74,7 @@ export const HistoryView: FunctionComponent<{
     } else {
       return backgroundColors[0];
     }
-  }, [backgroundColors, minimalDenom]);
+  }, [backgroundColors, balance, minimalDenom]);
 
   return (
     <div
@@ -423,7 +423,7 @@ export const HistoryPage: FunctionComponent = observer(() => {
       window.scrollTo(0, 0);
     }
     getHistory();
-  }, []);
+  }, [getHistory]);
 
   return (
     <HeaderLayout

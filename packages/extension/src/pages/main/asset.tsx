@@ -149,7 +149,7 @@ export const AssetStakedChartView: FunctionComponent = observer(() => {
 
   //TODO remove when coin is live
   const fiat = priceStore.getFiatCurrency(fiatCurrency);
-  const totalPrice = fiat ? new PricePretty(fiat, 14902.0) : undefined;
+  const totalPrice = fiat ? new PricePretty(fiat, 0.0) : undefined;
   //
 
   // If fiat value is fetched, show the value that is multiplied with amount and fiat value.
@@ -176,7 +176,7 @@ export const AssetStakedChartView: FunctionComponent = observer(() => {
   return (
     <React.Fragment>
       <div className={styleAsset.containerChart}>
-        <div className={styleAsset.glow} />
+        <div className={styleAsset.glowNone} />
         <div className={styleAsset.centerText}>
           {/* <div className={styleAsset.big}>
             <FormattedMessage id="main.account.chart.total-balance" />
@@ -205,16 +205,14 @@ export const AssetStakedChartView: FunctionComponent = observer(() => {
                 </ToolTip>
               ) : (
                 <div className={styleAsset.tokenPriceChangeWrap}>
-                  <div className={styleAsset.tokenPriceChangePositive}>
-                    +$15.30
-                  </div>
+                  <div className={styleAsset.tokenPriceChangeNone}>~$0.00</div>
                   <div
                     className={
-                      styleAsset.tokenPriceChangePositive &&
-                      styleAsset.tokenPriceBackgroundPositive
+                      styleAsset.tokenPriceChangeNone &&
+                      styleAsset.tokenPriceBackgroundNone
                     }
                   >
-                    +1.15%
+                    ~0.00%
                   </div>
                 </div>
               )}
