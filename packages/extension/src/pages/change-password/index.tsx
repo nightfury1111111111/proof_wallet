@@ -94,7 +94,7 @@ export const ChangePassword: FunctionComponent = observer(() => {
         <div style={{ display: "flex", justifyContent: "center" }}>
           <img
             className={style.image}
-            src={require("../../public/assets/img/lock_icon.svg")}
+            src={require("../../public/assets/img/lock-icon.svg")}
           />
         </div>
         <div className={style.title}>Change Password</div>

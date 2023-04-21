@@ -246,41 +246,44 @@ export const TokensView: FunctionComponent = observer(() => {
   const [keyword, setKeyword] = useState("");
 
   const accountInfo = accountStore.getAccount(chainStore.current.chainId);
-  const tokens = queriesStore
-    .get(chainStore.current.chainId)
-    .queryBalances.getQueryBech32Address(accountInfo.bech32Address)
-    .unstakables.concat(
-      queriesStore
-        .get(chainStore.current.chainId)
-        .queryBalances.getQueryBech32Address(accountInfo.bech32Address).stakable
-    )
-    .filter((bal) => {
-      // Temporary implementation for trimming the 0 balanced native tokens.
-      // TODO: Remove this part.
-      if (new DenomHelper(bal.currency.coinMinimalDenom).type === "native") {
-        return bal.balance.toDec().gt(new Dec("0"));
-      }
-      return true;
-    })
-    .sort((a, b) => {
-      const aDecIsZero = a.balance.toDec().isZero();
-      const bDecIsZero = b.balance.toDec().isZero();
-
-      if (aDecIsZero && !bDecIsZero) {
-        return 1;
-      }
-      if (!aDecIsZero && bDecIsZero) {
-        return -1;
-      }
-
-      return a.currency.coinDenom < b.currency.coinDenom ? -1 : 1;
-    });
   const [tmpTokens, setTmpTokens] = useState<
     ObservableQueryBalanceInner<unknown, unknown>[]
   >([]);
+
   useEffect(() => {
+    const tokens = queriesStore
+      .get(chainStore.current.chainId)
+      .queryBalances.getQueryBech32Address(accountInfo.bech32Address)
+      .unstakables.concat(
+        queriesStore
+          .get(chainStore.current.chainId)
+          .queryBalances.getQueryBech32Address(accountInfo.bech32Address)
+          .stakable
+      )
+      .filter((bal) => {
+        // Temporary implementation for trimming the 0 balanced native tokens.
+        // TODO: Remove this part.
+        if (new DenomHelper(bal.currency.coinMinimalDenom).type === "native") {
+          return bal.balance.toDec().gt(new Dec("0"));
+        }
+        return true;
+      })
+      .sort((a, b) => {
+        const aDecIsZero = a.balance.toDec().isZero();
+        const bDecIsZero = b.balance.toDec().isZero();
+
+        if (aDecIsZero && !bDecIsZero) {
+          return 1;
+        }
+        if (!aDecIsZero && bDecIsZero) {
+          return -1;
+        }
+
+        return a.currency.coinDenom < b.currency.coinDenom ? -1 : 1;
+      });
+
     setTmpTokens(tokens);
-  }, [tokens, tokens.length]);
+  }, [accountInfo.bech32Address, chainStore, queriesStore]);
 
   const history = useHistory();
 
@@ -317,7 +320,7 @@ export const TokensView: FunctionComponent = observer(() => {
               placeholder="Search token"
               onChange={(e) => {
                 setKeyword(e.target.value);
-                const availableTokens = tokens.filter((bal) => {
+                const availableTokens = tmpTokens.filter((bal) => {
                   return (
                     bal.currency.coinDenom
                       .toLowerCase()

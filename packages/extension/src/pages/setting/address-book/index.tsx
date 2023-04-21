@@ -294,7 +294,7 @@ export const AddressBookPage: FunctionComponent<{
               key={i.toString()}
               avatarname={avatarname}
               avatarcolor={data.bgColor}
-              pinned={data.pinned}
+              pinned={data.pinned ? data.pinned : undefined}
               title={data.name}
               paragraph={
                 // data.address.indexOf(
