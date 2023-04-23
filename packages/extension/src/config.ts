@@ -2003,15 +2003,10 @@ export const PrivilegedOrigins: string[] = ["https://wallet.keplr.app"];
 
 export const NftList = [
   {
-    address: "sei16sxavw8h0uqe565e5t7f9t72dxh8cr8d6ca8mq5xt9nn3djwy5ksqnqmen",
-    name: "Dawn",
-    apiEndpoint: "https://dawn.seinetwork.io/",
-    ext: "png",
-  },
-  {
-    address: "sei1quj5act407qgszngzsh9elcelzl9pgcglq3844cwqex3cxzzeresf253zm",
-    name: "Dusk",
-    apiEndpoint: "https://dusk.seinetwork.io/",
-    ext: "png",
+    address: "sei1l6c37a5xenquyjxjvsehcn4j97tca94k4yk2uzfmpeamu2vw350qmypwq4",
+    name: "Coded Estate",
+    apiEndpoint:
+      "https://bafybeicv2dvbxcq72pzfbxjuhivxnljyzttyfcxs3djrl6abaax56s5be4.ipfs.nftstorage.link",
+    ext: "json",
   },
 ];

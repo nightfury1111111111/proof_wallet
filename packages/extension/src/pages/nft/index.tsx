@@ -30,7 +30,15 @@ export interface Nft {
   name: string;
   apiEndpoint: string;
   ext: string;
-  id: Array<string>;
+  metadata: Array<NftMetadata>;
+}
+
+export interface NftMetadata {
+  name: string;
+  id: string;
+  image: string;
+  description: string;
+  attributes: Array<NftAttribute>;
 }
 
 export interface NftAttribute {
@@ -49,6 +57,7 @@ export const ManageNftPage: FunctionComponent = observer(() => {
   const [focused, setFocused] = useState(false);
   const [nftDescription, setNftDescription] = useState("");
   const [nftAttributes, setNftAttributes] = useState<Array<NftAttribute>>([]);
+  const [nftImage, setNftImage] = useState("");
 
   const history = useHistory();
   let search = useLocation().search;
@@ -106,7 +115,22 @@ export const ManageNftPage: FunctionComponent = observer(() => {
           }
         }
 
-        if (tmpIdArray.length > 0) tmpNftArray.push({ ...nft, id: tmpIdArray });
+        if (tmpIdArray.length > 0) {
+          const results = tmpIdArray.map(async (id) => {
+            const { data: metadata } = await axios.get(
+              `${nft.apiEndpoint}/${id}.json`
+            );
+            return {
+              name: metadata.title,
+              id: id,
+              image: metadata.properties.image.description,
+              description: metadata.properties.description.description,
+              attributes: metadata.attributes,
+            };
+          });
+          const response = await Promise.all(results);
+          tmpNftArray.push({ ...nft, metadata: response });
+        }
       })
     );
     setNfts(tmpNftArray);
@@ -247,27 +271,15 @@ export const ManageNftPage: FunctionComponent = observer(() => {
                     key={idx}
                     className={style.nftTile}
                     style={{
-                      backgroundImage: `url(${nft.apiEndpoint}images/${nft.id[0]}.${nft.ext})`,
+                      backgroundImage: `url(${nft.metadata[0].image})`,
                     }}
                     onClick={async () => {
-                      if (nft.id.length == 1) {
-                        setSelectedNFT(nft.id[0]);
+                      if (nft.metadata.length == 1) {
+                        setSelectedNFT(nft.metadata[0].id);
                         setCurrentCollectionIdx(idx);
-                        const { data: metadata } = await axios.get(
-                          `${nft.apiEndpoint}${nft.id[0]}`
-                        );
-                        if (
-                          metadata.description != undefined &&
-                          metadata.description != null
-                        )
-                          setNftDescription(metadata.description);
-
-                        if (
-                          metadata.attributes != undefined &&
-                          metadata.attributes != null
-                        )
-                          setNftAttributes(metadata.attributes);
-
+                        setNftDescription(nft.metadata[0].description);
+                        setNftAttributes(nft.metadata[0].attributes);
+                        setNftImage(nft.metadata[0].image);
                         setPage("singleNFT");
                       } else {
                         setCurrentCollectionIdx(idx);
@@ -278,7 +290,7 @@ export const ManageNftPage: FunctionComponent = observer(() => {
                     <div className={style.nftName}>
                       <span>{nft.name}</span>
                       <span style={{ marginLeft: "7px", opacity: "0.8" }}>
-                        {nft.id.length}
+                        {nft.metadata.length}
                       </span>
                     </div>
                   </div>
@@ -322,34 +334,23 @@ export const ManageNftPage: FunctionComponent = observer(() => {
             {tmpNfts[currentCollectionIdx].name}
           </div>
           <div className={style.nftContainer}>
-            {tmpNfts[currentCollectionIdx].id.map((nft, idx) => {
+            {tmpNfts[currentCollectionIdx].metadata.map((nft, idx) => {
               return (
                 <div
                   key={idx}
                   className={style.nftTile}
                   style={{
-                    backgroundImage: `url(${tmpNfts[currentCollectionIdx].apiEndpoint}images/${nft}.${tmpNfts[currentCollectionIdx].ext})`,
+                    backgroundImage: `url(${nft.image})`,
                   }}
                   onClick={async () => {
-                    setSelectedNFT(nft);
-                    const { data: metadata } = await axios.get(
-                      `${tmpNfts[currentCollectionIdx].apiEndpoint}${nft}`
-                    );
-                    if (
-                      metadata.description != undefined &&
-                      metadata.description != null
-                    )
-                      setNftDescription(metadata.description);
-
-                    if (
-                      metadata.attributes != undefined &&
-                      metadata.attributes != null
-                    )
-                      setNftAttributes(metadata.attributes);
+                    setSelectedNFT(nft.id);
+                    setNftDescription(nft.description);
+                    setNftAttributes(nft.attributes);
+                    setNftImage(nft.image);
                     setPage("singleNFT");
                   }}
                 >
-                  <div className={style.nftName}>{`# ${nft}`}</div>
+                  <div className={style.nftName}>{`# ${nft.id}`}</div>
                 </div>
               );
             })}
@@ -375,11 +376,7 @@ export const ManageNftPage: FunctionComponent = observer(() => {
                 {tmpNfts[currentCollectionIdx].name} #{selectedNFT}
               </span>
             </div>
-            <img
-              src={`${tmpNfts[currentCollectionIdx].apiEndpoint}images/${selectedNFT}.${tmpNfts[currentCollectionIdx].ext}`}
-              className={style.nftImage}
-              alt="No NFTs"
-            />
+            <img src={nftImage} className={style.nftImage} alt="No NFTs" />
             <Button
               type="submit"
               block
@@ -387,11 +384,7 @@ export const ManageNftPage: FunctionComponent = observer(() => {
               onClick={() => {
                 history.push({
                   pathname: "/send-nft",
-                  search: `?contractAddress=${
-                    tmpNfts[currentCollectionIdx].address
-                  }&imageUrl=${`${tmpNfts[currentCollectionIdx].apiEndpoint}images/${selectedNFT}.${tmpNfts[currentCollectionIdx].ext}`}&name=${
-                    tmpNfts[currentCollectionIdx].name
-                  }&nftId=${selectedNFT}`,
+                  search: `?contractAddress=${tmpNfts[currentCollectionIdx].address}&imageUrl=${nftImage}&name=${tmpNfts[currentCollectionIdx].name}&nftId=${selectedNFT}`,
                 });
               }}
             >

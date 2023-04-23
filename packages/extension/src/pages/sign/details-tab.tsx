@@ -128,7 +128,7 @@ export const DetailsTab: FunctionComponent<{
       currentNft &&
       !msgs[0].value.amount &&
       Object.keys(msgs[0].value.msg)[0] === "transfer_nft"
-        ? `${currentNft.apiEndpoint}images/${msgs[0].value.msg.transfer_nft.token_id}.${currentNft.ext}`
+        ? `${currentNft.apiEndpoint}/${msgs[0].value.msg.transfer_nft.token_id}.${currentNft.ext}`
         : Object.keys(balance.currency).indexOf("coinImageUrl") > -1
         ? balance.currency.coinImageUrl
         : "";

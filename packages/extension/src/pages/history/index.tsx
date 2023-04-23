@@ -59,7 +59,7 @@ export const HistoryView: FunctionComponent<{
       : "NFT";
   const imageUrl =
     history.type === "NFT"
-      ? `${currentNft.apiEndpoint}images/${history.tokenId}.${currentNft.ext}`
+      ? `${currentNft.apiEndpoint}/${history.tokenId}.${currentNft.ext}`
       : Object.keys(balance.currency).indexOf("coinImageUrl") > -1
       ? balance.currency.coinImageUrl
       : "";
