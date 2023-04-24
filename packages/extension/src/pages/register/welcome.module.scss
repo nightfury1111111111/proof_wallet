@@ -4,7 +4,6 @@
 }
 
 .content {
-  font-family: roc-grotesk;
   font-style: normal;
   font-weight: 500;
   font-size: 25.1481px;
@@ -16,7 +15,6 @@
 
 .subContent {
   margin-top: 4px;
-  font-family: colfax-web;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -34,17 +32,16 @@
 }
 
 .launchBtn {
-  margin-top: 38px;
+  margin-top: 19px;
   background: linear-gradient(180deg, #ffdf8b 0%, #ffc989 100%);
   box-shadow: inset 0px 1px 0px #fff9ef;
   border: none !important;
-  border-radius: 35px;
+  border-radius: 5px;
   width: 289px;
   height: 33px;
-  font-family: colfax-web;
   font-style: normal;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 19px;
   display: flex;
   align-items: center;

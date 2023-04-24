@@ -112,7 +112,11 @@ export const SetKeyRingPage: FunctionComponent = observer(() => {
                         <i
                           key="selected"
                           className="fas fa-check"
-                          style={{ color: "#7EFF9B", marginLeft: "7px" }}
+                          style={{
+                            color: "#7EFF9B",
+                            marginLeft: "7px",
+                            scale: "75%",
+                          }}
                         />
                       )}
                     </div>
@@ -151,7 +155,13 @@ export const SetKeyRingPage: FunctionComponent = observer(() => {
                       );
                   }}
                 >
-                  {i === copiedIdx ? "Copied" : "Copy"}
+                  {i === copiedIdx ? (
+                    "Copied"
+                  ) : (
+                    <img
+                      src={require("../../../public/assets/img/copy-icon.svg")}
+                    />
+                  )}
                 </div>
               </div>
             );
