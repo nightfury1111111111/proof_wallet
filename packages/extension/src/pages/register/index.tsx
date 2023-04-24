@@ -113,6 +113,55 @@ export const RegisterPage: FunctionComponent = observer(() => {
           </div>
         </div>
       )}
+
+      {registerConfig.isFinalized ? (
+        <div className={style.edgeLogoPin}>
+          <img
+            className={style.pinIcon}
+            src={require("../../public/assets/img/logo-short.svg")}
+            alt="Proof"
+          />
+
+          <div className={style.edgeTextWrap}>
+            <div
+              style={{ color: "#FFFFFF", fontSize: "15px", fontWeight: 500 }}
+            >
+              Pin the Proof Wallet extension
+            </div>
+            <div
+              style={{ color: "#959595", fontSize: "15px", fontWeight: 500 }}
+            >
+              <span>
+                Click
+                <img
+                  style={{
+                    width: "18px",
+                    height: "18px",
+                    marginTop: "-3px",
+                    marginLeft: "5px",
+                    marginRight: "5px",
+                  }}
+                  src={require("../../public/assets/img/puzzle.svg")}
+                  alt="Proof"
+                />
+                and then
+                <img
+                  style={{
+                    width: "18px",
+                    height: "18px",
+                    marginLeft: "5px",
+                    marginRight: "5px",
+                  }}
+                  src={require("../../public/assets/img/puzzle-pin.svg")}
+                  alt="Proof"
+                />
+                open.
+              </span>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
       <div style={{ flex: 10 }} />
       {registerConfig.isIntro && (
         <div className={style.logoContainer}>

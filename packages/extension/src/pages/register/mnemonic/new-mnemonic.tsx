@@ -161,6 +161,9 @@ export const AddPassswordModePage: FunctionComponent<{
           //   id: "register.name",
           // })}
           className={style.inputBox}
+          style={{
+            marginBottom: "-10px",
+          }}
           type="text"
           name="name"
           placeholder="Enter account name"
@@ -185,6 +188,9 @@ export const AddPassswordModePage: FunctionComponent<{
               name="password"
               className={style.inputBox}
               placeholder="Create password"
+              style={{
+                marginBottom: "-10px",
+              }}
               ref={register({
                 required: intl.formatMessage({
                   id: "register.create.input.password.error.required",
@@ -355,7 +361,7 @@ export const GenerateMnemonicModePage: FunctionComponent<{
                 style={{ width: "14.4px", height: "16px" }}
                 src={require("../../../public/assets/img/copy.svg")}
               />
-              <div style={{ marginLeft: "7px" }}>Copy</div>
+              <div style={{ marginLeft: "7px", color: "#959595" }}>Copy</div>
             </div>
             <div
               className={style.subButton}
@@ -382,7 +388,9 @@ export const GenerateMnemonicModePage: FunctionComponent<{
                 style={{ width: "14.4px", height: "16px" }}
                 src={require("../../../public/assets/img/download.svg")}
               />
-              <div style={{ marginLeft: "7px" }}>Download</div>
+              <div style={{ marginLeft: "7px", color: "#959595" }}>
+                Download
+              </div>
             </div>
           </div>
         </div>

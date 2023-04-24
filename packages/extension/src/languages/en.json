@@ -70,7 +70,7 @@
   "setting.credit": "Special thanks",
 
   "setting.keyring": "Select Account",
-  "setting.keyring.button.add": "Add a new wallet",
+  "setting.keyring.button.add": "Add Wallet",
   "setting.keyring.unnamed-account": "Proof Account",
   "setting.keyring.selected-account": "(Selected)",
 

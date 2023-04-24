@@ -52,7 +52,7 @@ export const WelcomePage: FunctionComponent = () => {
       <Lottie options={defaultOptions} height={230} width={424.82} />
       <div className={styleWelcome.content}>Your wallet is ready</div>
       <div className={styleWelcome.subContent}>
-        You can now start using our position manager
+        You can now start using Proof!
       </div>
       <Button
         className={styleWelcome.launchBtn}
@@ -73,7 +73,7 @@ export const WelcomePage: FunctionComponent = () => {
         }}
         block
       >
-        Start trading
+        Enter Proof
       </Button>
     </div>
   );
