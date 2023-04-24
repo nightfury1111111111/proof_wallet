@@ -49,6 +49,7 @@ export const AddAddressModal: FunctionComponent<{
       }
     }, [
       addressBookConfig.addressBookDatas,
+      colors,
       index,
       memoConfig,
       recipientConfig,
@@ -129,7 +130,6 @@ export const AddAddressModal: FunctionComponent<{
             // label={intl.formatMessage({ id: "setting.address-book.name" })}
 
             style={{
-              fontFamily: "aeonik-trial",
               color: "#E9E4DF",
               letterSpacing: "1px",
             }}
@@ -228,6 +228,7 @@ export const AddAddressModal: FunctionComponent<{
           <div className={styleAddressBook.footer}>
             <Button
               className={styleAddressBook.button}
+              style={{ marginRight: "4px" }}
               onClick={() => {
                 // Clear the recipient and memo before closing
                 recipientConfig.setRawRecipient("");

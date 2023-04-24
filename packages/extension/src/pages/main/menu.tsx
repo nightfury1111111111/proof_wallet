@@ -16,6 +16,7 @@ export const Menu: FunctionComponent = observer(() => {
 
   return (
     <div className={styleMenu.container}>
+      <div style={{ height: "10px" }} />
       <div
         className={styleMenu.item}
         onClick={() => {

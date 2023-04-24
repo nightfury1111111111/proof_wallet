@@ -57,7 +57,10 @@ export const AccountView: FunctionComponent = observer(() => {
     <div style={{ position: "relative" }}>
       <div
         className={styleAccount.containerName}
-        // onMouseEnter={() => isShow(true)}
+        //onMouseEnter={() => isShow(true)}
+        //onClick={async () => {
+        //  await navigator.clipboard.writeText(accountInfo.bech32Address);
+        //}}
       >
         <div className={styleAccount.name}>
           {accountInfo.walletStatus === WalletStatus.Loaded && (
@@ -78,45 +81,45 @@ export const AccountView: FunctionComponent = observer(() => {
             : "Loading..."}
           <img
             className={styleAccount.dropdownImage}
-            src={require("../../public/assets/img/arrow.svg")}
+            src={require("../../public/assets/img/copy-icon.svg")}
           />
-        </div>
-        <div className={styleAccount.selectPopupWrapper}>
-          <div
-            className={styleAccount.selectPopup}
-            // onMouseLeave={() => isShow(false)}
-          >
-            {accountInfo.walletStatus === WalletStatus.Loaded &&
-              accountInfo.bech32Address && (
-                <div
-                  className={styleAccount.selectItem}
-                  onClick={async () => {
-                    await navigator.clipboard.writeText(
-                      accountInfo.bech32Address
-                    );
-                  }}
-                >
-                  <div>
-                    {Bech32Address.shortenAddress(
-                      accountInfo.bech32Address,
-                      13
-                    )}
-                  </div>
-                  <img
-                    style={{ width: "13px", height: "13px" }}
-                    src={require("../../public/assets/img/copy-icon.svg")}
-                  />
-                </div>
-              )}
+          <div className={styleAccount.selectPopupWrapper}>
             <div
-              className={styleAccount.selectItem}
-              onClick={() => history.push("/setting/set-keyring")}
+              className={styleAccount.selectPopup}
+              // onMouseLeave={() => isShow(false)}
             >
-              <div>switch wallet</div>
-              <img
-                style={{ width: "13px", height: "13px" }}
-                src={require("../../public/assets/img/change.svg")}
-              />
+              {accountInfo.walletStatus === WalletStatus.Loaded &&
+                accountInfo.bech32Address && (
+                  <div
+                    className={styleAccount.selectItem}
+                    onClick={async () => {
+                      await navigator.clipboard.writeText(
+                        accountInfo.bech32Address
+                      );
+                    }}
+                  >
+                    <div>
+                      {Bech32Address.shortenAddress(
+                        accountInfo.bech32Address,
+                        13
+                      )}
+                    </div>
+                    <img
+                      style={{ width: "13px", height: "13px" }}
+                      src={require("../../public/assets/img/copy-icon.svg")}
+                    />
+                  </div>
+                )}
+              <div
+                className={styleAccount.selectItem}
+                onClick={() => history.push("/setting/set-keyring")}
+              >
+                <div>switch wallet</div>
+                <img
+                  style={{ width: "13px", height: "13px" }}
+                  src={require("../../public/assets/img/change.svg")}
+                />
+              </div>
             </div>
           </div>
         </div>

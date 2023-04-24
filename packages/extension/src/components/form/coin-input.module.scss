@@ -17,7 +17,6 @@
   border-radius: 8px;
   box-sizing: border-box;
 
-  font-family: colfax-web;
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
@@ -40,9 +39,13 @@
   }
   &:focus {
     background: rgba(0, 0, 0, 0.2) !important;
-    border: 1px solid #ffd48a !important;
+    border: 1px solid #696969 !important;
     color: #696969;
   }
+}
+
+.input::placeholder {
+  color: #696969;
 }
 
 .token-selector {
@@ -126,17 +129,17 @@
 }
 
 .maxButton {
-  width: 52px;
+  width: 44px;
   height: 20px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 17px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 17px;
+  margin-left: 7px;
   color: #696969;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 17px;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
 }

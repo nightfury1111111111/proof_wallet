@@ -241,25 +241,8 @@ export const SignPage: FunctionComponent = observer(() => {
          If sign data not delivered yet, show the spinner alternatively.
          */
         isLoaded ? (
-          <div className={style.container}>
-            {interactionInfo.interaction &&
-              interactionInfo.interactionInternal && (
-                <div className={style.titleContainer}>
-                  <i
-                    className="fas fa-light fa-arrow-left"
-                    style={{
-                      cursor: "pointer",
-                      padding: "4px",
-                      color: "#696969",
-                      width: "20px",
-                    }}
-                    onClick={() => {
-                      history.goBack();
-                    }}
-                  />
-                  <div className={style.title}>{`Sending Confirmation`}</div>
-                </div>
-              )}
+          <div className={style.container} style={{ marginTop: "20px" }}>
+            {interactionInfo.interaction && interactionInfo.interactionInternal}
             {/* <div className={classnames(style.tabs)}>
               <ul>
                 <li className={classnames({ active: tab === Tab.Details })}>
@@ -341,6 +324,7 @@ export const SignPage: FunctionComponent = observer(() => {
                     className={style.button}
                     // color="danger"
                     disabled={signDocHelper.signDocWrapper == null}
+                    style={{ marginRight: "4px" }}
                     data-loading={signInteractionStore.isLoading}
                     onClick={async (e) => {
                       e.preventDefault();
@@ -391,7 +375,7 @@ export const SignPage: FunctionComponent = observer(() => {
                       }
                     }}
                   >
-                    Confirm
+                    Send
                   </Button>
                 </React.Fragment>
               )}

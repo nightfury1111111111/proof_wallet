@@ -180,7 +180,7 @@ export const CoinInput: FunctionComponent<CoinInputProps> = observer(
               style={
                 focused
                   ? {
-                      border: "4px solid rgba(255, 212, 138, 0.3)",
+                      //border: "4px solid rgba(255, 212, 138, 0.3)",
                       // transform: "translate(-4px, -4px)",
                     }
                   : {}

@@ -33,8 +33,8 @@ import { Dec } from "@proof-wallet/unit";
 // import Lottie from "react-lottie";
 
 //TEMP VALUES
-const tokenPrice = "$312.00";
-const tokenPriceChange = "+$23.00";
+const tokenPrice = "$0.00";
+const tokenPriceChange = "~$0.00";
 
 const TmpTokenView = () => {
   const imageUrl = "https://proofwalletsvgs.s3.amazonaws.com/sei";
@@ -74,6 +74,8 @@ const TmpTokenView = () => {
           className={
             styleToken.tokenPrice && tokenPriceChange[0] === "+"
               ? styleToken.tokenPriceChangePositive
+              : tokenPriceChange[0] === "~"
+              ? styleToken.tokenPriceChangeNone
               : styleToken.tokenPriceChangeNegative
           }
         >
@@ -207,6 +209,9 @@ export const MainPage: FunctionComponent = observer(() => {
       showChainName
       canChangeChainInfo
       menuRenderer={<Menu />}
+      style={{
+        zIndex: 999,
+      }}
       rightRenderer={
         <div
           style={{
@@ -226,6 +231,7 @@ export const MainPage: FunctionComponent = observer(() => {
               borderRadius: "10px",
               cursor: "pointer",
               padding: "4px",
+              visibility: "hidden",
             }}
             // onClick={(e) => {
             //   e.preventDefault();

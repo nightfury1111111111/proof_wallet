@@ -1,24 +1,26 @@
 .container-name {
   position: relative;
+  height: 44px;
   display: flex;
   flex-direction: row;
   width: 171px;
   justify-content: center;
   &:hover .select-popup-wrapper {
-    transition: 500ms;
     display: block;
   }
 }
 
 .name {
-  padding: 0 4px;
+  margin-top: 5px;
+  padding: 4px 4px;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   font-size: 16px;
+  height: 34px;
   color: #ffffff;
-  font-weight: 400;
+  font-weight: 500;
   cursor: pointer;
   &:hover {
     background: #3c352a;
@@ -27,8 +29,8 @@
 }
 
 .avatar {
-  width: 18px;
-  height: 18px;
+  width: 23px;
+  height: 23px;
   border-radius: 100px;
   display: flex;
   justify-content: center;
@@ -40,8 +42,8 @@
 }
 
 .dropdown-image {
-  width: 12px;
-  height: 6px;
+  width: 11px;
+  height: 11px;
   margin-left: 6px;
 }
 
@@ -50,9 +52,10 @@
   position: absolute;
   width: 131px;
   left: 20px;
-  top: 31px;
+  top: 40px;
   padding-top: 4px;
   z-index: 900000;
+  transition: 500ms;
   &:hover {
     display: block;
   }
@@ -78,7 +81,6 @@
   padding: 7px 9px;
 
   color: #959595;
-  font-family: colfax-web;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;

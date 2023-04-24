@@ -91,9 +91,7 @@ export const DetailsTab: FunctionComponent<{
         : signDocHelper.signDocWrapper.protoSignDoc.txMsgs
       : [];
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    console.log(msgs[0]);
+    //console.log(msgs[0]);
 
     const currentNft =
       !msgs[0].value.amount &&
@@ -146,7 +144,7 @@ export const DetailsTab: FunctionComponent<{
       } else {
         return backgroundColors[0];
       }
-    }, [backgroundColors, minimalDenom]);
+    }, [backgroundColors, balance, minimalDenom]);
 
     const renderedMsgs = (() => {
       if (mode === "amino") {
@@ -162,7 +160,6 @@ export const DetailsTab: FunctionComponent<{
               <MsgRender icon={msgContent.icon} title={msgContent.title}>
                 {msgContent.content}
               </MsgRender>
-              <hr />
             </React.Fragment>
           );
         });
@@ -178,7 +175,6 @@ export const DetailsTab: FunctionComponent<{
               <MsgRender icon={msgContent.icon} title={msgContent.title}>
                 {msgContent.content}
               </MsgRender>
-              <hr />
             </React.Fragment>
           );
         });
@@ -314,8 +310,10 @@ export const DetailsTab: FunctionComponent<{
                   return (
                     <React.Fragment>
                       <div className={styleDetailsTab.feeContainer}>
-                        <div style={{ color: "#696969" }}>Network fees</div>
-                        <div style={{ color: "#ffffff" }}>
+                        <div style={{ color: "#696969", fontWeight: 600 }}>
+                          Network fees
+                        </div>
+                        <div style={{ color: "#E9E4DF" }}>
                           {feeOrZero.maxDecimals(6).trim(true).toString()}
                           {priceStore.calculatePrice(
                             feeOrZero,

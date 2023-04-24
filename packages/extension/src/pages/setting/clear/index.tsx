@@ -14,6 +14,7 @@ import { Button, Form } from "reactstrap";
 import useForm from "react-hook-form";
 import { useStore } from "../../../stores";
 import { observer } from "mobx-react-lite";
+import { Bech32Address } from "@proof-wallet/cosmos";
 
 import style from "./style.module.scss";
 import { WarningView } from "./warning-view";
@@ -22,9 +23,22 @@ interface FormData {
   password: string;
 }
 
+export const createShortenName = (name: string) => {
+  if (name === "") {
+    return "";
+  } else if (name.indexOf(" ") > 0 && name.indexOf(" ") < name.length - 1) {
+    return name[0] + name[name.indexOf(" ") + 1];
+  } else {
+    return name[0];
+  }
+};
+
 export const ClearPage: FunctionComponent = observer(() => {
   const history = useHistory();
   const match = useRouteMatch<{ index: string }>();
+
+  const { accountStore, chainStore } = useStore();
+  const accountInfo = accountStore.getAccount(chainStore.current.chainId);
 
   const intl = useIntl();
 
@@ -65,6 +79,21 @@ export const ClearPage: FunctionComponent = observer(() => {
             keyStore={keyStore}
           />
         ) : null}
+
+        <div className={style.walletWrap}>
+          <div className={style.walletIcon}>
+            {createShortenName(accountInfo.name)}
+          </div>
+
+          <div className={style.walletInfoWrap}>
+            <div className={style.walletName}>{accountInfo.name}</div>
+
+            <div className={style.walletAddy}>
+              {Bech32Address.shortenAddress(accountInfo.bech32Address, 13)}
+            </div>
+          </div>
+        </div>
+
         <Form
           onSubmit={handleSubmit(async (data) => {
             setLoading(true);
@@ -94,7 +123,9 @@ export const ClearPage: FunctionComponent = observer(() => {
             // label={intl.formatMessage({
             //   id: "setting.clear.input.password",
             // })}
+            className={style.password}
             name="password"
+            placeholder="Enter your password"
             error={errors.password && errors.password.message}
             ref={register({
               required: intl.formatMessage({
@@ -112,8 +143,12 @@ export const ClearPage: FunctionComponent = observer(() => {
             </span>
           </div>
           <div className={style.footer}>
-            <div className={style.button} onClick={() => history.replace("/")}>
-              Cancel
+            <div
+              style={{ marginRight: "8px" }}
+              className={style.button}
+              onClick={() => history.replace("/")}
+            >
+              Back
             </div>
             <Button
               type="submit"

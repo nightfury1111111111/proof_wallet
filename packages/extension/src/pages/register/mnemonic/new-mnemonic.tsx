@@ -245,7 +245,7 @@ export const GenerateMnemonicModePage: FunctionComponent<{
     for (let i = 0; i < words.length; i++) {
       words[i] = words[i].trim();
     }
-  }, []);
+  }, [words]);
 
   const { analyticsStore } = useStore();
 

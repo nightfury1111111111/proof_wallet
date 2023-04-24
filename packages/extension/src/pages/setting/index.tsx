@@ -8,6 +8,9 @@ import { useIntl } from "react-intl";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../stores";
 import { FormattedMessage } from "react-intl";
+import { GetAutoLockAccountDurationMsg } from "@proof-wallet/background/src/auto-lock-account";
+import { InExtensionMessageRequester } from "@proof-wallet/router-extension";
+import { BACKGROUND_PORT } from "@proof-wallet/router";
 
 export const SettingPage: FunctionComponent = observer(() => {
   const [idx, setIdx] = useState(0);
@@ -16,6 +19,17 @@ export const SettingPage: FunctionComponent = observer(() => {
   // const language = useLanguage();
   const history = useHistory();
   const intl = useIntl();
+
+  const [currentDuration, setCurrentDuration] = useState(30);
+
+  useEffect(() => {
+    const msg = new GetAutoLockAccountDurationMsg();
+    new InExtensionMessageRequester()
+      .sendMessage(BACKGROUND_PORT, msg)
+      .then(function (duration) {
+        setCurrentDuration(duration / 60000);
+      });
+  }, []);
 
   useEffect(() => {
     keyRingStore.multiKeyStoreInfo.map((tmpStore, i) => {
@@ -99,7 +113,7 @@ export const SettingPage: FunctionComponent = observer(() => {
             }}
           >
             {/** TODO ADD ACTUAL AUTO LOCK TIMER */}
-            10 minutes
+            {currentDuration} minutes
           </div>
           <i className="fas fa-chevron-right" style={{ color: "#696969" }} />
         </div>

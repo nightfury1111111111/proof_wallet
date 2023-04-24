@@ -23,29 +23,28 @@
 .icon {
   width: 124px;
   height: 124px;
-
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 .logo {
   object-fit: contain;
   height: 32px;
-
-  margin-bottom: 4px;
 }
 
 .title {
-  font-family: roc-grotesk;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 29.1429px;
   line-height: 42px;
   text-align: center;
   color: #ffffff;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none;
 }
 
 .subtitle {
-  font-family: colfax-web;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;

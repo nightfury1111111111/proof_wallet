@@ -8,7 +8,7 @@ export const WarningView: FunctionComponent = () => {
     <div className={styleWarningView.innerContainer}>
       <img
         className={styleWarningView.imgLock}
-        src={"https://proofwalletsvgs.s3.amazonaws.com/warning.svg"}
+        src={require("../../../public/assets/img/warning-error.svg")}
         alt="lock"
       />
       <p>

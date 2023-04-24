@@ -136,8 +136,8 @@ export const LockPage: FunctionComponent = observer(() => {
                 : "https://proofwalletsvgs.s3.amazonaws.com/logo.svg"
             }
             logo={require("../../public/assets/brand-text.png")}
-            title="Welcome Back"
-            subtitle="Unlock your wallet to continue"
+            title="Enter your password"
+            subtitle=""
           />
         </div>
         <div style={{ height: "5px" }} />

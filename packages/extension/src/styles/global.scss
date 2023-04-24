@@ -10,45 +10,13 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 // @import url("https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800&display=swap");
 
 @font-face {
-  font-family: colfax-web-bold;
-  src: url(../public/assets/font/Colfax-Bold.otf);
-  font-weight: 600;
-}
-@font-face {
-  font-family: colfax-web-medium;
-  src: url(../public/assets/font/Colfax-Medium.otf);
-  font-weight: 500;
-}
-@font-face {
-  font-family: colfax-web;
-  src: url(../public/assets/font/Colfax-Thin.otf);
-  font-weight: 100;
-}
-@font-face {
-  font-family: colfax-web-reg;
-  src: url(../public/assets/font/Colfax-Regular.otf);
-  font-weight: 400;
+  font-family: dm-sans;
+  src: url(../public/assets/font/DMSans-Regular.ttf);
 }
 
-@font-face {
-  font-family: aeonik-trial;
-  src: url(../public/assets/font/aeoniktrial-regular.otf);
-  font-weight: 400;
-}
+$font-family-base: dm-sans;
+$body-color: white;
 
-@font-face {
-  font-family: aeonik-trial-light;
-  src: url(../public/assets/font/aeoniktrial-light.otf);
-  font-weight: 400;
-}
-
-@font-face {
-  font-family: roc-grotesk;
-  src: url(../public/assets/font/Roc-Grotesk-Regular.otf);
-  font-weight: 400;
-}
-$font-family-base: colfax-web;
-$body-color: black;
 @import "../../../../node_modules/argon-dashboard-react/src/assets/scss/argon-dashboard-react";
 
 @import url("https://fonts.googleapis.com/css?family=Courier+Prime&display=swap");
@@ -59,7 +27,7 @@ html {
   width: $popup-size-width;
   height: $popup-size-height;
   margin: auto;
-  background-color: white;
+  background: none;
 
   overflow: auto;
   -webkit-font-smoothing: antialiased;
@@ -83,7 +51,7 @@ body {
   width: $popup-size-width;
   height: $popup-size-height;
 
-  background-color: $background-color;
+  background: none;
 
   &[data-lang="ko"] {
     word-break: keep-all;

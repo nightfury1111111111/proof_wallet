@@ -11,10 +11,8 @@
 }
 
 .msg-container {
-  font-family: colfax-web;
-  height: 310px;
+  height: 273px;
   background: #1d1d1d;
-  box-shadow: inset 0px 1px 0px rgba(67, 67, 67, 0.75);
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -106,7 +104,6 @@
 }
 
 .feeContainer {
-  font-family: colfax-web;
   margin-top: 13px;
   display: flex;
   justify-content: space-between;
@@ -115,7 +112,6 @@
   align-items: center;
   padding: 16px;
   border-radius: 5px;
-  box-shadow: inset 0px 1.00501px 0px rgb(67 67 67 / 75%);
 }
 
 .header {

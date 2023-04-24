@@ -136,6 +136,7 @@ export const ExportPage: FunctionComponent = observer(() => {
                     id: "setting.export.input.password.error.required",
                   }),
                 })}
+                className={style.password}
               />
               <div className={style.comment}>
                 <div>
@@ -150,8 +151,9 @@ export const ExportPage: FunctionComponent = observer(() => {
                 <div
                   className={style.button}
                   onClick={() => history.replace("/")}
+                  style={{ marginRight: "8px" }}
                 >
-                  Cancel
+                  Back
                 </div>
                 <Button
                   type="submit"

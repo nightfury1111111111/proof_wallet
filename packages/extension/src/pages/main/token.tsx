@@ -18,6 +18,10 @@ import { useLoadingIndicator } from "../../components/loading-indicator";
 import { DenomHelper } from "@proof-wallet/common";
 import { Dec } from "@proof-wallet/unit";
 
+//TEMP VALUES
+const tokenPrice = "$0.00";
+const tokenPriceChange = "~$0.00";
+
 export const TokenView: FunctionComponent<{
   balance: ObservableQueryBalanceInner;
   onClick: () => void;
@@ -215,53 +219,71 @@ export const TokenView: FunctionComponent<{
           <i className="fas fa-angle-right" />
         </div> */}
       </div>
+
+      <div className={styleToken.tokenPriceWrap}>
+        <div className={styleToken.tokenPrice}>{tokenPrice}</div>
+        <div
+          className={
+            tokenPriceChange[0] === "+"
+              ? styleToken.tokenPriceChangePositive
+              : tokenPriceChange[0] === "-"
+              ? styleToken.tokenPriceChangeNegative
+              : styleToken.tokenPriceChangeNone
+          }
+        >
+          {tokenPriceChange}
+        </div>
+      </div>
     </div>
   );
 });
 
 export const TokensView: FunctionComponent = observer(() => {
-  const [focused, setFocused] = useState(false);
+  //const [focused, setFocused] = useState(false);
   const location = useLocation();
 
   const { chainStore, accountStore, queriesStore } = useStore();
   const [keyword, setKeyword] = useState("");
 
   const accountInfo = accountStore.getAccount(chainStore.current.chainId);
-  const tokens = queriesStore
-    .get(chainStore.current.chainId)
-    .queryBalances.getQueryBech32Address(accountInfo.bech32Address)
-    .unstakables.concat(
-      queriesStore
-        .get(chainStore.current.chainId)
-        .queryBalances.getQueryBech32Address(accountInfo.bech32Address).stakable
-    )
-    .filter((bal) => {
-      // Temporary implementation for trimming the 0 balanced native tokens.
-      // TODO: Remove this part.
-      if (new DenomHelper(bal.currency.coinMinimalDenom).type === "native") {
-        return bal.balance.toDec().gt(new Dec("0"));
-      }
-      return true;
-    })
-    .sort((a, b) => {
-      const aDecIsZero = a.balance.toDec().isZero();
-      const bDecIsZero = b.balance.toDec().isZero();
-
-      if (aDecIsZero && !bDecIsZero) {
-        return 1;
-      }
-      if (!aDecIsZero && bDecIsZero) {
-        return -1;
-      }
-
-      return a.currency.coinDenom < b.currency.coinDenom ? -1 : 1;
-    });
   const [tmpTokens, setTmpTokens] = useState<
     ObservableQueryBalanceInner<unknown, unknown>[]
   >([]);
+
   useEffect(() => {
+    const tokens = queriesStore
+      .get(chainStore.current.chainId)
+      .queryBalances.getQueryBech32Address(accountInfo.bech32Address)
+      .unstakables.concat(
+        queriesStore
+          .get(chainStore.current.chainId)
+          .queryBalances.getQueryBech32Address(accountInfo.bech32Address)
+          .stakable
+      )
+      .filter((bal) => {
+        // Temporary implementation for trimming the 0 balanced native tokens.
+        // TODO: Remove this part.
+        if (new DenomHelper(bal.currency.coinMinimalDenom).type === "native") {
+          return bal.balance.toDec().gt(new Dec("0"));
+        }
+        return true;
+      })
+      .sort((a, b) => {
+        const aDecIsZero = a.balance.toDec().isZero();
+        const bDecIsZero = b.balance.toDec().isZero();
+
+        if (aDecIsZero && !bDecIsZero) {
+          return 1;
+        }
+        if (!aDecIsZero && bDecIsZero) {
+          return -1;
+        }
+
+        return a.currency.coinDenom < b.currency.coinDenom ? -1 : 1;
+      });
+
     setTmpTokens(tokens);
-  }, [tokens.length]);
+  }, [accountInfo.bech32Address, chainStore, queriesStore]);
 
   const history = useHistory();
 
@@ -277,34 +299,28 @@ export const TokensView: FunctionComponent = observer(() => {
             marginBottom: "14px",
           }}
         >
-          <div
-            className={styleToken.inputWrapper}
-            style={
-              focused
-                ? {
-                    border: "4px solid rgba(255, 212, 138, 0.3)",
-                    // transform: "translate(-4px, -4px)",
-                  }
-                : {}
-            }
-          >
+          <img
+            className={styleToken.searchIcon}
+            src={require("../../public/assets/img/search.svg")}
+          />
+          <div className={styleToken.inputWrapper}>
             <Input
               className={classnames(
                 "form-control-alternative",
                 styleToken.input
               )}
-              placeholder="Search a collectible"
               value={keyword}
               spellCheck={false}
               onFocus={() => {
-                setFocused(true);
+                //setFocused(true);
               }}
               onBlur={() => {
-                setFocused(false);
+                //setFocused(false);
               }}
+              placeholder="Search token"
               onChange={(e) => {
                 setKeyword(e.target.value);
-                const availableTokens = tokens.filter((bal) => {
+                const availableTokens = tmpTokens.filter((bal) => {
                   return (
                     bal.currency.coinDenom
                       .toLowerCase()
@@ -317,10 +333,6 @@ export const TokensView: FunctionComponent = observer(() => {
               autoComplete="off"
             />
           </div>
-          <img
-            className={styleToken.searchIcon}
-            src={require("../../public/assets/img/search.svg")}
-          />
         </div>
       )}
       {/* <h1 className={styleToken.title}>Tokens</h1> */}

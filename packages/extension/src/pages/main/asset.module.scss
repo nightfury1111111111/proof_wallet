@@ -99,19 +99,75 @@
   display: flex;
   justify-content: center;
   gap: 5px;
-  margin-top: -5px;
+  margin-top: 10px;
+  z-index: 999;
 }
+
+.tokenPriceChangeNone {
+  color: gray;
+}
+
 .tokenPriceChangePositive {
-  color: #7effa2;
+  color: #22e164;
 }
 
 .tokenPriceChangeNegative {
-  color: #ff7e7e;
+  color: #e23e3e;
+}
+
+.tokenPriceBackgroundNone {
+  padding: 0px 5px;
+  color: gray;
+  background-color: rgba(163, 163, 163, 0.199);
+  border-radius: 4px;
 }
 
 .tokenPriceBackgroundPositive {
   padding: 0px 5px;
-  color: #7effa2;
+  color: #22e164;
   background-color: #52ff9733;
   border-radius: 4px;
+}
+
+.tokenPriceBackgroundNegative {
+  padding: 0px 5px;
+  color: #e23e3e;
+  background-color: #e24d4d33;
+  border-radius: 4px;
+}
+
+.glowNone {
+  position: absolute;
+  background-color: rgba(128, 128, 128, 0.158);
+  border-radius: 100%;
+  height: 252px;
+  width: 404px;
+  left: -53px;
+  top: -148px;
+  filter: blur(75px);
+  z-index: 1;
+}
+
+.glowPositive {
+  position: absolute;
+  background-color: #22e16517;
+  border-radius: 100%;
+  height: 252px;
+  width: 404px;
+  left: -53px;
+  top: -148px;
+  filter: blur(75px);
+  z-index: 1;
+}
+
+.glowNegative {
+  position: absolute;
+  background-color: #e23e4017;
+  border-radius: 100%;
+  height: 252px;
+  width: 404px;
+  left: -53px;
+  top: -148px;
+  filter: blur(75px);
+  z-index: 1;
 }

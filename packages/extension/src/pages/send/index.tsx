@@ -10,7 +10,7 @@ import { useStore } from "../../stores";
 import { HeaderLayout } from "../../layouts";
 import { TokenView } from "../main/token";
 import { FeeButtons } from "../../components/form";
-import { Menu } from "../main/menu";
+//import { Menu } from "../main/menu";
 
 import { observer } from "mobx-react-lite";
 
@@ -217,7 +217,13 @@ export const SendPage: FunctionComponent = observer(() => {
     <HeaderLayout
       canChangeChainInfo={false}
       showChainName
-      menuRenderer={<Menu />}
+      onBackButton={
+        isDetachedPage
+          ? undefined
+          : () => {
+              history.goBack();
+            }
+      }
       rightRenderer={
         isDetachedPage ? undefined : (
           <div
@@ -227,6 +233,8 @@ export const SendPage: FunctionComponent = observer(() => {
               flexDirection: "row",
               alignItems: "center",
               paddingRight: "20px",
+              marginTop: "4px",
+              visibility: "hidden",
             }}
           >
             <i
@@ -336,25 +344,6 @@ export const SendPage: FunctionComponent = observer(() => {
       >
         <div className={style.formInnerContainer}>
           <div>
-            <div className={style.titleContainer}>
-              <i
-                className="fas fa-light fa-arrow-left"
-                style={{
-                  cursor: "pointer",
-                  padding: "4px",
-                  color: "#696969",
-                  width: "20px",
-                }}
-                onClick={() => {
-                  history.push({
-                    pathname: "/",
-                  });
-                }}
-              />
-              <div
-                className={style.title}
-              >{`Send ${queryBalance[0].currency.coinDenom}`}</div>
-            </div>
             <TokenView
               balance={queryBalance[0]}
               onClick={() => {
@@ -362,6 +351,11 @@ export const SendPage: FunctionComponent = observer(() => {
                   pathname: "/send",
                   search: `?defaultDenom=${queryBalance[0].currency.coinMinimalDenom}`,
                 });
+              }}
+            />
+            <div
+              style={{
+                height: "8px",
               }}
             />
             <AddressInput
@@ -413,7 +407,11 @@ export const SendPage: FunctionComponent = observer(() => {
           </Button> */}
         </div>
         <div className={style.footer}>
-          <Button className={style.button} onClick={() => history.replace("/")}>
+          <Button
+            style={{ marginRight: "4px" }}
+            className={style.button}
+            onClick={() => history.replace("/")}
+          >
             Cancel
           </Button>
           <Button
